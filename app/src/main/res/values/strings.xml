@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Ulendo App</string>
+    <string name="grab_your_new_ride">Grab your new ride</string>
+    <string name="work">Work</string>
+    <string name="school">School</string>
+    <string name="home">Home</string>
+    <string name="new_ride">New Ride</string>
+</resources>

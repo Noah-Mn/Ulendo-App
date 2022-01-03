@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "458476125237",
+    "project_id": "ulendo-app-8d32d",
+    "storage_bucket": "ulendo-app-8d32d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458476125237:android:1a342e681f9fe358fd057c",
+        "android_client_info": {
+          "package_name": "com.example.ulendoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458476125237-ookgijesq050t73u6r3b38rm6mns9c4f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAErnkF8jOEzQfvqte43qLr5QeuvBCe8no"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458476125237-ookgijesq050t73u6r3b38rm6mns9c4f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
