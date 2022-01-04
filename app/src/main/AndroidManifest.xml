@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UlendoApp">
         <activity
+            android:name=".UserType"
+            android:exported="false" />
+        <activity
             android:name=".ForgotPassword"
             android:exported="false" />
         <activity
@@ -34,6 +37,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".Home"

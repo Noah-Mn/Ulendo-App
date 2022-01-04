@@ -7,48 +7,69 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:text="WELCOME TO ......."
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="76dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WELCOME TO "
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/aclonica"
+            android:shadowColor="#295DE4"
+            android:text="@string/ulendo"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/aclonica" />
+
+    </LinearLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/materialLogEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        app:errorEnabled="true"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Email Address"
+        android:textColorHint="#0A51E1"
+        app:endIconDrawable="@drawable/ic_baseline_email_24"
+        app:endIconMode="custom"
+        app:endIconTint="#0A51E1"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:hint="Email Address"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_baseline_email_24"
-        app:endIconTint="@color/black"
-        android:textColorHint="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView"
-        app:layout_constraintVertical_bias="0.26">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.222">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
-            android:textColor="@color/black"
-            />
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/materialLogPassword"
@@ -59,9 +80,9 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:hint="Password"
-        android:textColorHint="@color/black"
+        android:textColorHint="#0A51E1"
         app:endIconMode="password_toggle"
-        app:endIconTint="@color/black"
+        app:endIconTint="#0A51E1"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
