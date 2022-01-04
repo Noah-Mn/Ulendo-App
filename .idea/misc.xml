@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Computer Science/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_create_account.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Computer Science/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_forget_password.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Computer Science/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_home.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Computer Science/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_login.xml" value="0.2957427536231884" />
         <entry key="app/src/main/res/drawable/divider.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.15208333333333332" />
       </map>
