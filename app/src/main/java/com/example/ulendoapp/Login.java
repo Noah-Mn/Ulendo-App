@@ -59,7 +59,7 @@ public class Login extends AppCompatActivity {
         materialCreateAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this, UserType.class));
+                startActivity(new Intent(Login.this, CreateAccount.class));
             }
         });
 
