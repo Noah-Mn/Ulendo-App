@@ -37,6 +37,15 @@ public class CreateAccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textFirstName = findViewById(R.id.textFirstName);
+        textLastName = findViewById(R.id.textLastName);
+        textPhoneNumber = findViewById(R.id.textPhoneNumber);
+        textGender = findViewById(R.id.textGender);
+        materialFistName = findViewById(R.id.materialFistName);
+        materialLastName = findViewById(R.id.materialLastName);
+        materialPhoneNumber = findViewById(R.id.materialPhoneNumber);
+        materialGender = findViewById(R.id.materialGender);
 //
 //        EditText lastName;
 //        EditText phoneNumber;
