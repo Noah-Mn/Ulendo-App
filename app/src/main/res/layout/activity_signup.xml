@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#00FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateAccount">
+    tools:context=".Signup">
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/materialFistName"
@@ -13,9 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="-20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="5dp"
         android:hint="First Name"
         android:textColorHint="@color/black"
         app:endIconMode="custom"
@@ -46,13 +45,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="-20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="5dp"
-        app:endIconMode="custom"
-        app:endIconTint="@color/black"
+        android:layout_marginBottom="-30dp"
         android:hint="Last Name"
         android:textColorHint="@color/black"
+        app:endIconMode="custom"
+        app:endIconTint="@color/black"
         app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/materialPhoneNumber"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,9 +74,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="-20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="-20dp"
         android:hint="Phone Number"
         android:textColorHint="@color/black"
         app:endIconTint="@color/black"
@@ -102,23 +101,24 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-70dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:hint="Gender"
         android:textColorHint="@color/black"
         app:errorEnabled="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/nextBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialPhoneNumber">
 
         <AutoCompleteTextView
             android:id="@+id/textGender"
-            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:background="@color/white" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,6 +138,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
