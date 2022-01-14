@@ -46,6 +46,7 @@ public class CreateAccount extends AppCompatActivity {
         materialLastName = findViewById(R.id.materialLastName);
         materialPhoneNumber = findViewById(R.id.materialPhoneNumber);
         materialGender = findViewById(R.id.materialGender);
+        nextBtn = findViewById(R.id.nextBtn);
 //
 //        EditText lastName;
 //        EditText phoneNumber;
