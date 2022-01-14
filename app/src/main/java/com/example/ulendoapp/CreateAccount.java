@@ -47,6 +47,7 @@ public class CreateAccount extends AppCompatActivity {
         materialPhoneNumber = findViewById(R.id.materialPhoneNumber);
         materialGender = findViewById(R.id.materialGender);
         nextBtn = findViewById(R.id.nextBtn);
+
 //
 //        EditText lastName;
 //        EditText phoneNumber;
@@ -91,6 +92,29 @@ public class CreateAccount extends AppCompatActivity {
 //                String genda = "male/female";
 //            }
 //        });
+
+    }
+
+    private void performSignUp(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        String fistName = textFirstName.getText().toString();
+        String lastName = textLastName.getText().toString();
+        String phoneNumber = textPhoneNumber.getText().toString();
+        String gender = textGender.getText().toString();
+
+        if (fistName.isEmpty()){
+            materialFistName.setError("Please enter first name");
+        }else if (lastName.isEmpty()){
+            materialLastName.setError("Please enter last name");
+        }else if (phoneNumber.isEmpty()){
+            materialPhoneNumber.setError("Please enter phone number");
+        }else if (gender.isEmpty()){
+            materialGender.setError("Select gender");
+        }else {
+
+        }
 
     }
 }
