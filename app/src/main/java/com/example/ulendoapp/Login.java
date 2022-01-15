@@ -73,6 +73,7 @@ public class Login extends AppCompatActivity {
             firebaseAuth.signInWithEmailAndPassword(logEmailAddress, logPassword).addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()){
                     progressDialog.dismiss();
+                    Log.w(TAG, "Login:success", task.getException());
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     updateUI(user);
