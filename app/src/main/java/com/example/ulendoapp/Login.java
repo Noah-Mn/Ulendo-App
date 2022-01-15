@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Objects;
 
 public class Login extends AppCompatActivity {
+    private static final String TAG = "EmailPassword";
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     TextInputEditText loginEmail, loginPassword;
@@ -78,7 +80,8 @@ public class Login extends AppCompatActivity {
                 }else {
                     progressDialog.dismiss();
                     updateUI(null);
-                    Toast.makeText(Login.this, ""+task.getException(), Toast.LENGTH_SHORT).show();
+                    Log.w(TAG, " Login:failure", task.getException());
+                    Toast.makeText(Login.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -44,7 +44,21 @@ public class Signup extends AppCompatActivity {
                 performSignUp();
             }
         });
+
+
     }
+    public void onStart(){
+        super.onStart();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null){
+            reload();
+        }
+    }
+
+    public void reload(){
+
+    }
+
     private void performSignUp(){
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
