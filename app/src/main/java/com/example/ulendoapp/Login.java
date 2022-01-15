@@ -31,8 +31,6 @@ public class Login extends AppCompatActivity {
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
             + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,19 +72,19 @@ public class Login extends AppCompatActivity {
                 if (task.isSuccessful()){
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
-                    FirebaseUser manager = firebaseAuth.getCurrentUser();
-                    updateUI();
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    updateUI(user);
                     startActivity(new Intent(Login.this, Home.class));
                 }else {
                     progressDialog.dismiss();
-                    updateUI();
+                    updateUI(null);
                     Toast.makeText(Login.this, ""+task.getException(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
-    private void updateUI() {
+    private void updateUI(FirebaseUser user) {
     }
     
 }
