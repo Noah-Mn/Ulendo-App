@@ -34,12 +34,8 @@ public class Signup extends AppCompatActivity {
     private TextInputEditText textFirstName, textLastName, textPhoneNumber;
     private MaterialSpinner textGender;
     private TextInputLayout materialFistName, materialLastName, materialPhoneNumber, materialGender;
-
-    private String fistName;
-    private String lastName;
-    private String phoneNumber;
-    private String gender;
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
+    private String fistName, lastName, phoneNumber, gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +85,6 @@ public class Signup extends AppCompatActivity {
     }
 
     public boolean validateFirstForm(){
-
         fistName = Objects.requireNonNull(textFirstName.getText()).toString();
         lastName = Objects.requireNonNull(textLastName.getText()).toString();
         phoneNumber = Objects.requireNonNull(textPhoneNumber.getText().toString());
