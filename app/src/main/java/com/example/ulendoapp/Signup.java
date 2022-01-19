@@ -92,7 +92,7 @@ public class Signup extends AppCompatActivity {
 
         fistName = Objects.requireNonNull(textFirstName.getText()).toString();
         lastName = Objects.requireNonNull(textLastName.getText()).toString();
-        phoneNumber = Objects.requireNonNull(textPhoneNumber.getText()).toString();
+        phoneNumber = Objects.requireNonNull(textPhoneNumber.getText().toString());
         boolean valid = false;
 
         try {
