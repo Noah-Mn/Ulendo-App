@@ -19,7 +19,7 @@ public class FinalSignup extends AppCompatActivity {
     private String email;
     private String password;
     private String confirmPassword;
-    private Button signupBtn;
+    private Button confirmBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class FinalSignup extends AppCompatActivity {
         phoneNumber = intent.getStringExtra("phoneNumber");
         gender = intent.getStringExtra("gender");
 
-        signupBtn = findViewById(R.id.signupBtn);
-        signupBtn.setOnClickListener(new View.OnClickListener() {
+        confirmBtn = findViewById(R.id.confirmBtn);
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intentSignup = new Intent(FinalSignup.this, Home.class);
