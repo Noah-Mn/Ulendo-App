@@ -13,4 +13,10 @@
     <string name="email_address">Email Address</string>
     <string name="reset_your_password">Reset your password</string>
     <string name="ulendo">ULENDO</string>
+
+    <string name="gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others</item>
+    </string>
 </resources>

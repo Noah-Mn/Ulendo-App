@@ -77,11 +77,12 @@
         android:layout_marginTop="-20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="-20dp"
+        android:inputType="phone"
         android:hint="Phone Number"
         android:textColorHint="@color/black"
         app:endIconTint="@color/black"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/materialGender"
+        app:layout_constraintBottom_toTopOf="@+id/materialGenderSpinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,45 +92,45 @@
             android:id="@+id/textPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textPhonetic"
+            android:inputType="number|phone"
             android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/materialGender"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:id="@+id/materialGenderSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="-70dp"
+        android:layout_marginTop="-20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Gender"
-        android:textColorHint="@color/black"
-        app:errorEnabled="true"
+        android:layout_marginBottom="-20dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/nextBtn"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/materialPhoneNumber"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialPhoneNumber">
+        app:layout_constraintStart_toStartOf="@+id/materialPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/materialPhoneNumber"
+        app:layout_constraintVertical_bias="0.837" >
 
-        <AutoCompleteTextView
-            android:id="@+id/textGender"
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/genderSpinner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white" />
+            android:layout_height="wrap_content"
+            android:hint="Gender"
+            app:ms_hint="Gender"
+            app:ms_hint_color="#040404" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/nextBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="84dp"
         android:backgroundTint="#1B9313"
-        android:text="Signup"
+        android:text="Next"
         android:textAlignment="viewStart"
         app:iconGravity="textEnd"
         app:layout_constraintBottom_toBottomOf="parent"

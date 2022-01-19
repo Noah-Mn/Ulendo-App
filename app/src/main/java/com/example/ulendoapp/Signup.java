@@ -9,28 +9,36 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Signup extends AppCompatActivity {
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    private static final String TAG = "EmailPassword";
-    MaterialButton nextBtn;
-    TextInputEditText textFirstName, textLastName, textPhoneNumber;
-    AutoCompleteTextView textGender;
-    TextInputLayout materialFistName, materialLastName, materialPhoneNumber, materialGender;
+    private MaterialButton nextBtn;
+    private TextInputEditText textFirstName, textLastName, textPhoneNumber;
+    private MaterialSpinner textGender;
+    private TextInputLayout materialFistName, materialLastName, materialPhoneNumber, materialGender;
+
+    private String fistName;
+    private String lastName;
+    private String phoneNumber;
+    private String gender;
     ProgressDialog progressDialog;
 
     @Override
@@ -41,78 +49,79 @@ public class Signup extends AppCompatActivity {
         textFirstName = findViewById(R.id.textFirstName);
         textLastName = findViewById(R.id.textLastName);
         textPhoneNumber = findViewById(R.id.textPhoneNumber);
-        textGender = findViewById(R.id.textGender);
+        textGender = findViewById(R.id.genderSpinner);
         materialFistName = findViewById(R.id.materialFistName);
         materialLastName = findViewById(R.id.materialLastName);
         materialPhoneNumber = findViewById(R.id.materialPhoneNumber);
-        materialGender = findViewById(R.id.materialGender);
+        materialGender = findViewById(R.id.materialGenderSpinner);
         nextBtn = findViewById(R.id.nextBtn);
+
         progressDialog = new ProgressDialog(this);
 
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                performSignUp();
+        setSpinner();
+
+        nextBtn.setOnClickListener(view -> {
+            if(validateFirstForm()) {
+                Intent intent = new Intent(Signup.this, FinalSignup.class);
+                intent.putExtra("firstName", fistName);
+                intent.putExtra("lastName", lastName);
+                intent.putExtra("phoneNumber", phoneNumber);
+                intent.putExtra("gender", gender);
+
+                Toast.makeText(Signup.this, fistName + " " + lastName + " is " + gender, Toast.LENGTH_LONG).show();
+                startActivity(intent);
+            } else {
+                Toast.makeText(Signup.this, lastName + " is " + gender, Toast.LENGTH_LONG).show();
             }
         });
-
-
-    }
-    public void onStart(){
-        super.onStart();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null){
-            reload();
-        }
     }
 
-    public void reload(){
+    public void setSpinner(){
+        textGender = findViewById(R.id.genderSpinner);
+        ArrayList<String> genderList = new ArrayList<>();
+        genderList.add("Male");
+        genderList.add("Female");
+        genderList.add("Other");
 
+        textGender.setItems(genderList);
+        textGender.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>)(view, position, id, item) ->
+                gender = item);
     }
 
-    private void performSignUp(){
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+    public boolean validateFirstForm(){
 
-        String fistName = Objects.requireNonNull(textFirstName.getText()).toString();
-        String lastName = Objects.requireNonNull(textLastName.getText()).toString();
-        String phoneNumber = Objects.requireNonNull(textPhoneNumber.getText()).toString();
-        String gender = textGender.getText().toString();
+        fistName = Objects.requireNonNull(textFirstName.getText()).toString();
+        lastName = Objects.requireNonNull(textLastName.getText()).toString();
+        phoneNumber = Objects.requireNonNull(textPhoneNumber.getText()).toString();
+        boolean valid = false;
 
-        if (fistName.isEmpty()){
-            materialFistName.setError("Please enter first name");
-        }else if (lastName.isEmpty()){
-            materialLastName.setError("Please enter last name");
-        }else if (phoneNumber.isEmpty()){
-            materialPhoneNumber.setError("Please enter phone number");
-        }else if (gender.isEmpty()){
-            materialGender.setError("Select gender");
-        }else{
-            progressDialog.setMessage("Logging in please wait...");
-            progressDialog.setTitle("Login");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.show();
-
-            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        progressDialog.dismiss();
-                        Log.w(TAG, "Login:success", task.getException());
-                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                        updateUI(user);
-                        startActivity(new Intent(Signup.this, Login.class));
-                    }else {
-                        progressDialog.dismiss();
-                        Log.w(TAG, " Signup:failure", task.getException());
-                        Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
-                        updateUI(null);
-                    }
-                }
-            });
-        }
-
-    }
-    private void updateUI(FirebaseUser user) {
+        try {
+            if (fistName.isEmpty()) {
+                materialFistName.setError("Please enter first name");
+            } else if (lastName.isEmpty()) {
+                materialLastName.setError("Please enter last name");
+            } else if (phoneNumber.isEmpty()) {
+                materialPhoneNumber.setError("Please enter phone number");
+            } else if (gender == null) {
+                materialGender.setError("Select gender");
+            } else{
+                valid = true;
+            }
+        }catch(Exception e){}
+        return valid;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,20 +1,32 @@
 package com.example.ulendoapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Login extends AppCompatActivity {
@@ -88,7 +100,59 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    private void updateUI(FirebaseUser user) {
+/*********************************  Testing firebase     ****************************************/
+    public void onStart(){
+        super.onStart();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> user = new HashMap<>();
+
+        user.put("Gender", "male");
+        user.put("Location", "mangochi");
+        user.put("Name", "Daniel");
+
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("tag", "inserted successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("tagg", "error! failed");
+                    }
+                });
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.collection("users")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(QueryDocumentSnapshot document: task.getResult()){
+                                        Log.d("data received", document.getId() + " => " + document.getData());
+        Toast.makeText(Login.this, "pressed", Toast.LENGTH_LONG).show();
+
+                                    }
+                                }
+                            }
+                        });
+            }
+        });
+
+
+    }
+/***********************************************     END *****************************************/
+
+        private void updateUI(FirebaseUser user) {
     }
     
 }
