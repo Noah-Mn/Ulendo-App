@@ -3,9 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_final_signup.xml" value="0.27898550724637683" />
-        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_signup.xml" value="0.27898550724637683" />
         <entry key="..\:/Users/Banthi/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout-v21/activity_signup.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/Banthi/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_create_account.xml" value="0.25" />
         <entry key="..\:/Users/Banthi/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_final_signup.xml" value="0.22447916666666667" />
@@ -25,6 +22,8 @@
         <entry key="..\:/Users/Computer Science/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_user_type.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/drawable/divider.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/activity_final_signup.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.15208333333333332" />

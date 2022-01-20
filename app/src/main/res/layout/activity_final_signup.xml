@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="-30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="-40dp"
+        android:layout_marginBottom="10dp"
         android:hint="Email"
         android:textColorHint="@color/black"
         app:endIconMode="custom"
@@ -46,8 +46,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="-40dp"
+        android:layout_marginBottom="10dp"
         android:hint="Password"
         android:textColorHint="@color/black"
         app:endIconMode="custom"
@@ -69,25 +70,24 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/materialConfirmPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="-30dp"
         android:hint="Confirm Password"
         android:inputType="phone"
         android:textColorHint="@color/black"
         app:endIconTint="@color/black"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialPassword"
-        app:layout_constraintVertical_bias="0.607">
+        app:layout_constraintTop_toBottomOf="@+id/materialPassword">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textConfirmPassword"
@@ -99,17 +99,18 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="172dp"
+        android:layout_marginBottom="30dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialConfirmPassword"
+        app:layout_constraintVertical_bias="0.863">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/backBtn"
