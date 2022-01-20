@@ -1,18 +1,31 @@
 package com.example.ulendoapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FinalSignup extends AppCompatActivity {
     private String firstName, lastName, phoneNumber, gender;
@@ -21,6 +34,7 @@ public class FinalSignup extends AppCompatActivity {
     private TextInputEditText textEmail, textPassword, textConfirmPassword;
     private TextInputLayout materialEmail, materialPassword, materialConfirmPassword;
     private ProgressDialog progressDialog;
+    private FirebaseFirestore db;
     private String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
@@ -44,8 +58,9 @@ public class FinalSignup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validateFinalForm()){
-                    Intent intentSignup = new Intent(FinalSignup.this, Home.class);
-                    Toast.makeText(FinalSignup.this, "Successfully Signed up", Toast.LENGTH_LONG).show();
+                    saveToDatabase();
+                    Intent intentSignup = new Intent(FinalSignup.this, Login.class);
+//                    Toast.makeText(FinalSignup.this, "Successfully Signed up", Toast.LENGTH_LONG).show();
                     startActivity(intentSignup);
                 }
             }
@@ -83,6 +98,53 @@ public class FinalSignup extends AppCompatActivity {
             }
         }catch(Exception e){}
         return valid;
+    }
+
+    private void saveToDatabase(){
+        db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> user = new HashMap<>();
+
+        user.put("First Name", firstName);
+        user.put("Surname", lastName);
+        user.put("Phone Number", phoneNumber);
+        user.put("Gender", gender);
+        user.put("Email Address", email);
+        user.put("Password", password);
+        user.put("Status", "customer ");
+
+        db.collection("Users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("tag", "inserted successfully");
+                        Toast.makeText(FinalSignup.this, "Successfully Signed up", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("tagg", "error! failed");
+                        Toast.makeText(FinalSignup.this, "error!! failed to signup", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        db.collection("Users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document: task.getResult()){
+                                Log.d("data received", document.getId() + " => " + document.getData());
+                                Toast.makeText(FinalSignup.this, "Successful retrieval", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    }
+                });
     }
 
 

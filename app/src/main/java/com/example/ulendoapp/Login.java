@@ -104,47 +104,12 @@ public class Login extends AppCompatActivity {
     public void onStart(){
         super.onStart();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Map<String, Object> user = new HashMap<>();
-
-        user.put("Gender", "male");
-        user.put("Location", "mangochi");
-        user.put("Name", "Daniel");
-
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("tag", "inserted successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("tagg", "error! failed");
-                    }
-                });
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.collection("users")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    for(QueryDocumentSnapshot document: task.getResult()){
-                                        Log.d("data received", document.getId() + " => " + document.getData());
-        Toast.makeText(Login.this, "pressed", Toast.LENGTH_LONG).show();
-
-                                    }
-                                }
-                            }
-                        });
             }
         });
 
