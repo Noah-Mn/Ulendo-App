@@ -53,7 +53,7 @@ public class FinalSignup extends AppCompatActivity {
         phoneNumber = intent.getStringExtra("phoneNumber");
         gender = intent.getStringExtra("gender");
 
-        signupBtn = findViewById(R.id.signupBtn);
+        signupBtn = findViewById(R.id.confirmBtn);
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
