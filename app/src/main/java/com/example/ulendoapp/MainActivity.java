@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 public class MainActivity extends AppCompatActivity {
-    int splashTime = 1500;
+    final int splashTime = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

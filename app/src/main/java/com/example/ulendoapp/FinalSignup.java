@@ -1,8 +1,5 @@
 package com.example.ulendoapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,36 +8,40 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
 public class FinalSignup extends AppCompatActivity {
+    private static final String TAG = "EmailPassword";
     private String firstName, lastName, phoneNumber, gender;
     private String email, password, confirmPassword;
-    private Button signupBtn;
+    private Button confirmBtn,backBtn;
     private TextInputEditText textEmail, textPassword, textConfirmPassword;
     private TextInputLayout materialEmail, materialPassword, materialConfirmPassword;
     private ProgressDialog progressDialog;
-    private FirebaseFirestore db;
+    private DatabaseReference reference;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+    //private FirebaseFirestore db;
     private String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
             + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
             + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +54,21 @@ public class FinalSignup extends AppCompatActivity {
         phoneNumber = intent.getStringExtra("phoneNumber");
         gender = intent.getStringExtra("gender");
 
-        signupBtn = findViewById(R.id.confirmBtn);
-        signupBtn.setOnClickListener(new View.OnClickListener() {
+        confirmBtn = findViewById(R.id.confirmBtn);
+        backBtn = findViewById(R.id.backBtn);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FinalSignup.this, Signup.class));
+            }
+        });
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(validateFinalForm()){
-                    saveToDatabase();
+
+                    performSignUp(email,password);
                     Intent intentSignup = new Intent(FinalSignup.this, Login.class);
 //                    Toast.makeText(FinalSignup.this, "Successfully Signed up", Toast.LENGTH_LONG).show();
                     startActivity(intentSignup);
@@ -66,7 +76,6 @@ public class FinalSignup extends AppCompatActivity {
             }
         });
     }
-
     private boolean validateFinalForm(){
         materialEmail = findViewById(R.id.materialEmailAddress);
         materialPassword = findViewById(R.id.materialPassword);
@@ -82,7 +91,9 @@ public class FinalSignup extends AppCompatActivity {
         boolean valid = false;
 
         try {
-            if (email.isEmpty()) {
+            if (!email.matches(emailPattern)) {
+                materialEmail.setError("Please enter a valid email address");
+            }else if (email.isEmpty()) {
                 materialEmail.setError("Please enter email address");
             } else if(!email.matches(emailPattern)) {
                 materialEmail.setError("Please enter a valid email address");
@@ -92,7 +103,7 @@ public class FinalSignup extends AppCompatActivity {
                     materialPassword.setError("Passwords do not match");
                 }
             } else if (!password.equals(confirmPassword)) {
-                     materialConfirmPassword.setError("passwords do not match");
+                materialConfirmPassword.setError("passwords do not match");
             } else{
                 valid = true;
             }
@@ -100,105 +111,64 @@ public class FinalSignup extends AppCompatActivity {
         return valid;
     }
 
-    private void saveToDatabase(){
-        db = FirebaseFirestore.getInstance();
 
-        Map<String, Object> user = new HashMap<>();
-
-        user.put("First Name", firstName);
-        user.put("Surname", lastName);
-        user.put("Phone Number", phoneNumber);
-        user.put("Gender", gender);
-        user.put("Email Address", email);
-        user.put("Password", password);
-        user.put("Status", "customer ");
-
-        db.collection("Users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("tag", "inserted successfully");
-                        Toast.makeText(FinalSignup.this, "Successfully Signed up", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("tagg", "error! failed");
-                        Toast.makeText(FinalSignup.this, "error!! failed to signup", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        db.collection("Users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document: task.getResult()){
-                                Log.d("data received", document.getId() + " => " + document.getData());
-                                Toast.makeText(FinalSignup.this, "Successful retrieval", Toast.LENGTH_LONG).show();
-
-                            }
-                        }
-                    }
-                });
-    }
-
-
-//    public void onStart(){
-//        super.onStart();
-//        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-//        if (currentUser != null){
-//            reload();
-//        }
-//    }
-
-        public void reload(){
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            //User is already signed in
+            reload();
         }
+    }
+    private void performSignUp(String email, String password) {
+            reference = FirebaseDatabase.getInstance().getReference("Users");
+//            FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        private void performSignUp(){
-      /*  firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-
-
-
-        if (fistName.isEmpty()){
-            materialFistName.setError("Please enter first name");
-        }else if (lastName.isEmpty()){
-            materialLastName.setError("Please enter last name");
-        }else if (phoneNumber.isEmpty()){
-            materialPhoneNumber.setError("Please enter phone number");
-        }else if (gender.isEmpty()){
-            materialGender.setError("Select gender");
-        }else{
-            progressDialog.setMessage("Logging in please wait...");
-            progressDialog.setTitle("Login");
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Signing up please wait...");
+            progressDialog.setTitle("Signup");
             progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.show();*/
-/*
+            progressDialog.show();
+
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        progressDialog.dismiss();
-                        Log.w(TAG, "Login:success", task.getException());
-                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                        updateUI(user);
-                        startActivity(new Intent(Signup.this, Login.class));
-                    }else {
+                    if (task.isSuccessful()) {
+                        User user = new User(firstName, lastName, phoneNumber, gender, email, password, confirmPassword);
+                        reference.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    progressDialog.dismiss();
+                                    Log.w(TAG, "Signup:success", task.getException());
+                                    Toast.makeText(getApplicationContext(), "Signup successful", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(FinalSignup.this, Login.class));
+                                }else {
+                                    progressDialog.dismiss();
+                                    Log.w(TAG, " Signup:failure", task.getException());
+                                    Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+
+                    } else {
                         progressDialog.dismiss();
                         Log.w(TAG, " Signup:failure", task.getException());
                         Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
-                        updateUI(null);
+
                     }
                 }
-            });*/
+            });
         }
+    private void reload(){
 
-    private void updateUI(FirebaseUser user) {
     }
+    private void updateUI( FirebaseUser user){
+
+    }
+
+
 }

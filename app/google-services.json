@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "412553841865",
-    "project_id": "ulendoapp-f28df",
-    "storage_bucket": "ulendoapp-f28df.appspot.com"
+    "project_number": "340939798195",
+    "firebase_url": "https://ulendo-app-f9fc8-default-rtdb.firebaseio.com/",
+    "project_id": "ulendo-app-f9fc8",
+    "storage_bucket": "ulendo-app-f9fc8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:412553841865:android:f4c67582ffbd790a97d118",
+        "mobilesdk_app_id": "1:340939798195:android:d6ba4283bc8ed489faa2c6",
         "android_client_info": {
           "package_name": "com.example.ulendoapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "412553841865-v4hn7afbnb22pvujquuol8rq9p2ufbfd.apps.googleusercontent.com",
+          "client_id": "340939798195-mksd0gnhj0odelh2ehcm7f3emnoefuj6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD-qDeoP6bK_NJ_Gz7Ul8QhyIzLJIxwHU8"
+          "current_key": "AIzaSyBAFEiFct2oeET88VT_B7NpC0YcW38H_Kg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "412553841865-v4hn7afbnb22pvujquuol8rq9p2ufbfd.apps.googleusercontent.com",
+              "client_id": "340939798195-mksd0gnhj0odelh2ehcm7f3emnoefuj6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
