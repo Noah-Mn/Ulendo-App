@@ -20,7 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class FinalSignup extends AppCompatActivity {
@@ -33,8 +37,8 @@ public class FinalSignup extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private DatabaseReference reference;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private FirebaseFirestore db;
 
-    //private FirebaseFirestore db;
     private String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
@@ -60,7 +64,7 @@ public class FinalSignup extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FinalSignup.this, Signup.class));
+               startActivity(new Intent(FinalSignup.this, Signup.class));
             }
         });
         confirmBtn.setOnClickListener(new View.OnClickListener() {
@@ -135,24 +139,25 @@ public class FinalSignup extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        User user = new User(firstName, lastName, phoneNumber, gender, email, password, confirmPassword);
-                        reference.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()){
-                                    progressDialog.dismiss();
-                                    Log.w(TAG, "Signup:success", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Signup successful", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(FinalSignup.this, Login.class));
-                                }else {
-                                    progressDialog.dismiss();
-                                    Log.w(TAG, " Signup:failure", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
+//                        User user = new User(firstName, lastName, phoneNumber, gender, email, password, confirmPassword);
+//                        reference.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+//                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<Void> task) {
+//                                if (task.isSuccessful()){
+//                                    progressDialog.dismiss();
+//                                    Log.w(TAG, "Signup:success", task.getException());
+//                                    Toast.makeText(getApplicationContext(), "Signup successful", Toast.LENGTH_SHORT).show();
+//                                    startActivity(new Intent(FinalSignup.this, Login.class));
+//                                }else {
+//                                    progressDialog.dismiss();
+//                                    Log.w(TAG, " Signup:failure", task.getException());
+//                                    Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+//
+//                                }
+//                            }
+//                        });
+                        addUser();
 
                     } else {
                         progressDialog.dismiss();
@@ -169,6 +174,28 @@ public class FinalSignup extends AppCompatActivity {
     private void updateUI( FirebaseUser user){
 
     }
+    public void addUser(){
+        Map<String, String> user = new HashMap<>();
+        user.put("First Name", firstName);
+        user.put("Last Name", lastName);
+        user.put("Email Address", email);
+        user.put("Gender", gender);
+        user.put("Password", password);
+        user.put("State", "Customer");
 
+        db.collection("Users")
+                .add(user)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        progressDialog.dismiss();
+                        Log.w(TAG, "Signup:success", task.getException());
+                        Toast.makeText(getApplicationContext(), "Signup successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(FinalSignup.this, Login.class));
+                    }
+                });
+
+
+    }
 
 }
