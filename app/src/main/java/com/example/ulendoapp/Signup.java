@@ -1,10 +1,12 @@
 package com.example.ulendoapp;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -14,10 +16,12 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Signup extends AppCompatActivity {
+    private MaterialButton nextBtn;
     private TextInputEditText textFirstName, textLastName, textPhoneNumber;
     private MaterialSpinner textGender;
     private TextInputLayout materialFistName, materialLastName, materialPhoneNumber, materialGender;
-    private String firstName, lastName, phoneNumber, gender;
+    private ProgressDialog progressDialog;
+    private String fistName, lastName, phoneNumber, gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,27 +36,25 @@ public class Signup extends AppCompatActivity {
         materialLastName = findViewById(R.id.materialLastName);
         materialPhoneNumber = findViewById(R.id.materialPhoneNumber);
         materialGender = findViewById(R.id.materialGenderSpinner);
-        MaterialButton nextBtn = findViewById(R.id.nextBtn);
+        nextBtn = findViewById(R.id.nextBtn);
 
-        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this);
 
         setSpinner();
 
         nextBtn.setOnClickListener(view -> {
             if(validateFirstForm()) {
-                Intent intent = new Intent(getApplicationContext(),FinalSignup.class);
-                intent.putExtra("firstName", firstName);
+                Intent intent = new Intent(Signup.this, CreateAccount.class);
+                intent.putExtra("firstName", fistName);
                 intent.putExtra("lastName", lastName);
                 intent.putExtra("phoneNumber", phoneNumber);
                 intent.putExtra("gender", gender);
 
-                Toast.makeText(Signup.this, firstName + " " + lastName + " is " + gender, Toast.LENGTH_LONG).show();
+                Toast.makeText(Signup.this, fistName + " " + lastName + " is " + gender, Toast.LENGTH_LONG).show();
                 startActivity(intent);
-
             } else {
                 Toast.makeText(Signup.this, lastName + " is " + gender, Toast.LENGTH_LONG).show();
             }
-
         });
     }
 
@@ -69,13 +71,13 @@ public class Signup extends AppCompatActivity {
     }
 
     public boolean validateFirstForm(){
-        firstName = Objects.requireNonNull(textFirstName.getText()).toString();
+        fistName = Objects.requireNonNull(textFirstName.getText()).toString();
         lastName = Objects.requireNonNull(textLastName.getText()).toString();
         phoneNumber = Objects.requireNonNull(textPhoneNumber.getText().toString());
         boolean valid = false;
 
         try {
-            if (firstName.isEmpty()) {
+            if (fistName.isEmpty()) {
                 materialFistName.setError("Please enter first name");
             } else if (lastName.isEmpty()) {
                 materialLastName.setError("Please enter last name");
