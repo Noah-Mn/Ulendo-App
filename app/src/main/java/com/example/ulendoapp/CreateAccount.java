@@ -65,9 +65,8 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performSignUp();
-                addUser();
 
-                  }
+            }
         });
     }
 
@@ -184,6 +183,7 @@ public class CreateAccount extends AppCompatActivity {
                         updateUI(user);
                         Toast.makeText(getApplicationContext(), "Sign up successfullty", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(CreateAccount.this, Login.class));
+                        addUser();
                     } else {
                             Log.w(TAG, " Signup:failure", task.getException());
                         progressDialog.dismiss();
