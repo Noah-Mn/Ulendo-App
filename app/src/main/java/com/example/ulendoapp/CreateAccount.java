@@ -180,7 +180,6 @@ public class CreateAccount extends AppCompatActivity {
                         progressDialog.dismiss();
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         updateUI(user);
-                        Log.d(TAG, "signup:success", task.getException());
                         Toast.makeText(getApplicationContext(), "Sign up successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(CreateAccount.this, Login.class));
                         addUser();

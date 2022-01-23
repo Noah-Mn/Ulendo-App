@@ -91,7 +91,6 @@ public class Login extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         progressDialog.dismiss();
-                        Log.w(TAG, "Login:success", task.getException());
                         Toast.makeText(Login.this.getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         Login.this.updateUI(user);

@@ -66,7 +66,6 @@ public class ForgotPassword extends AppCompatActivity {
                         .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         progressDialog.dismiss();
-                        Log.w(TAG, "Change password: success", task.getException());
                         Toast.makeText(ForgotPassword.this, "Password updated ", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ForgotPassword.this, Login.class));
 //                        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(task1 -> {
