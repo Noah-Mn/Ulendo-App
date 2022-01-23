@@ -150,14 +150,13 @@ public class CreateAccount extends AppCompatActivity {
                 });
     }
 
-
-//    public void onStart(){
-//        super.onStart();
-//        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-//        if (currentUser != null){
-//            reload();
-//        }
-//    }
+    public void onStart(){
+        super.onStart();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null){
+            reload();
+        }
+    }
 
     public void reload(){
 
@@ -169,24 +168,26 @@ public class CreateAccount extends AppCompatActivity {
         ProgressDialog progressDialog = new ProgressDialog(this);
 
         if(validateFinalForm()) {
-            progressDialog.setMessage("Logging in please wait...");
-            progressDialog.setTitle("Login");
+            progressDialog.setMessage("Signing up please wait...");
+            progressDialog.setTitle("Signup");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                            Log.d(TAG, "signup:success", task.getException());
+
                         progressDialog.dismiss();
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         updateUI(user);
-                        Toast.makeText(getApplicationContext(), "Sign up successfullty", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "signup:success", task.getException());
+                        Toast.makeText(getApplicationContext(), "Sign up successful", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(CreateAccount.this, Login.class));
                         addUser();
                     } else {
-                            Log.w(TAG, " Signup:failure", task.getException());
+
                         progressDialog.dismiss();
+                        Log.w(TAG, " Signup:failure", task.getException());
                         Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }

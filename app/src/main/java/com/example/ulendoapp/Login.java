@@ -95,7 +95,7 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this.getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         Login.this.updateUI(user);
-                        Login.this.startActivity(new Intent(Login.this, Signup.class));
+                        Login.this.startActivity(new Intent(Login.this, Home.class));
                     } else {
                         progressDialog.dismiss();
                         Login.this.updateUI(null);
