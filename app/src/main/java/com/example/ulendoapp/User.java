@@ -1,20 +1,18 @@
 package com.example.ulendoapp;
 
 public class User {
-    public String firstName, lastName, phoneNumber, gender,email, password, confirmPassword;
+    public String firstName, lastName, phoneNumber, gender,email;
 
     public User(){
 
     }
 
-    public User(String firstName, String lastName, String phoneNumber, String gender, String email, String password, String confirmPassword) {
+    public User(String firstName, String lastName, String phoneNumber, String gender, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.email = email;
-        this.password = password;
-        this.confirmPassword = confirmPassword;
     }
 
     public String getFirstName() {
@@ -53,23 +51,4 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
 }

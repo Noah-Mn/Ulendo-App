@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/material_on_surface_stroke"
-        android:divider="@drawable/divider"
         app:layout_constraintEnd_toEndOf="parent"
         android:showDividers="end"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,16 +36,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hey"
+                    android:textSize="16sp"
                     android:textAlignment="center"
                     android:textColor="@color/black" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/userName"
+                    android:id="@+id/firstName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="Patrick"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
