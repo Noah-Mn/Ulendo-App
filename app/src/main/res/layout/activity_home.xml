@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/material_on_surface_stroke"
-        android:divider="@drawable/divider"
         app:layout_constraintEnd_toEndOf="parent"
         android:showDividers="end"
         app:layout_constraintStart_toStartOf="parent"
