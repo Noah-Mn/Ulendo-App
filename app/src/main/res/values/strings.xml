@@ -14,6 +14,9 @@
     <string name="reset_your_password">Reset your password</string>
     <string name="ulendo">ULENDO</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">CLose navigation drawer</string>
+
     <string name="gender">
         <item>Male</item>
         <item>Female</item>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/my_rides"
+            android:icon="@drawable/schedule_24"
+            android:title="My Rides" />
+
+        <item
+            android:id="@+id/my_favorites"
+            android:icon="@drawable/star_24"
+            android:title="My Favorites" />
+
+        <item
+            android:id="@+id/my_payments"
+            android:icon="@drawable/ic_baseline_payment_24"
+            android:title="My Payments" />
+
+        <item
+            android:id="@+id/notifications"
+            android:icon="@drawable/ic_baseline_notifications_24"
+            android:title="Notifications" />
+
+
+    </group>
+
+    <item android:title="Ride with Ulendo">
+        <menu>
+            <item
+                android:id="@+id/driver"
+                android:title="Register as driver" />
+        </menu>
+
+    </item>
+</menu>
