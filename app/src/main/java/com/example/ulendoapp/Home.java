@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationBarMenu;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,8 +32,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SnapshotMetadata;
 
 public class Home extends AppCompatActivity {
-    private MaterialTextView name, excraMark, text, rideText;
-    private String userName, userText, userMark, userRideText, firstName;
+    private MaterialTextView name, excraMark, text, rideText, menu_name, menu_email;
+    private String userName, userText, userMark, userRideText, firstName, lastName, email;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
@@ -68,6 +69,11 @@ public class Home extends AppCompatActivity {
         getUserFirstName();
         setMenu();
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+    //    navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+        menu_name = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.menu_name);
+        menu_email = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.menu_email);
+
     }
 
 
@@ -82,7 +88,12 @@ public class Home extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 firstName = document.getString("First Name");
+                                lastName = document.getString("Surname");
+                                email = document.getString("Email Address");
                                 name.setText(firstName);
+                                menu_name.setText(firstName +" "+ lastName);
+                                menu_email.setText(email);
+
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

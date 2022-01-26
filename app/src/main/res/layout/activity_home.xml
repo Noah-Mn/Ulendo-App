@@ -58,7 +58,7 @@
                             android:text="Hey"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="15dp" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/firstName"
@@ -66,9 +66,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:paddingStart="5dp"
-                            android:text="Patrick"
                             android:textColor="@color/black"
-                            android:textSize="18dp" />
+                            android:textSize="15dp" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/excraMark"
@@ -78,7 +77,7 @@
                             android:paddingStart="5dp"
                             android:text="!"
                             android:textColor="@color/black"
-                            android:textSize="20dp"/>
+                            android:textSize="15dp"/>
                     </LinearLayout>
 
                     <com.google.android.material.textview.MaterialTextView
@@ -89,7 +88,7 @@
                         android:paddingStart="5dp"
                         android:text="book a ride"
                         android:textColor="@color/black"
-                        android:textSize="20dp"/>
+                        android:textSize="15dp"/>
 
                 </LinearLayout>
             </com.google.android.material.appbar.MaterialToolbar>
