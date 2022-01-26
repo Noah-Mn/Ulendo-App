@@ -21,7 +21,7 @@ public class Signup extends AppCompatActivity {
     private MaterialSpinner textGender;
     private TextInputLayout materialFistName, materialLastName, materialPhoneNumber, materialGender;
     private ProgressDialog progressDialog;
-    private String fistName, lastName, phoneNumber, gender;
+    private String firstName, lastName, phoneNumber, gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +45,12 @@ public class Signup extends AppCompatActivity {
         nextBtn.setOnClickListener(view -> {
             if(validateFirstForm()) {
                 Intent intent = new Intent(Signup.this, CreateAccount.class);
-                intent.putExtra("firstName", fistName);
+                intent.putExtra("firstName", firstName);
                 intent.putExtra("lastName", lastName);
                 intent.putExtra("phoneNumber", phoneNumber);
                 intent.putExtra("gender", gender);
 
-                Toast.makeText(Signup.this, fistName + " " + lastName + " is " + gender, Toast.LENGTH_LONG).show();
+                Toast.makeText(Signup.this, firstName + " " + lastName + " is " + gender, Toast.LENGTH_LONG).show();
                 startActivity(intent);
             } else {
                 Toast.makeText(Signup.this, lastName + " is " + gender, Toast.LENGTH_LONG).show();
@@ -71,18 +71,24 @@ public class Signup extends AppCompatActivity {
     }
 
     public boolean validateFirstForm(){
-        fistName = Objects.requireNonNull(textFirstName.getText()).toString();
+        firstName = Objects.requireNonNull(textFirstName.getText()).toString();
         lastName = Objects.requireNonNull(textLastName.getText()).toString();
         phoneNumber = Objects.requireNonNull(textPhoneNumber.getText().toString());
         boolean valid = false;
 
         try {
-            if (fistName.isEmpty()) {
+            if (firstName.isEmpty()) {
                 materialFistName.setError("Please enter first name");
+            } else if(firstName.length() > 20){
+                materialFistName.setError("Invalid first name");
             } else if (lastName.isEmpty()) {
                 materialLastName.setError("Please enter last name");
-            } else if (phoneNumber.isEmpty()) {
+            } else if(lastName.length() > 20){
+                materialLastName.setError("Invalid surname");
+            }else if (phoneNumber.isEmpty()) {
                 materialPhoneNumber.setError("Please enter phone number");
+            } else if(phoneNumber.length() > 15){
+                materialPhoneNumber.setError("Invalid phone number");
             } else if (gender == null) {
                 materialGender.setError("Select gender");
             } else{

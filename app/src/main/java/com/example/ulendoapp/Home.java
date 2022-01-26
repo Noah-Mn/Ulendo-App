@@ -104,12 +104,12 @@ public class Home extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                Log.d(TAG, document.getId() + " => " + document.getData());
                                 firstName = document.getString("First Name");
                                 name.setText(firstName);
                             }
                         } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });

@@ -41,7 +41,7 @@ public class CreateAccount extends AppCompatActivity {
     private TextInputEditText textEmail, textPassword, textConfirmPassword;
     private TextInputLayout materialEmail, materialPassword, materialConfirmPassword;    
     private FirebaseFirestore db;
-    boolean success;
+    boolean success, accept;
     private String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
@@ -53,6 +53,8 @@ public class CreateAccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+
+        db = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
         firstName = intent.getStringExtra("firstName");
@@ -88,7 +90,9 @@ public class CreateAccount extends AppCompatActivity {
             if (email.isEmpty()) {
                 materialEmail.setError("Please enter email address");
             } else if(!email.matches(emailPattern)) {
-                materialEmail.setError("Please enter a valid email address");
+                materialEmail.setError("Please enter a valid email addresss");
+            } else if(!validateEmail()){
+                materialEmail.setError("Email already exists");
             } else if (password.isEmpty() && password.length() <= 3) {
                 materialPassword.setError("Password must be more than 3 characters");
                 if(!password.equals(confirmPassword)){
@@ -100,8 +104,30 @@ public class CreateAccount extends AppCompatActivity {
                 valid = true;
             }
         }catch(Exception e){}
-
         return valid;
+    }
+
+    private boolean validateEmail(){
+        db.collection("Users")
+                .whereEqualTo("Email Address", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, "Email already exist!");
+                                Toast.makeText(CreateAccount.this, "email already exist", Toast.LENGTH_LONG).show();
+                                accept = false;
+                            }
+                        } else {
+                            Log.d(TAG, "Email does not exist ", task.getException());
+                            Toast.makeText(CreateAccount.this, "email does not exist", Toast.LENGTH_LONG).show();
+                            accept = true;
+                        }
+                    }
+                });
+        return accept;
     }
 
     private void addUser(){
@@ -122,41 +148,19 @@ public class CreateAccount extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "inserted successfully");
-//                        Toast.makeText(CreateAccount.this, "Successfully Signed up", Toast.LENGTH_LONG).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d(TAG, "error! failed");
-//                        Toast.makeText(CreateAccount.this, "error!! failed to signup", Toast.LENGTH_LONG).show();
                     }
                 });
-
-        db.collection("Users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document: task.getResult()){
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Toast.makeText(CreateAccount.this, "Successful retrieval", Toast.LENGTH_LONG).show();
-
-                            }
-                        }
-                    }
-                });
-    }
-
-    public void reload(){
 
     }
 
     private void performSignUp(){
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
         ProgressDialog progressDialog = new ProgressDialog(this);
 
         if(validateFinalForm()) {
@@ -164,6 +168,7 @@ public class CreateAccount extends AppCompatActivity {
             progressDialog.setTitle("Signup");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
+
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -184,6 +189,10 @@ public class CreateAccount extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void reload(){
+
     }
 
     private void updateUI(FirebaseUser user) {
