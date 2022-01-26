@@ -32,7 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SnapshotMetadata;
 
 public class Home extends AppCompatActivity {
-    private MaterialTextView name, excraMark, text, rideText, menu_name, menu_email;
+    private MaterialTextView name, excraMark, text, rideText, header_name, header_email;
     private String userName, userText, userMark, userRideText, firstName, lastName, email;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
@@ -54,7 +54,7 @@ public class Home extends AppCompatActivity {
         currentUser = auth.getCurrentUser();
 
         name = findViewById(R.id.firstName);
-        excraMark = findViewById(R.id.excraMark);
+        //excraMark = findViewById(R.id.excraMark);
         text = findViewById(R.id.text);
         rideText = findViewById(R.id.rideText);
 
@@ -71,8 +71,8 @@ public class Home extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
     //    navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
-        menu_name = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.menu_name);
-        menu_email = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.menu_email);
+        header_name = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_name);
+        header_email = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_email);
 
     }
 
@@ -91,8 +91,8 @@ public class Home extends AppCompatActivity {
                                 lastName = document.getString("Surname");
                                 email = document.getString("Email Address");
                                 name.setText(firstName);
-                                menu_name.setText(firstName +" "+ lastName);
-                                menu_email.setText(email);
+                                header_name.setText(new StringBuilder().append(firstName).append(" ").append(lastName).toString());
+                                header_email.setText(email);
 
                             }
                         } else {

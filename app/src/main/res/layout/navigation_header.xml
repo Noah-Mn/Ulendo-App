@@ -17,7 +17,7 @@
         android:src="@mipmap/ic_launcher" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/menu_name"
+        android:id="@+id/header_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
@@ -25,7 +25,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/menu_email"
+        android:id="@+id/header_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="nssns@dbbdb.com" />
