@@ -150,14 +150,6 @@ public class CreateAccount extends AppCompatActivity {
                 });
     }
 
-    public void onStart(){
-        super.onStart();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null){
-            reload();
-        }
-    }
-
     public void reload(){
 
     }
@@ -184,10 +176,9 @@ public class CreateAccount extends AppCompatActivity {
                         startActivity(new Intent(CreateAccount.this, Login.class));
                         addUser();
                     } else {
-
                         progressDialog.dismiss();
                         Log.w(TAG, " Signup:failure", task.getException());
-                        Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Signup failed", Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
                 }

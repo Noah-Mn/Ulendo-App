@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,23 +22,40 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SnapshotMetadata;
 
 public class Home extends AppCompatActivity {
-    private MaterialTextView firstName;
-    private String name;
-    private String userID;
-    FirebaseFirestore db;
+    private MaterialTextView name, excraMark, text, rideText;
+    private String userName, userText, userMark, userRideText, firstName;
+    private FirebaseFirestore db;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
     private MaterialToolbar toolbar;
+    private String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        setSupportActionBar(toolbar);
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        currentUser = auth.getCurrentUser();
+
+        name = findViewById(R.id.firstName);
+        excraMark = findViewById(R.id.excraMark);
+        text = findViewById(R.id.text);
+        rideText = findViewById(R.id.rideText);
         toolbar = findViewById(R.id.toolbar);
-        NavigationBarMenu
+        setSupportActionBar(toolbar);
+
+        getUserFirstName();
+
+//        Toast.makeText(Home.this, firstName, Toast.LENGTH_LONG).show();
+
+//        NavigationBarMenu
 
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
 //                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -66,7 +86,7 @@ public class Home extends AppCompatActivity {
 
     }
 
-  //  @Override
+    //  @Override
 //    public void onBackPressed(){
 //        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
 //            drawerLayout.closeDrawer(GravityCompat.START);
@@ -74,4 +94,30 @@ public class Home extends AppCompatActivity {
 //            super.onBackPressed();
 //        }
 //    }
+
+    public void getUserFirstName(){
+        db.collection("Users")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                firstName = document.getString("First Name");
+                                name.setText(firstName);
+                            }
+                        } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    public String getEmail(){
+        String emailAddress;
+        emailAddress = currentUser.getEmail();
+        return emailAddress;
+    }
 }

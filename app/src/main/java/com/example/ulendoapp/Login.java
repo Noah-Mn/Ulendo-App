@@ -33,13 +33,14 @@ import java.util.Objects;
 public class Login extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
 
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    TextInputEditText loginEmail, loginPassword;
-    TextInputLayout materialLogPassword, materialLogEmail;
-    Button loginBtn;
-    MaterialTextView materialCreateAcc, materialForgotPasswd;
-    ProgressDialog progressDialog;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private TextInputEditText loginEmail, loginPassword;
+    private TextInputLayout materialLogPassword, materialLogEmail;
+    private Button loginBtn;
+    private MaterialTextView materialCreateAcc, materialForgotPasswd;
+    private ProgressDialog progressDialog;
+    private Intent intent;
     String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
@@ -66,8 +67,12 @@ public class Login extends AppCompatActivity {
         materialForgotPasswd.setOnClickListener(v -> startActivity(new Intent(Login.this,ForgotPassword.class)));
         materialCreateAcc.setOnClickListener(v -> startActivity(new Intent(Login.this,Signup.class)));
 
-        loginBtn.setOnClickListener(v -> performLogin());
+        loginBtn.setOnClickListener(v -> {
+            performLogin();
+//            Login.this.startActivity(new Intent(Login.this, Home.class));
+        });
     }
+
     private void performLogin(){
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -94,7 +99,9 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this.getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         Login.this.updateUI(user);
-                        Login.this.startActivity(new Intent(Login.this, Home.class));
+                        intent = new Intent(Login.this, Home.class);
+                        intent.putExtra("email", logEmailAddress);
+                        startActivity(intent);
                     } else {
                         progressDialog.dismiss();
                         Login.this.updateUI(null);
