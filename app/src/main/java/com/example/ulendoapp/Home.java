@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +39,7 @@ public class Home extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private String TAG;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,50 +57,19 @@ public class Home extends AppCompatActivity {
         text = findViewById(R.id.text);
         rideText = findViewById(R.id.rideText);
 
+       final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+       findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               drawerLayout.openDrawer(GravityCompat.START);
+           }
+       });
+
         getUserFirstName();
         setMenu();
 
-//        Toast.makeText(Home.this, firstName, Toast.LENGTH_LONG).show();
-
-//        NavigationBarMenu
-
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-//                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
-
-//        firstName = (MaterialTextView) findViewById(R.id.firstName);
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        if (user != null){
-//            DocumentReference documentReference = db.collection("Users").document();
-//            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()){
-//                        User userProfile = (User) document.getData();
-//                    }
-//                }
-//            });
-//            userID = user.getUid();
-//
-//            //name = user.getDisplayName();
-//            //name.setFocusable(False);
-//        }
-//
-//        //firstName.setText((CharSequence)name);
-
     }
 
-    //  @Override
-//    public void onBackPressed(){
-//        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
-//            drawerLayout.closeDrawer(GravityCompat.START);
-//        }else {
-//            super.onBackPressed();
-//        }
-//    }
 
     public void getUserFirstName(){
         db.collection("Users")
@@ -139,6 +110,10 @@ public class Home extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.searchItem) {
                     // do something
+                }else if (item.getItemId()==R.id.help){
+                    // help
+                }else if (item.getItemId() == R.id.log_out){
+                    // log out
                 }
                 return false;
             }

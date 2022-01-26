@@ -3,11 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/help"
+        android:title="Help"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/log_out"
+        android:title="Log Out"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/searchItem"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="Search"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
 
         />
 
