@@ -41,7 +41,7 @@ public class CreateAccount extends AppCompatActivity {
     private TextInputEditText textEmail, textPassword, textConfirmPassword;
     private TextInputLayout materialEmail, materialPassword, materialConfirmPassword;    
     private FirebaseFirestore db;
-    boolean success, accept;
+    boolean success, deny;
     private String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
@@ -118,16 +118,16 @@ public class CreateAccount extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, "Email already exist!");
                                 Toast.makeText(CreateAccount.this, "email already exist", Toast.LENGTH_LONG).show();
-                                accept = false;
+                                deny = true;
                             }
                         } else {
                             Log.d(TAG, "Email does not exist ", task.getException());
                             Toast.makeText(CreateAccount.this, "email does not exist", Toast.LENGTH_LONG).show();
-                            accept = true;
+                            deny = false;
                         }
                     }
                 });
-        return accept;
+        return deny;
     }
 
     private void addUser(){
@@ -178,7 +178,7 @@ public class CreateAccount extends AppCompatActivity {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         updateUI(user);
                         Toast.makeText(getApplicationContext(), "Sign up successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(CreateAccount.this, Login.class));
+                        startActivity(new Intent(CreateAccount.this, Home.class));
                         addUser();
                     } else {
                         progressDialog.dismiss();
