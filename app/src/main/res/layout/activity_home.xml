@@ -34,14 +34,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginEnd="100dp">
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="80dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="50dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="18dp"
                         android:orientation="horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -52,7 +52,7 @@
                             android:text="Hey"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="20dp" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/firstName"
@@ -62,7 +62,7 @@
                             android:paddingStart="5dp"
                             android:text="Patrick"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="18dp" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/excraMark"
@@ -72,18 +72,18 @@
                             android:paddingStart="5dp"
                             android:text="!"
                             android:textColor="@color/black"
-                            android:textSize="16sp"/>
+                            android:textSize="20dp"/>
                     </LinearLayout>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/rideText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="50dp"
+                        android:layout_marginStart="40dp"
                         android:paddingStart="5dp"
                         android:text="book a ride"
                         android:textColor="@color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="20dp"/>
 
                 </LinearLayout>
 
@@ -92,13 +92,5 @@
         </com.google.android.material.appbar.AppBarLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/navigation_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -3,12 +3,15 @@ package com.example.ulendoapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +43,9 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = auth.getCurrentUser();
@@ -48,10 +54,9 @@ public class Home extends AppCompatActivity {
         excraMark = findViewById(R.id.excraMark);
         text = findViewById(R.id.text);
         rideText = findViewById(R.id.rideText);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         getUserFirstName();
+        setMenu();
 
 //        Toast.makeText(Home.this, firstName, Toast.LENGTH_LONG).show();
 
@@ -120,4 +125,24 @@ public class Home extends AppCompatActivity {
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    public void setMenu(){
+        toolbar.inflateMenu(R.menu.menu);;
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.searchItem) {
+                    // do something
+                }
+                return false;
+            }
+        });
+    }
+
 }
