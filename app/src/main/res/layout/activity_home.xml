@@ -100,4 +100,10 @@
         app:menu= "@menu/navigation_drawer"
         android:layout_gravity="start"
         />
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:paddingTop="55dp"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </androidx.drawerlayout.widget.DrawerLayout>

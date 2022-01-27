@@ -5,17 +5,24 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -30,6 +37,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SnapshotMetadata;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class Home extends AppCompatActivity {
     private MaterialTextView name, excraMark, text, rideText, header_name, header_email;
@@ -58,19 +69,19 @@ public class Home extends AppCompatActivity {
         text = findViewById(R.id.text);
         rideText = findViewById(R.id.rideText);
 
-       final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-       findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               drawerLayout.openDrawer(GravityCompat.START);
-           }
-       });
+        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
 
         getUserFirstName();
         setMenu();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-    //    navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+        //    navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
         header_name = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_name);
         header_email = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_email);
 
