@@ -25,9 +25,6 @@
             android:name=".Signup"
             android:exported="false" />
         <activity
-            android:name=".UserType"
-            android:exported="false" />
-        <activity
             android:name=".ForgotPassword"
             android:exported="false" />
         <activity
@@ -48,7 +45,25 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity
+<!--        &lt;!&ndash; this is the searchable activity; it performs searches &ndash;&gt;-->
+<!--        <activity android:name=".SearchableActivity" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SEARCH" />-->
+<!--            </intent-filter>-->
+<!--            <meta-data android:name="android.app.searchable"-->
+<!--                android:resource="@xml/searchable"/>-->
+<!--        </activity>-->
+
+<!--        &lt;!&ndash; this activity enables the search dialog to initiate searches-->
+<!--             in the SearchableActivity &ndash;&gt;-->
+<!--        <activity android:name=".OtherActivity" >-->
+<!--        &lt;!&ndash; enable the search dialog to send searches to SearchableActivity &ndash;&gt;-->
+<!--        <meta-data android:name="android.app.default_searchable"-->
+<!--            android:value=".SearchableActivity" />-->
+<!--    </activity>-->
+
+
+    <activity
             android:name=".Home"
             android:exported="true" />
         <activity

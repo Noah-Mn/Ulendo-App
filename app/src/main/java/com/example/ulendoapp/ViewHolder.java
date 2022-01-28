@@ -33,6 +33,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         phone_number = itemView.findViewById(R.id.phone_number);
     }
     private  ViewHolder.ClickListener mClickListener;
+
     public interface ClickListener{
         void onItemClick(View view, int position);
         void onItemLongClick(View view, int position);

@@ -64,9 +64,13 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         holder.status.setText(modelList.get(position).getStatus());
     }
 
-
     @Override
     public int getItemCount() {
-        return modelList.size();
+        return 0;
     }
+
+//    @Override
+//    public int getItemCount() {
+//        return modelList.size();
+//    }
 }
