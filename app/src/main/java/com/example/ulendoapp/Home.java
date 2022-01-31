@@ -1,7 +1,6 @@
 package com.example.ulendoapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,14 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
@@ -37,9 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SnapshotMetadata;
@@ -48,20 +42,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private MaterialTextView name, excraMark, text, rideText, header_name, header_email;
     private String userName, userText, userMark, userRideText, firstName, lastName, email;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private MaterialToolbar toolbar;
+    ProgressDialog progressDialog;
     private String TAG;
-    private ProgressDialog progressDialog;
 
-    List<Model> modelList = new ArrayList<>();
-    CustomAdapter adapter;
     RecyclerView recyclerView;
+    List<Model> modelList = new ArrayList<>();
     RecyclerView.LayoutManager layoutManager;
+    CustomAdapter adapter;
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,19 +65,26 @@ public class Home extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        progressDialog = new ProgressDialog(this);
-
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = auth.getCurrentUser();
+        progressDialog = new ProgressDialog(this);
+
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        //showData();
 
         name = findViewById(R.id.firstName);
         //excraMark = findViewById(R.id.excraMark);
         text = findViewById(R.id.text);
         rideText = findViewById(R.id.rideText);
-        recyclerView = findViewById(R.id.recycler_view);
 
-        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,23 +92,35 @@ public class Home extends AppCompatActivity {
             }
         });
 
-
-
         getUserFirstName();
+        setMenu();
 
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        //    navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
         header_name = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_name);
         header_email = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_email);
-//
-//        recyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//
-//        adapter = new CustomAdapter(Home.this,modelList);
-//        recyclerView.setAdapter(adapter);
+
+        if (savedInstanceState == null){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyRidesFragragment()).commit();
+        navigationView.setCheckedItem(R.id.my_rides);
+        }
+
     }
+
+    //    private void showData() {
+    //        db.collection("Users")
+    //                .get()
+    //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    //                    @Override
+    //                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+    //
+    //                    }
+    //                })
+    //                .addOnFailureListener(new OnFailureListener() {
+    //                    @Override
+    //                    public void onFailure(@NonNull Exception e) {
+    //
+    //                    }
+    //                });
+    //    }
 
 
     public void getUserFirstName(){
@@ -142,37 +156,55 @@ public class Home extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem item = menu.findItem(R.id.searchItem);
+        SearchView searchView  = (SearchView) MenuItemCompat.getActionView(item);
+        //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        //                        @Override
+        //                        public boolean onQueryTextSubmit(String query) {
+        //                            String s = null;
+        //                            assert s != null;
+        //                            searchData(s);
+        //                            return false;
+        //                        }
+        //
+        //                        @Override
+        //                        public boolean onQueryTextChange(String newText) {
+        //                            return false;
+        //                        }
+        //                    });
 
-        MenuItem searchItem = menu.findItem(R.id.searchItem);
-        SearchManager searchManager = (SearchManager) Home.this.getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Search for Drivers");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //searchUsers(query);
-                String s = null;
-                assert s != null;
-               // searchData(s);
-                return false;
-            }
+        return super.onCreateOptionsMenu(menu);
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == R.id.help){
+            Toast.makeText(this, "Help clicked", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    public void setMenu(){
+        toolbar.inflateMenu(R.menu.menu);;
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public boolean onQueryTextChange(String newText) {
-               // searchUsers(newText);
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.searchItem) {
+                    // do something
+                }else if (item.getItemId()==R.id.help){
+                    // help
+                }else if (item.getItemId() == R.id.log_out){
+                    // log out
+                }
                 return false;
             }
         });
-
-        return true;
     }
 
-    private void searchData(String s){
+    private void searchData(String s) {
         progressDialog.setTitle("Searching...");
         progressDialog.show();
-        db.collection("Users").whereEqualTo("Status", s.toLowerCase(Locale.ROOT))
+
+        db.collection("Users").whereEqualTo("Status",s.toLowerCase(Locale.ROOT))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -180,10 +212,10 @@ public class Home extends AppCompatActivity {
                         modelList.clear();
                         progressDialog.dismiss();
                         for (DocumentSnapshot documentSnapshot: task.getResult()){
-                            Model model = new Model(documentSnapshot.getString("First Name"),
-                                    documentSnapshot.getString("Last Name"),
-                                    documentSnapshot.getString("Status"),
-                                    documentSnapshot.getString("Phone Number") );
+                            Model model = new Model(documentSnapshot.getString("Status"),
+                                    documentSnapshot.getString("First Name"),
+                                    documentSnapshot.getString("Surname"),
+                                    documentSnapshot.getString("Phone Number"));
                             modelList.add(model);
                         }
                         adapter = new CustomAdapter(Home.this, modelList);
@@ -197,36 +229,42 @@ public class Home extends AppCompatActivity {
                     }
                 });
     }
-    public boolean onOptionsItemSelected(MenuItem item){
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.searchItem:
-                //searchFunction();
-                return true;
+            case R.id.my_rides:
 
-            case R.id.help:
-                //help();
-                return true;
-                
-            case R.id.log_out:
-               logOut();
-                return true;
-                
-            default:
-                return super.onOptionsItemSelected(item);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyRidesFragragment()).commit();
+                break;
+
+            case R.id.my_favorites:
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyFavoritesFragment()).commit();
+                break;
+
+            case R.id.notifications:
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
+                break;
+
+            case R.id.my_payments:
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPaymentsFragment()).commit();
+                break;
+
         }
-    }
-    public void logOut(){
+        drawerLayout.closeDrawer(GravityCompat.START);
 
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.signOut();
-        startActivity(new Intent(Home.this, Login.class));
+        return true;
     }
 
     @Override
     public void onBackPressed() {
-        
-        DrawerLayout drawerLayout =  findViewById(R.id.drawer_layout);
-        drawerLayout.closeDrawer(GravityCompat.START);
-        super.onBackPressed();
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
     }
 }

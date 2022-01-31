@@ -40,10 +40,18 @@
         <entry key="app/src/main/res/layout/activity_menu.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/activity_navigation_drawer.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.22314814814814815" />
+        <entry key="app/src/main/res/layout/fragment_cancelled.xml" value="0.1480978260869565" />
+        <entry key="app/src/main/res/layout/fragment_completed.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.15208333333333332" />
+        <entry key="app/src/main/res/layout/fragment_my_favourites.xml" value="0.14221014492753623" />
+        <entry key="app/src/main/res/layout/fragment_my_payments.xml" value="0.14221014492753623" />
+        <entry key="app/src/main/res/layout/fragment_my_rides.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.14221014492753623" />
+        <entry key="app/src/main/res/layout/fragment_upcoming.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/keepit.xml" value="0.15806159420289856" />
         <entry key="app/src/main/res/layout/model_layout.xml" value="0.15806159420289856" />
         <entry key="app/src/main/res/layout/navigation_header.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/rides_layout.xml" value="0.33" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.33" />
         <entry key="app/src/main/res/menu/navigation_drawer.xml" value="0.25" />
       </map>
