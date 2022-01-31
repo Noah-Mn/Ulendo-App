@@ -51,6 +51,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private MaterialToolbar toolbar;
     ProgressDialog progressDialog;
     private String TAG;
+    NavigationView navigationView;
 
     RecyclerView recyclerView;
     List<Model> modelList = new ArrayList<>();
@@ -64,18 +65,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         setContentView(R.layout.activity_home);
 
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = auth.getCurrentUser();
         progressDialog = new ProgressDialog(this);
-
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+//
+//        recyclerView.setHasFixedSize(true);
+//        layoutManager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(layoutManager);
 
         //showData();
 
@@ -103,6 +102,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView.setCheckedItem(R.id.my_rides);
         }
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                return true;
+            }
+        });
     }
 
     //    private void showData() {
@@ -230,34 +236,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 });
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.my_rides:
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyRidesFragragment()).commit();
-                break;
 
-            case R.id.my_favorites:
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyFavoritesFragment()).commit();
-                break;
-
-            case R.id.notifications:
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
-                break;
-
-            case R.id.my_payments:
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPaymentsFragment()).commit();
-                break;
-
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-
-        return true;
-    }
 
     @Override
     public void onBackPressed() {
@@ -267,4 +248,35 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             super.onBackPressed();
         }
     }
-}
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            item.setCheckable(true);
+            item.setChecked(true);
+            switch (item.getItemId()) {
+                case R.id.my_rides:
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyRidesFragragment()).commit();
+                    break;
+
+                case R.id.my_favorites:
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyFavoritesFragment()).commit();
+                    break;
+
+                case R.id.notifications:
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
+                    break;
+
+                case R.id.my_payments:
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPaymentsFragment()).commit();
+                    break;
+
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+            return true;
+        }
+    }
