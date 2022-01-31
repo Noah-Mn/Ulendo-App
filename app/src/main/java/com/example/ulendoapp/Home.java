@@ -42,15 +42,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private MaterialTextView name, excraMark, text, rideText, header_name, header_email;
     private String userName, userText, userMark, userRideText, firstName, lastName, email;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private MaterialToolbar toolbar;
+    ProgressDialog progressDialog;
     private String TAG;
 
+    RecyclerView recyclerView;
+    List<Model> modelList = new ArrayList<>();
+    RecyclerView.LayoutManager layoutManager;
+    CustomAdapter adapter;
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +65,26 @@ public class Home extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = auth.getCurrentUser();
+        progressDialog = new ProgressDialog(this);
+
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        //showData();
 
         name = findViewById(R.id.firstName);
         //excraMark = findViewById(R.id.excraMark);
         text = findViewById(R.id.text);
         rideText = findViewById(R.id.rideText);
 
-        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,12 +95,32 @@ public class Home extends AppCompatActivity {
         getUserFirstName();
         setMenu();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        //    navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
         header_name = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_name);
         header_email = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_email);
 
+        if (savedInstanceState == null){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyRidesFragragment()).commit();
+        navigationView.setCheckedItem(R.id.my_rides);
+        }
+
     }
+
+    //    private void showData() {
+    //        db.collection("Users")
+    //                .get()
+    //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    //                    @Override
+    //                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+    //
+    //                    }
+    //                })
+    //                .addOnFailureListener(new OnFailureListener() {
+    //                    @Override
+    //                    public void onFailure(@NonNull Exception e) {
+    //
+    //                    }
+    //                });
+    //    }
 
 
     public void getUserFirstName(){
@@ -122,7 +157,30 @@ public class Home extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+        MenuItem item = menu.findItem(R.id.searchItem);
+        SearchView searchView  = (SearchView) MenuItemCompat.getActionView(item);
+        //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        //                        @Override
+        //                        public boolean onQueryTextSubmit(String query) {
+        //                            String s = null;
+        //                            assert s != null;
+        //                            searchData(s);
+        //                            return false;
+        //                        }
+        //
+        //                        @Override
+        //                        public boolean onQueryTextChange(String newText) {
+        //                            return false;
+        //                        }
+        //                    });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == R.id.help){
+            Toast.makeText(this, "Help clicked", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void setMenu(){
@@ -142,4 +200,71 @@ public class Home extends AppCompatActivity {
         });
     }
 
+    private void searchData(String s) {
+        progressDialog.setTitle("Searching...");
+        progressDialog.show();
+
+        db.collection("Users").whereEqualTo("Status",s.toLowerCase(Locale.ROOT))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        modelList.clear();
+                        progressDialog.dismiss();
+                        for (DocumentSnapshot documentSnapshot: task.getResult()){
+                            Model model = new Model(documentSnapshot.getString("Status"),
+                                    documentSnapshot.getString("First Name"),
+                                    documentSnapshot.getString("Surname"),
+                                    documentSnapshot.getString("Phone Number"));
+                            modelList.add(model);
+                        }
+                        adapter = new CustomAdapter(Home.this, modelList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Home.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.my_rides:
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyRidesFragragment()).commit();
+                break;
+
+            case R.id.my_favorites:
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyFavoritesFragment()).commit();
+                break;
+
+            case R.id.notifications:
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
+                break;
+
+            case R.id.my_payments:
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPaymentsFragment()).commit();
+                break;
+
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }
 }

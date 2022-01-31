@@ -91,6 +91,12 @@
                 </LinearLayout>
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
@@ -100,10 +106,15 @@
         app:menu= "@menu/navigation_drawer"
         android:layout_gravity="start"
         />
-    
-    <androidx.recyclerview.widget.RecyclerView
-        android:paddingTop="55dp"
-        android:id="@+id/recycler_view"
+    <LinearLayout
+        android:layout_marginTop="55dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
