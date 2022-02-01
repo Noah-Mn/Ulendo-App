@@ -1,42 +1,43 @@
 package com.example.ulendoapp;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.navigation.NavigationBarMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SnapshotMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     RecyclerView recyclerView;
     List<Model> modelList = new ArrayList<>();
-    RecyclerView.LayoutManager layoutManager;
     CustomAdapter adapter;
     DrawerLayout drawerLayout;
 
@@ -71,11 +71,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         progressDialog = new ProgressDialog(this);
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-//
-//        recyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-
+        
         //showData();
 
         name = findViewById(R.id.firstName);
@@ -97,20 +93,44 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         header_name = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_name);
         header_email = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_email);
 
-        if (savedInstanceState == null){
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyRidesFragragment()).commit();
-        navigationView.setCheckedItem(R.id.my_rides);
-        }
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                item.setCheckable(true);
+                item.setChecked(true);
+                drawerLayout.closeDrawer(GravityCompat.START);
+
+                switch (item.getItemId()) {
+                    case R.id.my_rides:
+
+                        replaceFragments(new My_Rides());
+                        break;
+
+                    case R.id.my_favorites:
+
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyFavoritesFragment()).commit();
+                        break;
+
+                    case R.id.notifications:
+
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
+                        break;
+
+                    case R.id.my_payments:
+
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPaymentsFragment()).commit();
+                        break;
+
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+
                 return true;
             }
         });
-    }
 
+    }
+    
     //    private void showData() {
     //        db.collection("Users")
     //                .get()
@@ -162,9 +182,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        
         MenuItem item = menu.findItem(R.id.searchItem);
-        SearchView searchView  = (SearchView) MenuItemCompat.getActionView(item);
+
+//        SearchView searchView  = (SearchView) MenuItemCompat.getActionView(item);
         //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
         //                        @Override
         //                        public boolean onQueryTextSubmit(String query) {
@@ -182,12 +203,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         return super.onCreateOptionsMenu(menu);
     }
-    public boolean onOptionsItemSelected(MenuItem item){
-        if (item.getItemId() == R.id.help){
-            Toast.makeText(this, "Help clicked", Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     public void setMenu(){
         toolbar.inflateMenu(R.menu.menu);;
@@ -197,12 +212,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if (item.getItemId() == R.id.searchItem) {
                     // do something
                 }else if (item.getItemId()==R.id.help){
-                    // help
+                    Toast.makeText(getApplicationContext(), "Help clicked", Toast.LENGTH_SHORT).show();
                 }else if (item.getItemId() == R.id.log_out){
                     // log out
+                    Toast.makeText(getApplicationContext(), "log out clicked", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
+
         });
     }
 
@@ -236,10 +253,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 });
     }
 
-
-
-
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -248,35 +261,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             super.onBackPressed();
         }
     }
-
+    
+    // don't write your code here.....it won't work
+    //<<<<<<<<<<<<<<<<<<<<<<<<Start>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            item.setCheckable(true);
-            item.setChecked(true);
-            switch (item.getItemId()) {
-                case R.id.my_rides:
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyRidesFragragment()).commit();
-                    break;
-
-                case R.id.my_favorites:
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyFavoritesFragment()).commit();
-                    break;
-
-                case R.id.notifications:
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
-                    break;
-
-                case R.id.my_payments:
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPaymentsFragment()).commit();
-                    break;
-
-            }
-            drawerLayout.closeDrawer(GravityCompat.START);
-
             return true;
+        }
+    // <<<<<<<<<<<<<<<<<<<<<<<<<<<End>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+    private void replaceFragments(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
         }
     }
