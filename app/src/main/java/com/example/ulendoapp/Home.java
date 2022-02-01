@@ -75,7 +75,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         //showData();
 
         name = findViewById(R.id.firstName);
-        //excraMark = findViewById(R.id.excraMark);
         text = findViewById(R.id.text);
         rideText = findViewById(R.id.rideText);
 
@@ -109,17 +108,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
                     case R.id.my_favorites:
 
-//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyFavoritesFragment()).commit();
+                        replaceFragments(new My_Favorites());
                         break;
 
                     case R.id.notifications:
 
-//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
+
+                        replaceFragments(new Notifications());
                         break;
 
                     case R.id.my_payments:
 
-//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPaymentsFragment()).commit();
+                        replaceFragments(new My_Payments());
                         break;
 
                 }
