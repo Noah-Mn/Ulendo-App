@@ -17,11 +17,11 @@
             android:id="@+id/my_payments"
             android:icon="@drawable/ic_baseline_payment_24"
             android:title="My Payments" />
-
         <item
-            android:id="@+id/notifications"
-            android:icon="@drawable/ic_baseline_notifications_24"
-            android:title="Notifications" />
+            android:id="@+id/group"
+            android:icon="@drawable/ic_baseline_group_24"
+            android:title="Group" />
+
 
     </group>
 

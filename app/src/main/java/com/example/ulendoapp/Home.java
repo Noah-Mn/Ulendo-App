@@ -3,19 +3,15 @@ package com.example.ulendoapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,13 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.SearchView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,11 +50,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     ProgressDialog progressDialog;
     private String TAG;
     NavigationView navigationView;
-
+    BottomNavigationView bottom_navigation;
     RecyclerView recyclerView;
     List<Model> modelList = new ArrayList<>();
     CustomAdapter adapter;
     DrawerLayout drawerLayout;
+    LinearLayout bottom_nav_layout;
+    FrameLayout fragment_bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         progressDialog = new ProgressDialog(this);
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        
+        bottom_navigation = findViewById(R.id.bottom_navigation);
+
         //showData();
 
         name = findViewById(R.id.firstName);
@@ -111,26 +111,27 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                         replaceFragments(new My_Favorites());
                         break;
 
-                    case R.id.notifications:
+                    case R.id.group:
 
 
-                        replaceFragments(new Notifications());
+                        replaceFragments(new Group());
                         break;
 
                     case R.id.my_payments:
 
                         replaceFragments(new My_Payments());
                         break;
-
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 return true;
             }
         });
+        bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
     }
-    
+
+
     //    private void showData() {
     //        db.collection("Users")
     //                .get()
@@ -211,8 +212,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.searchItem) {
                     // do something
+
                 }else if (item.getItemId()==R.id.help){
                     Toast.makeText(getApplicationContext(), "Help clicked", Toast.LENGTH_SHORT).show();
+
                 }else if (item.getItemId() == R.id.log_out){
                     // log out
                     Toast.makeText(getApplicationContext(), "log out clicked", Toast.LENGTH_SHORT).show();
@@ -221,6 +224,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
 
         });
+
     }
 
     private void searchData(String s) {
@@ -277,4 +281,31 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         }
-    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+                    switch (item.getItemId()){
+                        case R.id.home:
+                            Toast.makeText(getApplicationContext(), "Home clicked", Toast.LENGTH_SHORT).show();
+                            replaceFragments(new fragment_home());
+                            break;
+                        case R.id.notifications:
+                            Toast.makeText(getApplicationContext(), "Home clicked", Toast.LENGTH_SHORT).show();
+                            replaceFragments(new fragment_notifications());
+                            break;
+                        case R.id.profile:
+                            Toast.makeText(getApplicationContext(), "Home clicked", Toast.LENGTH_SHORT).show();
+                            replaceFragments(new fragment_profile());
+                            break;
+                    }
+                    return true;
+                }
+
+            };
+
+}
+
