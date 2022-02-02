@@ -19,9 +19,5 @@
         android:name="com.example.ulendoapp.My_Payments"
         android:label="fragment_my__payments"
         tools:layout="@layout/fragment_my__payments" />
-    <fragment
-        android:id="@+id/notifications2"
-        android:name="com.example.ulendoapp.Notifications"
-        android:label="fragment_notifications"
-        tools:layout="@layout/fragment_notifications" />
+
 </navigation>
