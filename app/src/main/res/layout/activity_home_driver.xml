@@ -6,7 +6,7 @@
     tools:context=".HomeDriver">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/gradient">
@@ -56,7 +56,7 @@
                             android:text="Hey"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/firstName"
@@ -64,7 +64,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:textColor="@color/black"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/excraMark"
@@ -73,7 +73,7 @@
                             android:layout_marginStart="5dp"
                             android:text="!"
                             android:textColor="@color/black"
-                            android:textSize="15dp"/>
+                            android:textSize="15sp"/>
                     </LinearLayout>
 
                     <com.google.android.material.textview.MaterialTextView
@@ -84,7 +84,7 @@
                         android:paddingStart="5dp"
                         android:text="book a ride"
                         android:textColor="@color/black"
-                        android:textSize="15dp"/>
+                        android:textSize="15sp"/>
 
                 </LinearLayout>
             </com.google.android.material.appbar.MaterialToolbar>
@@ -94,15 +94,18 @@
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
+            android:layout_above="@+id/driver_bottom_nav"
+            android:layout_below="@id/drawer">
 
         </FrameLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+           android:layout_alignParentBottom="true"
+            android:id="@+id/driver_bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelVisibilityMode="unlabeled"/>
+    </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view_driver"
         android:layout_width="wrap_content"
