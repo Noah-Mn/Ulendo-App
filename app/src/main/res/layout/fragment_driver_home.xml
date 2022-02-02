@@ -22,34 +22,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/find_rides"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="10dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_search_black_24dp"
+                    android:src="@drawable/search_24"
                     />
                 <com.google.android.material.textview.MaterialTextView
+                    android:layout_marginStart="25dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Find Rides"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     />
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/offer_ride"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginEnd="50dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="10dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -57,12 +61,14 @@
                     android:src="@drawable/car_24"
                     />
                 <com.google.android.material.textview.MaterialTextView
+                    android:layout_marginStart="25dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Offer Rides"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     />
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </FrameLayout>
 
@@ -86,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Choose your starting point"
                 android:inputType="text"
+                android:textColor="@color/black"
                 android:textColorHint="#72000000"/>
         </LinearLayout>
 
@@ -109,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Choose destination"
                 android:textColorHint="#72000000"
+                android:textColor="@color/black"
                 android:inputType="text"
                 android:layout_marginBottom="5dp"/>
         </LinearLayout>
@@ -137,6 +145,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Pickup time"
                     android:inputType="datetime"
+                    android:textColor="@color/black"
                     android:textColorHint="#72000000"
                     />
             </LinearLayout>
@@ -160,6 +169,7 @@
                     android:inputType="number"
                     android:hint="Number of people"
                     android:textColorHint="#72000000"
+                    android:textColor="@color/black"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -194,6 +204,7 @@
             android:layout_marginTop="310dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:textColor="@color/black"
             android:text="Find"
             app:cornerRadius="20dp"
             />
