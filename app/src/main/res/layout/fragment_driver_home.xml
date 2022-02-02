@@ -29,20 +29,25 @@
                 android:layout_gravity="start"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="12dp"
+                android:clickable="true"
+                android:contextClickable="true"
                 app:cardCornerRadius="10dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/search_24"
+                    android:layout_marginStart="5dp"
                     />
+
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_marginStart="25dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
                     android:text="Find Rides"
                     android:textColor="@color/black"
                     android:textStyle="bold"
+                    android:layout_marginEnd="5dp"
                     />
             </com.google.android.material.card.MaterialCardView>
 
@@ -59,14 +64,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/car_24"
+                    android:layout_marginStart="5dp"
                     />
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="28dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Offer Rides"
                     android:textColor="@color/black"
                     android:textStyle="bold"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
                     />
             </com.google.android.material.card.MaterialCardView>
 
