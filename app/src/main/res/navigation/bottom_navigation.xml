@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/fragment_notifications"
-        android:name="com.example.ulendoapp.fragment_notifications"
+        android:name="com.example.ulendoapp.Notifications"
         android:label="fragment_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
