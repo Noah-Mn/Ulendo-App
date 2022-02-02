@@ -168,8 +168,6 @@
           app:cornerRadius="20dp"
           />
 
-
   </androidx.cardview.widget.CardView>
-
 
 </FrameLayout>
