@@ -88,8 +88,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void navInit() {
-        header_name = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_name);
-        header_email = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_email);
+        header_name = navigationView.getHeaderView(0).findViewById(R.id.header_name);
+        header_email = navigationView.getHeaderView(0).findViewById(R.id.header_email);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -207,7 +207,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void setMenu(){
-        toolbar.inflateMenu(R.menu.menu);;
+        toolbar.inflateMenu(R.menu.menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -272,7 +272,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         }
     // <<<<<<<<<<<<<<<<<<<<<<<<<<<End>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+    private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {

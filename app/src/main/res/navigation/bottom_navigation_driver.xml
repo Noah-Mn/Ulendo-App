@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation_driver"
+    app:startDestination="@id/fragment_driver_home">
+
+    <fragment
+        android:id="@+id/fragment_driver_home"
+        android:name="com.example.ulendoapp.fragment_driver_home"
+        android:label="fragment_driver_home"
+        tools:layout="@layout/fragment_driver_home" >
+        <action
+            android:id="@+id/action_fragment_driver_home_to_find_rides2"
+            app:destination="@id/find_rides2" />
+        <action
+            android:id="@+id/action_fragment_driver_home_to_offer_rides"
+            app:destination="@id/offer_rides" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_driver_notifications"
+        android:name="com.example.ulendoapp.fragment_driver_notifications"
+        android:label="fragment_driver_notifications"
+        tools:layout="@layout/fragment_driver_notifications" />
+    <fragment
+        android:id="@+id/fragment_driver_profile"
+        android:name="com.example.ulendoapp.fragment_driver_profile"
+        android:label="fragment_driver_profile"
+        tools:layout="@layout/fragment_driver_profile" />
+    <fragment
+        android:id="@+id/find_rides2"
+        android:name="com.example.ulendoapp.find_rides"
+        android:label="fragment_find_rides"
+        tools:layout="@layout/fragment_find_rides" />
+    <fragment
+        android:id="@+id/offer_rides"
+        android:name="com.example.ulendoapp.offer_rides"
+        android:label="fragment_offer_rides"
+        tools:layout="@layout/fragment_offer_rides" />
+</navigation>
