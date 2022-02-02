@@ -14,16 +14,16 @@ import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     ListActivity listActivity;
-    List<Model>modelList;
+    List<UserModel> userModelList;
     Context context;
 
-    public CustomAdapter(ListActivity listActivity, List<Model> modelList, Context context) {
+    public CustomAdapter(ListActivity listActivity, List<UserModel> userModelList, Context context) {
         this.listActivity = listActivity;
-        this.modelList = modelList;
+        this.userModelList = userModelList;
         this.context = context;
     }
 
-    public CustomAdapter(Home home, List<Model> modelList) {
+    public CustomAdapter(HomeUser homeUser, List<UserModel> userModelList) {
     }
 
     @NonNull
@@ -40,10 +40,10 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
             @Override
             public void onItemClick(View view, int position) {
 
-                String firstname = modelList.get(position).getFirstName();
-                String lastname = modelList.get(position).getLastName();
-                String status = modelList.get(position).getStatus();
-                String phonenumber = modelList.get(position).getPhoneNumber();
+                String firstname = userModelList.get(position).getFirstName();
+                String lastname = userModelList.get(position).getLastName();
+                String status = userModelList.get(position).getStatus();
+                String phonenumber = userModelList.get(position).getPhoneNumber();
 
                 Toast.makeText(listActivity, firstname+"\n"+lastname+"\n"+status+"\n"+phonenumber, Toast.LENGTH_SHORT).show();
             }
@@ -58,10 +58,10 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.first_name.setText(modelList.get(position).getFirstName());
-        holder.last_name.setText(modelList.get(position).getLastName());
-        holder.phone_number.setText(modelList.get(position).getPhoneNumber());
-        holder.status.setText(modelList.get(position).getStatus());
+        holder.first_name.setText(userModelList.get(position).getFirstName());
+        holder.last_name.setText(userModelList.get(position).getLastName());
+        holder.phone_number.setText(userModelList.get(position).getPhoneNumber());
+        holder.status.setText(userModelList.get(position).getStatus());
     }
 
     @Override
@@ -71,6 +71,6 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
 //    @Override
 //    public int getItemCount() {
-//        return modelList.size();
+//        return userModelList.size();
 //    }
 }

@@ -1,12 +1,12 @@
 package com.example.ulendoapp;
 
-public class Model {
+public class UserModel {
     String status, firstName, lastName, phoneNumber;
 
-    public Model() {
+    public UserModel() {
     }
 
-    public Model(String status, String firstName, String lastName, String phoneNumber) {
+    public UserModel(String status, String firstName, String lastName, String phoneNumber) {
         this.status = status;
         this.firstName = firstName;
         this.lastName = lastName;

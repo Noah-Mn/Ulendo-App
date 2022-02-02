@@ -32,16 +32,14 @@ import java.util.Map;
 public class CreateAccount extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
 
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-
     private String firstName, lastName, phoneNumber, gender;
     private String email, password, confirmPassword;
     private Button confirmBtn;
     private TextInputEditText textEmail, textPassword, textConfirmPassword;
     private TextInputLayout materialEmail, materialPassword, materialConfirmPassword;    
     private FirebaseFirestore db;
-    boolean success, deny;
+    private FirebaseAuth firebaseAuth;
+    boolean deny;
     private String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
@@ -56,6 +54,10 @@ public class CreateAccount extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        textEmail = findViewById(R.id.textEmailAddress);
+        textPassword = findViewById(R.id.textPassword);
+        textConfirmPassword = findViewById(R.id.textConfirmPassword);
+
         Intent intent = getIntent();
         firstName = intent.getStringExtra("firstName");
         lastName = intent.getStringExtra("lastName");
@@ -67,32 +69,24 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performSignUp();
-
             }
         });
     }
 
     private boolean validateFinalForm(){
+        boolean valid = false;
         materialEmail = findViewById(R.id.materialEmailAddress);
         materialPassword = findViewById(R.id.materialPassword);
         materialConfirmPassword = findViewById(R.id.materialConfirmPassword);
-        textEmail = findViewById(R.id.textEmailAddress);
-        textPassword = findViewById(R.id.textPassword);
-        textConfirmPassword = findViewById(R.id.textConfirmPassword);
-
         email = textEmail.getText().toString();
         password = textPassword.getText().toString();
         confirmPassword = textConfirmPassword.getText().toString();
-
-        boolean valid = false;
 
         try {
             if (email.isEmpty()) {
                 materialEmail.setError("Please enter email address");
             } else if(!email.matches(emailPattern)) {
-                materialEmail.setError("Please enter a valid email addresss");
-            } else if(!validateEmail()){
-                materialEmail.setError("Email already exists");
+                materialEmail.setError("Please enter a valid email address");
             } else if (password.isEmpty() && password.length() <= 3) {
                 materialPassword.setError("Password must be more than 3 characters");
                 if(!password.equals(confirmPassword)){
@@ -100,14 +94,16 @@ public class CreateAccount extends AppCompatActivity {
                 }
             } else if (!password.equals(confirmPassword)) {
                      materialConfirmPassword.setError("passwords do not match");
+                     validateEmail();
             } else{
                 valid = true;
             }
         }catch(Exception e){}
+
         return valid;
     }
 
-    private boolean validateEmail(){
+    private void validateEmail(){
         db.collection("Users")
                 .whereEqualTo("Email Address", email)
                 .get()
@@ -117,17 +113,14 @@ public class CreateAccount extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, "Email already exist!");
-                                Toast.makeText(CreateAccount.this, "email already exist", Toast.LENGTH_LONG).show();
-                                deny = true;
+                                Toast.makeText(CreateAccount.this, "email already exist " + email, Toast.LENGTH_LONG).show();
                             }
                         } else {
                             Log.d(TAG, "Email does not exist ", task.getException());
-                            Toast.makeText(CreateAccount.this, "email does not exist", Toast.LENGTH_LONG).show();
-                            deny = false;
+                            Toast.makeText(CreateAccount.this, "email is valid", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-        return deny;
     }
 
     private void addUser(){
@@ -165,7 +158,7 @@ public class CreateAccount extends AppCompatActivity {
 
         if(validateFinalForm()) {
             progressDialog.setMessage("Signing up please wait...");
-            progressDialog.setTitle("Signup");
+            progressDialog.setTitle("UserSignup");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
@@ -173,17 +166,17 @@ public class CreateAccount extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-
                         progressDialog.dismiss();
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         updateUI(user);
+
+                        startActivity(new Intent(CreateAccount.this, HomeUser.class));
                         Toast.makeText(getApplicationContext(), "Sign up successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(CreateAccount.this, Home.class));
                         addUser();
                     } else {
                         progressDialog.dismiss();
-                        Log.w(TAG, " Signup:failure", task.getException());
-                        Toast.makeText(getApplicationContext(), "Signup failed", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, " UserSignup:failure", task.getException());
+                        Toast.makeText(getApplicationContext(), "UserSignup failed", Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
                 }

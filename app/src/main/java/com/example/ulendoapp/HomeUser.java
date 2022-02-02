@@ -4,26 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,9 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private MaterialTextView name, excraMark, text, rideText, header_name, header_email;
-    private String userName, userText, userMark, userRideText, firstName, lastName, email;
+public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private MaterialTextView name, header_name, header_email;
+    private String firstName, lastName, email;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
@@ -55,14 +48,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     NavigationView navigationView;
 
     RecyclerView recyclerView;
-    List<Model> modelList = new ArrayList<>();
+    List<UserModel> userModelList = new ArrayList<>();
     CustomAdapter adapter;
     DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_user);
 
         toolbar = findViewById(R.id.toolbar);
         auth = FirebaseAuth.getInstance();
@@ -75,8 +68,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         //showData();
 
         name = findViewById(R.id.firstName);
-        text = findViewById(R.id.text);
-        rideText = findViewById(R.id.rideText);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
@@ -89,6 +80,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         getUserFirstName();
         setMenu();
 
+        navInit();
+
+    }
+
+    private void navInit() {
         header_name = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_name);
         header_email = (MaterialTextView) navigationView.getHeaderView(0).findViewById(R.id.header_email);
 
@@ -106,20 +102,24 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                         replaceFragments(new My_Rides());
                         break;
 
-                    case R.id.my_favorites:
+                    case R.id.myFavoritesItem:
 
                         replaceFragments(new My_Favorites());
                         break;
 
-                    case R.id.notifications:
-
+                    case R.id.notificationsItem:
 
                         replaceFragments(new Notifications());
                         break;
 
-                    case R.id.my_payments:
+                    case R.id.myPaymentsItem:
 
                         replaceFragments(new My_Payments());
+                        break;
+
+                    case R.id.driver:
+
+                        HomeUser.this.startActivity(new Intent(HomeUser.this, DriverSignup.class));
                         break;
 
                 }
@@ -128,9 +128,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 return true;
             }
         });
-
     }
-    
+
     //    private void showData() {
     //        db.collection("Users")
     //                .get()
@@ -232,23 +231,23 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        modelList.clear();
+                        userModelList.clear();
                         progressDialog.dismiss();
                         for (DocumentSnapshot documentSnapshot: task.getResult()){
-                            Model model = new Model(documentSnapshot.getString("Status"),
+                            UserModel userModel = new UserModel(documentSnapshot.getString("Status"),
                                     documentSnapshot.getString("First Name"),
                                     documentSnapshot.getString("Surname"),
                                     documentSnapshot.getString("Phone Number"));
-                            modelList.add(model);
+                            userModelList.add(userModel);
                         }
-                        adapter = new CustomAdapter(Home.this, modelList);
+                        adapter = new CustomAdapter(HomeUser.this, userModelList);
                         recyclerView.setAdapter(adapter);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Home.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeUser.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -19,10 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UlendoApp">
         <activity
+            android:name=".HomeDriver"
+            android:exported="false" />
+        <activity
+            android:name=".DriverSignup"
+            android:exported="false" />
+        <activity
             android:name=".CreateAccount"
             android:exported="false" />
         <activity
-            android:name=".Signup"
+            android:name=".UserSignup"
             android:exported="false" />
         <activity
             android:name=".ForgotPassword"
@@ -43,28 +49,23 @@
             android:value="@string/google_maps_key" />
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-<!--        &lt;!&ndash; this is the searchable activity; it performs searches &ndash;&gt;-->
-<!--        <activity android:name=".SearchableActivity" >-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.SEARCH" />-->
-<!--            </intent-filter>-->
-<!--            <meta-data android:name="android.app.searchable"-->
-<!--                android:resource="@xml/searchable"/>-->
-<!--        </activity>-->
-
-<!--        &lt;!&ndash; this activity enables the search dialog to initiate searches-->
-<!--             in the SearchableActivity &ndash;&gt;-->
-<!--        <activity android:name=".OtherActivity" >-->
-<!--        &lt;!&ndash; enable the search dialog to send searches to SearchableActivity &ndash;&gt;-->
-<!--        <meta-data android:name="android.app.default_searchable"-->
-<!--            android:value=".SearchableActivity" />-->
-<!--    </activity>-->
-
-
-    <activity
-            android:name=".Home"
+            android:resource="@array/preloaded_fonts" /> <!-- &lt;!&ndash; this is the searchable activity; it performs searches &ndash;&gt; -->
+        <!-- <activity android:name=".SearchableActivity" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.SEARCH" /> -->
+        <!-- </intent-filter> -->
+        <!-- <meta-data android:name="android.app.searchable" -->
+        <!-- android:resource="@xml/searchable"/> -->
+        <!-- </activity> -->
+        <!-- &lt;!&ndash; this activity enables the search dialog to initiate searches -->
+        <!-- in the SearchableActivity &ndash;&gt; -->
+        <!-- <activity android:name=".OtherActivity" > -->
+        <!-- &lt;!&ndash; enable the search dialog to send searches to SearchableActivity &ndash;&gt; -->
+        <!-- <meta-data android:name="android.app.default_searchable" -->
+        <!-- android:value=".SearchableActivity" /> -->
+        <!-- </activity> -->
+        <activity
+            android:name=".HomeUser"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

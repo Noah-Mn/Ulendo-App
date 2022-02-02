@@ -9,17 +9,17 @@
             android:title="My Rides" />
 
         <item
-            android:id="@+id/my_favorites"
+            android:id="@+id/myFavoritesItem"
             android:icon="@drawable/star_24"
             android:title="My Favorites" />
 
         <item
-            android:id="@+id/my_payments"
+            android:id="@+id/myPaymentsItem"
             android:icon="@drawable/ic_baseline_payment_24"
             android:title="My Payments" />
 
         <item
-            android:id="@+id/notifications"
+            android:id="@+id/notificationsItem"
             android:icon="@drawable/ic_baseline_notifications_24"
             android:title="Notifications" />
 
