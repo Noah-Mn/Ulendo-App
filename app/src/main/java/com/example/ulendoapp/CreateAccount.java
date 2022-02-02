@@ -94,7 +94,6 @@ public class CreateAccount extends AppCompatActivity {
                 }
             } else if (!password.equals(confirmPassword)) {
                      materialConfirmPassword.setError("passwords do not match");
-                     validateEmail();
             } else{
                 valid = true;
             }
@@ -113,11 +112,11 @@ public class CreateAccount extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, "Email already exist!");
-                                Toast.makeText(CreateAccount.this, "email already exist " + email, Toast.LENGTH_LONG).show();
+                                materialEmail.setError("Email address already in use");
+//                                Toast.makeText(CreateAccount.this, "email already exist " + email, Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Log.d(TAG, "Email does not exist ", task.getException());
-                            Toast.makeText(CreateAccount.this, "email is valid", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "Email address not in use", task.getException());
                         }
                     }
                 });
@@ -162,6 +161,7 @@ public class CreateAccount extends AppCompatActivity {
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
+            validateEmail();
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -176,7 +176,7 @@ public class CreateAccount extends AppCompatActivity {
                     } else {
                         progressDialog.dismiss();
                         Log.w(TAG, " UserSignup:failure", task.getException());
-                        Toast.makeText(getApplicationContext(), "UserSignup failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "User Signup failed", Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
                 }
