@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +52,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     List<UserModel> userModelList = new ArrayList<>();
     CustomAdapter adapter;
     DrawerLayout drawerLayout;
+    BottomNavigationView bottom_navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         progressDialog = new ProgressDialog(this);
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        
+        bottom_navigation = findViewById(R.id.bottom_navigation);
         //showData();
 
         name = findViewById(R.id.firstName);
@@ -79,8 +81,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
         getUserFirstName();
         setMenu();
-
         navInit();
+
+        bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
     }
 
@@ -97,7 +100,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 switch (item.getItemId()) {
-                    case R.id.my_rides:
+                    case R.id.myMyRidesItem:
 
                         replaceFragments(new My_Rides());
                         break;
@@ -109,7 +112,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
                     case R.id.notificationsItem:
 
-                        replaceFragments(new Notifications());
+                        replaceFragments(new fragment_notifications());
                         break;
 
                     case R.id.myPaymentsItem:
@@ -269,7 +272,26 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         }
     // <<<<<<<<<<<<<<<<<<<<<<<<<<<End>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                   switch (item.getItemId()){
+                       case R.id.home:
+                           replaceFragments(new fragment_home());
+                           break;
 
+                       case R.id.notifications:
+                           replaceFragments(new fragment_notifications());
+                           break;
+
+                       case R.id.profile:
+                           replaceFragments(new fragment_profile());
+                           break;
+                   }
+                    return true;
+                }
+            };
     private void replaceFragments(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
