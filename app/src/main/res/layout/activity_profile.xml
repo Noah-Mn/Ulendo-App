@@ -21,6 +21,7 @@
             android:background="@color/white">
 
             <ImageView
+                android:id="@+id/profile_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/back_24"
@@ -46,6 +47,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:layout_marginBottom="-30dp"
+        android:padding="2dp"
         android:elevation="7dp"
         android:src="@mipmap/ic_launcher" />
 
@@ -53,8 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/profile_image"
-        app:cardCornerRadius="20dp"
-        >
+        app:cardCornerRadius="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,6 +85,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/edit_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -217,7 +219,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/where_car_model_goes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="79dp"
                 android:background="#0C000000">
 
             </androidx.recyclerview.widget.RecyclerView>
@@ -240,13 +242,14 @@
             </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
-        <ListView
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favourites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="350dp">
 
-            >
-
-        </ListView>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </com.google.android.material.card.MaterialCardView>
 
