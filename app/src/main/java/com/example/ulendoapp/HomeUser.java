@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -84,6 +85,11 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         navInit();
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.blank_layout);
 
     }
 

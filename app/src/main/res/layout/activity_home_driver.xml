@@ -96,9 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/driver_bottom_nav"
-            android:layout_below="@id/drawer">
-
-        </FrameLayout>
+            android:layout_below="@id/drawer"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
            android:layout_alignParentBottom="true"

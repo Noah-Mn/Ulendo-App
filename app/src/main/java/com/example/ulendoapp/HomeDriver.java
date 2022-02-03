@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -33,6 +32,7 @@ public class HomeDriver extends AppCompatActivity {
         driver_bottom_nav.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         navigation_view_driver = findViewById(R.id.navigation_view_driver);
         drawerLayout = findViewById(R.id.driver_drawer_Layout);
+
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,15 +49,18 @@ public class HomeDriver extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.home:
+
                             replaceFragments(new fragment_driver_home());
                             break;
 
                         case R.id.notifications:
+                           
                             replaceFragments(new fragment_driver_notifications());
                             break;
 
                         case R.id.profile:
-                            replaceFragments(new fragment_driver_profile());
+                            startActivity(new Intent(HomeDriver.this, Profile.class));
+                            //replaceFragments(new fragment_driver_profile());
                             break;
                     }
                     return true;
