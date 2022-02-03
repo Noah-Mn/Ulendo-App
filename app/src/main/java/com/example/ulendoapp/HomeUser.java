@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,7 +48,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     ProgressDialog progressDialog;
     private String TAG;
     NavigationView navigationView;
-
     RecyclerView recyclerView;
     List<UserModel> userModelList = new ArrayList<>();
     CustomAdapter adapter;
@@ -276,7 +276,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                    switch (item.getItemId()){
+
+
                        case R.id.home:
                            replaceFragments(new fragment_home());
                            break;
