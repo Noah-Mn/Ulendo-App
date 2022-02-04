@@ -16,26 +16,38 @@
       android:layout_marginEnd="20dp"
       android:layout_marginBottom="30dp"
       android:layout_gravity="bottom">
-      <LinearLayout
-          android:id="@+id/find_rides"
-          android:layout_width="wrap_content"
+      <FrameLayout
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:layout_marginTop="-150dp">
+          android:layout_marginTop="10dp">
 
-          <ImageView
+          <com.google.android.material.card.MaterialCardView
+              android:id="@+id/find_rides"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:src="@drawable/ic_search_black_24dp"
-              />
-          <com.google.android.material.textview.MaterialTextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Find Rides"
-              android:textStyle="bold"
-              />
-      </LinearLayout>
+              android:layout_gravity="center"
+              android:contextClickable="true"
+              app:cardCornerRadius="10dp">
 
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/search_24"
+                  android:layout_marginStart="5dp"
+                  />
+
+              <com.google.android.material.textview.MaterialTextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="25dp"
+                  android:text="Find Rides"
+                  android:textColor="@color/black"
+                  android:textStyle="bold"
+                  android:layout_marginEnd="5dp"
+                  />
+          </com.google.android.material.card.MaterialCardView>
+
+      </FrameLayout>
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"

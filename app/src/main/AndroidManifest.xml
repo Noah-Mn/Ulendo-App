@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UlendoApp">
         <activity
+            android:name=".Profile"
+            android:exported="false" />
+        <activity
             android:name=".HomeDriver"
             android:exported="false" >
             <meta-data android:name="android.app.searchable"

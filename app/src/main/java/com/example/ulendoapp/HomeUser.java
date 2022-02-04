@@ -4,25 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,8 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener{
-
+public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private MaterialTextView name, header_name, header_email;
     private String firstName, lastName, email;
     private FirebaseFirestore db;
@@ -52,20 +47,13 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private FirebaseUser currentUser;
     private MaterialToolbar toolbar;
     ProgressDialog progressDialog;
-    private String TAG, newText;
-    private NavigationView navigationView;
-
-    private RecyclerView recyclerView;
-    private List<UserModel> userModelList;
-    private CustomAdapter adapter;
-    private DrawerLayout drawerLayout;
-    private BottomNavigationView bottom_navigation;
-
-    public HomeUser(){}
-
-    public HomeUser(CustomAdapter adapter) {
-        this.adapter = adapter;
-    }
+    private String TAG;
+    NavigationView navigationView;
+    RecyclerView recyclerView;
+    List<UserModel> userModelList = new ArrayList<>();
+    CustomAdapter adapter;
+    DrawerLayout drawerLayout;
+    BottomNavigationView bottom_navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +68,11 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         bottom_navigation = findViewById(R.id.bottom_navigation);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        userModelList = new ArrayList<>();
+        //showData();
+
         name = findViewById(R.id.firstName);
 
-        getUserData();
-        navInit();
-        setMenu();
-
+        drawerLayout = findViewById(R.id.drawer_layout);
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,13 +80,12 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
+        getUserFirstName();
+        setMenu();
+        navInit();
+
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        return super.onCreateOptionsMenu(menu);
     }
 
     private void navInit() {
@@ -117,21 +101,31 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 switch (item.getItemId()) {
-                    case R.id.myRidesItem:
+                    case R.id.myMyRidesItem:
+
                         replaceFragments(new My_Rides());
                         break;
+
                     case R.id.myFavoritesItem:
+
                         replaceFragments(new My_Favorites());
                         break;
+
                     case R.id.notificationsItem:
+
                         replaceFragments(new fragment_notifications());
                         break;
+
                     case R.id.myPaymentsItem:
+
                         replaceFragments(new My_Payments());
                         break;
+
                     case R.id.driver:
+
                         HomeUser.this.startActivity(new Intent(HomeUser.this, DriverSignup.class));
                         break;
+
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
 
@@ -139,114 +133,26 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
     }
-    public void setMenu(){
-        toolbar.inflateMenu(R.menu.menu);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.searchItem) {
-                    searchDriver();
-                    replaceFragments(new fragment_recyclerview());
 
-                }else if (item.getItemId()==R.id.help){
-                    Toast.makeText(getApplicationContext(), "Help clicked", Toast.LENGTH_SHORT).show();
-
-                }else if (item.getItemId() == R.id.log_out){
-                    FirebaseAuth.getInstance().signOut();
-                    HomeUser.this.startActivity(new Intent(HomeUser.this, Login.class));
-                    Toast.makeText(getApplicationContext(), "log out clicked", Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-
-        });
-    }
-
-    public void searchDriverData() {
-        Toast.makeText(HomeUser.this, newText, Toast.LENGTH_SHORT).show();
-//        progressDialog.setTitle("Searching...");
-//        progressDialog.show();
-
-        db.collection("Users")
-                .whereEqualTo("Status", "customer")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        progressDialog.dismiss();
-                        userModelList.clear();
-                        for (DocumentSnapshot documentSnapshot: task.getResult()){
-                            UserModel userModel = new UserModel(documentSnapshot.getString("Status"),
-                                    documentSnapshot.getString("First Name"),
-                                    documentSnapshot.getString("Surname"),
-                                    documentSnapshot.getString("Phone Number"));
-                            userModelList.add(userModel);
-                        }
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(HomeUser.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    public void searchDriver(){
-        searchDriverData();
-        List<UserModel> searchList = new ArrayList<>();
-
-        MenuItem menuItem = toolbar.getMenu().findItem(R.id.searchItem);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String newText) {
-                Log.i("well", " this worked");
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                searchList.clear();
-                Log.i("well", " this worked");
-                if (!query.isEmpty()) {
-                    for(int i = 0; i < userModelList.size(); i++){
-                        String firstName = userModelList.get(i).getFirstName();
-                        String lastName = userModelList.get(i).getLastName();
-                        String userStatus = userModelList.get(i).getStatus();
-                        String phoneNumber = userModelList.get(i).getPhoneNumber();
-                        String fullName = firstName + " " + lastName;
-
-                        if (firstName.toLowerCase().contains(query.toLowerCase()) || lastName.toLowerCase().contains(query.toLowerCase())){
-                            UserModel model = new UserModel(userStatus, firstName, lastName, phoneNumber);
-                            searchList.add(model);
-                            Toast.makeText(HomeUser.this, "size of search list is " + searchList.size(), Toast.LENGTH_SHORT).show();
-
-                        } else if (fullName.toLowerCase().contains(query.toLowerCase())){
-                            UserModel model = new UserModel(userStatus, firstName, lastName, phoneNumber);
-                            searchList.add(model);
-                        }
-
-                    }
-                    recyclerView = findViewById(R.id.searchRecyclerView);
-                    adapter = new CustomAdapter(searchList, HomeUser.this);
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(HomeUser.this));
-
-                } else {
-                    query = "enter q";
-                    Toast.makeText(HomeUser.this, "type some thing", Toast.LENGTH_LONG);
-                }
-
-                return false;
-            }
-        });
-
-    }
+    //    private void showData() {
+    //        db.collection("Users")
+    //                .get()
+    //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    //                    @Override
+    //                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+    //
+    //                    }
+    //                })
+    //                .addOnFailureListener(new OnFailureListener() {
+    //                    @Override
+    //                    public void onFailure(@NonNull Exception e) {
+    //
+    //                    }
+    //                });
+    //    }
 
 
-    public void getUserData(){
+    public void getUserFirstName(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
                 .get()
@@ -277,7 +183,78 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         return emailAddress;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        
+        MenuItem item = menu.findItem(R.id.searchItem);
 
+//        SearchView searchView  = (SearchView) MenuItemCompat.getActionView(item);
+        //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        //                        @Override
+        //                        public boolean onQueryTextSubmit(String query) {
+        //                            String s = null;
+        //                            assert s != null;
+        //                            searchData(s);
+        //                            return false;
+        //                        }
+        //
+        //                        @Override
+        //                        public boolean onQueryTextChange(String newText) {
+        //                            return false;
+        //                        }
+        //                    });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void setMenu(){
+        toolbar.inflateMenu(R.menu.menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.searchItem) {
+                    // do something
+                }else if (item.getItemId()==R.id.help){
+                    Toast.makeText(getApplicationContext(), "Help clicked", Toast.LENGTH_SHORT).show();
+                }else if (item.getItemId() == R.id.log_out){
+                    // log out
+                    Toast.makeText(getApplicationContext(), "log out clicked", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+        });
+    }
+
+    private void searchData(String s) {
+        progressDialog.setTitle("Searching...");
+        progressDialog.show();
+
+        db.collection("Users").whereEqualTo("Status",s.toLowerCase(Locale.ROOT))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        userModelList.clear();
+                        progressDialog.dismiss();
+                        for (DocumentSnapshot documentSnapshot: task.getResult()){
+                            UserModel userModel = new UserModel(documentSnapshot.getString("Status"),
+                                    documentSnapshot.getString("First Name"),
+                                    documentSnapshot.getString("Surname"),
+                                    documentSnapshot.getString("Phone Number"));
+                            userModelList.add(userModel);
+                        }
+                        adapter = new CustomAdapter(HomeUser.this, userModelList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(HomeUser.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     @Override
     public void onBackPressed() {
@@ -288,25 +265,28 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
     
-    // don't write your code here.....it won't work /*UNDERSTOOD*/
+    // don't write your code here.....it won't work
     //<<<<<<<<<<<<<<<<<<<<<<<<Start>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return true;
+            return true;
         }
     // <<<<<<<<<<<<<<<<<<<<<<<<<<<End>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+    private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                    switch (item.getItemId()){
-                       case R.id.notifications:
-                           replaceFragments(new fragment_notifications());
-                           break;
+
 
                        case R.id.home:
                            replaceFragments(new fragment_home());
+                           break;
+
+                       case R.id.notifications:
+                           replaceFragments(new fragment_notifications());
                            break;
 
                        case R.id.profile:
@@ -316,20 +296,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     return true;
                 }
             };
-
-    private void setActiveFragment(){
-      replaceFragments(new fragment_home());
-    }
-
     private void replaceFragments(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         }
-
-    @Override
-    public void onDriverClick(int position) {
-        Toast.makeText(HomeUser.this, "you clicked position " + position, Toast.LENGTH_SHORT).show();
     }
-}
