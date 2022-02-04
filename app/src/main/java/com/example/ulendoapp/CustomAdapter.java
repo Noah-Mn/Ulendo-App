@@ -5,45 +5,136 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
-    ListActivity listActivity;
-    List<UserModel> userModelList;
-    Context context;
+public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements View.OnClickListener{
+    //    ListActivity listActivity;
+//    Context context;
+    private List<UserModel> driverModelList;
+    private OnDriverClickListener onDriverClickListener;
 
-    public CustomAdapter(ListActivity listActivity, List<UserModel> userModelList, Context context) {
-        this.listActivity = listActivity;
-        this.userModelList = userModelList;
-        this.context = context;
-    }
-
-    public CustomAdapter(HomeUser homeUser, List<UserModel> userModelList) {
+    public CustomAdapter(List<UserModel> driverModelList, OnDriverClickListener onDriverClickListener) {
+        this.driverModelList = driverModelList;
+        this.onDriverClickListener = onDriverClickListener;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View driverView = inflater.inflate(R.layout.model_layout, parent, false);
 
-        View itemView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.model_layout, viewGroup, false);
+        ViewHolder driverHolder = new ViewHolder(driverView, onDriverClickListener);
+        return driverHolder;
+    }
 
-        ViewHolder viewHolder = new ViewHolder(itemView);
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.firstName.setText(driverModelList.get(position).getFirstName());
+        holder.lastName.setText(driverModelList.get(position).getLastName());
+        holder.phoneNumber.setText(driverModelList.get(position).getPhoneNumber());
+        holder.status.setText(driverModelList.get(position).getStatus());
+    }
 
-        viewHolder.setOnClickListener(new ViewHolder.ClickListener(){
+    public interface OnDriverClickListener {
+        void onDriverClick(int position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return driverModelList.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+
+/*
+
+    public Filter getFilter() {
+        return filter;
+    }
+*/
+
+    /*Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<UserModel> filteredDrivers = new ArrayList<>();
+            HomeUser drivers = new HomeUser(CustomAdapter.this);
+
+            if (!constraint.toString().isEmpty()) {
+
+                for (int i = 0, driverListSize = driverModelList.size(); i < driverListSize; i++) {
+                    String firstName = driverModelList.get(i).getFirstName();
+                    String lastName = driverModelList.get(i).getLastName();
+                    String status = driverModelList.get(i).getStatus();
+                    String phoneNumber = driverModelList.get(i).getPhoneNumber();
+
+                    UserModel userModel = new UserModel(firstName, lastName, status, phoneNumber);
+
+                    if (firstName.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredDrivers.add(userModel);
+
+                    } else if (lastName.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredDrivers.add(userModel);
+                    }
+
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredDrivers;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            if (!charSequence.toString().isEmpty()) {
+                driverModelList.addAll((Collection<? extends UserModel>) filterResults.values);
+                notifyDataSetChanged();
+            }
+        }
+    };*/
+/*
+    public CustomAdapter(List<UserModel> driverModelList, Context context) {
+//        this.listActivity = listActivity;
+        this.driverModelList = driverModelList;
+        this.context = context;
+    }
+
+    public CustomAdapter(HomeUser homeUser, List<UserModel> driverModelList) {
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.model_layout, parent, false);
+
+        ViewHolder driverHolder = new ViewHolder(itemView, driverModelList);
+
+        driverHolder.setOnClickListener(new ViewHolder.ClickListener(){
 
             @Override
             public void onItemClick(View view, int position) {
 
-                String firstname = userModelList.get(position).getFirstName();
-                String lastname = userModelList.get(position).getLastName();
-                String status = userModelList.get(position).getStatus();
-                String phonenumber = userModelList.get(position).getPhoneNumber();
+                String firstname = driverModelList.get(position).getFirstName();
+                String lastname = driverModelList.get(position).getLastName();
+                String status = driverModelList.get(position).getStatus();
+                String phonenumber = driverModelList.get(position).getPhoneNumber();
 
                 Toast.makeText(listActivity, firstname+"\n"+lastname+"\n"+status+"\n"+phonenumber, Toast.LENGTH_SHORT).show();
             }
@@ -53,24 +144,26 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             }
         });
-        return viewHolder;
+        return driverHolder;
+    }
+    public void filterList(ArrayList<UserModel> filterllist) {
+        driverModelList = filterllist;
+        notifyDataSetChanged();
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.first_name.setText(userModelList.get(position).getFirstName());
-        holder.last_name.setText(userModelList.get(position).getLastName());
-        holder.phone_number.setText(userModelList.get(position).getPhoneNumber());
-        holder.status.setText(userModelList.get(position).getStatus());
+        holder.first_name.setText(driverModelList.get(position).getFirstName());
+        holder.last_name.setText(driverModelList.get(position).getLastName());
+        holder.phone_number.setText(driverModelList.get(position).getPhoneNumber());
+        holder.status.setText(driverModelList.get(position).getStatus());
     }
 
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
+*/
 
 //    @Override
 //    public int getItemCount() {
 //        return userModelList.size();
 //    }
+
 }

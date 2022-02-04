@@ -1,10 +1,9 @@
 package com.example.ulendoapp;
 
+import java.util.List;
+
 public class UserModel {
     String status, firstName, lastName, phoneNumber;
-
-    public UserModel() {
-    }
 
     public UserModel(String status, String firstName, String lastName, String phoneNumber) {
         this.status = status;
@@ -12,6 +11,7 @@ public class UserModel {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
     }
+    public UserModel(){}
 
     public String getStatus() {
         return status;

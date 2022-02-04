@@ -20,7 +20,11 @@
         android:theme="@style/Theme.UlendoApp">
         <activity
             android:name=".HomeDriver"
-            android:exported="false" />
+            android:exported="false" >
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+        </activity>
         <activity
             android:name=".DriverSignup"
             android:exported="false" />
@@ -66,7 +70,15 @@
         <!-- </activity> -->
         <activity
             android:name=".HomeUser"
-            android:exported="true" />
+            android:exported="true">
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

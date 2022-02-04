@@ -4,7 +4,7 @@
     tools:showIn = "navigation_view">
     <group>
         <item
-            android:id="@+id/myMyRidesItem"
+            android:id="@+id/myRidesItem"
             android:icon="@drawable/schedule_24"
             android:title="My Rides" />
 
