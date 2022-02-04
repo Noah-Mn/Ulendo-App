@@ -59,7 +59,7 @@ public class HomeDriver extends AppCompatActivity {
                             break;
 
                         case R.id.profile:
-                            startActivity(new Intent(HomeDriver.this, Profile.class));
+                            startActivity(new Intent(HomeDriver.this, DriverProfile.class));
                             //replaceFragments(new fragment_driver_profile());
                             break;
                     }

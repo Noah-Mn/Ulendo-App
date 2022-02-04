@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-public class Profile extends AppCompatActivity {
+public class DriverProfile extends AppCompatActivity {
 
     RecyclerView where_car_model_goes;
     ImageView profile_back, edit_profile;
@@ -17,7 +17,7 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_driver_profile);
         where_car_model_goes = findViewById(R.id.where_car_model_goes);
        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
