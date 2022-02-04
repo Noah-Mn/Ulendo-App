@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:background="#12000000"
-    tools:context=".Profile"
+    tools:context=".DriverProfile"
     android:id="@+id/driver_profile">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -53,8 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/profile_image"
-        app:cardCornerRadius="20dp"
-        >
+        app:cardCornerRadius="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -240,6 +239,7 @@
             </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

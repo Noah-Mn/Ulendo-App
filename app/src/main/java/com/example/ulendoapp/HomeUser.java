@@ -168,7 +168,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 //        progressDialog.show();
 
         db.collection("Users")
-                .whereEqualTo("Status", "customer")
+                .whereEqualTo("Status", "driver")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
