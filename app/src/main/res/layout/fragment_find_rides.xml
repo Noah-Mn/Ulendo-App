@@ -128,7 +128,7 @@
                 android:layout_marginTop="12dp"
                 />
             <com.google.android.material.textfield.TextInputEditText
-                android:textSize="15sp"
+                android:textSize="12sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -136,17 +136,17 @@
                 android:textColorHint="#72000000"/>
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_below="@+id/instruction_find_ride"
-            android:id="@+id/find_rides_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Find"
-            app:cornerRadius="20dp"
-            />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/find_rides_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/instruction_find_ride"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="12sp"
+        android:text="Find"
+        app:cornerRadius="20dp" />
 
 </RelativeLayout>
