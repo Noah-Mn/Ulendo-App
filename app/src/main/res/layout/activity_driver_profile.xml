@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:background="#12000000"
-    tools:context=".Profile"
+    tools:context=".DriverProfile"
     android:id="@+id/driver_profile">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -21,6 +21,7 @@
             android:background="@color/white">
 
             <ImageView
+                android:id="@+id/profile_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/back_24"
@@ -53,8 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/profile_image"
-        app:cardCornerRadius="20dp"
-        >
+        app:cardCornerRadius="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,6 +84,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/edit_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -217,7 +218,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/where_car_model_goes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="76dp"
                 android:background="#0C000000">
 
             </androidx.recyclerview.widget.RecyclerView>
@@ -231,22 +232,25 @@
                 android:elevation="20dp">
 
                 <ImageView
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_baseline_add_circle_outline_24" />
 
             </com.google.android.material.card.MaterialCardView>
 
         </RelativeLayout>
-        <ListView
+
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_marginTop="360dp"
             >
 
-        </ListView>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </com.google.android.material.card.MaterialCardView>
 

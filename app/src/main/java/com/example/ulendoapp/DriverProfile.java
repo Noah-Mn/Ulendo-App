@@ -22,20 +22,21 @@ public class DriverProfile extends AppCompatActivity {
        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
        where_car_model_goes.setLayoutManager(layoutManager);
+
        profile_back = findViewById(R.id.profile_back);
        edit_profile = findViewById(R.id.edit_profile);
 
        edit_profile.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               startActivity(new Intent(Profile.this, EditDriverProfile.class));
+               startActivity(new Intent(DriverProfile.this, EditDriverProfile.class));
            }
        });
 
        profile_back.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               startActivity(new Intent(Profile.this, HomeDriver.class));
+               startActivity(new Intent(DriverProfile.this, HomeDriver.class));
            }
        });
     }
