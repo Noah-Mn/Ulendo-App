@@ -164,8 +164,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
     public void searchDriverData() {
         Toast.makeText(HomeUser.this, newText, Toast.LENGTH_SHORT).show();
-//        progressDialog.setTitle("Searching...");
-//        progressDialog.show();
 
         db.collection("Users")
                 .whereEqualTo("Status", "driver")
@@ -236,7 +234,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
                 } else {
                     query = "enter q";
-                    Toast.makeText(HomeUser.this, "type some thing", Toast.LENGTH_LONG);
+                    Toast.makeText(HomeUser.this, "type some thing", Toast.LENGTH_LONG).show();
                 }
 
                 return false;
