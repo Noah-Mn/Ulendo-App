@@ -35,6 +35,9 @@ public class EditUserProfile extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         E_profile_back = findViewById(R.id.E_profile_back);
+        edit_full_name = findViewById(R.id.edit_full_name);
+        edit_phone_number = findViewById(R.id.edit_phone_number);
+        edit_email_address = findViewById(R.id.edit_email_address);
         currentUser = auth.getCurrentUser();
 
         E_profile_back.setOnClickListener(new View.OnClickListener() {
