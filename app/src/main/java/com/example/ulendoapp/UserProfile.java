@@ -38,6 +38,7 @@ public class UserProfile extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
+        getUserData();
 
         profile_back.setOnClickListener(new View.OnClickListener() {
             @Override
