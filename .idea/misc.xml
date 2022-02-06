@@ -32,6 +32,7 @@
         <entry key="app/src/main/res/layout/activity_driver_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_driver_signup.xml" value="0.14266304347826086" />
         <entry key="app/src/main/res/layout/activity_edit_driver_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_edit_user_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_final_signup.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.33" />
