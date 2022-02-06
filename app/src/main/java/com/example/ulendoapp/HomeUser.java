@@ -59,7 +59,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private List<UserModel> userModelList;
     private CustomAdapter adapter;
     private DrawerLayout drawerLayout;
-    private BottomNavigationView bottom_navigation;
 
     public HomeUser(){}
 
@@ -79,7 +78,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         progressDialog = new ProgressDialog(this);
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        bottom_navigation = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottom_navigation = findViewById(R.id.bottom_navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
@@ -104,6 +103,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         return super.onCreateOptionsMenu(menu);
     }
 
+// For the menu navigation <<<<<Right menu>>>>>
     private void navInit() {
         header_name = navigationView.getHeaderView(0).findViewById(R.id.header_name);
         header_email = navigationView.getHeaderView(0).findViewById(R.id.header_email);
@@ -139,6 +139,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
     }
+
+//    for the content overflow on tool bar   <<<<<>>>>>>
     public void setMenu(){
         toolbar.inflateMenu(R.menu.menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -294,6 +296,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         }
     // <<<<<<<<<<<<<<<<<<<<<<<<<<<End>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+//    Bottom navigation <<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -308,7 +311,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                            break;
 
                        case R.id.profile:
-                           replaceFragments(new fragment_profile());
+                           startActivity(new Intent(HomeUser.this, UserProfile.class));
                            break;
                    }
                     return true;

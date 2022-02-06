@@ -35,4 +35,7 @@
     <string name="driver_license">Driver License</string>
     <string name="profile_pic">profile_pic</string>
     <string name="back_button">back_button</string>
+    <string name="search">Search</string>
+    <string name="log_out">Log Out</string>
+    <string name="help">Help</string>
 </resources>

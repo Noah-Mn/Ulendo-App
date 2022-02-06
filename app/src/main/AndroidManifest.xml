@@ -25,6 +25,9 @@
             android:name=".EditDriverProfile"
             android:exported="false" />
         <activity
+            android:name=".UserProfile"
+            android:exported="false" />
+        <activity
             android:name=".HomeDriver"
             android:exported="false" />
         <activity
