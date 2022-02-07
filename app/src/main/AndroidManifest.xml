@@ -19,6 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UlendoApp">
         <activity
+            android:name=".MyRidesUser"
+            android:exported="false" />
+        <activity
+            android:name=".MyRides"
+            android:exported="false" />
+        <activity
             android:name=".DriverProfile"
             android:exported="false" />
         <activity

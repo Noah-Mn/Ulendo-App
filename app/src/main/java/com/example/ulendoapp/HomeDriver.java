@@ -86,11 +86,6 @@ public class HomeDriver extends AppCompatActivity {
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 switch (item.getItemId()) {
-                    case R.id.dashboard:
-
-                        replaceFragments(new My_Rides());
-                        break;
-
                     case R.id.driver_chats:
 
                         replaceFragments(new My_Favorites());

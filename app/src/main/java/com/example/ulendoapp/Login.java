@@ -69,8 +69,8 @@ public class Login extends AppCompatActivity {
         materialCreateAcc.setOnClickListener(v -> startActivity(new Intent(Login.this, UserSignup.class)));
 
         loginBtn.setOnClickListener(v -> {
-//            Login.this.startActivity(new Intent(Login.this, HomeUser.class));
-            performLogin();
+            Login.this.startActivity(new Intent(Login.this, HomeUser.class));
+//            performLogin();
 
         });
     }

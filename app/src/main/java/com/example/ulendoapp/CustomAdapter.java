@@ -1,19 +1,20 @@
 package com.example.ulendoapp;
 
-import android.app.ListActivity;
-import android.content.Context;
+import static com.example.ulendoapp.HomeUser.newText;
+
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements View.OnClickListener{
@@ -21,6 +22,8 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements V
 //    Context context;
     private List<UserModel> driverModelList;
     private OnDriverClickListener onDriverClickListener;
+    private int startPos, startPos2, endPos, endPos2;
+
 
     public CustomAdapter(List<UserModel> driverModelList, OnDriverClickListener onDriverClickListener) {
         this.driverModelList = driverModelList;
@@ -39,10 +42,35 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements V
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.firstName.setText(driverModelList.get(position).getFirstName());
-        holder.lastName.setText(driverModelList.get(position).getLastName());
+        String fName = driverModelList.get(position).getFirstName();
+        String lName = driverModelList.get(position).getLastName();
+
+        SpannableStringBuilder firstName = new SpannableStringBuilder(fName);
+        SpannableStringBuilder lastName = new SpannableStringBuilder(lName);
+
+        ColorStateList colorStateList = new ColorStateList(new int[][]{new int[]{} }, new int[]{Color.BLUE});
+        TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(null, Typeface.BOLD, -1, colorStateList, null);
+
+        if(fName.toLowerCase().contains(newText.toLowerCase())) {
+            startPos = fName.toLowerCase().indexOf(newText.toLowerCase());
+            endPos = startPos + newText.length();
+            firstName.setSpan(textAppearanceSpan, startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        }
+        if (lName.toLowerCase().contains(newText.toLowerCase())) {
+            startPos = lName.toLowerCase().indexOf(newText.toLowerCase());
+            endPos = startPos + newText.length();
+            lastName.setSpan(textAppearanceSpan, startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        holder.firstName.setText(firstName);
+        holder.lastName.setText(lastName);
         holder.phoneNumber.setText(driverModelList.get(position).getPhoneNumber());
         holder.status.setText(driverModelList.get(position).getStatus());
+    }
+
+    private void spanSearchText(SpannableStringBuilder firstName, SpannableStringBuilder lastName) {
+
     }
 
     public interface OnDriverClickListener {
