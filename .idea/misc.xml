@@ -41,6 +41,7 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_menu.xml" value="0.1671875" />
+        <entry key="app/src/main/res/layout/activity_my_rides_user.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/activity_navigation_drawer.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.22314814814814815" />
@@ -61,7 +62,9 @@
         <entry key="app/src/main/res/layout/model_layout.xml" value="0.15806159420289856" />
         <entry key="app/src/main/res/layout/navigation_header.xml" value="0.33" />
         <entry key="app/src/main/res/layout/rides_layout.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/driver_navigation_drawer.xml" value="0.33" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/my_ride_menu.xml" value="0.33" />
         <entry key="app/src/main/res/menu/navigation_drawer.xml" value="0.25" />
       </map>
     </option>
