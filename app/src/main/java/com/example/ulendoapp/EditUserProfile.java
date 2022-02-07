@@ -43,7 +43,7 @@ public class EditUserProfile extends AppCompatActivity {
         E_profile_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EditUserProfile.this, HomeUser.class));
+                startActivity(new Intent(EditUserProfile.this, UserProfile.class));
             }
         });
         getMoreUserData();

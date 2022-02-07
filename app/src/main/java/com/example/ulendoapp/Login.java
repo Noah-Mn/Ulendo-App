@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity {
         materialCreateAcc.setOnClickListener(v -> startActivity(new Intent(Login.this, UserSignup.class)));
 
         loginBtn.setOnClickListener(v -> {
-            Login.this.startActivity(new Intent(Login.this, HomeUser.class));
+
             performLogin();
 
         });
@@ -99,7 +99,6 @@ public class Login extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         progressDialog.dismiss();
                         getStatus();
-
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         Login.this.updateUI(user);
 
@@ -138,17 +137,22 @@ public class Login extends AppCompatActivity {
 
     public void loginState(String userStatus){
 
-        if(userStatus.equals("customer")){
+        if(userStatus.equals("driver")){
+            Login.this.startActivity(intent = new Intent(Login.this, HomeDriver.class));
+            intent.putExtra("email", logEmailAddress);
+            Toast.makeText(Login.this.getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
+
+        } else if (userStatus.equals("customer")){
             Login.this.startActivity(intent = new Intent(Login.this, HomeUser.class));
             intent.putExtra("email", logEmailAddress);
+            Toast.makeText(Login.this.getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
+        }else
+            Toast.makeText(getApplicationContext(), "Account does not exit!", Toast.LENGTH_SHORT).show();
 
-        } else{
-            Login.this.startActivity(new Intent(Login.this, HomeDriver.class));
-        }
-        Toast.makeText(Login.this.getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
     }
 
         private void updateUI(FirebaseUser user) {
+
     }
     
 }

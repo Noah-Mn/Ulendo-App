@@ -10,18 +10,31 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class HomeDriver extends AppCompatActivity {
     BottomNavigationView driver_bottom_nav;
     NavigationView navigation_view_driver;
     DrawerLayout drawerLayout;
-    private MaterialTextView  header_name, header_email;
+    private MaterialTextView  header_name, header_email, firstName;
+    FirebaseAuth auth;
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+    String fName, lastName, email;
+    private final String TAG = "Home Driver";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +45,13 @@ public class HomeDriver extends AppCompatActivity {
         driver_bottom_nav.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         navigation_view_driver = findViewById(R.id.navigation_view_driver);
         drawerLayout = findViewById(R.id.driver_drawer_Layout);
+        firstName = findViewById(R.id.firstName);
+        header_name = findViewById(R.id.header_name);
+        header_email = findViewById(R.id.header_email);
+
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
 
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +61,8 @@ public class HomeDriver extends AppCompatActivity {
         });
 
         navInit();
+        getUserData();
+        getUserName();
 
     }
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
@@ -115,6 +137,68 @@ public class HomeDriver extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void getUserData(){
+        db.collection("Drivers")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                fName = document.getString("First Name");
+                                lastName = document.getString("Surname");
+                                email = document.getString("Email Address");
+                                firstName.setText(fName);
+                                header_name.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
+                                header_email.setText(email);
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+    public void getUserName(){
+        db.collection("Users")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                fName = document.getString("First Name");
+                                lastName = document.getString("Surname");
+                                firstName.setText(fName);
+                                header_name.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    public String getEmail(){
+        String emailAddress;
+        emailAddress = currentUser.getEmail();
+        return emailAddress;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
     }
 }
 

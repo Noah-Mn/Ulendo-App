@@ -42,7 +42,7 @@ public class EditDriverProfile extends AppCompatActivity {
         E_profile_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EditDriverProfile.this, HomeDriver.class));
+                startActivity(new Intent(EditDriverProfile.this, DriverProfile.class));
             }
         });
         getUserData();
