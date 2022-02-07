@@ -33,19 +33,13 @@ public class CreateAccount extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
 
     private String firstName, lastName, phoneNumber, gender;
-    private String email, password, confirmPassword;
-    private Button confirmBtn;
+    private String email;
+    private String password;
     private TextInputEditText textEmail, textPassword, textConfirmPassword;
-    private TextInputLayout materialEmail, materialPassword, materialConfirmPassword;    
+    private TextInputLayout materialEmail;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
     boolean deny;
-    private String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
-            + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-            + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
-            + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +58,7 @@ public class CreateAccount extends AppCompatActivity {
         phoneNumber = intent.getStringExtra("phoneNumber");
         gender = intent.getStringExtra("gender");
 
-        confirmBtn = findViewById(R.id.confirmBtn);
+        Button confirmBtn = findViewById(R.id.confirmBtn);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,13 +70,19 @@ public class CreateAccount extends AppCompatActivity {
     private boolean validateFinalForm(){
         boolean valid = false;
         materialEmail = findViewById(R.id.materialEmailAddress);
-        materialPassword = findViewById(R.id.materialPassword);
-        materialConfirmPassword = findViewById(R.id.materialConfirmPassword);
+        TextInputLayout materialPassword = findViewById(R.id.materialPassword);
+        TextInputLayout materialConfirmPassword = findViewById(R.id.materialConfirmPassword);
         email = textEmail.getText().toString();
         password = textPassword.getText().toString();
-        confirmPassword = textConfirmPassword.getText().toString();
+        String confirmPassword = textConfirmPassword.getText().toString();
 
         try {
+            String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
+                    + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                    + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                    + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                    + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
+                    + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
             if (email.isEmpty()) {
                 materialEmail.setError("Please enter email address");
             } else if(!email.matches(emailPattern)) {

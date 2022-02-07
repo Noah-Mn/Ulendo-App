@@ -4,16 +4,16 @@
 
     <item
         android:id="@+id/help"
-        android:title="Help"
+        android:title="@string/help"
         app:showAsAction="never" />
     <item
         android:id="@+id/log_out"
-        android:title="Log Out"
+        android:title="@string/log_out"
         app:showAsAction="never" />
     <item
         android:id="@+id/searchItem"
         android:icon="@drawable/ic_search_black_24dp"
-        android:title="Search"
+        android:title="@string/search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"
 

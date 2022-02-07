@@ -8,54 +8,48 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class UserProfile extends AppCompatActivity {
-    ImageView profile_back, user_edit_profile;
-    MaterialTextView user_name, user_number;
+public class EditUserProfile extends AppCompatActivity {
+    private final String TAG = "Edit User Profile";
+    TextInputEditText edit_full_name, edit_email_address, edit_phone_number;
     FirebaseFirestore db;
     FirebaseAuth auth;
-    FirebaseUser firebaseUser;
-    private final String TAG = "User Profile";
-    String firstName, lastName, number;
+    FirebaseUser currentUser;
+    String firstName, lastName, phoneNumber, email;
+    ImageView E_profile_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
-        profile_back = findViewById(R.id.profile_back);
-        user_name = findViewById(R.id.user_name);
-        user_number = findViewById(R.id.user_number);
+        setContentView(R.layout.activity_edit_user_profile);
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        firebaseUser = auth.getCurrentUser();
-        user_edit_profile = findViewById(R.id.user_edit_profile);
-        getUserData();
+        E_profile_back = findViewById(R.id.E_profile_back);
+        edit_full_name = findViewById(R.id.edit_full_name);
+        edit_phone_number = findViewById(R.id.edit_phone_number);
+        edit_email_address = findViewById(R.id.edit_email_address);
+        currentUser = auth.getCurrentUser();
 
-        profile_back.setOnClickListener(new View.OnClickListener() {
+        E_profile_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(UserProfile.this, HomeUser.class));
+                startActivity(new Intent(EditUserProfile.this, HomeUser.class));
             }
         });
-
-        user_edit_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(UserProfile.this, EditUserProfile.class));
-            }
-        });
+        getMoreUserData();
     }
-    public void getUserData(){
+
+    public void getMoreUserData(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
                 .get()
@@ -67,11 +61,11 @@ public class UserProfile extends AppCompatActivity {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 firstName = document.getString("First Name");
                                 lastName = document.getString("Surname");
-                                number = document.getString("Phone Number");
-
-                                user_name.setText(new StringBuilder().append(firstName).append(" ").append(lastName).toString());
-                                user_number.setText(number);
-
+                                phoneNumber = document.getString("Phone Number");
+                                edit_full_name.setText(new StringBuilder().append(firstName).append(" ").append(lastName).toString());
+                                edit_phone_number.setText(phoneNumber);
+                                email = document.getString("Email Address");
+                                edit_email_address.setText(email, TextView.BufferType.EDITABLE);
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -79,10 +73,10 @@ public class UserProfile extends AppCompatActivity {
                     }
                 });
     }
+
     public String getEmail(){
         String emailAddress;
-        emailAddress = firebaseUser.getEmail();
+        emailAddress = currentUser.getEmail();
         return emailAddress;
     }
-
 }

@@ -18,7 +18,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class EditDriverProfile extends AppCompatActivity {
     private FirebaseFirestore db;
-    private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private final String TAG = "EditDriverProfile";
     private String firstName, lastName, email, phoneNumber;
@@ -30,7 +29,7 @@ public class EditDriverProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_driver_profile);
         edit_full_name = findViewById(R.id.edit_full_name);
         edit_email_address = findViewById(R.id.edit_email_address);
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         edit_phone_number = findViewById(R.id.edit_phone_number);
         db = FirebaseFirestore.getInstance();
