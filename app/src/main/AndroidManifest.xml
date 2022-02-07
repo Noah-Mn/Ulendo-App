@@ -21,8 +21,17 @@
         <activity
             android:name=".DriverProfile"
             android:exported="false" />
+
+        <activity android:name=".UserProfile"
+            android:exported="false"/>
         <activity
             android:name=".EditDriverProfile"
+            android:exported="false" />
+        <activity
+            android:name=".EditUserProfile"
+            android:exported="false" />
+        <activity
+            android:name=".MyRidesUser"
             android:exported="false" />
         <activity
             android:name=".HomeDriver"

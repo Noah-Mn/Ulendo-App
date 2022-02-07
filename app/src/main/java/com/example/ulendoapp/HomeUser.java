@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -75,6 +76,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     static String lName;
     private SearchView searchView;
     private MenuItem menuItem;
+    ImageView imageMenu;
 
     public HomeUser(){}
 
@@ -98,18 +100,19 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout = findViewById(R.id.drawer_layout);
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
+        imageMenu = findViewById(R.id.imageMenu);
 
         getUserData();
         navInit();
         setMenu();
-        searchDriver();
-//
-//        findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                drawerLayout.openDrawer(GravityCompat.START);
-//            }
-//        });
+
+
+       imageMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
     }
@@ -125,7 +128,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private void navInit() {
         header_name = navigationView.getHeaderView(0).findViewById(R.id.header_name);
         header_email = navigationView.getHeaderView(0).findViewById(R.id.header_email);
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -141,9 +143,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     case R.id.myFavoritesItem:
                         replaceFragments(new My_Favorites());
                         break;
-                    case R.id.notificationsItem:
-                        replaceFragments(new fragment_notifications());
-                        break;
+
                     case R.id.myPaymentsItem:
                         replaceFragments(new My_Payments());
                         break;
@@ -157,13 +157,14 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
     }
+
     public void setMenu(){
         toolbar.inflateMenu(R.menu.menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.searchItem) {
-
+                    searchDriver();
                     replaceFragments(new fragment_recyclerview());
 
                 }else if (item.getItemId()==R.id.help){
@@ -179,6 +180,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
         });
     }
+
     public void searchDriverData() {
         Toast.makeText(HomeUser.this, newText, Toast.LENGTH_SHORT).show();
 
@@ -209,15 +211,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void searchDriver(){
-        menuItem = toolbar.getMenu().findItem(R.id.searchItem);
-        searchView = (SearchView) menuItem.getActionView();
-        searchView.setIconifiedByDefault(false);
-        searchView.setIconified(false);
-        menuItem.expandActionView();
 
-        searchDriverData();
         List<UserModel> searchList = new ArrayList<>();
-
         MenuItem menuItem = toolbar.getMenu().findItem(R.id.searchItem);
         searchView = (SearchView) menuItem.getActionView();
         menuItem.expandActionView();
@@ -302,8 +297,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         return emailAddress;
     }
 
-
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -335,7 +328,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                            break;
 
                        case R.id.profile:
-                           replaceFragments(new fragment_profile());
+                           startActivity(new Intent(HomeUser.this, UserProfile.class));
                            break;
                    }
                     return true;

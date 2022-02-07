@@ -70,7 +70,7 @@ public class Login extends AppCompatActivity {
 
         loginBtn.setOnClickListener(v -> {
             Login.this.startActivity(new Intent(Login.this, HomeUser.class));
-//            performLogin();
+            performLogin();
 
         });
     }
@@ -137,9 +137,8 @@ public class Login extends AppCompatActivity {
     }
 
     public void loginState(String userStatus){
-        String status = userStatus;
 
-        if(status.equals("customer")){
+        if(userStatus.equals("customer")){
             Login.this.startActivity(intent = new Intent(Login.this, HomeUser.class));
             intent.putExtra("email", logEmailAddress);
 

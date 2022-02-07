@@ -3,8 +3,11 @@ package com.example.ulendoapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,7 +24,8 @@ public class EditDriverProfile extends AppCompatActivity {
     private FirebaseUser currentUser;
     private final String TAG = "EditDriverProfile";
     private String firstName, lastName, email, phoneNumber;
-    TextInputEditText edit_full_name, edit_phone_number, edit_email_address;
+    private TextInputEditText edit_full_name, edit_phone_number, edit_email_address;
+    private ImageView E_profile_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,14 @@ public class EditDriverProfile extends AppCompatActivity {
         currentUser = auth.getCurrentUser();
         edit_phone_number = findViewById(R.id.edit_phone_number);
         db = FirebaseFirestore.getInstance();
+        E_profile_back = findViewById(R.id.E_profile_back);
+
+        E_profile_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EditDriverProfile.this, HomeDriver.class));
+            }
+        });
         getUserData();
         getMoreUserData();
     }
