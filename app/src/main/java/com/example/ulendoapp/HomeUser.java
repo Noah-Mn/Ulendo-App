@@ -1,8 +1,11 @@
 package com.example.ulendoapp;
 
+import static androidx.core.view.MenuItemCompat.getActionView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -17,6 +20,9 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,8 +48,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener{
+public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener {
 
     private MaterialTextView name, header_name, header_email;
     private String firstName, lastName, email;
@@ -52,13 +60,21 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private FirebaseUser currentUser;
     private MaterialToolbar toolbar;
     ProgressDialog progressDialog;
-    private String TAG, newText;
+    private String TAG;
+    public static String newText;
     private NavigationView navigationView;
 
     private RecyclerView recyclerView;
     private List<UserModel> userModelList;
     private CustomAdapter adapter;
     private DrawerLayout drawerLayout;
+    private BottomNavigationView bottom_navigation;
+    private ViewHolder viewHolder;
+    static String fullName;
+    static String fName;
+    static String lName;
+    private SearchView searchView;
+    private MenuItem menuItem;
 
     public HomeUser(){}
 
@@ -78,7 +94,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         progressDialog = new ProgressDialog(this);
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        BottomNavigationView bottom_navigation = findViewById(R.id.bottom_navigation);
+        bottom_navigation = findViewById(R.id.bottom_navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
@@ -86,24 +102,26 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         getUserData();
         navInit();
         setMenu();
-
-        findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+        searchDriver();
+//
+//        findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                drawerLayout.openDrawer(GravityCompat.START);
+//            }
+//        });
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
-// For the menu navigation <<<<<Right menu>>>>>
     private void navInit() {
         header_name = navigationView.getHeaderView(0).findViewById(R.id.header_name);
         header_email = navigationView.getHeaderView(0).findViewById(R.id.header_email);
@@ -118,7 +136,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
                 switch (item.getItemId()) {
                     case R.id.myRidesItem:
-                        replaceFragments(new My_Rides());
+                        HomeUser.this.startActivity(new Intent(HomeUser.this, MyRidesUser.class));
                         break;
                     case R.id.myFavoritesItem:
                         replaceFragments(new My_Favorites());
@@ -139,15 +157,13 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
     }
-
-//    for the content overflow on tool bar   <<<<<>>>>>>
     public void setMenu(){
         toolbar.inflateMenu(R.menu.menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.searchItem) {
-                    searchDriver();
+
                     replaceFragments(new fragment_recyclerview());
 
                 }else if (item.getItemId()==R.id.help){
@@ -163,7 +179,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
         });
     }
-
     public void searchDriverData() {
         Toast.makeText(HomeUser.this, newText, Toast.LENGTH_SHORT).show();
 
@@ -194,11 +209,19 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void searchDriver(){
+        menuItem = toolbar.getMenu().findItem(R.id.searchItem);
+        searchView = (SearchView) menuItem.getActionView();
+        searchView.setIconifiedByDefault(false);
+        searchView.setIconified(false);
+        menuItem.expandActionView();
+
         searchDriverData();
         List<UserModel> searchList = new ArrayList<>();
 
         MenuItem menuItem = toolbar.getMenu().findItem(R.id.searchItem);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView = (SearchView) menuItem.getActionView();
+        menuItem.expandActionView();
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String newText) {
@@ -208,43 +231,45 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
             @Override
             public boolean onQueryTextChange(String query) {
+                newText = query;
                 searchList.clear();
+                searchView.setQueryHint("Search driver");
                 Log.i("well", " this worked");
                 if (!query.isEmpty()) {
                     for(int i = 0; i < userModelList.size(); i++){
-                        String firstName = userModelList.get(i).getFirstName();
-                        String lastName = userModelList.get(i).getLastName();
+                        fName = userModelList.get(i).getFirstName();
+                        lName = userModelList.get(i).getLastName();
                         String userStatus = userModelList.get(i).getStatus();
                         String phoneNumber = userModelList.get(i).getPhoneNumber();
-                        String fullName = firstName + " " + lastName;
+                        fullName = fName + " " + lName;
 
-                        if (firstName.toLowerCase().contains(query.toLowerCase()) || lastName.toLowerCase().contains(query.toLowerCase())){
-                            UserModel model = new UserModel(userStatus, firstName, lastName, phoneNumber);
+                        if (fName.toLowerCase().contains(query.toLowerCase()) || lName.toLowerCase().contains(query.toLowerCase())){
+                            UserModel model = new UserModel(userStatus, fName, lName, phoneNumber);
                             searchList.add(model);
                             Toast.makeText(HomeUser.this, "size of search list is " + searchList.size(), Toast.LENGTH_SHORT).show();
 
                         } else if (fullName.toLowerCase().contains(query.toLowerCase())){
-                            UserModel model = new UserModel(userStatus, firstName, lastName, phoneNumber);
+                            UserModel model = new UserModel(userStatus, fName, lName, phoneNumber);
                             searchList.add(model);
                         }
 
                     }
-                    recyclerView = findViewById(R.id.searchRecyclerView);
-                    adapter = new CustomAdapter(searchList, HomeUser.this);
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(HomeUser.this));
 
-                } else {
-                    query = "enter q";
-                    Toast.makeText(HomeUser.this, "type some thing", Toast.LENGTH_LONG).show();
+                } else if(query.isEmpty()){
+                    searchList.clear();
                 }
 
-                return false;
-            }
+                recyclerView = findViewById(R.id.searchRecyclerView);
+                adapter = new CustomAdapter(searchList, HomeUser.this);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(HomeUser.this));
+
+                return true;
+                }
+
         });
 
     }
-
 
     public void getUserData(){
         db.collection("Users")
@@ -296,7 +321,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         }
     // <<<<<<<<<<<<<<<<<<<<<<<<<<<End>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-//    Bottom navigation <<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -311,7 +335,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                            break;
 
                        case R.id.profile:
-                           startActivity(new Intent(HomeUser.this, UserProfile.class));
+                           replaceFragments(new fragment_profile());
                            break;
                    }
                     return true;
