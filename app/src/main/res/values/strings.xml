@@ -37,4 +37,8 @@
     <string name="help">Help</string>
     <string name="profile">Profile</string>
     <string name="physical_address">Physical Address</string>
+    <string name="ride_history">Ride History</string>
+    <string name="add_ride">Add ride</string>
+    <string name="current_rides">Current Rides</string>
+    <string name="my_rides">My Rides</string>
 </resources>
