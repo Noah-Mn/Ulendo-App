@@ -69,12 +69,9 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements V
         holder.status.setText(driverModelList.get(position).getStatus());
     }
 
-    private void spanSearchText(SpannableStringBuilder firstName, SpannableStringBuilder lastName) {
-
-    }
-
     public interface OnDriverClickListener {
         void onDriverClick(int position);
+
     }
 
     @Override

@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:paddingTop="5dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="5dp">
-
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="150dp"
     android:backgroundTint="#3CFFFFFF"
     android:layout_marginTop="5dp"
     app:cardCornerRadius="10dp"
     android:layout_marginStart="2dp"
     android:layout_marginEnd="2dp"
-    android:layout_marginBottom="3dp">
+    android:layout_marginBottom="3dp"
+    android:id="@+id/myRideUserCardView">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="125dp"
+        android:layout_height="145dp"
         android:orientation="horizontal"
         android:padding="2dp">
 
@@ -27,95 +26,107 @@
             android:layout_height="match_parent"
             android:layout_gravity="right">
 
-            <ImageButton
-                android:id="@+id/ib_popup_menu"
-                android:layout_width="24dp"
-                android:layout_height="20dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="right"
-                android:layout_marginEnd="10dp"
-                android:background="@null"
-                android:src="@drawable/ic_baseline_more_horiz_24"
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:padding="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.032">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="20dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/ib_popup_menu"
-                android:text="TextView"
-                app:layout_constraintEnd_toStartOf="@+id/ib_popup_menu"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="0dp"
-                android:layout_height="20dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
+                <LinearLayout
+                    android:layout_width="340dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="left"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/originDetails"
+                        android:layout_width="300dp"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="20dp"
+                        android:text="Origin details" />
+
+                    <TextView
+                        android:id="@+id/destinationDetails"
+                        android:layout_width="300dp"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="20dp"
+                        android:text="destination details" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/userCardViewMenuBtn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="10dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_baseline_more_horiz_24"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerInsetEnd="5dp"
+                app:dividerInsetStart="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
-                app:layout_constraintVertical_bias="0.065" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+                tools:ignore="MissingConstraints" />
 
             <LinearLayout
                 android:id="@+id/linearLayout3"
-                android:layout_width="270dp"
-                android:layout_height="76dp"
-                android:layout_marginStart="10dp"
+                android:layout_width="268dp"
+                android:layout_height="81dp"
+                android:layout_marginStart="2dp"
                 android:layout_marginEnd="120dp"
                 android:orientation="horizontal"
-                android:padding="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:layout_constraintVertical_bias="0.2">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0">
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/userRideRecyclerView"
-                    android:layout_width="228dp"
-                    android:layout_height="76dp">
+                    android:layout_width="211dp"
+                    android:layout_height="87dp"
+                    android:padding="5dp"
+                    android:paddingBottom="5dp">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
-
                 <de.hdodenhof.circleimageview.CircleImageView
-                    app:civ_border_width="1dp"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/chatIcon"
+                    android:id="@+id/userChatIcon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_centerInParent="true"
                     android:layout_gravity="top"
-                    android:paddingTop="10dp"
-                    android:src="@drawable/ic_baseline_chat_bubble_outline_24"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_baseline_chat_bubble_outline_24"
+                    app:civ_border_width="1dp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="131dp"
-                android:layout_height="67dp"
+                android:layout_width="127dp"
+                android:layout_height="82dp"
+                android:layout_gravity="bottom"
                 android:orientation="vertical"
                 android:paddingEnd="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -126,29 +137,33 @@
                 app:layout_constraintVertical_bias="0.978">
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/dateNtime"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_gravity="bottom"
+                    android:gravity="right"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:text="date and time" />
+
+                <TextView
+                    android:id="@+id/driverInitials"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:paddingTop="5dp"
                     android:paddingEnd="10dp"
                     android:text="TextView"
                     android:textAlignment="textEnd" />
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/tripState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
-                    android:textAlignment="textEnd"
-                    android:paddingEnd="10dp"/>
-
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"
-                    android:textAlignment="textEnd"
+                    android:paddingTop="10dp"
                     android:paddingEnd="15dp"
-                    android:paddingTop="10dp" />
+                    android:text="TextView"
+                    android:textAlignment="textEnd"
+                    android:backgroundTint="@color/browser_actions_bg_grey"/>
             </LinearLayout>
 
 
@@ -156,4 +171,3 @@
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
-</LinearLayout>
