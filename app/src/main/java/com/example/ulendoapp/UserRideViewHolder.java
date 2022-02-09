@@ -14,6 +14,7 @@ public class UserRideViewHolder  extends RecyclerView.ViewHolder implements View
 
     public UserRideViewHolder(View itemView, UserRideAdapter.OnUserClickListener onUserClickListener) {
         super(itemView);
+
     }
 
     @Override

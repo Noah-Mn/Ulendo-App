@@ -5,13 +5,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> implements View.OnClickListener{
     private List<UserModel> onlineUserModelList;
     private OnUserOnlineClickListener onUserOnlineClickListener;
+    RecyclerView rc;
 
     public UserAdapter(List<UserModel> onlineUserModelList, UserAdapter.OnUserOnlineClickListener onUserOnlineClickListener) {
         this.onlineUserModelList = onlineUserModelList;

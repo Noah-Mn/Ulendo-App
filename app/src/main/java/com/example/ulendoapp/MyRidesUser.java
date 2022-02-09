@@ -15,10 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.OnUserClickListener, UserAdapter.OnUserOnlineClickListener {
-    private RecyclerView recyclerViewCard, recyclerViewUser;
+    private RecyclerView recyclerViewCard;
     private List<UserModel> userList;
-    private CardView onlineCard;
-    Context context;
+    private  CardView cardView;
 
     private UserModel user;
 
@@ -26,24 +25,31 @@ public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_rides_user);
-        onlineCard = (CardView) findViewById(R.id.myRideUserCardView);
-        context = this;
 
+        cardView = findViewById(R.id.myRideUserCardView);
         recyclerViewCard = findViewById(R.id.userRideRecyclerView);
         userList = new ArrayList<>();
+        userRide();
 
-        if(userRide()){
-            Toast.makeText(MyRidesUser.this, "good", Toast.LENGTH_LONG).show();
-//            UserAdapter adapter = new UserAdapter(userList, MyRidesUser.this);
-//            recyclerViewUser.setAdapter(adapter);
-//            recyclerViewUser.setLayoutManager(new LinearLayoutManager(MyRidesUser.this));
-        }
+//        if(userRide()){
+//            Toast.makeText(MyRidesUser.this, "good", Toast.LENGTH_LONG).show();
+//            onlineUser();
+//        }
     }
-
     public void onlineUser(){
-        user = new UserModel("passenger", "lonjezo", "banthapo", "088889" );
+        RecyclerView recyclerViewUser;
+        recyclerViewUser = cardView.findViewById(R.id.userOnlineRideRecyclerView);
+        List<UserModel> userList = new ArrayList<>();
+        UserModel user = new UserModel("passenger", "lonjezo", "banthapo", "088889" );
         userList.add(user);
+
+        UserAdapter adapter = new UserAdapter(userList, this);
+
+        recyclerViewUser.setAdapter(adapter);
+        recyclerViewUser.setLayoutManager(new LinearLayoutManager(MyRidesUser.this));
     }
+
+
 
     public boolean userRide(){
         user = new UserModel("passenger", "lonjezo", "banthapo", "088889" );

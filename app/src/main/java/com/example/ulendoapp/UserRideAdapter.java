@@ -5,8 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserRideAdapter extends RecyclerView.Adapter<UserRideViewHolder> implements View.OnClickListener{
@@ -32,6 +35,7 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideViewHolder> im
         UserRideViewHolder userHolder = new UserRideViewHolder(userView, onUserClickListener);
         return userHolder;
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull UserRideViewHolder holder, int position) {
