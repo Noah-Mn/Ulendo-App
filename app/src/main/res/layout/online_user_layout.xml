@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:annroid="http://schemas.android.com/tools"
     android:layout_height="70dp"
-    android:layout_width="60dp">
+    android:layout_width="60dp"
+    android:id="@+id/userCard">
 
     <LinearLayout
         android:layout_width="60dp"

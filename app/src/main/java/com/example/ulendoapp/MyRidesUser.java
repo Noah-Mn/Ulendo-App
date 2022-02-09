@@ -1,33 +1,62 @@
 package com.example.ulendoapp;
 
+import androidx.annotation.ContentView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.text.Layout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.OnUserClickListener {
-    private RecyclerView recyclerView;
+public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.OnUserClickListener, UserAdapter.OnUserOnlineClickListener {
+    private RecyclerView recyclerViewCard, recyclerViewUser;
     private List<UserModel> userList;
+    private CardView onlineCard;
+    Context context;
+
+    private UserModel user;
+
+    public MyRidesUser(Context context) {
+        this.context = context;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_rides_user);
+        onlineCard = (CardView) findViewById(R.id.myRideUserCardView);
+        context = this;
+
+        recyclerViewCard = findViewById(R.id.userRideRecyclerView);
+        recyclerViewUser = findViewById(R.id.onlineRideRecyclerView);
         userList = new ArrayList<>();
-        UserModel user = new UserModel("passenger", "lonjezo", "banthapo", "088889" );
+
+        if(userRide()){
+            UserAdapter adapter = new UserAdapter(userList, MyRidesUser.this);
+            recyclerViewUser.setAdapter(adapter);
+            recyclerViewUser.setLayoutManager(new LinearLayoutManager(MyRidesUser.this));
+        }
+    }
+
+    public void onlineUser(){
+        user = new UserModel("passenger", "lonjezo", "banthapo", "088889" );
+        userList.add(user);
+    }
+
+    public boolean userRide(){
+        user = new UserModel("passenger", "lonjezo", "banthapo", "088889" );
         userList.add(user);
 
-        recyclerView = findViewById(R.id.userRideRecyclerView);
         UserRideAdapter adapter = new UserRideAdapter(userList, MyRidesUser.this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MyRidesUser.this));
+        recyclerViewCard.setAdapter(adapter);
+        recyclerViewCard.setLayoutManager(new LinearLayoutManager(MyRidesUser.this));
 
-
+        return true;
     }
 
     @Override
@@ -35,4 +64,8 @@ public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.On
 
     }
 
+    @Override
+    public void onUserOnlineClick(int adapterPosition) {
+
+    }
 }
