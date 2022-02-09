@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Layout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,6 @@ public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.On
 
     private UserModel user;
 
-    public MyRidesUser(Context context) {
-        this.context = context;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +30,13 @@ public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.On
         context = this;
 
         recyclerViewCard = findViewById(R.id.userRideRecyclerView);
-        recyclerViewUser = findViewById(R.id.onlineRideRecyclerView);
         userList = new ArrayList<>();
 
         if(userRide()){
-            UserAdapter adapter = new UserAdapter(userList, MyRidesUser.this);
-            recyclerViewUser.setAdapter(adapter);
-            recyclerViewUser.setLayoutManager(new LinearLayoutManager(MyRidesUser.this));
+            Toast.makeText(MyRidesUser.this, "good", Toast.LENGTH_LONG).show();
+//            UserAdapter adapter = new UserAdapter(userList, MyRidesUser.this);
+//            recyclerViewUser.setAdapter(adapter);
+//            recyclerViewUser.setLayoutManager(new LinearLayoutManager(MyRidesUser.this));
         }
     }
 
