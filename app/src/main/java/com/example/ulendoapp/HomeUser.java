@@ -321,7 +321,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                            break;
 
                        case R.id.profile:
-                           replaceFragments(new fragment_profile());
+                          startActivity(new Intent(HomeUser.this, UserProfile.class));
                            break;
                    }
                     return true;

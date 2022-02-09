@@ -149,10 +149,7 @@ public class HomeDriver extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                fName = document.getString("First Name");
-                                lastName = document.getString("Surname");
                                 email = document.getString("Email Address");
-                                firstName.setText(fName);
                                 header_name.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
                                 header_email.setText(email);
 
