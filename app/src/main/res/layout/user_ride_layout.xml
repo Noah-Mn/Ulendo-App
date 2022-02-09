@@ -67,20 +67,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout4"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             app:dividerInsetEnd="5dp"
             app:dividerInsetStart="5dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@+id/divider"
-                android:id="@+id/userRideRecyclerView"
-                android:layout_width="211dp"
-                android:layout_height="87dp"
-                android:padding="5dp"
-                android:paddingBottom="5dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@+id/divider"
+            android:id="@+id/userRideRecyclerView"
+            android:layout_width="211dp"
+            android:layout_height="87dp"
+            android:padding="5dp"
+            android:paddingBottom="5dp">
 
-            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userChatIcon"
@@ -90,46 +90,46 @@
             android:layout_gravity="top"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/userRideRecyclerView"
-            android:src="@drawable/ic_baseline_chat_bubble_outline_24"
+            android:src="@drawable/chat_2_icon"
             app:civ_border_width="1dp" />
 
-            <LinearLayout
-                android:layout_width="127dp"
-                android:layout_height="82dp"
+        <LinearLayout
+            android:layout_width="127dp"
+            android:layout_height="82dp"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="2dp"
+            android:layout_below="@+id/linearLayout4">
+
+            <TextView
+                android:id="@+id/dateNtime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="2dp"
-                android:layout_below="@+id/linearLayout4">
+                android:gravity="right"
+                android:layout_marginEnd="10dp"
+                android:text="date and time" />
 
-                <TextView
-                    android:id="@+id/dateNtime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="right"
-                    android:layout_marginEnd="10dp"
-                    android:text="date and time" />
+            <TextView
+                android:id="@+id/driverInitials"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:text="TextView"
+                android:textAlignment="textEnd" />
 
-                <TextView
-                    android:id="@+id/driverInitials"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="TextView"
-                    android:textAlignment="textEnd" />
-
-                <TextView
-                    android:id="@+id/tripState"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="TextView"
-                    android:textAlignment="textEnd"
-                    android:backgroundTint="@color/browser_actions_bg_grey"/>
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tripState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:text="TextView"
+                android:textAlignment="textEnd"
+                android:backgroundTint="@color/browser_actions_bg_grey"/>
+        </LinearLayout>
 
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>
