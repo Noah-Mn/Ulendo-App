@@ -1,13 +1,10 @@
 package com.example.ulendoapp;
 
-import static androidx.core.view.MenuItemCompat.getActionView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,14 +12,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,8 +28,18 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,8 +52,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener {
 
@@ -60,7 +69,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private String TAG;
     public static String newText;
     private NavigationView navigationView;
-
+    FusedLocationProviderClient fusedLocationProviderClient;
+    SupportMapFragment supportMapFragment;
     private RecyclerView recyclerView;
     private List<UserModel> userModelList;
     private CustomAdapter adapter;
@@ -71,6 +81,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     static String lName;
     private SearchView searchView;
     private MenuItem menuItem;
+//    static LatLng latLng= new LatLng(50.450311, 30.523730);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +100,14 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
 
+
+
         getUserData();
         navInit();
         setMenu();
+
+
+
 
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +117,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         });
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+//        supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
+
     }
 
     @Override
@@ -143,7 +162,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
     }
-    public void setMenu(){
+
+    public void setMenu() {
         toolbar.inflateMenu(R.menu.menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -152,10 +172,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     searchDriver();
                     replaceFragments(new fragment_recyclerview());
 
-                }else if (item.getItemId()==R.id.help){
+                } else if (item.getItemId() == R.id.help) {
                     Toast.makeText(getApplicationContext(), "Help clicked", Toast.LENGTH_SHORT).show();
 
-                }else if (item.getItemId() == R.id.log_out){
+                } else if (item.getItemId() == R.id.log_out) {
                     FirebaseAuth.getInstance().signOut();
                     HomeUser.this.startActivity(new Intent(HomeUser.this, Login.class));
                     Toast.makeText(getApplicationContext(), "log out clicked", Toast.LENGTH_SHORT).show();
@@ -165,6 +185,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
         });
     }
+
     public void searchDriverData() {
         Toast.makeText(HomeUser.this, newText, Toast.LENGTH_SHORT).show();
 
@@ -176,7 +197,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 //                        progressDialog.dismiss();
                         userModelList.clear();
-                        for (DocumentSnapshot documentSnapshot: task.getResult()){
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
                             UserModel userModel = new UserModel(documentSnapshot.getString("Status"),
                                     documentSnapshot.getString("First Name"),
                                     documentSnapshot.getString("Surname"),
@@ -194,7 +215,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 });
     }
 
-    public void searchDriver(){
+    public void searchDriver() {
         menuItem = toolbar.getMenu().findItem(R.id.searchItem);
         searchView = (SearchView) menuItem.getActionView();
         searchView.setIconifiedByDefault(false);
@@ -222,26 +243,26 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 searchView.setQueryHint("Search driver");
                 Log.i("well", " this worked");
                 if (!query.isEmpty()) {
-                    for(int i = 0; i < userModelList.size(); i++){
+                    for (int i = 0; i < userModelList.size(); i++) {
                         fName = userModelList.get(i).getFirstName();
                         lName = userModelList.get(i).getLastName();
                         String userStatus = userModelList.get(i).getStatus();
                         String phoneNumber = userModelList.get(i).getPhoneNumber();
                         fullName = fName + " " + lName;
 
-                        if (fName.toLowerCase().contains(query.toLowerCase()) || lName.toLowerCase().contains(query.toLowerCase())){
+                        if (fName.toLowerCase().contains(query.toLowerCase()) || lName.toLowerCase().contains(query.toLowerCase())) {
                             UserModel model = new UserModel(userStatus, fName, lName, phoneNumber);
                             searchList.add(model);
                             Toast.makeText(HomeUser.this, "size of search list is " + searchList.size(), Toast.LENGTH_SHORT).show();
 
-                        } else if (fullName.toLowerCase().contains(query.toLowerCase())){
+                        } else if (fullName.toLowerCase().contains(query.toLowerCase())) {
                             UserModel model = new UserModel(userStatus, fName, lName, phoneNumber);
                             searchList.add(model);
                         }
 
                     }
 
-                } else if(query.isEmpty()){
+                } else if (query.isEmpty()) {
                     searchList.clear();
                 }
 
@@ -251,13 +272,13 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 recyclerView.setLayoutManager(new LinearLayoutManager(HomeUser.this));
 
                 return true;
-                }
+            }
 
         });
 
     }
 
-    public void getUserData(){
+    public void getUserData() {
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
                 .get()
@@ -282,65 +303,114 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 });
     }
 
-    public String getEmail(){
+    public String getEmail() {
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
 
-
-
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
-    
+
     // don't write your code here.....it won't work /*UNDERSTOOD*/
     //<<<<<<<<<<<<<<<<<<<<<<<<Start>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return true;
-        }
+    }
     // <<<<<<<<<<<<<<<<<<<<<<<<<<<End>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                   switch (item.getItemId()){
-                       case R.id.notifications:
-                           replaceFragments(new fragment_notifications());
-                           break;
+                    switch (item.getItemId()) {
+                        case R.id.notifications:
+                            replaceFragments(new fragment_notifications());
+                            break;
 
-                       case R.id.home:
-                           replaceFragments(new fragment_home());
-                           break;
+                        case R.id.home:
+                            replaceFragments(new fragment_home());
+                            break;
 
-                       case R.id.profile:
-                          startActivity(new Intent(HomeUser.this, UserProfile.class));
-                           break;
-                   }
+                        case R.id.profile:
+                            startActivity(new Intent(HomeUser.this, UserProfile.class));
+                            break;
+                    }
                     return true;
                 }
             };
 
-    private void setActiveFragment(){
-      replaceFragments(new fragment_home());
+    private void setActiveFragment() {
+        replaceFragments(new fragment_home());
     }
 
-    private void replaceFragments(Fragment fragment){
+    private void replaceFragments(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-        }
+    }
 
     @Override
     public void onDriverClick(int position) {
         Toast.makeText(HomeUser.this, "you clicked position " + position, Toast.LENGTH_SHORT).show();
     }
+
+
+//
+//    private void getCurrentLocation() {
+//        if (ActivityCompat.checkSelfPermission(HomeUser.this,
+//                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+////            getLocation();
+//        } else
+//            ActivityCompat.requestPermissions(HomeUser.this,
+//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+//    }
+//
+//    private void getLocation() {
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+//                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+//                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+//        {
+//
+//           Task<Location> task = fusedLocationProviderClient.getLastLocation();
+//           task.addOnSuccessListener(new OnSuccessListener<Location>() {
+//               @Override
+//               public void onSuccess(Location location) {
+//                   if (location != null){
+//                       supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+//                           @Override
+//                           public void onMapReady(@NonNull GoogleMap googleMap) {
+//                               LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//                               googleMap.addMarker( new MarkerOptions().position(latLng).title("Current location")
+//                                       .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+//                               googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+////                               googleMap.addMarker(options);
+//                           }
+//                       });
+//                   }
+//               }
+//           });
+//
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//
+//        if (requestCode == 44) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////                getCurrentLocation();
+//            }
+//        }
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    }
 }

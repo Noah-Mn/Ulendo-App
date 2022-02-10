@@ -97,7 +97,15 @@
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_navigation"
             android:layout_below="@+id/drawer"
-            android:soundEffectsEnabled="true"></FrameLayout>
+            android:soundEffectsEnabled="true" />
+
+<!--        <fragment-->
+<!--            android:id="@+id/google_map"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_above="@+id/bottom_navigation"-->
+<!--            android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--            android:layout_below="@+id/drawer"/>-->
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
