@@ -45,18 +45,18 @@ public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.On
         });
 
     }
-    public void onlineUser(){
-        RecyclerView recyclerViewUser;
-        recyclerViewUser = cardView.findViewById(R.id.userOnlineRideRecyclerView);
-        List<UserModel> userList = new ArrayList<>();
-        UserModel user = new UserModel("passenger", "lonjezo", "banthapo", "088889" );
-        userList.add(user);
-
-        UserAdapter adapter = new UserAdapter(userList, this);
-
-        recyclerViewUser.setAdapter(adapter);
-        recyclerViewUser.setLayoutManager(new LinearLayoutManager(MyRidesUser.this));
-    }
+//    public void onlineUser(){
+//        RecyclerView recyclerViewUser;
+//        recyclerViewUser = cardView.findViewById(R.id.userOnlineRideRecyclerView);
+//        List<UserModel> userList = new ArrayList<>();
+//        UserModel user = new UserModel("passenger", "lonjezo", "banthapo", "088889" );
+//        userList.add(user);
+//
+//        UserAdapter adapter = new UserAdapter(userList, this);
+//
+//        recyclerViewUser.setAdapter(adapter);
+//        recyclerViewUser.setLayoutManager(new LinearLayoutManager(MyRidesUser.this));
+//    }
 
 
 
