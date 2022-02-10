@@ -1,13 +1,9 @@
 package com.example.ulendoapp;
 
-import static androidx.core.view.MenuItemCompat.getActionView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,18 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -77,7 +70,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_user);
 
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbarUser);
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = auth.getCurrentUser();
@@ -106,7 +99,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menu_user, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -144,8 +137,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
     public void setMenu(){
-        toolbar.inflateMenu(R.menu.menu);
+        toolbar.inflateMenu(R.menu.menu_user);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.searchItem) {
@@ -166,7 +160,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
     public void searchDriverData() {
-        Toast.makeText(HomeUser.this, newText, Toast.LENGTH_SHORT).show();
 
         db.collection("Users")
                 .whereEqualTo("Status", "driver")
@@ -194,6 +187,28 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 });
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()){
+                        case R.id.notifications:
+                            replaceFragments(new fragment_notifications());
+                            break;
+
+                        case R.id.home:
+                            replaceFragments(new fragment_home());
+                            break;
+
+                        case R.id.profile:
+                            startActivity(new Intent(HomeUser.this, UserProfile.class));
+                            break;
+                    }
+                    return true;
+                }
+            };
+
+
     public void searchDriver(){
         menuItem = toolbar.getMenu().findItem(R.id.searchItem);
         searchView = (SearchView) menuItem.getActionView();
@@ -203,10 +218,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
         searchDriverData();
         List<UserModel> searchList = new ArrayList<>();
-
-        MenuItem menuItem = toolbar.getMenu().findItem(R.id.searchItem);
-        searchView = (SearchView) menuItem.getActionView();
-        menuItem.expandActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -244,6 +255,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 } else if(query.isEmpty()){
                     searchList.clear();
                 }
+
+
 
                 recyclerView = findViewById(R.id.searchRecyclerView);
                 adapter = new CustomAdapter(searchList, HomeUser.this);
@@ -296,6 +309,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
             super.onBackPressed();
+            FirebaseAuth.getInstance().signOut();
+            HomeUser.this.startActivity(new Intent(HomeUser.this, Login.class));
         }
     }
     
@@ -307,26 +322,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         }
     // <<<<<<<<<<<<<<<<<<<<<<<<<<<End>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                   switch (item.getItemId()){
-                       case R.id.notifications:
-                           replaceFragments(new fragment_notifications());
-                           break;
-
-                       case R.id.home:
-                           replaceFragments(new fragment_home());
-                           break;
-
-                       case R.id.profile:
-                          startActivity(new Intent(HomeUser.this, UserProfile.class));
-                           break;
-                   }
-                    return true;
-                }
-            };
 
     private void setActiveFragment(){
       replaceFragments(new fragment_home());

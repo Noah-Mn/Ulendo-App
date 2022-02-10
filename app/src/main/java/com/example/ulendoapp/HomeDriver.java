@@ -2,6 +2,7 @@ package com.example.ulendoapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -11,8 +12,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,11 +39,15 @@ public class HomeDriver extends AppCompatActivity {
     FirebaseUser currentUser;
     String fName, lastName, email;
     private final String TAG = "Home Driver";
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_driver);
+
+        toolbar = findViewById(R.id.toolbarDriver);
         driver_bottom_nav = findViewById(R.id.driver_bottom_nav);
         driver_bottom_nav.inflateMenu(R.menu.bottom_navigation_menu);
         driver_bottom_nav.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
@@ -60,10 +68,38 @@ public class HomeDriver extends AppCompatActivity {
             }
         });
 
+        setMenu();
         navInit();
         getUserData();
         getUserName();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_driver, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void setMenu(){
+        toolbar.inflateMenu(R.menu.menu_driver);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId()==R.id.help_driver){
+                    Toast.makeText(getApplicationContext(), "Help clicked", Toast.LENGTH_SHORT).show();
+
+                }else if (item.getItemId() == R.id.log_out_driver){
+                    FirebaseAuth.getInstance().signOut();
+                    HomeDriver.this.startActivity(new Intent(HomeDriver.this, Login.class));
+                    Toast.makeText(getApplicationContext(), "Succesfully logged out", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+        });
     }
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -195,6 +231,8 @@ public class HomeDriver extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
             super.onBackPressed();
+            FirebaseAuth.getInstance().signOut();
+            HomeDriver.this.startActivity(new Intent(HomeDriver.this, Login.class));
         }
     }
 }

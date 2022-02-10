@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -22,6 +23,7 @@ import java.util.Objects;
 public class fragment_driver_home extends Fragment {
     TabLayout tabLayout;
     ViewPager viewPager;
+    Chip findRide, offerRide;
 
     public fragment_driver_home(){
 
@@ -39,10 +41,6 @@ public class fragment_driver_home extends Fragment {
     public  void onCreate(Bundle savedInstance) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstance);
-
-
-
-
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater){
@@ -50,13 +48,30 @@ public class fragment_driver_home extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
     private  void addFragment(View view){
-        tabLayout = view.findViewById(R.id.tabLayout);
+        findRide = view.findViewById(R.id.find_rides);
+        offerRide = view.findViewById(R.id.offer_rides);
         viewPager = view.findViewById(R.id.viewPager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new find_rides(), "Find Ride");
-        adapter.addFragment(new offer_rides(), "Offer Ride");
+
+
+
+        findRide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        offerRide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+
     }
 
 }

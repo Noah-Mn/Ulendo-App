@@ -40,6 +40,7 @@ public class CreateAccount extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
     boolean deny;
+    private Button  signupBackBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class CreateAccount extends AppCompatActivity {
         textEmail = findViewById(R.id.textEmailAddress);
         textPassword = findViewById(R.id.textPassword);
         textConfirmPassword = findViewById(R.id.textConfirmPassword);
+        signupBackBtn = findViewById(R.id.signup_backBtn);
 
         Intent intent = getIntent();
         firstName = intent.getStringExtra("firstName");
@@ -65,6 +67,20 @@ public class CreateAccount extends AppCompatActivity {
                 performSignUp();
             }
         });
+
+        signupBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateAccount.super.onBackPressed();
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(CreateAccount.this, Login.class));
     }
 
     private boolean validateFinalForm(){
@@ -132,7 +148,18 @@ public class CreateAccount extends AppCompatActivity {
         user.put("Phone Number", phoneNumber);
         user.put("Gender", gender);
         user.put("Email Address", email);
+        user.put("Date of Birth", "N/A");
         user.put("Status", "customer");
+        user.put("National ID", "N/A");
+        user.put("Current Location", "N/A");
+        user.put("Destination", "N/A");
+        user.put("Pickup Time", "N/A");
+        user.put("Number of People", "N/A");
+        user.put("Luggage", "N/A");
+        user.put("Number of Trips", "N/A");
+        user.put("Rating", "N/A");
+        user.put("Complaints", "N/A");
+
 
         db.collection("Users")
                 .add(user)

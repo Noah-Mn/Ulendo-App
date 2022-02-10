@@ -3,12 +3,16 @@ package com.example.ulendoapp;
 import androidx.annotation.ContentView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,6 +22,7 @@ public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.On
     private RecyclerView recyclerViewCard;
     private List<UserModel> userList;
     private  CardView cardView;
+    private ImageView backBtn;
 
     private UserModel user;
 
@@ -28,13 +33,17 @@ public class MyRidesUser extends AppCompatActivity implements UserRideAdapter.On
 
         cardView = findViewById(R.id.myRideUserCardView);
         recyclerViewCard = findViewById(R.id.userRideRecyclerView);
+        backBtn = findViewById(R.id.ride_profile_back);
         userList = new ArrayList<>();
         userRide();
 
-//        if(userRide()){
-//            Toast.makeText(MyRidesUser.this, "good", Toast.LENGTH_LONG).show();
-//            onlineUser();
-//        }
+        findViewById(R.id.ride_profile_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyRidesUser.this.startActivity(new Intent(MyRidesUser.this, HomeUser.class));
+            }
+        });
+
     }
     public void onlineUser(){
         RecyclerView recyclerViewUser;

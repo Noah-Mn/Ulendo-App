@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -56,6 +57,13 @@ public class UserSignup extends AppCompatActivity {
                 Toast.makeText(UserSignup.this, lastName + " is " + gender, Toast.LENGTH_LONG).show();
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(UserSignup.this, Login.class));
     }
 
     public void setSpinner(){
