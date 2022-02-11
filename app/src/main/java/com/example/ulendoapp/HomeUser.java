@@ -58,12 +58,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private List<UserModel> userModelList;
     private CustomAdapter adapter;
     private DrawerLayout drawerLayout;
-    private BottomNavigationView bottom_navigation;
     static String fullName;
     static String fName;
     static String lName;
     private SearchView searchView;
-    private MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +75,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         progressDialog = new ProgressDialog(this);
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        bottom_navigation = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottom_navigation = findViewById(R.id.bottom_navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
@@ -210,7 +208,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
 
     public void searchDriver(){
-        menuItem = toolbar.getMenu().findItem(R.id.searchItem);
+        MenuItem menuItem = toolbar.getMenu().findItem(R.id.searchItem);
         searchView = (SearchView) menuItem.getActionView();
         searchView.setIconifiedByDefault(false);
         searchView.setIconified(false);

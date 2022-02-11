@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <fragment
-        android:id="@+id/my_Rides"
-        android:name="com.example.ulendoapp.My_Rides"
-        android:label="fragment_my__rides"
-        tools:layout="@layout/rides_layout"
-        />
-    <fragment
         android:id="@+id/my_Favorites"
         android:name="com.example.ulendoapp.My_Favorites"
         android:label="fragment_my__favorites"
