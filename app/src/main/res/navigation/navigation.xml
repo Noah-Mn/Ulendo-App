@@ -14,4 +14,10 @@
         android:label="fragment_my__payments"
         tools:layout="@layout/fragment_my__payments" />
 
+    <fragment
+        android:id="@+id/wallet"
+        android:name="com.example.ulendoapp.wallet"
+        android:label="fragment_wallet"
+        tools:layout="@layout/fragment_wallet" />
+
 </navigation>

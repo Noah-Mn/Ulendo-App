@@ -127,6 +127,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     case R.id.driver:
                         HomeUser.this.startActivity(new Intent(HomeUser.this, DriverSignup.class));
                         break;
+
+                    case R.id.my_wallet:
+                        replaceFragments(new wallet());
+                        break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
 

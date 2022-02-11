@@ -18,6 +18,11 @@
             android:icon="@drawable/ic_baseline_payment_24"
             android:title="My Payments" />
 
+        <item
+            android:id="@+id/my_wallet"
+            android:icon="@drawable/ic_baseline_money_24"
+            android:title="@string/wallet" />
+
 
     </group>
 
