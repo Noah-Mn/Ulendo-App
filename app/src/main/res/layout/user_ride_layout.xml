@@ -111,14 +111,15 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_baseline_chat_bubble_outline_24"
                     app:civ_border_width="1dp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="127dp"
-                android:layout_height="82dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:orientation="vertical"
                 android:paddingEnd="2dp"
@@ -152,11 +153,11 @@
                     android:id="@+id/tripState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/browser_actions_bg_grey"
                     android:paddingTop="10dp"
                     android:paddingEnd="15dp"
                     android:text="TextView"
-                    android:textAlignment="textEnd"
-                    android:backgroundTint="@color/browser_actions_bg_grey"/>
+                    android:textAlignment="textEnd" />
             </LinearLayout>
 
 

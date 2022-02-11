@@ -41,7 +41,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+
+public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener, OnMapReadyCallback {
 
     private MaterialTextView name, header_name, header_email;
     private String firstName, lastName, email;
@@ -64,6 +72,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     static String lName;
     private SearchView searchView;
     private MenuItem menuItem;
+    private GoogleMap mMap;
+    private SupportMapFragment mapFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +93,11 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
 
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+
         getUserData();
         navInit();
         setMenu();
@@ -94,6 +110,22 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         });
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camer
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions()
+                .position(sydney)
+                .title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 
     @Override
@@ -338,4 +370,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     public void onDriverClick(int position) {
         Toast.makeText(HomeUser.this, "you clicked position " + position, Toast.LENGTH_SHORT).show();
     }
+
+
 }

@@ -96,9 +96,16 @@ public class DriverSignup extends AppCompatActivity {
             driver.put("Plate Number", plateNumber);
             driver.put("Physical Address", physicalAddress);
             driver.put("Email Address", email);
+            driver.put("Nation ID", "N/A");
+            driver.put("Drivers License ID", "N/A");
             driver.put("Driver Status", "N/A");
-            driver.put("Origin", "N/A");
+            driver.put("Current Location", "N/A");
             driver.put("Destination", "N/A");
+            driver.put("Pickup Time", "N/A");
+            driver.put("ETA", "N/A");
+            driver.put("Ride as Passenger", "N/A");
+            driver.put("Ride as Driver", "N/A");
+            driver.put("Rating", "N/A");
 
             db.collection("Drivers")
                     .add(driver)
