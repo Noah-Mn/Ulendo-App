@@ -18,11 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements View.OnClickListener{
-    //    ListActivity listActivity;
-//    Context context;
+
     private List<UserModel> driverModelList;
     private OnDriverClickListener onDriverClickListener;
-    private int startPos, startPos2, endPos, endPos2;
+    private int startPos, endPos;
 
 
     public CustomAdapter(List<UserModel> driverModelList, OnDriverClickListener onDriverClickListener) {

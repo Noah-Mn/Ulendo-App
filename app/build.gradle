@@ -76,5 +76,8 @@ dependencies {
     //circular images
     implementation "de.hdodenhof:circleimageview:3.1.0"
 
+    //google map
+    implementation 'com.karumi:dexter:6.2.2'
+
 
 }

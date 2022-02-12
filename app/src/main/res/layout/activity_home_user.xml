@@ -91,14 +91,6 @@
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottom_navigation"
-            android:layout_below="@+id/drawer"
-            android:soundEffectsEnabled="true" />
-
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -109,8 +101,42 @@
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
             android:layout_below="@+id/drawer"
-            android:layout_above="@+id/bottom_navigation" />
+            android:layout_above="@+id/bottom_navigation">
 
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/bottom_navigation"
+                android:layout_below="@+id/drawer"
+                android:soundEffectsEnabled="true" />
+        </fragment>
+<!--
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_below="@+id/drawer"
+            android:layout_above="@+id/bottom_navigation"
+            android:apiKey="AIzaSyC9pFcQr1IsjSRl36s_Xbt4ZDzE3fSslcs"
+            android:layout_weight="1">
+
+            <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_navigation"
+            android:layout_below="@+id/drawer"
+            android:soundEffectsEnabled="true" />
+        </com.google.android.gms.maps.MapView>
+
+-->
 
         <!--        <fragment-->
 <!--            android:id="@+id/google_map"-->

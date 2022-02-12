@@ -126,11 +126,11 @@ public class Login extends AppCompatActivity {
                                 Log.d(TAG, "status collected successfully");
                                 status = document.getString("Status");
                                 loginState(status);
-                                Toast.makeText(Login.this, "status get success"+ status, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(Login.this, "status get success"+ status, Toast.LENGTH_LONG).show();
                             }
                         } else {
                             Log.d(TAG, "failed to get status ", task.getException());
-                            Toast.makeText(Login.this, "failed to get status", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(Login.this, "failed to get status", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
