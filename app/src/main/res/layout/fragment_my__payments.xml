@@ -6,10 +6,60 @@
     android:id="@+id/my_Payments"
     tools:context=".My_Payments">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make Payments"
+        android:textColor="@color/black"
+        android:layout_marginStart="20dp"
+        />
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_marginStart="20dp"
+       android:layout_marginTop="20dp">
+       <ImageView
+
+           android:layout_width="24dp"
+           android:layout_height="24dp"
+           android:src="@drawable/cash_icon"/>
+
+       <com.google.android.material.textview.MaterialTextView
+           android:layout_marginStart="5dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="By Cash"
+           />
+
+   </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp">
+            <ImageView
+
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/debit_card"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_marginStart="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use Wallet"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

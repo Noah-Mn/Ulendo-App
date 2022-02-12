@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <fragment
-        android:id="@+id/my_Rides"
-        android:name="com.example.ulendoapp.My_Rides"
-        android:label="fragment_my__rides"
-        tools:layout="@layout/rides_layout"
-        />
-    <fragment
         android:id="@+id/my_Favorites"
         android:name="com.example.ulendoapp.My_Favorites"
         android:label="fragment_my__favorites"
@@ -19,5 +13,11 @@
         android:name="com.example.ulendoapp.My_Payments"
         android:label="fragment_my__payments"
         tools:layout="@layout/fragment_my__payments" />
+
+    <fragment
+        android:id="@+id/wallet"
+        android:name="com.example.ulendoapp.wallet"
+        android:label="fragment_wallet"
+        tools:layout="@layout/fragment_wallet" />
 
 </navigation>

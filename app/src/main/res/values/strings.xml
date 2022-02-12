@@ -41,4 +41,9 @@
     <string name="add_ride">Add ride</string>
     <string name="current_rides">Current Rides</string>
     <string name="my_rides">My Rides</string>
+    <string name="make_payments">Make Payments</string>
+    <string name="by_cash">By Cash</string>
+    <string name="use_wallet">Use Wallet</string>
+    <string name="wallet">wallet</string>
+    <string name="cash">cash</string>
 </resources>
