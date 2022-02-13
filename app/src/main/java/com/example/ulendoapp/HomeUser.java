@@ -145,9 +145,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         name = findViewById(R.id.firstName);
         markerOptions = new MarkerOptions();
 
-        Places.initialize(getApplicationContext(), "${MAPS_API_KEY}");
-
-        PlacesClient placesClient = Places.createClient(this);
+//        Places.initialize(getApplicationContext(), "${MAPS_API_KEY}");
+//
+//        PlacesClient placesClient = Places.createClient(this);
 
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
