@@ -60,6 +60,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -142,6 +144,11 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
         markerOptions = new MarkerOptions();
+
+        Places.initialize(getApplicationContext(), "${MAPS_API_KEY}");
+
+        PlacesClient placesClient = Places.createClient(this);
+
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
