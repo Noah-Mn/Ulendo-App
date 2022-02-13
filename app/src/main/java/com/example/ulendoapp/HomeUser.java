@@ -379,6 +379,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     case R.id.myPaymentsItem:
                         replaceFragments(new My_Payments());
                         break;
+                    case R.id.my_wallet:
+                       replaceFragments(new wallet());
+                        break;
                     case R.id.driver:
                         HomeUser.this.startActivity(new Intent(HomeUser.this, DriverSignup.class));
                         break;
