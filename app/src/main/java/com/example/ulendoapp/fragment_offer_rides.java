@@ -15,10 +15,10 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.Objects;
 
-public class offer_rides extends Fragment {
+public class fragment_offer_rides extends Fragment {
     MaterialCardView find_rides;
     FrameLayout driver_home;
-    public offer_rides() {
+    public fragment_offer_rides() {
         // Required empty public constructor
     }
 
@@ -34,6 +34,7 @@ public class offer_rides extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_offer_rides, container, false);
+
     }
 
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="bottom"
-    tools:context=".find_rides">
+    tools:context=".fragment_find_rides">
 
         <LinearLayout
             android:id="@+id/starting_pt_find_ride"
