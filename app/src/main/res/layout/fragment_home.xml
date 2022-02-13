@@ -15,6 +15,7 @@
       android:layout_marginStart="20dp"
       android:layout_marginEnd="20dp"
       android:layout_marginBottom="30dp"
+      app:cardBackgroundColor="#FDFFFFFF"
       android:layout_gravity="bottom">
       <FrameLayout
           android:layout_width="match_parent"
@@ -133,15 +134,18 @@
                   android:layout_width="20dp"
                   android:layout_height="20dp"
                   android:src="@drawable/ic_baseline_group_24"
-                  android:layout_marginTop="10dp"
+                  android:layout_marginTop="15dp"
                   />
-              <com.google.android.material.textfield.TextInputEditText
+              <com.jaredrummler.materialspinner.MaterialSpinner
+                  android:id="@+id/number_of_people"
                   android:textSize="15sp"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:inputType="number"
-                  android:hint="Number of people"
+                  android:hint="@string/number_of_people"
                   android:textColorHint="#72000000"
+                  app:ms_hint="Number"
+
                   />
           </LinearLayout>
       </LinearLayout>

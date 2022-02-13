@@ -257,6 +257,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
     }
 
+
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -265,7 +266,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         gMap.getUiSettings().setMyLocationButtonEnabled(true);
         gMap.setMyLocationEnabled(true);
         getCurrentUpdate();
-
     }
 
     private void checkGps() {
@@ -509,8 +509,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 } else if(query.isEmpty()){
                     searchList.clear();
                 }
-
-
 
                 recyclerView = findViewById(R.id.searchRecyclerView);
                 adapter = new CustomAdapter(searchList, HomeUser.this);
