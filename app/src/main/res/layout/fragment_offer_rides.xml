@@ -18,19 +18,22 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/origin_24" />
+            android:src="@drawable/origin_24"
+            android:contentDescription="@string/start" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:hint="Choose your starting point"
+            android:hint="@string/choose_your_starting_point"
             android:inputType="text"
             android:textColor="@color/black"
             android:textColorHint="#72000000"
@@ -45,20 +48,23 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="12dp"
-            android:src="@drawable/end_24" />
+            android:src="@drawable/end_24"
+            android:contentDescription="@string/destination" />
 
         <com.google.android.material.textfield.TextInputEditText
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:hint="Choose destination"
+            android:hint="@string/choose_destination"
             android:inputType="text"
             android:textColor="@color/black"
             android:textColorHint="#72000000"
@@ -70,11 +76,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/destination"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -91,7 +97,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Pickup time"
+                android:hint="@string/pickup_time"
                 android:inputType="datetime"
                 android:textColor="@color/black"
                 android:textColorHint="#72000000"
@@ -116,7 +122,7 @@
                 android:id="@+id/number_of_people"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/number_of_people"
+                android:hint="@string/number_of_seats"
                 android:inputType="number"
                 android:textColorHint="#72000000"
                 android:textSize="15sp"
@@ -132,6 +138,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/time_car"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:orientation="horizontal">
 
         <ImageView
@@ -144,7 +152,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Car model "
+            android:hint="@string/car_model"
             android:inputType="text"
             android:textColor="@color/black"
             android:textColorHint="#72000000"
@@ -159,6 +167,8 @@
             android:layout_marginEnd="10dp"
             android:layout_below="@+id/car_model"
             android:layout_marginStart="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:orientation="horizontal">
 
             <ImageView
@@ -166,13 +176,13 @@
                 android:layout_height="20dp"
                 android:src="@drawable/objects_24"
                 android:layout_marginTop="12dp"
-                />
+                android:contentDescription="@string/instruction" />
             <com.google.android.material.textfield.TextInputEditText
                 android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:hint="Special instruction (eg pets, luggage)"
+                android:hint="@string/special_instruction_eg_pets_luggage"
                 android:textColorHint="#72000000"/>
         </LinearLayout>
 
@@ -185,7 +195,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:text="Offer"
+        android:text="@string/offer"
         android:textSize="15sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         app:cornerRadius="20dp" />
         </RelativeLayout>
