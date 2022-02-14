@@ -1,5 +1,7 @@
 package com.example.ulendoapp;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +26,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -62,6 +63,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -85,15 +87,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 
 public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener,
-        OnMapReadyCallback/*, LocationListener*/{
+        OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 
     private MaterialTextView name, header_name, header_email;
     private String firstName, lastName, email;
@@ -115,17 +121,21 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private SearchView searchView;
     private MenuItem menuItem;
 
-    private GoogleMap gMap;
     private SupportMapFragment mapFragment;
-    private LocationManager lManager;
-
-    private boolean isPermissionGranted;
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private LocationRequest locationRequest;
-    private static LatLng latLng;
-    private static double latitude, longitude;
-    private MarkerOptions markerOptions;
-    private FusedLocationProviderClient client;
-    private CameraUpdate cameraUpdate;
+    private boolean isPermissionGranted;
+    public FusedLocationProviderClient client;
+    public GoogleApiClient gClient;
+    public CameraUpdate cameraUpdate;
+    public GoogleMap gMap;
+    public Location location;
+    private static final String[] PERMISSIONS = {
+            "android.permission.ACCESS_COARSE_LOCATION",
+            "android.permission.ACCESS_FINE_LOCATION",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.READ_EXTERNAL_STORAGE" ,
+            "android.permission.READ_PHONE_STATE"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,11 +153,12 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout = findViewById(R.id.drawer_layout);
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
-        markerOptions = new MarkerOptions();
+
 
 //        Places.initialize(getApplicationContext(), "${MAPS_API_KEY}");
 //
 //        PlacesClient placesClient = Places.createClient(this);
+
 
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
@@ -155,7 +166,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         getUserData();
         navInit();
         setMenu();
-        checkPermission();
 
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,8 +173,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
-
 
         if(checkGooglePlayServices()){
             mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -177,7 +185,137 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         }else{
             Toast.makeText(HomeUser.this, "Google PlayService not available", Toast.LENGTH_LONG).show();
         }
+        gClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(HomeUser.this)
+                .addOnConnectionFailedListener(HomeUser.this)
+                .addApi(LocationServices.API)
+                .build();
+
+        locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10 * 1000)
+                .setFastestInterval(1 * 1000);
     }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Dexter.withActivity(this)
+                .withPermissions(PERMISSIONS)
+                .withListener(new MultiplePermissionsListener() {
+                    @SuppressLint("MissingPermission")
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+//                            getCurrentUpdate(gMap);
+                            isPermissionGranted = true;
+                            gMap.setMyLocationEnabled(true);
+                            gMap.getUiSettings().setMyLocationButtonEnabled(true);
+                            gMap.getUiSettings().setZoomControlsEnabled(true);
+                            location = LocationServices.FusedLocationApi.getLastLocation(gClient);
+                            if (location == null) {
+                                LocationServices.FusedLocationApi.requestLocationUpdates(gClient, locationRequest, HomeUser.this);
+                            }
+                            else {
+                                handleNewLocation(location);
+                            }
+
+                            Toast.makeText(getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
+                        }
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getPackageName(), "");
+                            intent.setData(uri);
+                            startActivity(intent);
+
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                })
+                .withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(getApplicationContext(), "Error occurred! " + error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }).check();
+
+    }
+
+    private void handleNewLocation(Location location) {
+        Log.d(TAG, location.toString());
+        double currentLatitude = location.getLatitude();
+        double currentLongitude = location.getLongitude();
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+
+        MarkerOptions options = new MarkerOptions()
+                .position(latLng)
+                .title("I am here!");
+        gMap.addMarker(options);
+        gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+        gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                gMap.animateCamera(cameraUpdate);
+                return true;
+            }
+        });
+
+        Toast.makeText(HomeUser.this,"latitude: " + currentLatitude + "/n"
+                + "longtude: " + currentLongitude, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+        }
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        handleNewLocation(location);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gClient.connect();
+    }
+    protected void onPause() {
+        super.onPause();
+        if (gClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(gClient, HomeUser.this);
+            gClient.disconnect();
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        gMap = googleMap;
+    }
+
 
     private boolean checkGooglePlayServices() {
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
@@ -198,36 +336,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         return false;
     }
 
-    private void checkPermission() {
-        Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-
-                        isPermissionGranted = true;
-                        Toast.makeText(HomeUser.this, "permission granted", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", getPackageName(), "");
-                        intent.setData(uri);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-
-                        permissionToken.continuePermissionRequest();
-                    }
-                }).check();
-    }
-
-    @SuppressLint("MissingPermission")
-    private void getCurrentUpdate() {
+   /* @SuppressLint("MissingPermission")
+    private void getCurrentUpdate(GoogleMap googleMap) {
+        gMap = googleMap;
         client = LocationServices.getFusedLocationProviderClient(HomeUser.this);
 
         client.requestLocationUpdates(locationRequest, new LocationCallback() {
@@ -238,10 +349,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 longitude = locationResult.getLastLocation().getLongitude();
 
                 latLng = new LatLng(longitude, latitude);
-                markerOptions.title("My Position");
-                markerOptions.position(latLng);
-                gMap.addMarker(markerOptions);
-                cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 9 );
+
+                cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 5 );
                 gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
                     @Override
                     public boolean onMyLocationButtonClick() {
@@ -250,30 +359,15 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     }
                 });
 
-                Toast.makeText(HomeUser.this,latitude + " " + longitude, Toast.LENGTH_SHORT).show();
-
             }
         }, Looper.getMainLooper());
-
     }
-
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        gMap = googleMap;
-        gMap.getUiSettings().setZoomControlsEnabled(true);
-        gMap.getUiSettings().setMyLocationButtonEnabled(true);
-        gMap.setMyLocationEnabled(true);
-        getCurrentUpdate();
-    }
-
+*/
     private void checkGps() {
         locationRequest = com.google.android.gms.location.LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(1000);
-
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest)
                 .setAlwaysShow(true);
@@ -285,11 +379,11 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
 
-                try{
+                try {
                     LocationSettingsResponse response = task.getResult(ApiException.class);
 
-                }catch (ApiException e) {
-                    if(e.getStatusCode() == LocationSettingsStatusCodes.RESOLUTION_REQUIRED){
+                } catch (ApiException e) {
+                    if (e.getStatusCode() == LocationSettingsStatusCodes.RESOLUTION_REQUIRED) {
                         ResolvableApiException resolvableApiException = (ResolvableApiException) e;
                         try {
                             resolvableApiException.startResolutionForResult(HomeUser.this, 101);
@@ -297,16 +391,15 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                             sendIntentException.printStackTrace();
                         }
                     }
-                    if(e.getStatusCode() == LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE){
-                        Toast.makeText(HomeUser.this, "Settings not available", Toast.LENGTH_LONG ).show();
+                    if (e.getStatusCode() == LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE) {
+                        Toast.makeText(HomeUser.this, "Settings not available", Toast.LENGTH_LONG).show();
                     }
                 }
             }
         });
-
     }
 
-    /************************** THIS WAS another way of implementing the map ************************/
+        /************************** THIS WAS another way of implementing the map ************************/
 
 /*    @SuppressLint("MissingPermission")
     private void locationUpdate() {
@@ -378,9 +471,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                         break;
                     case R.id.myPaymentsItem:
                         replaceFragments(new My_Payments());
-                        break;
-                    case R.id.my_wallet:
-                       replaceFragments(new wallet());
                         break;
                     case R.id.driver:
                         HomeUser.this.startActivity(new Intent(HomeUser.this, DriverSignup.class));
@@ -513,6 +603,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     searchList.clear();
                 }
 
+
+
                 recyclerView = findViewById(R.id.searchRecyclerView);
                 adapter = new CustomAdapter(searchList, HomeUser.this);
                 recyclerView.setAdapter(adapter);
@@ -570,10 +662,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return true;
-        }
-
-    private void setActiveFragment(){
-      replaceFragments(new fragment_home());
     }
 
     private void replaceFragments(Fragment fragment){
@@ -587,5 +675,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     public void onDriverClick(int position) {
         Toast.makeText(HomeUser.this, "you clicked position " + position, Toast.LENGTH_SHORT).show();
     }
+
 
 }
