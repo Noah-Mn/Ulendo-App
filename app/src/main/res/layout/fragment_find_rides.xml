@@ -7,69 +7,64 @@
     android:gravity="bottom"
     tools:context=".fragment_find_rides">
 
-        <LinearLayout
-            android:id="@+id/starting_pt_find_ride"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="55dp"
-            android:orientation="horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            >
-            <ImageView
-                android:layout_marginTop="10dp"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/origin_24"
-                />
-            <com.google.android.material.textfield.TextInputEditText
-                android:textSize="12sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Choose your starting point"
-                android:inputType="text"
-                android:textColorHint="#72000000"/>
-        </LinearLayout>
-
     <LinearLayout
-        android:id="@+id/destination_find_ride"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/starting_pt_find_ride"
+        android:layout_marginTop="55dp"
+        android:orientation="horizontal"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:orientation="horizontal">
-
+        >
         <ImageView
+            android:layout_marginTop="10dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="12dp"
-            android:src="@drawable/end_24" />
-
+            android:src="@drawable/origin_24"
+            />
         <com.google.android.material.textfield.TextInputEditText
+            android:textSize="15sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:hint="Choose destination"
+            android:hint="Choose your starting point"
             android:inputType="text"
-            android:textColorHint="#72000000"
-            android:textSize="12sp" />
+            android:textColorHint="#72000000"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/pick_time_find_ride"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/destination_find_ride"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_marginTop="12dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/end_24"
+            />
+        <com.google.android.material.textfield.TextInputEditText
+            android:textSize="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Choose destination"
+            android:textColorHint="#72000000"
+            android:inputType="text"
+            android:layout_marginBottom="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="185dp"
         android:layout_marginEnd="10dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
@@ -84,69 +79,65 @@
                 android:hint="Pickup time"
                 android:inputType="datetime"
                 android:textColorHint="#72000000"
-                android:textSize="12sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:gravity="end"
+            android:layout_marginStart="30dp"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/ic_baseline_group_24" />
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/number_of_people"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Number of people"
+                android:hint="@string/number_of_people"
                 android:inputType="number"
                 android:textColorHint="#72000000"
-                android:textSize="12sp" />
+                android:textSize="15sp"
+                app:ms_hint="Number"/>
         </LinearLayout>
     </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/instruction_find_ride"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="245dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/objects_24"
+            android:layout_marginTop="12dp"
+            />
+        <com.google.android.material.textfield.TextInputEditText
+            android:textSize="15sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_below="@+id/pick_time_find_ride"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/objects_24"
-                android:layout_marginTop="12dp"
-                />
-            <com.google.android.material.textfield.TextInputEditText
-                android:textSize="12sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="Special instruction (eg pets, luggage)"
-                android:textColorHint="#72000000"/>
-        </LinearLayout>
+            android:inputType="text"
+            android:hint="Special instruction (eg pets, luggage)"
+            android:textColorHint="#72000000"/>
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/find_rides_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/instruction_find_ride"
+        android:layout_marginTop="310dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:textSize="12sp"
         android:text="Find"
-        app:cornerRadius="20dp" />
+        app:cornerRadius="20dp"
+        />
 
 </RelativeLayout>
