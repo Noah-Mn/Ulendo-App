@@ -154,18 +154,12 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
 
-
-//        Places.initialize(getApplicationContext(), "${MAPS_API_KEY}");
-//
-//        PlacesClient placesClient = Places.createClient(this);
-
-
-
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         getUserData();
         navInit();
         setMenu();
+        checkService();
 
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +168,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
+    }
+
+    private void checkService() {
         if(checkGooglePlayServices()){
             mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
