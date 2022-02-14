@@ -48,4 +48,15 @@
     <string name="cash">cash</string>
     <string name="current_balance">Current Balance</string>
     <string name="number_of_people">Number of people</string>
+    <string name="available_seats">Available seats</string>
+    <string name="number_of_seats">Number of seats</string>
+    <string name="choose_your_starting_point">Choose your starting point</string>
+    <string name="start">start</string>
+    <string name="choose_destination">Choose destination</string>
+    <string name="destination">destination</string>
+    <string name="pickup_time">Pickup time</string>
+    <string name="car_model">Car model</string>
+    <string name="instruction">instruction</string>
+    <string name="offer">Offer</string>
+    <string name="special_instruction_eg_pets_luggage">Special instruction (eg pets, luggage)</string>
 </resources>
