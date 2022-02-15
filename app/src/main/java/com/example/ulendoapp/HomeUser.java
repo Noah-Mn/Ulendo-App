@@ -1,6 +1,8 @@
 package com.example.ulendoapp;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
+
+import static com.google.firebase.database.core.RepoManager.clear;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -130,6 +132,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     public CameraUpdate cameraUpdate;
     public GoogleMap gMap;
     public Location location;
+    public Marker currentMarker;
     private static final String[] PERMISSIONS = {
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.ACCESS_FINE_LOCATION",
@@ -252,12 +255,15 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("I am here!");
-        gMap.addMarker(options);
+        MarkerOptions options = new MarkerOptions().position(latLng).title("I am here!");
+        currentMarker =  gMap.addMarker(options);
+        if(currentMarker != null){
+            currentMarker.remove();
+            currentMarker =  gMap.addMarker(options);
+        } else {
+            currentMarker =  gMap.addMarker(options);
+        }
         gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
         cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
         gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
@@ -266,10 +272,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 return true;
             }
         });
-
         Toast.makeText(HomeUser.this,"latitude: " + currentLatitude + "/n"
                 + "longtude: " + currentLongitude, Toast.LENGTH_LONG).show();
     }
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -292,6 +298,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        gMap.clear();
         handleNewLocation(location);
     }
 
@@ -308,9 +315,13 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
+        gMap.clear();
+
+//        currentMarker.remove();
     }
 
 
@@ -333,33 +344,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         return false;
     }
 
-   /* @SuppressLint("MissingPermission")
-    private void getCurrentUpdate(GoogleMap googleMap) {
-        gMap = googleMap;
-        client = LocationServices.getFusedLocationProviderClient(HomeUser.this);
 
-        client.requestLocationUpdates(locationRequest, new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                latitude = locationResult.getLastLocation().getLatitude();
-                longitude = locationResult.getLastLocation().getLongitude();
-
-                latLng = new LatLng(longitude, latitude);
-
-                cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 5 );
-                gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-                    @Override
-                    public boolean onMyLocationButtonClick() {
-                        gMap.animateCamera(cameraUpdate);
-                        return true;
-                    }
-                });
-
-            }
-        }, Looper.getMainLooper());
-    }
-*/
     private void checkGps() {
         locationRequest = com.google.android.gms.location.LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -395,49 +380,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
     }
-
-        /************************** THIS WAS another way of implementing the map ************************/
-
-/*    @SuppressLint("MissingPermission")
-    private void locationUpdate() {
-        lManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        lManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, HomeUser.this);
-    }
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-
-    }
-
-    @Override
-    public void onLocationChanged(@NonNull List<Location> locations) {
-        LocationListener.super.onLocationChanged(locations);
-    }
-
-    @Override
-    public void onFlushComplete(int requestCode) {
-        LocationListener.super.onFlushComplete(requestCode);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        LocationListener.super.onStatusChanged(provider, status, extras);
-    }
-
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-        LocationListener.super.onProviderEnabled(provider);
-    }
-
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
-        LocationListener.super.onProviderDisabled(provider);
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
-    }*/
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -140,7 +140,7 @@ public class CreateAccount extends AppCompatActivity {
 
     private void addUser(){
         db = FirebaseFirestore.getInstance();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         Map<String, Object> user = new HashMap<>();
 
         user.put("First Name", firstName);
@@ -151,14 +151,17 @@ public class CreateAccount extends AppCompatActivity {
         user.put("Date of Birth", "N/A");
         user.put("Status", "customer");
         user.put("National ID", "N/A");
-        user.put("Current Location", "N/A");
-        user.put("Destination", "N/A");
-        user.put("Pickup Time", "N/A");
-        user.put("Number of People", "N/A");
-        user.put("Luggage", "N/A");
         user.put("Number of Trips", "N/A");
-        user.put("Rating", "N/A");
-        user.put("Complaints", "N/A");
+
+//
+//        user.put("Current Location", "N/A");
+//        user.put("Destination", "N/A");
+//        user.put("Pickup Time", "N/A");
+//        user.put("Number of People", "N/A");
+//        user.put("Luggage", "N/A");
+//        user.put("Number of Trips", "N/A");
+//        user.put("Rating", "N/A");
+//        user.put("Complaints", "N/A");
 
 
         db.collection("Users")

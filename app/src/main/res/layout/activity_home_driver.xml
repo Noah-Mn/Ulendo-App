@@ -83,27 +83,42 @@
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
+        <fragment
+            android:id="@+id/driver_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/driver_bottom_nav"
-            android:layout_below="@id/drawer"/>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_below="@+id/drawer"
+            android:layout_above="@+id/driver_bottom_nav">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-           android:layout_alignParentBottom="true"
-            android:id="@+id/driver_bottom_nav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:labelVisibilityMode="unlabeled"/>
-    </RelativeLayout>
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view_driver"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:headerLayout="@layout/navigation_header"
-        app:menu= "@menu/driver_navigation_drawer"
-        android:layout_gravity="start"
-        />
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/driver_bottom_nav"
+                android:layout_below="@id/drawer"/>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+        </fragment>
+
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                   android:layout_alignParentBottom="true"
+                    android:id="@+id/driver_bottom_nav"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:labelVisibilityMode="unlabeled"/>
+            </RelativeLayout>
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/navigation_view_driver"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:headerLayout="@layout/navigation_header"
+                app:menu= "@menu/driver_navigation_drawer"
+                android:layout_gravity="start"
+                />
+
+        </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,26 +1,33 @@
 package com.example.ulendoapp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_find_rides#newInstance} factory method to
- * create an instance of this fragment.
- */
+
+
 public class fragment_find_rides extends Fragment {
     MaterialSpinner getCount;
-
+    public final String TAG = "tag";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +36,7 @@ public class fragment_find_rides extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private FirebaseFirestore db;
 
     public fragment_find_rides() {
         // Required empty public constructor
@@ -83,5 +91,38 @@ public class fragment_find_rides extends Fragment {
         ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
         countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getCount.setAdapter(countAdapter);
+
+    }
+
+    private void addTrip(){
+        db = FirebaseFirestore.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        Map<String, Object> trip = new HashMap<>();
+
+        trip.put("Email Address", "N/A");
+        trip.put("Location", "N/A");
+        trip.put("Destination", "N/A");
+        trip.put("Pickup Point", "N/A");
+        trip.put("Pickup Time", "N/A");
+        trip.put("Luggage", "N/A");
+        trip.put("Complaint", "N/A");
+        trip.put("Status", "N/A");
+
+
+        db.collection("Trip")
+                .add(trip)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "inserted successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "error! failed");
+                    }
+                });
+
     }
 }

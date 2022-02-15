@@ -71,7 +71,6 @@ public class Login extends AppCompatActivity {
         loginBtn.setOnClickListener(v -> {
 //            Login.this.startActivity(new Intent(Login.this, HomeUser.class));
             performLogin();
-
         });
     }
 
