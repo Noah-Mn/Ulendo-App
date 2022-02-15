@@ -130,6 +130,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     public CameraUpdate cameraUpdate;
     public GoogleMap gMap;
     public Location location;
+    public Marker currentMarker;
     private static final String[] PERMISSIONS = {
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.ACCESS_FINE_LOCATION",
@@ -153,6 +154,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout = findViewById(R.id.drawer_layout);
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
+        currentMarker = null;
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
@@ -247,6 +249,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void handleNewLocation(Location location) {
+        gMap.clear();
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
@@ -255,10 +258,16 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title("I am here!");
-        gMap.addMarker(options);
+        currentMarker = gMap.addMarker(options);
+        if(currentMarker == null){
+            currentMarker = gMap.addMarker(options);
+        } else {
+            gMap.clear();
+            currentMarker = gMap.addMarker(options);
+        }
         gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
         gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
@@ -292,6 +301,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        gMap.clear();
         handleNewLocation(location);
     }
 
