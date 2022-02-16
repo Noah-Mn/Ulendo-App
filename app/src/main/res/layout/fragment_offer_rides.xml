@@ -15,19 +15,19 @@
         android:id="@+id/start_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/origin_24"
-            android:contentDescription="@string/start" />
+            android:contentDescription="@string/start"
+            android:src="@drawable/origin_24" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ride_start_point"
@@ -45,19 +45,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/start_point"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="12dp"
-            android:src="@drawable/end_24"
-            android:contentDescription="@string/destination" />
+            android:contentDescription="@string/destination"
+            android:src="@drawable/end_24" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ride_destination"
@@ -86,8 +86,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1.0">
+            android:layout_weight="1.0"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="20dp"
@@ -99,11 +99,11 @@
                 android:id="@+id/ride_pickup_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.3"
                 android:hint="@string/pickup_time"
                 android:inputType="datetime"
                 android:textColor="@color/black"
                 android:textColorHint="#72000000"
-                android:layout_weight="0.3"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -132,44 +132,45 @@
                 app:ms_hint="Seats" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/car_and_drop_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:gravity="start"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
         android:layout_below="@+id/time_people"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="start"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.5"
-            android:orientation="horizontal">
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="10dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_marginEnd="10dp"-->
+        <!--            android:layout_weight="0.5"-->
+        <!--            android:orientation="horizontal">-->
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_baseline_pin_drop_24" />
+        <!--            <ImageView-->
+        <!--                android:layout_width="20dp"-->
+        <!--                android:layout_height="20dp"-->
+        <!--                android:layout_marginTop="10dp"-->
+        <!--                android:src="@drawable/ic_baseline_pin_drop_24" />-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ride_drop_point"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Drop Point"
-                android:inputType="text"
-                android:textColor="@color/black"
-                android:textColorHint="#72000000"
-                android:textSize="15sp" />
-        </LinearLayout>
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:id="@+id/ride_drop_point"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:hint="Drop Point"-->
+        <!--                android:inputType="text"-->
+        <!--                android:textColor="@color/black"-->
+        <!--                android:textColorHint="#72000000"-->
+        <!--                android:textSize="15sp" />-->
+        <!--        </LinearLayout>-->
 
 
         <LinearLayout
@@ -177,14 +178,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="0.5"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/car_24" />
 
             <com.jaredrummler.materialspinner.MaterialSpinner
@@ -195,54 +195,53 @@
                 android:inputType="text"
                 android:textColorHint="#72000000"
                 android:textSize="15sp"
-                app:ms_hint="Car Model"
-                />
+                app:ms_hint="Car Model" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/special_instruction"
+    <LinearLayout
+        android:id="@+id/special_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/car_and_drop_point"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="12dp"
+            android:contentDescription="@string/instruction"
+            android:src="@drawable/objects_24" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ride_special_instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_below="@+id/car_and_drop_point"
-            android:layout_marginStart="10dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/objects_24"
-                android:layout_marginTop="12dp"
-                android:contentDescription="@string/instruction" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ride_special_instructions"
-                android:textSize="15sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="@string/special_instruction_eg_pets_luggage"
-                android:textColorHint="#72000000"/>
-        </LinearLayout>
+            android:hint="@string/special_instruction_eg_pets_luggage"
+            android:inputType="text"
+            android:textColorHint="#72000000"
+            android:textSize="15sp" />
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ride_offer_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/special_instruction"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:text="@string/offer"
         android:textSize="15sp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
         app:cornerRadius="20dp" />
 </RelativeLayout>
