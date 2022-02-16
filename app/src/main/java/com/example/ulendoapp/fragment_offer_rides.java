@@ -74,7 +74,7 @@ public class fragment_offer_rides extends Fragment{
         pickupPoint = view.findViewById(R.id.ride_start_point);
         destination = view.findViewById(R.id.ride_destination);
         pickupTime = view.findViewById(R.id.ride_pickup_time);
-        dropPoint = view.findViewById(R.id.ride_drop_point);
+//        dropPoint = view.findViewById(R.id.ride_drop_point);
         numberOfSeats = view.findViewById(R.id.ride_number_of_seats);
         carModel = view.findViewById(R.id.ride_car_model);
         specialInstructions = view.findViewById(R.id.ride_special_instructions);
@@ -90,7 +90,7 @@ public class fragment_offer_rides extends Fragment{
             }
         });
         setSpinner(view);
-        setDropPointSpinner(view);
+        setCarModelSpinner(view);
         loadTimePicker();
         return view;
     }
@@ -132,7 +132,7 @@ public class fragment_offer_rides extends Fragment{
         }
     }
 
-    public void setDropPointSpinner(View view){
+    public void setCarModelSpinner(View view){
         getCarModel = (MaterialSpinner)view.findViewById(R.id.ride_car_model);
         ArrayList<String> count = new ArrayList<String>();
         count.add("BMW");
@@ -169,8 +169,8 @@ public class fragment_offer_rides extends Fragment{
       pTime = pickupTime.getText().toString();
       seats = numberOfSeats.getText().toString();
       car = carModel.getText().toString();
-      sInstructions = pickupPoint.getText().toString();
-      dPoint = "your choice";
+      sInstructions = specialInstructions.getText().toString();
+//      dPoint = "your choice";
 
     }
     public String getEmail(){
@@ -192,7 +192,7 @@ public class fragment_offer_rides extends Fragment{
         ride.put("Pickup Point", pPoint);
         ride.put("Destination", dest);
         ride.put("Pickup Time", pTime);
-        ride.put("Drop Point", dPoint);
+//        ride.put("Drop Point", dPoint);
         ride.put("Number of seats", seats);
         ride.put("Car Model", car);
         ride.put("Special Instruction", sInstructions);
