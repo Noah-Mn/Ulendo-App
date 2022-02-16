@@ -77,6 +77,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/change_avatar">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_full_name"
                 android:layout_width="match_parent"
@@ -99,7 +100,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/full_name">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_date_of_birth"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="date"
@@ -120,6 +123,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/date_of_birth">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_phone_number"
                 android:layout_width="match_parent"
@@ -142,6 +146,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone_number">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_email_address"
                 android:layout_width="match_parent"
@@ -164,7 +169,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email_address">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_national_ID"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
@@ -185,7 +192,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/national_ID">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_physical_address"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text"
@@ -195,7 +204,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/driver_updateBtn"
+            android:id="@+id/user_update_btn"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
