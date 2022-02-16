@@ -23,7 +23,9 @@
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_driver_my_vehicles.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_driver_wallet.xml" value="0.30570652173913043" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_drivers_chats.xml" value="0.30570652173913043" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_find_rides.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_maps2.xml" value="0.3625" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_offer_rides.xml" value="0.33" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_wallet.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/my_user_ride_model.xml" value="0.2105978260869565" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/navigation_header.xml" value="0.1" />
@@ -72,11 +74,10 @@
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_cancelled.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/fragment_completed.xml" value="0.1480978260869565" />
-        <entry key="app/src/main/res/layout/fragment_driver_home.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_driver_my_rides.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_driver_home.xml" value="0.21203703703703702" />
         <entry key="app/src/main/res/layout/fragment_find_rides.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_group.xml" value="0.14266304347826086" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21806853582554517" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.15208333333333332" />
         <entry key="app/src/main/res/layout/fragment_my_favourites.xml" value="0.14221014492753623" />
         <entry key="app/src/main/res/layout/fragment_my_payments.xml" value="0.14221014492753623" />
@@ -88,7 +89,6 @@
         <entry key="app/src/main/res/layout/fragment_upcoming.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/fragment_wallet.xml" value="0.33" />
         <entry key="app/src/main/res/layout/keepit.xml" value="0.15806159420289856" />
-        <entry key="app/src/main/res/layout/layout_time_picker.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/model_layout.xml" value="0.15806159420289856" />
         <entry key="app/src/main/res/layout/navigation_header.xml" value="0.33" />
         <entry key="app/src/main/res/layout/online_user_layout.xml" value="0.3098958333333333" />
