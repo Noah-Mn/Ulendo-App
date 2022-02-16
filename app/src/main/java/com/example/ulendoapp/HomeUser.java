@@ -165,7 +165,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         navInit();
         setMenu();
         checkService();
-
+        bottom_navigation.setSelectedItemId(R.id.home);
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -675,10 +675,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         fragmentTransaction.commit();
         }
 
+
     @Override
     public void onDriverClick(int position) {
         Toast.makeText(HomeUser.this, "you clicked position " + position, Toast.LENGTH_SHORT).show();
     }
-
-
 }

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.compose.ui.geometry.Rect;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -103,8 +105,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     private double currentLongitude;
     private int hrOfDay;
     private int minutes;
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +133,8 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         getUserData();
         getUserName();
         checkService();
+        driver_bottom_nav.setSelectedItemId(R.id.home);
+
     }
 
 
@@ -384,7 +387,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
                         case R.id.profile:
                             startActivity(new Intent(HomeDriver.this, DriverProfile.class));
-                            //replaceFragments(new fragment_driver_profile());
+                          
                             break;
                     }
                     return true;
@@ -512,5 +515,12 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        if(event.getAction() == MotionEvent.ACTION_UP){
+
+        }
+        return true;
+    }
 }
 
