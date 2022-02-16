@@ -1,6 +1,9 @@
 package com.example.ulendoapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,9 +23,11 @@ public class AddVehicle extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-               Intent intent = new Intent(AddVehicle.this, driver_my_vehicles.class);
-               startActivity(intent);
+              Intent intent = new Intent(AddVehicle.this, driver_my_vehicles.class);
+              intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              finish();
             }
         });
     }
+
 }
