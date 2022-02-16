@@ -1,5 +1,8 @@
 package com.example.ulendoapp;
 
+import static com.example.ulendoapp.fragment_offer_rides.latitude;
+import static com.example.ulendoapp.fragment_offer_rides.longitude;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -99,7 +102,7 @@ import com.google.android.gms.location.LocationListener;
 import java.util.List;
 
 public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+    LocationListener{
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     BottomNavigationView driver_bottom_nav;
     NavigationView navigation_view_driver;
@@ -125,7 +128,6 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     private GoogleMap gMap;
     private Location location;
     private CameraUpdate cameraUpdate;
-    private Marker  currentMarker = null;
 
 
     @Override
@@ -142,7 +144,6 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         firstName = findViewById(R.id.firstName);
         header_name = findViewById(R.id.header_name);
         header_email = findViewById(R.id.header_email);
-
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -238,32 +239,38 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
         }
 
-    private void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+        private void handleNewLocation(Location location) {
+            Log.d(TAG, location.toString());
+            double currentLatitude = location.getLatitude();
+            double currentLongitude = location.getLongitude();
+            LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
-        MarkerOptions options = new MarkerOptions().position(latLng).title("I am here!");
-        currentMarker =  gMap.addMarker(options);
-        if(currentMarker != null){
-            currentMarker.remove();
-            currentMarker =  gMap.addMarker(options);
-        } else {
-            currentMarker =  gMap.addMarker(options);
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title("I am here!");
+            gMap.addMarker(options);
+            gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+            cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+            gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                @Override
+                public boolean onMyLocationButtonClick() {
+                    gMap.animateCamera(cameraUpdate);
+                    return true;
+                }
+            });
+
         }
-        gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-        gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-                gMap.animateCamera(cameraUpdate);
-                return true;
-            }
-        });
-        Toast.makeText(HomeDriver.this,"latitude: " + currentLatitude + "/n"
-                + "longtude: " + currentLongitude, Toast.LENGTH_LONG).show();
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        handleNewLocation(location);
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        Toast.makeText(HomeDriver.this,"latitude: " + latitude + "/n"
+                + "longtude: " + longitude, Toast.LENGTH_LONG).show();
     }
+
         @Override
         public void onConnectionSuspended(int i) {
 
@@ -283,11 +290,6 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
             }
         }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        handleNewLocation(location);
-    }
-
         @Override
         protected void onResume() {
             super.onResume();
@@ -304,7 +306,6 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         @Override
         public void onMapReady(GoogleMap googleMap) {
             gMap = googleMap;
-            gMap.clear();
         }
 
 
@@ -401,7 +402,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                             break;
 
                         case R.id.notifications:
-
+                           
                             replaceFragments(new fragment_driver_notifications());
                             break;
 

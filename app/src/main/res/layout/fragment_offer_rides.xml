@@ -30,9 +30,9 @@
             android:contentDescription="@string/start" />
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/driver_start_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:hint="@string/choose_your_starting_point"
             android:inputType="text"
             android:textColor="@color/black"
@@ -60,7 +60,7 @@
             android:contentDescription="@string/destination" />
 
         <com.google.android.material.textfield.TextInputEditText
-
+            android:id="@+id/driver_destination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -95,6 +95,7 @@
                 android:src="@drawable/time_24" />
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/driver_pickup_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/pickup_time"
@@ -119,7 +120,7 @@
                 android:src="@drawable/ic_baseline_group_24" />
 
             <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/number_of_people"
+                android:id="@+id/number_of_seats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/number_of_seats"
@@ -149,7 +150,7 @@
             android:src="@drawable/car_24" />
 
         <com.google.android.material.textfield.TextInputEditText
-
+            android:id="@+id/driver_car_model"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/car_model"
@@ -177,7 +178,9 @@
                 android:src="@drawable/objects_24"
                 android:layout_marginTop="12dp"
                 android:contentDescription="@string/instruction" />
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/driver_special_instructions"
                 android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,6 +1,5 @@
 package com.example.ulendoapp;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -78,7 +77,7 @@ public class fragment_find_rides extends Fragment {
         return view;
     }
     public void setSpinner(View view){
-        getCount = (MaterialSpinner)view.findViewById(R.id.number_of_people);
+        getCount = (MaterialSpinner)view.findViewById(R.id.number_of_seats);
         ArrayList<String> count = new ArrayList<String>();
         count.add("1");
         count.add("2");

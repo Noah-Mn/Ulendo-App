@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity {
         materialCreateAcc.setOnClickListener(v -> startActivity(new Intent(Login.this, UserSignup.class)));
 
         loginBtn.setOnClickListener(v -> {
-//            Login.this.startActivity(new Intent(Login.this, HomeUser.class));
+//            Login.this.startActivity(new Intent(Login.this, HomeDriver.class));
             performLogin();
         });
     }

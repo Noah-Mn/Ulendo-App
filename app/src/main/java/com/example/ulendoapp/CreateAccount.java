@@ -153,17 +153,6 @@ public class CreateAccount extends AppCompatActivity {
         user.put("National ID", "N/A");
         user.put("Number of Trips", "N/A");
 
-//
-//        user.put("Current Location", "N/A");
-//        user.put("Destination", "N/A");
-//        user.put("Pickup Time", "N/A");
-//        user.put("Number of People", "N/A");
-//        user.put("Luggage", "N/A");
-//        user.put("Number of Trips", "N/A");
-//        user.put("Rating", "N/A");
-//        user.put("Complaints", "N/A");
-
-
         db.collection("Users")
                 .add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

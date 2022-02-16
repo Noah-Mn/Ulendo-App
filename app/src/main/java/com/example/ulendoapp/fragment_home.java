@@ -73,7 +73,7 @@ public class fragment_home extends Fragment {
 
     }
     public void setSpinner(View view){
-        getCount = (MaterialSpinner)view.findViewById(R.id.number_of_people);
+        getCount = (MaterialSpinner)view.findViewById(R.id.number_of_seats);
         ArrayList<String> count = new ArrayList<String>();
         count.add("1");
         count.add("2");

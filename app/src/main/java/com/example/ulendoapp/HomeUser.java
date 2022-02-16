@@ -131,6 +131,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     public GoogleApiClient gClient;
     public CameraUpdate cameraUpdate;
     public GoogleMap gMap;
+    static double latitude;
     public Location location;
     public Marker currentMarker;
     private static final String[] PERMISSIONS = {
@@ -253,21 +254,23 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
+
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
-        MarkerOptions options = new MarkerOptions().position(latLng).title("I am here!");
-        currentMarker =  gMap.addMarker(options);
-        if(currentMarker != null){
-            currentMarker.remove();
-            currentMarker =  gMap.addMarker(options);
-        } else {
-            currentMarker =  gMap.addMarker(options);
-        }
-        gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+//        MarkerOptions options = new MarkerOptions().position(latLng).title("I am here!");
+//        currentMarker =  gMap.addMarker(options);
+//        if(currentMarker != null){
+//            currentMarker.remove();
+//            currentMarker =  gMap.addMarker(options);
+//        } else {
+//            currentMarker =  gMap.addMarker(options);
+//        }
+
         gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
                 gMap.animateCamera(cameraUpdate);
                 return true;
             }
@@ -299,6 +302,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onLocationChanged(@NonNull Location location) {
         gMap.clear();
+
         handleNewLocation(location);
     }
 
