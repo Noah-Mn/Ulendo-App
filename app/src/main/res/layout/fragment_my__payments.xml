@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/my_Payments"
+    android:background="@color/white"
     tools:context=".My_Payments">
 
     <LinearLayout

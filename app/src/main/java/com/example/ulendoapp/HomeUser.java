@@ -468,7 +468,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
                 switch (item.getItemId()) {
                     case R.id.myRidesItem:
-                        HomeUser.this.startActivity(new Intent(HomeUser.this, MyRidesUser.class));
+                        replaceFragments(new UserMyRides());
                         break;
                     case R.id.myFavoritesItem:
                         replaceFragments(new My_Favorites());
@@ -478,6 +478,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                         break;
                     case R.id.driver:
                         HomeUser.this.startActivity(new Intent(HomeUser.this, DriverSignup.class));
+                        break;
+
+                    case R.id.my_wallet:
+                        replaceFragments(new wallet());
                         break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
