@@ -412,25 +412,35 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                 switch (item.getItemId()) {
                     case R.id.driver_chats:
 
-                        replaceFragments(new My_Favorites());
+                        replaceFragments(new drivers_chats());
                         break;
 
                     case R.id.driver_rides:
 
-                        replaceFragments(new fragment_notifications());
+                        replaceFragments(new driver_my_rides());
                         break;
 
                     case R.id.driver_payments:
 
-                        replaceFragments(new My_Payments());
+                        replaceFragments(new driver_my_payments());
                         break;
                     case R.id.my_vehicles:
 
-                        replaceFragments(new My_Payments());
+                        replaceFragments(new driver_my_vehicles());
                         break;
                     case R.id.driver_groups:
 
-                        replaceFragments(new My_Payments());
+                        replaceFragments(new driver_groups());
+                        break;
+
+                    case R.id.dashboard:
+
+                        replaceFragments(new driver_dashboard());
+                        break;
+
+                    case R.id.driver_wallet:
+
+                        replaceFragments(new driver_wallet());
                         break;
 
                 }

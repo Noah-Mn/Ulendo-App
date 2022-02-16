@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ulendoapp"
-    android:exported = "true">
-
+    android:exported="true">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,11 +19,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UlendoApp">
         <activity
+            android:name=".AddVehicle"
+            android:exported="false" />
+        <activity
             android:name=".DriverProfile"
             android:exported="false" />
-
-        <activity android:name=".UserProfile"
-            android:exported="false"/>
+        <activity
+            android:name=".UserProfile"
+            android:exported="false" />
         <activity
             android:name=".EditDriverProfile"
             android:exported="false" />
@@ -65,15 +67,14 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}"/>
+            android:value="${MAPS_API_KEY}" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false"/>
-
-        <!-- &lt;!&ndash; this is the searchable activity; it performs searches &ndash;&gt; -->
+            android:required="false" /> <!-- &lt;!&ndash; this is the searchable activity; it performs searches &ndash;&gt; -->
         <!-- <activity android:name=".SearchableActivity" > -->
         <!-- <intent-filter> -->
         <!-- <action android:name="android.intent.action.SEARCH" /> -->
