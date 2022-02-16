@@ -4,11 +4,13 @@ package com.example.ulendoapp;
 import android.app.TimePickerDialog;
 import android.icu.util.Calendar;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,6 +103,7 @@ public class fragment_offer_rides extends Fragment{
     }
 
     public void loadTimePicker() {
+        disableSoftInputFromAppearing(pickupTime);
         pickupTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,6 +127,16 @@ public class fragment_offer_rides extends Fragment{
                 timePickerDialog.show();
             }
         });
+    }
+
+    public static void disableSoftInputFromAppearing(TextInputEditText pTime) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            pTime.setRawInputType(InputType.TYPE_NULL);
+            pTime.setTextIsSelectable(true);
+        } else {
+            pTime.setRawInputType(InputType.TYPE_NULL);
+            pTime.setFocusable(true);
+        }
     }
 
     public void setDropPointSpinner(View view){
