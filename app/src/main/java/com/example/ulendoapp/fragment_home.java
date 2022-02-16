@@ -1,65 +1,62 @@
 package com.example.ulendoapp;
 
+import static com.example.ulendoapp.fragment_offer_rides.disableSoftInputFromAppearing;
+import static com.example.ulendoapp.fragment_offer_rides.latitude;
+import static com.example.ulendoapp.fragment_offer_rides.longitude;
+
+import android.app.TimePickerDialog;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TimePicker;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_home#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class fragment_home extends Fragment {
     MaterialSpinner getCount;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public TextInputEditText pickupPoint, destination, pickupTime, dropPoint, specialInstructions;
+    public String pPoint, dest, pTime, noPeople, status, sInstructions, dPoint;
+    public MaterialSpinner   numberOfPeople, luggage;
+    public final String TAG = "tag";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public fragment_home() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_home.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static fragment_home newInstance(String param1, String param2) {
-        fragment_home fragment = new fragment_home();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private FirebaseFirestore db;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+    private LatLng latLng;
+    private Button findTripBtn;
+    private Calendar calendar;
+    private int currentHour;
+    private int currentMinute;
+    private TimePickerDialog timePickerDialog;
+    private String amPm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -67,13 +64,107 @@ public class fragment_home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        pickupPoint = view.findViewById(R.id.user_trip_start_point);
+        destination = view.findViewById(R.id.user_trip_detination);
+        pickupTime = view.findViewById(R.id.user_trip_pickup_time);
+//        dropPoint = view.findViewById(R.id.trip_drop_point);
+        specialInstructions = view.findViewById(R.id.user_trip_special_instruction);
+        numberOfPeople = view.findViewById(R.id.user_trip_number_of_people);
+//        luggage = view.findViewById(R.id.trip_luggage);
+        findTripBtn = view.findViewById(R.id.user_trip_find_btn);
+
+        latLng = new LatLng(latitude, longitude);
+
+        findTripBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addTrip();
+            }
+        });
+
         setSpinner(view);
+        loadTimePicker();
        return view;
 
 
     }
+
+    public void getTripInfo(){
+        dest = destination.getText().toString();
+        pTime = pickupTime.getText().toString();
+        noPeople = numberOfPeople.getText().toString();
+        sInstructions = specialInstructions.getText().toString();
+        pPoint = pickupPoint.getText().toString();
+        dPoint = "your choice";
+        luggage = null;
+
+    }
+
+    public void loadTimePicker() {
+        disableSoftInputFromAppearing(pickupTime);
+        pickupTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                calendar = Calendar.getInstance();
+                currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+                currentMinute = calendar.get(Calendar.MINUTE);
+
+                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        if (hourOfDay >= 12) {
+                            amPm = "PM";
+                        } else {
+                            amPm = "AM";
+                        }
+                        pickupTime.setText(String.format("%02d : %02d", hourOfDay, minutes) + " " + amPm);
+                    }
+                }, currentHour, currentMinute, false);
+
+                timePickerDialog.show();
+            }
+        });
+    }
+
+
+
+    private void addTrip(){
+        getTripInfo();
+        db = FirebaseFirestore.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        Map<String, Object> trip = new HashMap<>();
+
+        trip.put("Email Address", getEmail());
+        trip.put("Location", latLng);
+        trip.put("Destination", dest);
+        trip.put("Pickup Point", pPoint);
+        trip.put("Pickup Time", pTime);
+        trip.put("Luggage", luggage);
+        trip.put("Complaint", "N/A");
+        trip.put("Special Instruction", sInstructions);
+        trip.put("Status", "N/A");
+
+
+        db.collection("Trip")
+                .add(trip)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "inserted successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "error! failed");
+                    }
+                });
+
+    }
     public void setSpinner(View view){
-        getCount = (MaterialSpinner)view.findViewById(R.id.number_of_seats);
+        getCount = (MaterialSpinner)view.findViewById(R.id.user_trip_number_of_people);
         ArrayList<String> count = new ArrayList<String>();
         count.add("1");
         count.add("2");
@@ -84,6 +175,13 @@ public class fragment_home extends Fragment {
         ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
         countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getCount.setAdapter(countAdapter);
+    }
+    public String getEmail(){
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        String emailAddress;
+        emailAddress = user.getEmail();
+        return emailAddress;
     }
     
 }

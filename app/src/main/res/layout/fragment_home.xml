@@ -64,6 +64,7 @@
               android:src="@drawable/origin_24"
               />
           <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/user_trip_start_point"
               android:textSize="15sp"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -87,6 +88,7 @@
               android:src="@drawable/end_24"
               />
           <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/user_trip_detination"
               android:textSize="15sp"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -106,7 +108,8 @@
           <LinearLayout
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="horizontal">
+              android:orientation="horizontal"
+              android:layout_weight="1.0">
 
               <ImageView
                   android:layout_width="20dp"
@@ -115,6 +118,7 @@
                   android:layout_marginTop="10dp"
                   />
               <com.google.android.material.textfield.TextInputEditText
+                  android:id="@+id/user_trip_pickup_time"
                   android:textSize="15sp"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -128,7 +132,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:layout_marginStart="30dp">
+              android:layout_weight="1.0">
 
               <ImageView
                   android:layout_width="20dp"
@@ -137,7 +141,7 @@
                   android:layout_marginTop="15dp"
                   />
               <com.jaredrummler.materialspinner.MaterialSpinner
-                  android:id="@+id/number_of_seats"
+                  android:id="@+id/user_trip_number_of_people"
                   android:textSize="15sp"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -165,6 +169,7 @@
               android:layout_marginTop="12dp"
               />
           <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/user_trip_special_instruction"
               android:textSize="15sp"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -174,7 +179,7 @@
       </LinearLayout>
 
       <com.google.android.material.button.MaterialButton
-          android:id="@+id/find_rides_btn"
+          android:id="@+id/user_trip_find_btn"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="310dp"
