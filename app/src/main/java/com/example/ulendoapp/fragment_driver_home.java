@@ -25,6 +25,7 @@ public class fragment_driver_home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_driver_home, container, false);
+        replaceFragments(new fragment_offer_rides());
         addFragment(view);
         return view;
     }

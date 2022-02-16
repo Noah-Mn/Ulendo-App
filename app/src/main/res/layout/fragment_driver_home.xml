@@ -37,6 +37,17 @@
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/offer_rides"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:checkable="true"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="Offer Ride" />
+
+                    <com.google.android.material.chip.Chip
                         android:id="@+id/find_rides"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
@@ -44,17 +55,8 @@
                         android:layout_marginEnd="10dp"
                         android:checkable="true"
                         android:gravity="center"
-                        android:text="Find Ride" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/offer_rides"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:checkable="true"
-                        android:gravity="center"
-                        android:text="Offer Ride" />
+                        android:text="Find Ride"
+                        />
 
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
