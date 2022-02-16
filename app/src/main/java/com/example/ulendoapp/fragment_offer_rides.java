@@ -3,7 +3,6 @@ package com.example.ulendoapp;
 
 import android.app.TimePickerDialog;
 import android.icu.util.Calendar;
-import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -18,27 +17,21 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
-import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.squareup.okhttp.Address;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class fragment_offer_rides extends Fragment{
@@ -78,20 +71,20 @@ public class fragment_offer_rides extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_offer_rides, container, false);
 
-        pickupPoint = view.findViewById(R.id.driver_start_point);
-        destination = view.findViewById(R.id.driver_destination);
-        pickupTime = view.findViewById(R.id.driver_pickup_time);
-        dropPoint = view.findViewById(R.id.drop_point);
-        numberOfSeats = view.findViewById(R.id.number_of_seats);
-        carModel = view.findViewById(R.id.driver_car_model);
-        specialInstructions = view.findViewById(R.id.driver_special_instructions);
-        offerBtn = view.findViewById(R.id.offer_rides_btn);
+        pickupPoint = view.findViewById(R.id.ride_start_point);
+        destination = view.findViewById(R.id.ride_destination);
+        pickupTime = view.findViewById(R.id.ride_pickup_time);
+        dropPoint = view.findViewById(R.id.ride_drop_point);
+        numberOfSeats = view.findViewById(R.id.ride_number_of_seats);
+        carModel = view.findViewById(R.id.ride_car_model);
+        specialInstructions = view.findViewById(R.id.ride_special_instructions);
+        offerBtn = view.findViewById(R.id.ride_offer_btn);
         latLng = new LatLng(latitude, longitude);
 
         offerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                offerRide();
+                addRide();
                 Log.d(TAG, dest + " " + pPoint);
                 Log.d(TAG, latitude + " " + longitude);
             }
@@ -140,7 +133,7 @@ public class fragment_offer_rides extends Fragment{
     }
 
     public void setDropPointSpinner(View view){
-        getCarModel = (MaterialSpinner)view.findViewById(R.id.driver_car_model);
+        getCarModel = (MaterialSpinner)view.findViewById(R.id.ride_car_model);
         ArrayList<String> count = new ArrayList<String>();
         count.add("BMW");
         count.add("Mazda");
@@ -155,7 +148,7 @@ public class fragment_offer_rides extends Fragment{
 
 
     public void setSpinner(View view){
-        getCount = (MaterialSpinner)view.findViewById(R.id.number_of_seats);
+        getCount = (MaterialSpinner)view.findViewById(R.id.ride_number_of_seats);
         ArrayList<String> count = new ArrayList<String>();
         count.add("1");
         count.add("2");
@@ -170,7 +163,7 @@ public class fragment_offer_rides extends Fragment{
         getCount.setAdapter(countAdapter);
     }
 
-    public void getTripInfo(){
+    public void getRideInfo(){
       pPoint = pickupPoint.getText().toString();
       dest = destination.getText().toString();
       pTime = pickupTime.getText().toString();
@@ -188,8 +181,8 @@ public class fragment_offer_rides extends Fragment{
         return emailAddress;
     }
 
-    private void offerRide(){
-        getTripInfo();
+    private void addRide(){
+        getRideInfo();
         db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         Map<String, Object> ride = new HashMap<>();
