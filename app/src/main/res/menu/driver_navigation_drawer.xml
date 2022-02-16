@@ -23,6 +23,11 @@
         android:icon="@drawable/car"
         />
     <item
+        android:id="@+id/driver_wallet"
+        android:title="Wallet"
+        android:icon="@drawable/ic_baseline_money_24"
+        />
+    <item
         android:id="@+id/driver_chats"
         android:title="Chat"
         android:icon="@drawable/chat_24"
@@ -32,4 +37,5 @@
         android:title="Groups"
         android:icon="@drawable/ic_baseline_group_24"
         />
+
 </menu>
