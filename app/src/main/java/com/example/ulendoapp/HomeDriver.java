@@ -7,78 +7,55 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
-import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.gms.location.LocationListener;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -86,20 +63,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.karumi.dexter.listener.single.PermissionListener;
-import com.google.android.gms.location.LocationListener;
-
-import java.util.List;
 
 public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
     LocationListener{
@@ -128,6 +98,11 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     private GoogleMap gMap;
     private Location location;
     private CameraUpdate cameraUpdate;
+    private LocationCallback locationCallback;
+    private double currentLatitude;
+    private double currentLongitude;
+    private int hrOfDay;
+    private int minutes;
 
 
     @Override
@@ -145,16 +120,12 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         header_name = findViewById(R.id.header_name);
         header_email = findViewById(R.id.header_email);
 
+
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+        findViewById(R.id.imageMenu).setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
         setMenu();
         navInit();
@@ -163,112 +134,111 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         checkService();
     }
 
-        private void checkService() {
-            if(checkGooglePlayServices()){
-                mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.driver_map);
-                mapFragment.getMapAsync(this);
 
-                if(isPermissionGranted){
-                    checkGps();
-                }
+    private void checkService() {
+        if(checkGooglePlayServices()){
+            mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.driver_map);
+            mapFragment.getMapAsync(this);
 
-            }else{
-                Toast.makeText(HomeDriver.this, "Google PlayService not available", Toast.LENGTH_LONG).show();
+            if(isPermissionGranted){
+                checkGps();
             }
-            gClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(HomeDriver.this)
-                    .addOnConnectionFailedListener(HomeDriver.this)
-                    .addApi(LocationServices.API)
-                    .build();
 
-            locationRequest = LocationRequest.create()
-                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(10 * 1000)
-                    .setFastestInterval(1 * 1000);
+        }else{
+            Toast.makeText(HomeDriver.this, "Google PlayService not available", Toast.LENGTH_LONG).show();
         }
+        gClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(HomeDriver.this)
+                .addOnConnectionFailedListener(HomeDriver.this)
+                .addApi(LocationServices.API)
+                .build();
 
-        @SuppressLint("MissingPermission")
-        @Override
-        public void onConnected(@Nullable Bundle bundle) {
-            Dexter.withActivity(this)
-                    .withPermissions(PERMISSIONS)
-                    .withListener(new MultiplePermissionsListener() {
-                        @SuppressLint("MissingPermission")
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-                            // check if all permissions are granted
-                            if (report.areAllPermissionsGranted()) {
+        locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10 * 1000)
+                .setFastestInterval(1 * 1000);
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Dexter.withActivity(this)
+                .withPermissions(PERMISSIONS)
+                .withListener(new MultiplePermissionsListener() {
+                    @SuppressLint("MissingPermission")
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
 //                            getCurrentUpdate(gMap);
-                                isPermissionGranted = true;
-                                gMap.setMyLocationEnabled(true);
-                                gMap.getUiSettings().setMyLocationButtonEnabled(true);
-                                gMap.getUiSettings().setZoomControlsEnabled(true);
-                                location = LocationServices.FusedLocationApi.getLastLocation(gClient);
-                                if (location == null) {
-                                    LocationServices.FusedLocationApi.requestLocationUpdates(gClient, locationRequest, HomeDriver.this);
-                                }
-                                else {
-                                    handleNewLocation(location);
-                                }
-
-                                Toast.makeText(getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
+                            isPermissionGranted = true;
+                            gMap.setMyLocationEnabled(true);
+                            gMap.getUiSettings().setMyLocationButtonEnabled(true);
+                            gMap.getUiSettings().setZoomControlsEnabled(true);
+                            location = LocationServices.FusedLocationApi.getLastLocation(gClient);
+                            if (location == null) {
+                                LocationServices.FusedLocationApi.requestLocationUpdates(gClient, locationRequest, HomeDriver.this);
                             }
-                            // check for permanent denial of any permission
-                            if (report.isAnyPermissionPermanentlyDenied()) {
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), "");
-                                intent.setData(uri);
-                                startActivity(intent);
-
+                            else {
+                                handleNewLocation(location);
                             }
+
+                            Toast.makeText(getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
                         }
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getPackageName(), "");
+                            intent.setData(uri);
+                            startActivity(intent);
 
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-                            permissionToken.continuePermissionRequest();
                         }
-                    })
-                    .withErrorListener(new PermissionRequestErrorListener() {
-                        @Override
-                        public void onError(DexterError error) {
-                            Toast.makeText(getApplicationContext(), "Error occurred! " + error.toString(), Toast.LENGTH_SHORT).show();
-                        }
+                    }
 
-                    }).check();
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                })
+                .withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(getApplicationContext(), "Error occurred! " + error.toString(), Toast.LENGTH_SHORT).show();
+                    }
 
-        }
+                }).check();
 
-        private void handleNewLocation(Location location) {
-            Log.d(TAG, location.toString());
-            double currentLatitude = location.getLatitude();
-            double currentLongitude = location.getLongitude();
-            LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+    }
 
-            MarkerOptions options = new MarkerOptions()
-                    .position(latLng)
-                    .title("I am here!");
-            gMap.addMarker(options);
-            gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    private void handleNewLocation(Location location) {
+        gMap.clear();
+        Log.d(TAG, location.toString());
 
-            cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-            gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-                @Override
-                public boolean onMyLocationButtonClick() {
-                    gMap.animateCamera(cameraUpdate);
-                    return true;
-                }
-            });
+        currentLatitude = this.location.getLatitude();
+        currentLongitude = this.location.getLongitude();
 
-        }
+        LocationServices.FusedLocationApi.removeLocationUpdates(gClient, HomeDriver.this);
+    }
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
         handleNewLocation(location);
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        Toast.makeText(HomeDriver.this,"latitude: " + latitude + "/n"
-                + "longtude: " + longitude, Toast.LENGTH_LONG).show();
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+        latitude = currentLatitude;
+        longitude = currentLongitude;
+
+        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+        gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                gMap.animateCamera(cameraUpdate);
+
+                return true;
+            }
+        });
+
     }
 
         @Override
@@ -294,7 +264,10 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         protected void onResume() {
             super.onResume();
             gClient.connect();
+
         }
+
+        @Override
         protected void onPause() {
             super.onPause();
             if (gClient.isConnected()) {
@@ -306,10 +279,13 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         @Override
         public void onMapReady(GoogleMap googleMap) {
             gMap = googleMap;
+            gMap.clear();
+
         }
 
 
-        private boolean checkGooglePlayServices() {
+
+    private boolean checkGooglePlayServices() {
             GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
             int result = googleApiAvailability.isGooglePlayServicesAvailable(this);
             if (result == ConnectionResult.SUCCESS) {

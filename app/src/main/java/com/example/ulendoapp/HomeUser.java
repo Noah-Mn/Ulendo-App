@@ -2,6 +2,9 @@ package com.example.ulendoapp;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
+import static com.example.ulendoapp.fragment_offer_rides.latitude;
+import static com.example.ulendoapp.fragment_offer_rides.longitude;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -136,6 +139,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.READ_EXTERNAL_STORAGE" ,
             "android.permission.READ_PHONE_STATE"};
+    private double currentLatitude;
+    private double currentLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,24 +253,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
     private void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
+        currentLatitude = location.getLatitude();
+        currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("I am here!");
-        gMap.addMarker(options);
-        gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-        gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-                gMap.animateCamera(cameraUpdate);
-                return true;
-            }
-        });
 
         Toast.makeText(HomeUser.this,"latitude: " + currentLatitude + "/n"
                 + "longtude: " + currentLongitude, Toast.LENGTH_LONG).show();
@@ -293,6 +283,21 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onLocationChanged(@NonNull Location location) {
         handleNewLocation(location);
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+//        latitude = currentLatitude;
+//        longitude = currentLongitude;
+
+        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+        gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                gMap.animateCamera(cameraUpdate);
+
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -300,6 +305,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         super.onResume();
         gClient.connect();
     }
+
+    @Override
     protected void onPause() {
         super.onPause();
         if (gClient.isConnected()) {
