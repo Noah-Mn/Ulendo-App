@@ -450,11 +450,11 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                         break;
                     case R.id.my_vehicles:
 
-                        replaceFragments(new My_Payments());
+                        replaceFragments(new driver_my_vehicles());
                         break;
                     case R.id.driver_groups:
 
-                        replaceFragments(new My_Payments());
+                        replaceFragments(new driver_groups());
                         break;
 
                 }
