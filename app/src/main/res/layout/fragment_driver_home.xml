@@ -15,19 +15,23 @@
         app:cardCornerRadius="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginBottom="30dp"
+        app:cardBackgroundColor="#FDFFFFFF"
         android:layout_gravity="bottom"
         >
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            >
 
             <LinearLayout
                 android:id="@+id/chips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:orientation="horizontal">
 
                 <com.google.android.material.chip.ChipGroup
@@ -65,9 +69,10 @@
             <FrameLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/chips"
-
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 />
 
         </RelativeLayout>
