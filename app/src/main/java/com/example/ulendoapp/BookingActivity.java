@@ -26,7 +26,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         bookingActivity();
         displayName = findViewById(R.id.display_name);
 
-        displayName.setText(new StringBuilder().append("Hey").append("Noah").toString());
+        displayName.setText(new StringBuilder().append("Hey").append(" ").append("Name").append(",").append(" ").append("we found these rides for you").toString());
     }
 
     public boolean bookingActivity(){
