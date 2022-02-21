@@ -30,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -93,6 +94,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.READ_EXTERNAL_STORAGE" ,
             "android.permission.READ_PHONE_STATE"};
+
     private SupportMapFragment mapFragment;
     private boolean isPermissionGranted;
     private GoogleApiClient gClient;
@@ -101,11 +103,16 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     private Location location;
     private CameraUpdate cameraUpdate;
     private LocationCallback locationCallback;
-    private double currentLatitude;
-    private double currentLongitude;
-    private int hrOfDay;
-    private int minutes;
-    
+    private int count = 0;
+    public int count1 = 0;
+    private FragmentManager fragmentManager;
+    public FragmentTransaction fragmentTransaction;
+    private FrameLayout layout;
+    public LatLng latLng;
+    public double currentLatitude;
+    public double currentLongitude;
+    public Fragment fr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +127,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         firstName = findViewById(R.id.firstName);
         header_name = findViewById(R.id.header_name);
         header_email = findViewById(R.id.header_email);
-
+        layout = findViewById(R.id.fragment_container);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -177,16 +184,18 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                             isPermissionGranted = true;
                             gMap.setMyLocationEnabled(true);
                             gMap.getUiSettings().setMyLocationButtonEnabled(true);
-                            gMap.getUiSettings().setZoomControlsEnabled(true);
                             location = LocationServices.FusedLocationApi.getLastLocation(gClient);
+
+                            latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
+
                             if (location == null) {
                                 LocationServices.FusedLocationApi.requestLocationUpdates(gClient, locationRequest, HomeDriver.this);
                             }
                             else {
                                 handleNewLocation(location);
+                                Toast.makeText(getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
                             }
-
-                            Toast.makeText(getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
                         }
                         // check for permanent denial of any permission
                         if (report.isAnyPermissionPermanentlyDenied()) {
@@ -221,20 +230,22 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         currentLatitude = this.location.getLatitude();
         currentLongitude = this.location.getLongitude();
 
+        gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        gMap.animateCamera(cameraUpdate);
         LocationServices.FusedLocationApi.removeLocationUpdates(gClient, HomeDriver.this);
     }
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
         handleNewLocation(location);
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+        latLng = new LatLng(currentLatitude, currentLongitude);
         latitude = currentLatitude;
         longitude = currentLongitude;
 
-        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
         gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
+                cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
                 gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 gMap.animateCamera(cameraUpdate);
 
@@ -244,7 +255,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
     }
 
-        @Override
+    @Override
         public void onConnectionSuspended(int i) {
 
         }
@@ -283,7 +294,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         public void onMapReady(GoogleMap googleMap) {
             gMap = googleMap;
             gMap.clear();
-
+            gMap.getUiSettings().setZoomControlsEnabled(true);
         }
 
 
@@ -306,6 +317,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
             return false;
         }
+
     private void checkGps() {
         locationRequest = com.google.android.gms.location.LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -370,34 +382,70 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
         });
     }
+
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
+
                 @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                public boolean onNavigationItemSelected(@NonNull MenuItem item){
                     switch (item.getItemId()){
                         case R.id.home:
+                            fr = new fragment_driver_home();
+                            if(count % 2 == 0 && count1 % 2 == 0){
+                                replaceFragments(fr);
+                                fragmentTransaction.hide(new fragment_driver_notifications());
+                                count++;
+                                break;
 
-                            replaceFragments(new fragment_driver_home());
-                            break;
-
+                            } else if(count % 2 == 0 && count1 % 2 != 0){
+                                replaceFragments(fr);
+                                fragmentTransaction.hide(new fragment_driver_notifications());
+                                count1++;
+                                count++;
+                                break;
+                            } else{
+                                layout.setVisibility(View.GONE);
+                                Toast.makeText(HomeDriver.this, String.valueOf(count), Toast.LENGTH_LONG).show();
+                                count++;
+                                break;
+                            }
                         case R.id.notifications:
-                           
-                            replaceFragments(new fragment_driver_notifications());
-                            break;
+                            fr = new fragment_driver_notifications();
+                            if(count1 % 2 == 0 && count % 2 == 0){
+                                replaceFragments(fr);
+                                fragmentTransaction.hide(new fragment_driver_home());
+                                count1++;
+                                break;
 
+                            } else if(count1 % 2 == 0 && count % 2 != 0){
+                                replaceFragments(fr);
+                                fragmentTransaction.hide(new fragment_driver_home());
+                                count1++;
+                                count++;
+                                break;
+                            } else{
+                                layout.setVisibility(View.GONE);
+                                Toast.makeText(HomeDriver.this, String.valueOf(count1), Toast.LENGTH_LONG).show();
+                                count1++;
+                                break;
+                            }
                         case R.id.profile:
                             startActivity(new Intent(HomeDriver.this, DriverProfile.class));
-                          
                             break;
                     }
+
                     return true;
                 }
             };
+
     private void replaceFragments(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        layout.setVisibility(View.VISIBLE);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+
     }
 
     private void navInit() {

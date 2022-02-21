@@ -2,14 +2,22 @@ package com.example.ulendoapp;
 
 import static android.content.ContentValues.TAG;
 
+import static java.security.AccessController.getContext;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.api.AuthProvider;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,10 +40,14 @@ public class EditUserProfile extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private String firstName, lastName, phoneNumber, email, dateOfBirth, nationalID, physicalAddress;
+    private String firstName, lastName, phoneNumber, email, dateOfBirth, nationalID, physicalAddress, emailAddress;
     private ImageView E_profile_back;
     private Button updateBtn;
     private boolean success;
+    public String password;
+    private Object view;
+    private AuthCredential credential;
+    static String currPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +78,8 @@ public class EditUserProfile extends AppCompatActivity {
             public void onClick(View view) {
                 setUserTextInfo();
 
-                if(!email.isEmpty()){
-                    if(updateAuthEmail()){
-                        updateEmail();
-                    } else{
-                        Toast.makeText(EditUserProfile.this, "email did not update", Toast.LENGTH_LONG).show();
-                    }
+                if(!emailAddress.isEmpty() && emailAddress != getEmail()){
+                    dialogGetPassword();
                 }
                 updateFirstName();
                 updateSurname();
@@ -80,24 +89,65 @@ public class EditUserProfile extends AppCompatActivity {
             }
         });
 
-
         getMoreUserData();
+    }
+
+    public boolean dialogGetPassword(){
+        success = false;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
+
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.text_input_password, (ViewGroup) getView(), false);
+        final EditText input = (EditText) viewInflated.findViewById(R.id.input);
+        builder.setView(viewInflated);
+
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                password = input.getText().toString();
+                if(password.equals(currPassword)){
+                    updateAuthEmail(password);
+                    updateEmail();
+                    success = true;
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(EditUserProfile.this, "Wrong password, Email change failed", Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                success = false;
+                dialog.cancel();
+
+            }
+        });
+
+        builder.show();
+        return success;
+
     }
 
     public void setUserTextInfo(){
         String fullName = edit_full_name.getText().toString();
-        String[] splitName = fullName.split(" ");
-
-        if(splitName != null){
-            for(int i = 0; i < splitName.length; i++){
-                firstName = splitName[0];
-                lastName = splitName[1];
+        if(fullName != null){
+            String[] splitName = fullName.split(" ");
+            if(splitName != null){
+                for(int i = 0; i < splitName.length; i++){
+                    firstName = splitName[0];
+                    if(splitName.length == 2){
+                        lastName = splitName[1];
+                    }
+                }
             }
         }
 
         dateOfBirth = edit_date_of_birth.getText().toString();
         phoneNumber = edit_phone_number.getText().toString();
-        email = edit_email_address.getText().toString();
+        emailAddress = edit_email_address.getText().toString();
         nationalID = edit_national_id.getText().toString();
         physicalAddress = edit_physical_address.getText().toString();
     }
@@ -115,9 +165,10 @@ public class EditUserProfile extends AppCompatActivity {
                                 firstName = document.getString("First Name");
                                 lastName = document.getString("Surname");
                                 phoneNumber = document.getString("Phone Number");
+                                email = document.getString("Email Address");
+
                                 edit_full_name.setText(new StringBuilder().append(firstName).append(" ").append(lastName).toString());
                                 edit_phone_number.setText(phoneNumber);
-                                email = document.getString("Email Address");
                                 edit_email_address.setText(email, TextView.BufferType.EDITABLE);
                             }
                         } else {
@@ -125,6 +176,33 @@ public class EditUserProfile extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void updateAuthEmail(String password){
+        Toast.makeText(EditUserProfile.this, getEmail(), Toast.LENGTH_LONG).show();
+
+        credential = EmailAuthProvider.getCredential(getEmail(), password);
+
+        if(!emailAddress.isEmpty() && emailAddress != getEmail()) {
+            currentUser.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Log.d(TAG, "User re-authenticated.");
+                            currentUser.updateEmail(emailAddress)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User email address updated.");
+                                                Toast.makeText(EditUserProfile.this, "successfully changed Auth email" + emailAddress, Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                            //----------------------------------------------------------\\
+                        }
+                    });
+        }
     }
 
     private void updateFirstName() {
@@ -188,65 +266,6 @@ public class EditUserProfile extends AppCompatActivity {
     }
 
     private void updateDoB() {
-        if(!email.isEmpty()){
-            db.collection("Users")
-                    .whereEqualTo("Email Address", getEmail())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, "Email already exist!");
-                                    String userId = document.getId();
-                                    db.collection("Users")
-                                            .document(userId)
-                                            .update("Email Address", email);
-
-                                    Toast.makeText(EditUserProfile.this, "successfully changed email address", Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Log.d(TAG, "Email does not exist ", task.getException());
-                                Toast.makeText(EditUserProfile.this, "change failed", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-        } else {
-            Toast.makeText(EditUserProfile.this, "Email did not update", Toast.LENGTH_LONG).show();
-        }
-
-    }
-
-    private void updateEmail() {
-        if(!phoneNumber.isEmpty()){
-            db.collection("Users")
-                    .whereEqualTo("Email Address", getEmail())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, "Email already exist!");
-                                    String userId = document.getId();
-                                    db.collection("Users")
-                                            .document(userId)
-                                            .update("Phone Number", phoneNumber);
-
-                                    Toast.makeText(EditUserProfile.this, "successfully changed phone number", Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Toast.makeText(EditUserProfile.this, "change failed", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-        } else {
-            Toast.makeText(EditUserProfile.this, "Phone number did not update", Toast.LENGTH_LONG).show();
-        }
-
-    }
-
-    private void updateNationalID() {
         if(!dateOfBirth.isEmpty()){
             db.collection("Users")
                     .whereEqualTo("Email Address", getEmail())
@@ -262,7 +281,65 @@ public class EditUserProfile extends AppCompatActivity {
                                             .document(userId)
                                             .update("Date of Birth", dateOfBirth);
 
-                                    Toast.makeText(EditUserProfile.this, "successfully changed date of birth", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(EditUserProfile.this, "successfully changed birthday", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(EditUserProfile.this, "change failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(EditUserProfile.this, "Birthday did not update", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void updateEmail() {
+        if(!emailAddress.isEmpty()){
+            db.collection("Users")
+                    .whereEqualTo("Email Address", getEmail())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, "Email already exist!");
+                                    String userId = document.getId();
+                                    db.collection("Users")
+                                            .document(userId)
+                                            .update("Email Address", emailAddress);
+
+                                    Toast.makeText(EditUserProfile.this, "successfully changed email", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(EditUserProfile.this, "change failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(EditUserProfile.this, "Email did not update", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void updateNationalID() {
+        if(!nationalID.isEmpty()){
+            db.collection("Users")
+                    .whereEqualTo("Email Address", getEmail())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, "Email already exist!");
+                                    String userId = document.getId();
+                                    db.collection("Users")
+                                            .document(userId)
+                                            .update("Date of Birth", nationalID);
+
+                                    Toast.makeText(EditUserProfile.this, "successfully changed nationalID", Toast.LENGTH_LONG).show();
                                 }
                             } else {
                                 Log.d(TAG, "Email does not exist ", task.getException());
@@ -290,7 +367,7 @@ public class EditUserProfile extends AppCompatActivity {
                                     String userId = document.getId();
                                     db.collection("Users")
                                             .document(userId)
-                                            .update("Physical Address", "driver");
+                                            .update("Physical Address", physicalAddress);
 
                                     Toast.makeText(EditUserProfile.this, "successfully changed physical address", Toast.LENGTH_LONG).show();
                                 }
@@ -305,44 +382,17 @@ public class EditUserProfile extends AppCompatActivity {
 
     }
 
-    public boolean updateAuthEmail(){
-        success = false;
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        AuthCredential credential = EmailAuthProvider.getCredential("user@example.com", "password1234"); // Current Login Credentials \\
-
-        if(!email.isEmpty()){
-            user.reauthenticate(credential)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Log.d(TAG, "User re-authenticated.");
-                            //Now change your email address \\
-                            //----------------Code for Changing Email Address----------\\
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            user.updateEmail(email)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Log.d(TAG, "User email address updated.");
-                                            }
-                                        }
-                                    });
-                            //----------------------------------------------------------\\
-                        }
-                    });
-            success = true;
-        } else {
-            success = false;
-        }
-       return success;
-    }
-
-
-
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
+    }
+
+    public Object getView() {
+        return view;
+    }
+
+    public void setView(Object view) {
+        this.view = view;
     }
 }

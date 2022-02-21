@@ -1,7 +1,7 @@
 package com.example.ulendoapp;
 
 import static android.content.ContentValues.TAG;
-
+import static com.example.ulendoapp.EditUserProfile.currPassword;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity {
         materialCreateAcc.setOnClickListener(v -> startActivity(new Intent(Login.this, UserSignup.class)));
 
         loginBtn.setOnClickListener(v -> {
-//            Login.this.startActivity(new Intent(Login.this, HomeDriver.class));
+//            Login.this.startActivity(new Intent(Login.this, HomeUser.class));
             performLogin();
         });
     }
@@ -79,6 +79,7 @@ public class Login extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         logEmailAddress = Objects.requireNonNull(loginEmail.getText()).toString();
         logPassword = Objects.requireNonNull(loginPassword.getText()).toString();
+        currPassword = logPassword;
 
         if (!logEmailAddress.matches(emailPattern)){
             materialLogEmail.setError("Please enter a valid email address");

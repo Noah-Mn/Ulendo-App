@@ -40,6 +40,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -139,8 +140,16 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.READ_EXTERNAL_STORAGE" ,
             "android.permission.READ_PHONE_STATE"};
-    private double currentLatitude;
-    private double currentLongitude;
+
+    private FrameLayout layout;
+    public LatLng latLng;
+    public double currentLatitude;
+    public double currentLongitude;
+    public int count = 0;
+    public int count1 = 0;
+    private Fragment fr;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,11 +160,13 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = auth.getCurrentUser();
+
         progressDialog = new ProgressDialog(this);
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         bottom_navigation = findViewById(R.id.bottom_navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
+        layout = findViewById(R.id.fragment_container_user);
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
 
@@ -172,7 +183,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
     }
 
     private void checkService() {
@@ -214,16 +224,18 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                             isPermissionGranted = true;
                             gMap.setMyLocationEnabled(true);
                             gMap.getUiSettings().setMyLocationButtonEnabled(true);
-                            gMap.getUiSettings().setZoomControlsEnabled(true);
                             location = LocationServices.FusedLocationApi.getLastLocation(gClient);
+
+                            latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
+
                             if (location == null) {
                                 LocationServices.FusedLocationApi.requestLocationUpdates(gClient, locationRequest, HomeUser.this);
                             }
                             else {
                                 handleNewLocation(location);
+                                Toast.makeText(getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
                             }
-
-                            Toast.makeText(getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
                         }
                         // check for permanent denial of any permission
                         if (report.isAnyPermissionPermanentlyDenied()) {
@@ -252,14 +264,37 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void handleNewLocation(Location location) {
+        gMap.clear();
         Log.d(TAG, location.toString());
-        currentLatitude = location.getLatitude();
-        currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
-        Toast.makeText(HomeUser.this,"latitude: " + currentLatitude + "/n"
-                + "longtude: " + currentLongitude, Toast.LENGTH_LONG).show();
+        currentLatitude = this.location.getLatitude();
+        currentLongitude = this.location.getLongitude();
+
+        gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        gMap.animateCamera(cameraUpdate);
+        LocationServices.FusedLocationApi.removeLocationUpdates(gClient, HomeUser.this);
     }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        handleNewLocation(location);
+        latLng = new LatLng(currentLatitude, currentLongitude);
+        latitude = currentLatitude;
+        longitude = currentLongitude;
+
+        gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                gMap.animateCamera(cameraUpdate);
+
+                return true;
+            }
+        });
+
+    }
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -281,26 +316,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     @Override
-    public void onLocationChanged(@NonNull Location location) {
-        handleNewLocation(location);
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-//        latitude = currentLatitude;
-//        longitude = currentLongitude;
-
-        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-        gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-                gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                gMap.animateCamera(cameraUpdate);
-
-                return true;
-            }
-        });
-
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         gClient.connect();
@@ -318,15 +333,16 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
+        gMap.clear();
+        gMap.getUiSettings().setZoomControlsEnabled(true);
     }
-
 
     private boolean checkGooglePlayServices() {
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
         int result = googleApiAvailability.isGooglePlayServicesAvailable(this);
-        if(result == ConnectionResult.SUCCESS){
+        if (result == ConnectionResult.SUCCESS) {
             return true;
-        } else if(googleApiAvailability.isUserResolvableError(result)){
+        } else if (googleApiAvailability.isUserResolvableError(result)) {
             Dialog dialog = googleApiAvailability.getErrorDialog(this, result, 201, new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialogInterface) {
@@ -340,33 +356,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         return false;
     }
 
-   /* @SuppressLint("MissingPermission")
-    private void getCurrentUpdate(GoogleMap googleMap) {
-        gMap = googleMap;
-        client = LocationServices.getFusedLocationProviderClient(HomeUser.this);
-
-        client.requestLocationUpdates(locationRequest, new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                latitude = locationResult.getLastLocation().getLatitude();
-                longitude = locationResult.getLastLocation().getLongitude();
-
-                latLng = new LatLng(longitude, latitude);
-
-                cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 5 );
-                gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-                    @Override
-                    public boolean onMyLocationButtonClick() {
-                        gMap.animateCamera(cameraUpdate);
-                        return true;
-                    }
-                });
-
-            }
-        }, Looper.getMainLooper());
-    }
-*/
     private void checkGps() {
         locationRequest = com.google.android.gms.location.LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -403,47 +392,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
-        /************************** THIS WAS another way of implementing the map ************************/
-
-/*    @SuppressLint("MissingPermission")
-    private void locationUpdate() {
-        lManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        lManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, HomeUser.this);
-    }
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-
-    }
-
-    @Override
-    public void onLocationChanged(@NonNull List<Location> locations) {
-        LocationListener.super.onLocationChanged(locations);
-    }
-
-    @Override
-    public void onFlushComplete(int requestCode) {
-        LocationListener.super.onFlushComplete(requestCode);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        LocationListener.super.onStatusChanged(provider, status, extras);
-    }
-
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-        LocationListener.super.onProviderEnabled(provider);
-    }
-
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
-        LocationListener.super.onProviderDisabled(provider);
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
-    }*/
 
 
     @Override
@@ -543,24 +491,58 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 });
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+    private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()){
-                        case R.id.notifications:
-                            replaceFragments(new fragment_notifications());
-                            break;
 
+                    switch (item.getItemId()) {
                         case R.id.home:
-                            replaceFragments(new fragment_home());
-                            break;
+                            fr = new fragment_home();
+                            if(count % 2 == 0 && count1 % 2 == 0){
+                                replaceFragments(fr);
+                                fragmentTransaction.hide(new fragment_notifications());
+                                count++;
+                                break;
 
+                            } else if(count % 2 == 0 && count1 % 2 != 0){
+                                replaceFragments(fr);
+                                fragmentTransaction.hide(new fragment_notifications());
+                                count1++;
+                                count++;
+                                break;
+                            } else{
+                                layout.setVisibility(View.GONE);
+                                Toast.makeText(HomeUser.this, String.valueOf(count), Toast.LENGTH_LONG).show();
+                                count++;
+                                break;
+                            }
+                        case R.id.notifications:
+                            fr = new fragment_notifications();
+                            if(count1 % 2 == 0 && count % 2 == 0){
+                                replaceFragments(fr);
+                                fragmentTransaction.hide(new fragment_driver_home());
+                                count1++;
+                                break;
+
+                            } else if(count1 % 2 == 0 && count % 2 != 0){
+                                replaceFragments(fr);
+                                fragmentTransaction.hide(new fragment_driver_home());
+                                count1++;
+                                count++;
+                                break;
+                            } else{
+                                layout.setVisibility(View.GONE);
+                                Toast.makeText(HomeUser.this, String.valueOf(count1), Toast.LENGTH_LONG).show();
+                                count1++;
+                                break;
+                            }
                         case R.id.profile:
                             startActivity(new Intent(HomeUser.this, UserProfile.class));
                             break;
                     }
                     return true;
+
                 }
             };
 
@@ -673,9 +655,11 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void replaceFragments(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        layout.setVisibility(View.VISIBLE);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+        fragmentTransaction.replace(R.id.fragment_container_user, fragment);
         fragmentTransaction.commit();
         }
 

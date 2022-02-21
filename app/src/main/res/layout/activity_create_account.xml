@@ -6,59 +6,83 @@
     android:layout_height="match_parent"
     tools:context=".CreateAccount">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_layout_create_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="5dp">
+
+            <ImageView
+                android:id="@+id/create_account_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_24"
+                android:contentDescription="@string/back_button" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@color/white"
+                android:text="Signup"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/materialEmailAddress"
+        android:id="@+id/material_email_address"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp"
-        android:hint="Email"
-        android:textColorHint="@color/black"
-        app:endIconMode="custom"
-        app:endIconTint="@color/black"
-        app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/materialPassword"
+        android:background="@color/white"
+        android:hint="@string/email_address"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13">
+        app:layout_constraintTop_toBottomOf="@+id/appbar_layout_create_account">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textEmailAddress"
+            android:id="@+id/email_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="20dp" />
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/materialPassword"
+        android:id="@+id/material_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginTop="30dp"
         android:hint="Password"
+        app:endIconMode="password_toggle"
         android:textColorHint="@color/black"
-        app:endIconMode="custom"
         app:endIconTint="@color/black"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/materialConfirmPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialEmailAddress">
+        app:layout_constraintTop_toBottomOf="@+id/material_email_address">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textPassword"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
@@ -69,24 +93,25 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/materialConfirmPassword"
+        android:id="@+id/material_confirm_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
         android:hint="Confirm Password"
         android:inputType="phone"
         android:textColorHint="@color/black"
-        app:endIconTint="@color/black"
+        app:endIconTint="#0A51E1"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialPassword">
+        app:layout_constraintTop_toBottomOf="@+id/material_password">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textConfirmPassword"
+            android:id="@+id/confirm_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
@@ -95,46 +120,22 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/create_account_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/materialConfirmPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.7">
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/signup_backBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:backgroundTint="#1B9313"
-            android:text="Back"
-            android:textAlignment="center"
-            app:iconGravity="textEnd"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/confirmBtn"
-            app:layout_constraintHorizontal_bias="0.084"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/confirmBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="#1B9313"
-            android:text="Confirm"
-            android:textAlignment="center"
-            app:iconGravity="textEnd"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/quantum_googgreen"
+        android:gravity="center"
+        android:inputType="phone"
+        android:text="Sign up"
+        android:textSize="17dp"
+        android:textColorHint="@color/black"
+        app:endIconTint="@color/black"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="@+id/material_confirm_password"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/material_confirm_password"
+        app:layout_constraintTop_toBottomOf="@+id/material_confirm_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
