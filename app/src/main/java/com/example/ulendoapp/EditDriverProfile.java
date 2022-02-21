@@ -94,6 +94,7 @@ public class EditDriverProfile extends AppCompatActivity {
                     updateSurname();
                     updateDoB();
                     updateNationalID();
+                    updatePhoneNumber();
                     updatePhysicalAddress();
                 }
             }
@@ -115,7 +116,7 @@ public class EditDriverProfile extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 password = input.getText().toString();
-                if(password.equals(driverPassword)){
+                if(password.equals(driverPassword) && validateEmail()){
                     success = true;
                     dialog.dismiss();
                 } else {
@@ -166,24 +167,8 @@ public class EditDriverProfile extends AppCompatActivity {
         try {
             if (firstName.length() > 20) {
                 materialFullName.setError("Invalid first name");
-            }else if(firstName.isEmpty()){
-                materialFullName.setError("Please enter first name");
-            }  else if(dateOfBirth.isEmpty()){
-                materialBirthday.setError("Please set birthday");
-            } else if (phoneNumber.isEmpty()) {
-                materialPhoneNumber.setError("Please enter phone number");
             } else if(phoneNumber.length() > 12){
                 materialPhoneNumber.setError("Invalid phone number");
-            }else if(nationalId.isEmpty()){
-                materialNationalId.setError("please enter a national ID");
-            } else if (physicalAddress.isEmpty()) {
-                materialPhysicalAddress.setError("please enter your physical address");
-            } else {
-                valid = true;
-            }
-
-            if (emailAddress.isEmpty()) {
-                materialEmailAddress.setError("Please enter email address");
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
                 materialEmailAddress.setError("Invalid email");
             } else {
@@ -194,6 +179,28 @@ public class EditDriverProfile extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
         }
+        return valid;
+    }
+
+    private boolean validateEmail(){
+        db.collection("Users")
+                .whereEqualTo("Email Address", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, "Email already exist!");
+                                materialEmailAddress.setError("Email address already in use");
+                                valid = false;
+                            }
+                        } else {
+                            Log.d(TAG, "Email address not in use", task.getException());
+                            valid = true;
+                        }
+                    }
+                });
         return valid;
     }
 
@@ -346,6 +353,35 @@ public class EditDriverProfile extends AppCompatActivity {
 
     }
 
+    private void updatePhoneNumber() {
+        if(!phoneNumber.isEmpty() && !phoneNumber.equals(pNumber)){
+            db.collection("Users")
+                    .whereEqualTo("Email Address", getEmail())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, "Email already exist!");
+                                    String userId = document.getId();
+                                    db.collection("Users")
+                                            .document(userId)
+                                            .update("Phone Number", phoneNumber);
+
+                                    Toast.makeText(EditDriverProfile.this, "successfully changed phone number", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(EditDriverProfile.this, "change failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        } else {
+//            Toast.makeText(EditDriverProfile.this, "Birthday did not update", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
     private void updateEmail() {
         if(!emailAddress.isEmpty() && !emailAddress.equals(email)){
             db.collection("Users")
@@ -389,9 +425,9 @@ public class EditDriverProfile extends AppCompatActivity {
                                     String userId = document.getId();
                                     db.collection("Users")
                                             .document(userId)
-                                            .update("Date of Birth", nationalId);
+                                            .update("National ID", nationalId);
 
-                                    Toast.makeText(EditDriverProfile.this, "successfully changed nationalID", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(EditDriverProfile.this, "successfully changed national ID", Toast.LENGTH_LONG).show();
                                 }
                             } else {
                                 Log.d(TAG, "Email does not exist ", task.getException());

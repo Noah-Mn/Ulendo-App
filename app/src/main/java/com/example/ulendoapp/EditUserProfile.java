@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,12 +30,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class EditUserProfile extends AppCompatActivity {
-    private final String TAG = "Edit User Profile";
-    private TextInputEditText edit_full_name, edit_email_address, edit_phone_number, edit_date_of_birth, edit_national_id, edit_physical_address;
+    private final String TAG = "tag";
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private String firstName, lastName, phoneNumber, dateOfBirth, nationalID, physicalAddress, emailAddress;
+    private TextInputEditText edit_full_name, edit_email_address, edit_phone_number, edit_date_of_birth, edit_national_id, edit_physical_address;
+    private String firstName, lastName, phoneNumber, dateOfBirth, nationalId, physicalAddress, emailAddress;
     private String fName, surname, birthday, pNumber, email, id, phyAddress;
     private ImageView E_profile_back;
     private Button updateBtn;
@@ -43,7 +44,8 @@ public class EditUserProfile extends AppCompatActivity {
     private Object view;
     private AuthCredential credential;
     static String userPassword;
-
+    private TextInputLayout materialFullName, materialBirthday, materialEmailAddress, materialPhoneNumber, materialNationalId, materialPhysicalAddress;
+    private boolean valid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,15 @@ public class EditUserProfile extends AppCompatActivity {
         edit_email_address = findViewById(R.id.edit_email_address);
         edit_physical_address = findViewById(R.id.edit_physical_address);
         edit_date_of_birth = findViewById(R.id.edit_date_of_birth);
-        edit_national_id = findViewById(R.id.edit_national_ID);
+        edit_national_id = findViewById(R.id.edit_national_id);
+
+        materialFullName = findViewById(R.id.material_full_name);
+        materialBirthday = findViewById(R.id.material_date_of_birth);
+        materialPhoneNumber = findViewById(R.id.material_phone_number);
+        materialEmailAddress = findViewById(R.id.material_email_address);
+        materialNationalId = findViewById(R.id.material_national_id);
+        materialPhysicalAddress = findViewById(R.id.material_physical_address);
+
         updateBtn = findViewById(R.id.user_update_btn);
 
         currentUser = auth.getCurrentUser();
@@ -71,16 +81,15 @@ public class EditUserProfile extends AppCompatActivity {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setUserTextInfo();
-
-                if(!emailAddress.isEmpty() && emailAddress != getEmail()){
-                    dialogGetPassword();
+                if(validateUpdateForm()) {
+                    updateAuthEmail();
+                    updateFirstName();
+                    updateSurname();
+                    updatePhoneNumber();
+                    updateDoB();
+                    updateNationalID();
+                    updatePhysicalAddress();
                 }
-                updateFirstName();
-                updateSurname();
-                updateDoB();
-                updateNationalID();
-                updatePhysicalAddress();
             }
         });
 
@@ -100,9 +109,7 @@ public class EditUserProfile extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 password = input.getText().toString();
-                if(password.equals(userPassword)){
-                    updateAuthEmail(password);
-                    updateEmail();
+                if(password.equals(userPassword) && validateEmail()){
                     success = true;
                     dialog.dismiss();
                 } else {
@@ -143,7 +150,7 @@ public class EditUserProfile extends AppCompatActivity {
         dateOfBirth = edit_date_of_birth.getText().toString();
         phoneNumber = edit_phone_number.getText().toString();
         emailAddress = edit_email_address.getText().toString();
-        nationalID = edit_national_id.getText().toString();
+        nationalId = edit_national_id.getText().toString();
         physicalAddress = edit_physical_address.getText().toString();
     }
 
@@ -179,35 +186,78 @@ public class EditUserProfile extends AppCompatActivity {
                 });
     }
 
-    public void updateAuthEmail(String password){
-        Toast.makeText(EditUserProfile.this, getEmail(), Toast.LENGTH_LONG).show();
+    public void updateAuthEmail(){
+        if(!emailAddress.isEmpty() && !emailAddress.equals(email)) {
+            if(dialogGetPassword()){
+                credential = EmailAuthProvider.getCredential(getEmail(), password);
 
-        credential = EmailAuthProvider.getCredential(getEmail(), password);
-
-        if(!emailAddress.isEmpty() && emailAddress != getEmail()) {
-            currentUser.reauthenticate(credential)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Log.d(TAG, "User re-authenticated.");
-                            currentUser.updateEmail(emailAddress)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Log.d(TAG, "User email address updated.");
-                                                Toast.makeText(EditUserProfile.this, "successfully changed Auth email" + emailAddress, Toast.LENGTH_LONG).show();
+                currentUser.reauthenticate(credential)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Log.d(TAG, "User re-authenticated.");
+                                currentUser.updateEmail(emailAddress)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "User email address updated.");
+                                                    updateEmail();
+                                                    Toast.makeText(EditUserProfile.this, "successfully changed Auth email" + emailAddress, Toast.LENGTH_LONG).show();
+                                                }
                                             }
-                                        }
-                                    });
-                            //----------------------------------------------------------\\
-                        }
-                    });
+                                        });
+                                //----------------------------------------------------------\\
+                            }
+                        });
+            }
         }
     }
 
+    private boolean validateEmail(){
+        db.collection("Users")
+                .whereEqualTo("Email Address", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, "Email already exist!");
+                                materialEmailAddress.setError("Email address already in use");
+                                valid = false;
+                            }
+                        } else {
+                            Log.d(TAG, "Email address not in use", task.getException());
+                            valid = true;
+                        }
+                    }
+                });
+        return valid;
+    }
+    public boolean validateUpdateForm(){
+        setUserTextInfo();
+        valid = false;
+        try {
+            if (firstName.length() > 20) {
+                materialFullName.setError("Invalid first name");
+            } else if(phoneNumber.length() > 12){
+                materialPhoneNumber.setError("Invalid phone number");
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
+                materialEmailAddress.setError("Invalid email");
+            } else {
+                valid = true;
+            }
+
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+        }
+        return valid;
+    }
+
     private void updateFirstName() {
-        if(!firstName.isEmpty()){
+        if(!firstName.isEmpty() && !firstName.equals(fName)){
             db.collection("Users")
                     .whereEqualTo("Email Address", getEmail())
                     .get()
@@ -230,14 +280,12 @@ public class EditUserProfile extends AppCompatActivity {
                             }
                         }
                     });
-        } else {
-            Toast.makeText(EditUserProfile.this, "First name did not update", Toast.LENGTH_LONG).show();
         }
 
     }
 
     private void updateSurname() {
-        if(!lastName.isEmpty()){
+        if(!lastName.isEmpty() && !lastName.equals(surname)){
             db.collection("Users")
                     .whereEqualTo("Email Address", getEmail())
                     .get()
@@ -260,14 +308,37 @@ public class EditUserProfile extends AppCompatActivity {
                             }
                         }
                     });
-        } else {
-            Toast.makeText(EditUserProfile.this, "Surname did not update", Toast.LENGTH_LONG).show();
         }
+    }
 
+    private void updatePhoneNumber() {
+        if(!phoneNumber.isEmpty() && !phoneNumber.equals(pNumber)){
+            db.collection("Users")
+                    .whereEqualTo("Email Address", getEmail())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, "Email already exist!");
+                                    String userId = document.getId();
+                                    db.collection("Users")
+                                            .document(userId)
+                                            .update("Phone Number", phoneNumber);
+
+                                    Toast.makeText(EditUserProfile.this, "successfully phone number", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(EditUserProfile.this, "change failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
     }
 
     private void updateDoB() {
-        if(!dateOfBirth.isEmpty()){
+        if(!dateOfBirth.isEmpty() && !dateOfBirth.equals(birthday)){
             db.collection("Users")
                     .whereEqualTo("Email Address", getEmail())
                     .get()
@@ -289,14 +360,11 @@ public class EditUserProfile extends AppCompatActivity {
                             }
                         }
                     });
-        } else {
-            Toast.makeText(EditUserProfile.this, "Birthday did not update", Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void updateEmail() {
-        if(!emailAddress.isEmpty()){
+        if(!emailAddress.isEmpty() && !emailAddress.equals(email)){
             db.collection("Users")
                     .whereEqualTo("Email Address", getEmail())
                     .get()
@@ -318,14 +386,11 @@ public class EditUserProfile extends AppCompatActivity {
                             }
                         }
                     });
-        } else {
-            Toast.makeText(EditUserProfile.this, "Email did not update", Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void updateNationalID() {
-        if(!nationalID.isEmpty()){
+        if(!nationalId.isEmpty() && !nationalId.equals(id)){
             db.collection("Users")
                     .whereEqualTo("Email Address", getEmail())
                     .get()
@@ -338,9 +403,9 @@ public class EditUserProfile extends AppCompatActivity {
                                     String userId = document.getId();
                                     db.collection("Users")
                                             .document(userId)
-                                            .update("Date of Birth", nationalID);
+                                            .update("National ID", nationalId);
 
-                                    Toast.makeText(EditUserProfile.this, "successfully changed nationalID", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(EditUserProfile.this, "successfully changed national ID", Toast.LENGTH_LONG).show();
                                 }
                             } else {
                                 Log.d(TAG, "Email does not exist ", task.getException());
@@ -348,14 +413,11 @@ public class EditUserProfile extends AppCompatActivity {
                             }
                         }
                     });
-        } else {
-            Toast.makeText(EditUserProfile.this, "Date of birth did not update", Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void updatePhysicalAddress() {
-        if(!physicalAddress.isEmpty()){
+        if(!physicalAddress.isEmpty() && !physicalAddress.equals(phyAddress)){
             db.collection("Users")
                     .whereEqualTo("Email Address", getEmail())
                     .get()
@@ -377,10 +439,7 @@ public class EditUserProfile extends AppCompatActivity {
                             }
                         }
                     });
-        } else {
-            Toast.makeText(EditUserProfile.this, "First name did not update", Toast.LENGTH_LONG).show();
         }
-
     }
 
     public String getEmail(){
