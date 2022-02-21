@@ -226,9 +226,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                             gMap.getUiSettings().setMyLocationButtonEnabled(true);
                             location = LocationServices.FusedLocationApi.getLastLocation(gClient);
 
-                            latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                            cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
-
                             if (location == null) {
                                 LocationServices.FusedLocationApi.requestLocationUpdates(gClient, locationRequest, HomeUser.this);
                             }
@@ -269,6 +266,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
         currentLatitude = this.location.getLatitude();
         currentLongitude = this.location.getLongitude();
+        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
 
         gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         gMap.animateCamera(cameraUpdate);

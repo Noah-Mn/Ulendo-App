@@ -186,9 +186,6 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                             gMap.getUiSettings().setMyLocationButtonEnabled(true);
                             location = LocationServices.FusedLocationApi.getLastLocation(gClient);
 
-                            latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                            cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
-
                             if (location == null) {
                                 LocationServices.FusedLocationApi.requestLocationUpdates(gClient, locationRequest, HomeDriver.this);
                             }
@@ -229,6 +226,8 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
         currentLatitude = this.location.getLatitude();
         currentLongitude = this.location.getLongitude();
+        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
 
         gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         gMap.animateCamera(cameraUpdate);

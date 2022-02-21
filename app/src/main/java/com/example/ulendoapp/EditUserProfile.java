@@ -1,9 +1,5 @@
 package com.example.ulendoapp;
 
-import static android.content.ContentValues.TAG;
-
-import static java.security.AccessController.getContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +20,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.api.AuthProvider;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,14 +34,15 @@ public class EditUserProfile extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private String firstName, lastName, phoneNumber, email, dateOfBirth, nationalID, physicalAddress, emailAddress;
+    private String firstName, lastName, phoneNumber, dateOfBirth, nationalID, physicalAddress, emailAddress;
+    private String fName, surname, birthday, pNumber, email, id, phyAddress;
     private ImageView E_profile_back;
     private Button updateBtn;
     private boolean success;
     public String password;
     private Object view;
     private AuthCredential credential;
-    static String currPassword;
+    static String userPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +100,7 @@ public class EditUserProfile extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 password = input.getText().toString();
-                if(password.equals(currPassword)){
+                if(password.equals(userPassword)){
                     updateAuthEmail(password);
                     updateEmail();
                     success = true;
@@ -162,14 +157,20 @@ public class EditUserProfile extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                firstName = document.getString("First Name");
-                                lastName = document.getString("Surname");
-                                phoneNumber = document.getString("Phone Number");
+                                fName = document.getString("First Name");
+                                surname = document.getString("Surname");
+                                birthday = document.getString("Date of Birth");
+                                pNumber = document.getString("Phone Number");
                                 email = document.getString("Email Address");
+                                id = document.getString("National ID");
+                                phyAddress = document.getString("Physical Address");
 
-                                edit_full_name.setText(new StringBuilder().append(firstName).append(" ").append(lastName).toString());
-                                edit_phone_number.setText(phoneNumber);
+                                edit_full_name.setText(new StringBuilder().append(fName).append(" ").append(surname).toString(),  TextView.BufferType.EDITABLE);
+                                edit_date_of_birth.setText(birthday,  TextView.BufferType.EDITABLE);
+                                edit_phone_number.setText(pNumber,  TextView.BufferType.EDITABLE);
                                 edit_email_address.setText(email, TextView.BufferType.EDITABLE);
+                                edit_national_id.setText(id,  TextView.BufferType.EDITABLE);
+                                edit_physical_address.setText(phyAddress,  TextView.BufferType.EDITABLE);
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

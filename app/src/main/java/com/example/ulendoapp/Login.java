@@ -1,7 +1,8 @@
 package com.example.ulendoapp;
 
-import static android.content.ContentValues.TAG;
-import static com.example.ulendoapp.EditUserProfile.currPassword;
+
+import static com.example.ulendoapp.EditDriverProfile.driverPassword;
+import static com.example.ulendoapp.EditUserProfile.userPassword;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -79,9 +80,10 @@ public class Login extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         logEmailAddress = Objects.requireNonNull(loginEmail.getText()).toString();
         logPassword = Objects.requireNonNull(loginPassword.getText()).toString();
-        currPassword = logPassword;
+        userPassword = logPassword;
+        driverPassword = logPassword;
 
-        if (!logEmailAddress.matches(emailPattern)){
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(logEmailAddress).matches()){
             materialLogEmail.setError("Please enter a valid email address");
         }else if (logEmailAddress.isEmpty()){
             materialLogEmail.setError("Enter email address");

@@ -23,7 +23,7 @@
             android:elevation="5dp">
 
             <ImageView
-                android:id="@+id/E_profile_back"
+                android:id="@+id/E_driver_profile_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/back_24"
@@ -66,7 +66,7 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/full_name"
+        android:id="@+id/material_driver_full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -74,11 +74,13 @@
         android:layout_marginEnd="20dp"
         android:hint="@string/full_name"
         android:background="@color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/change_avatar">
+
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_full_name"
+            android:id="@+id/edit_driver_full_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/black"
@@ -88,7 +90,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/date_of_birth"
+        android:id="@+id/material_driver_date_of_birth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -96,10 +98,13 @@
         android:layout_marginEnd="20dp"
         android:hint="@string/date_of_birth"
         android:background="@color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/full_name">
+        app:layout_constraintTop_toBottomOf="@+id/material_driver_full_name">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_driver_date_of_birth"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="date"
@@ -109,7 +114,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/phone_number"
+        android:id="@+id/material_driver_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -117,11 +122,13 @@
         android:layout_marginEnd="20dp"
         android:hint="@string/phone_number"
         android:background="@color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_of_birth">
+        app:layout_constraintTop_toBottomOf="@+id/material_driver_date_of_birth">
+
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_phone_number"
+            android:id="@+id/edit_driver_phone_number"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="number"
@@ -131,7 +138,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email_address"
+        android:id="@+id/material_driver_email_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -139,11 +146,13 @@
         android:layout_marginEnd="20dp"
         android:hint="@string/email_address"
         android:background="@color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_number">
+        app:layout_constraintTop_toBottomOf="@+id/material_driver_phone_number">
+
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_email_address"
+            android:id="@+id/edit_driver_email_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
@@ -153,7 +162,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/national_ID"
+        android:id="@+id/material_driver_national_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -161,10 +170,13 @@
         android:layout_marginEnd="20dp"
         android:hint="@string/national_id"
         android:background="@color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_address">
+        app:layout_constraintTop_toBottomOf="@+id/material_driver_email_address">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_driver_national_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/black"
@@ -174,18 +186,21 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/driver_license"
+        android:id="@+id/material_driver_physical_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:hint="@string/driver_license"
+        android:hint="Physical Address"
         android:background="@color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/national_ID">
+        app:layout_constraintTop_toBottomOf="@+id/material_driver_national_id">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_driver_physical_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text"
@@ -195,7 +210,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/driver_updateBtn"
+        android:id="@+id/driver_update_btn"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -207,5 +222,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/driver_license"/>
+        app:layout_constraintTop_toBottomOf="@+id/physical_address"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

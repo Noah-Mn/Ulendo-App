@@ -70,26 +70,29 @@ public class UserSignup extends AppCompatActivity {
                 getSignupDetails();
                 if(validateFirstForm()){
                     setIntentExtras();
+                    startActivity(new Intent(UserSignup.this, CreateAccount.class));
                 }
             }
         });
     }
 
     private void setIntentExtras() {
-        nextBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(UserSignup.this, CreateAccount.class);
-            intent.putExtra("firstName", firstName);
-            intent.putExtra("lastName", lastName);
-            intent.putExtra("birthday", birthday);
-            intent.putExtra("gender", gender);
-            intent.putExtra("phoneNumber", phoneNumber);
-            intent.putExtra("nationalId", nationalId);
-            intent.putExtra("physicalAddress", physicalAddress);
+        if(validateFirstForm()){
+            nextBtn.setOnClickListener(view -> {
+                Intent intent = new Intent(UserSignup.this, CreateAccount.class);
+                intent.putExtra("firstName", firstName);
+                intent.putExtra("lastName", lastName);
+                intent.putExtra("birthday", birthday);
+                intent.putExtra("gender", gender);
+                intent.putExtra("phoneNumber", phoneNumber);
+                intent.putExtra("nationalId", nationalId);
+                intent.putExtra("physicalAddress", physicalAddress);
 
-            startActivity(intent);
-            startActivity(new Intent(UserSignup.this, CreateAccount.class));
+                startActivity(intent);
 
-        });
+            });
+        }
+
     }
 
     @Override
@@ -136,7 +139,7 @@ public class UserSignup extends AppCompatActivity {
                 materialLastName.setError("Invalid surname");
             } else if(birthday.isEmpty()){
                 materialBirthday.setError("Please set birthday");
-            } else if (gender == null) {
+            } else if (gender.isEmpty()) {
                 materialGender.setError("Select gender");
                 Toast.makeText(getApplicationContext(), "Select gender", Toast.LENGTH_SHORT).show();
             }else if (phoneNumber.isEmpty()) {

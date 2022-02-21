@@ -32,7 +32,6 @@ import java.util.Objects;
 
 public class CreateAccount extends AppCompatActivity {
     private static final String TAG = "tag";
-
     private String firstName, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, password, confirmPassword;
     private TextInputEditText textPassword, textConfirmPassword, textEmailAddress;
     private FirebaseFirestore db;
@@ -53,6 +52,7 @@ public class CreateAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
         db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         textEmailAddress = findViewById(R.id.email_address);
         textPassword = findViewById(R.id.password);
@@ -69,12 +69,12 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getUserDetails();
-                if(validateFinalForm()) {
+                if(validateFinalForm() && validateEmail()){
+                    Toast.makeText(getApplicationContext(), " in the boc", Toast.LENGTH_SHORT).show();
                     performSignUp();
                 }
             }
         });
-
         signupBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,39 +92,35 @@ public class CreateAccount extends AppCompatActivity {
 
     private boolean validateFinalForm(){
         valid = false;
-        email = Objects.requireNonNull(textEmailAddress.getText().toString());
+        email = textEmailAddress.getText().toString().trim();
         password = Objects.requireNonNull(textPassword.getText().toString());
         confirmPassword = Objects.requireNonNull(textConfirmPassword.getText().toString());
 
         try{
             if(email.isEmpty()){
                 materialEmail.setError("Please enter email address");
-            }else if (!email.equals(emailPattern)) {
+            }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                 materialEmail.setError("Invalid email address");
-            }
-            if(password.isEmpty()){
+            } else if(password.isEmpty()){
                 materialPassword.setError("Please enter password");
             } else if (password.length() <= 6) {
                 materialPassword.setError("Password must be more than 6 characters");
-            } else if(password != confirmPassword){
+            } else if(!password.matches(confirmPassword)){
                 materialConfirmPassword.setError("Passwords do not match");
-            }else {
-//                validateEmail();
+            } else {
                 valid = true;
-
             }
 
 
         } catch(Exception e){
-                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d(TAG, e.getMessage());
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, e.getMessage());
         }
 
         return valid;
     }
 
-    private void validateEmail(){
-        getUserDetails();
+    private boolean validateEmail(){
         db.collection("Users")
                 .whereEqualTo("Email Address", email)
                 .get()
@@ -135,13 +131,15 @@ public class CreateAccount extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, "Email already exist!");
                                 materialEmail.setError("Email address already in use");
-                                return;
+                                valid = false;
                             }
                         } else {
                             Log.d(TAG, "Email address not in use", task.getException());
+                            valid = true;
                         }
                     }
                 });
+        return valid;
     }
 
     private void getUserDetails() {
@@ -152,7 +150,6 @@ public class CreateAccount extends AppCompatActivity {
         birthday = intent.getStringExtra("birthday");
         gender = intent.getStringExtra("gender");
         phoneNumber = intent.getStringExtra("phoneNumber");
-        email = intent.getStringExtra("email");
         nationalId = intent.getStringExtra("nationalId");
         physicalAddress = intent.getStringExtra("physicalAddress");
 
@@ -194,7 +191,7 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     private void performSignUp(){
-        firebaseAuth = FirebaseAuth.getInstance();
+
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Signing up please wait...");
         progressDialog.setTitle("UserSignup");
