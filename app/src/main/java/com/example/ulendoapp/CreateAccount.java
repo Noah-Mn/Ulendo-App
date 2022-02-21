@@ -65,13 +65,15 @@ public class CreateAccount extends AppCompatActivity {
         signupBtn = findViewById(R.id.create_account_btn);
         signupBackBtn = findViewById(R.id.create_account_back_btn);
 
+        getUserintentExtras();
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getUserDetails();
                 if(validateFinalForm() && validateEmail()){
                     Toast.makeText(getApplicationContext(), " in the boc", Toast.LENGTH_SHORT).show();
                     performSignUp();
+                    Toast.makeText(getApplicationContext(), birthday, Toast.LENGTH_LONG).show();
+
                 }
             }
         });
@@ -142,7 +144,7 @@ public class CreateAccount extends AppCompatActivity {
         return valid;
     }
 
-    private void getUserDetails() {
+    private void getUserintentExtras() {
         Intent intent = getIntent();
 
         firstName = intent.getStringExtra("firstName");
@@ -156,6 +158,7 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     private void addUser(){
+
         if(validateFinalForm()){
             db = FirebaseFirestore.getInstance();
             Map<String, Object> user = new HashMap<>();
@@ -197,7 +200,6 @@ public class CreateAccount extends AppCompatActivity {
         progressDialog.setTitle("UserSignup");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        getUserDetails();
 
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override

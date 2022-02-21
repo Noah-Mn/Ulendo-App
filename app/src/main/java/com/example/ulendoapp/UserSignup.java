@@ -36,6 +36,7 @@ public class UserSignup extends AppCompatActivity {
     public final String TAG = "tag";
     private FirebaseFirestore db;
     public boolean valid;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +68,8 @@ public class UserSignup extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                getSignupDetails();
                 if(validateFirstForm()){
                     setIntentExtras();
-                    startActivity(new Intent(UserSignup.this, CreateAccount.class));
                 }
             }
         });
@@ -79,7 +78,8 @@ public class UserSignup extends AppCompatActivity {
     private void setIntentExtras() {
         if(validateFirstForm()){
             nextBtn.setOnClickListener(view -> {
-                Intent intent = new Intent(UserSignup.this, CreateAccount.class);
+                intent = new Intent(UserSignup.this, CreateAccount.class);
+
                 intent.putExtra("firstName", firstName);
                 intent.putExtra("lastName", lastName);
                 intent.putExtra("birthday", birthday);
@@ -127,6 +127,7 @@ public class UserSignup extends AppCompatActivity {
     }
 
     public boolean validateFirstForm(){
+        getSignupDetails();
         valid = false;
         try {
             if (firstName.length() > 20) {
