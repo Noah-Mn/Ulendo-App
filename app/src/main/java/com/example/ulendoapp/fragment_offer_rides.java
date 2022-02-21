@@ -192,9 +192,9 @@ public class fragment_offer_rides extends Fragment{
         ride.put("Pickup Point", pPoint);
         ride.put("Destination", dest);
         ride.put("Pickup Time", pTime);
-//        ride.put("Drop Point", dPoint);
         ride.put("Number of seats", seats);
         ride.put("Car Model", car);
+        ride.put("State", "Available");
         ride.put("Special Instruction", sInstructions);
 
         db.collection("Ride")
