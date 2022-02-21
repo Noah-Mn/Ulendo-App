@@ -1,5 +1,7 @@
 package com.example.ulendoapp;
 
+import static com.example.ulendoapp.HomeUser.userModel;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,6 +91,7 @@ public class EditUserProfile extends AppCompatActivity {
                     updateDoB();
                     updateNationalID();
                     updatePhysicalAddress();
+
                 }
             }
         });

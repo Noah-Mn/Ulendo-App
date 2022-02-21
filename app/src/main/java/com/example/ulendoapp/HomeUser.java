@@ -1,7 +1,5 @@
 package com.example.ulendoapp;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-
 import static com.example.ulendoapp.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragment_offer_rides.longitude;
 
@@ -9,8 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -19,21 +15,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
-import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
@@ -52,21 +42,15 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -79,9 +63,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -89,17 +71,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 
 public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener,
@@ -107,6 +85,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
     private MaterialTextView name, header_name, header_email;
     private String firstName, lastName, email;
+    private String f_name, surname, birthday, gender, phoneNumber, emailAddress, nationalId, physicalAddress, status, numberOfTrips, rating;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
@@ -115,6 +94,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private String TAG;
     public static String newText;
     private NavigationView navigationView;
+    static UserModel userModel;
 
     private RecyclerView recyclerView;
     private List<UserModel> userModelList;
@@ -176,6 +156,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         navInit();
         setMenu();
         checkService();
+        getUserModel();
         bottom_navigation.setSelectedItemId(R.id.home);
         findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -604,6 +585,38 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
         });
 
+    }
+
+    public void getUserModel(){
+        db.collection("Users")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                f_name = document.getString("First Name");
+                                surname = document.getString("Surname");
+                                birthday = document.getString("Date of Birth");
+                                gender = document.getString("Gender");
+                                phoneNumber = document.getString("Phone Number");
+                                emailAddress = document.getString("Email Address");
+                                nationalId = document.getString("National ID");
+                                physicalAddress = document.getString("Physical Address");
+                                status = document.getString("Status");
+                                numberOfTrips = document.getString("Number of Trips");
+                                rating = document.getString("Rating");
+
+                                userModel = new UserModel(f_name, surname, birthday, gender, phoneNumber, email,
+                                        nationalId, physicalAddress, status, numberOfTrips, rating);
+                                }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     public void getUserData(){

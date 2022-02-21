@@ -3,7 +3,9 @@ package com.example.ulendoapp;
 import java.util.List;
 
 public class UserModel {
-    String status, firstName, lastName, phoneNumber;
+    private String firstName, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, status, numberOfTrips, rating;
+
+    public UserModel(){}
 
     public UserModel(String status, String firstName, String lastName, String phoneNumber) {
         this.status = status;
@@ -11,14 +13,36 @@ public class UserModel {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
     }
-    public UserModel(){}
 
-    public String getStatus() {
-        return status;
+    public UserModel(String firstName, String lastName, String birthday, String gender, String phoneNumber, String email, String nationalId, String physicalAddress, String status, String numberOfTrips, String rating) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.nationalId = nationalId;
+        this.physicalAddress = physicalAddress;
+        this.status = status;
+        this.numberOfTrips = numberOfTrips;
+        this.rating = rating;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", gender='" + gender + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", nationalId='" + nationalId + '\'' +
+                ", physicalAddress='" + physicalAddress + '\'' +
+                ", status='" + status + '\'' +
+                ", numberOfTrips='" + numberOfTrips + '\'' +
+                ", rating='" + rating + '\'' +
+                '}';
     }
 
     public String getFirstName() {
@@ -37,11 +61,75 @@ public class UserModel {
         this.lastName = lastName;
     }
 
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNationalId() {
+        return nationalId;
+    }
+
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
+    }
+
+    public String getPhysicalAddress() {
+        return physicalAddress;
+    }
+
+    public void setPhysicalAddress(String physicalAddress) {
+        this.physicalAddress = physicalAddress;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNumberOfTrips() {
+        return numberOfTrips;
+    }
+
+    public void setNumberOfTrips(String numberOfTrips) {
+        this.numberOfTrips = numberOfTrips;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }
