@@ -5,6 +5,7 @@ import static com.example.ulendoapp.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragment_offer_rides.longitude;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 
@@ -80,6 +81,8 @@ public class fragment_find_rides extends Fragment {
         findTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getContext(), BookingActivity.class);
+                startActivity(intent);
                 addTrip();
                 Log.d(TAG, dest + " " + pPoint);
                 Log.d(TAG, latitude + " " + longitude);
