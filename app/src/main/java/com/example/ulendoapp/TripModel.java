@@ -10,7 +10,8 @@ public class TripModel extends UserModel{
     public TripModel() {
     }
 
-    public TripModel(String email, String destination, String pickupPoint, String pickupTime, String luggage, String complaint, String status, LatLng latLng) {
+    public TripModel(String email, String destination, String pickupPoint, String pickupTime,
+                     String luggage, String complaint, String status, LatLng latLng) {
         this.email = email;
         this.destination = destination;
         this.pickupPoint = pickupPoint;

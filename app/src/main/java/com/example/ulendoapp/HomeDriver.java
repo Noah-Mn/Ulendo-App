@@ -76,6 +76,8 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
     LocationListener{
+    public String  vehicleBrand, vehicleModel, vehicleModelYr, vehicleColor, vehicleBookingType, vehicleLicensePlate, vehicleLicenseId,
+            driverStatus, passengerRides, drivingRides, rating;
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     BottomNavigationView driver_bottom_nav;
     NavigationView navigation_view_driver;
@@ -112,6 +114,8 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     public double currentLatitude;
     public double currentLongitude;
     public Fragment fr;
+    static DriverModel driverModel;
+    private String emailAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +144,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         getUserData();
         getUserName();
         checkService();
+        getDriverModel();
         driver_bottom_nav.setSelectedItemId(R.id.home);
 
     }
@@ -501,6 +506,41 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         });
     }
 
+    public void getDriverModel(){
+        db.collection("Driver Vehicles")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                vehicleBrand = document.getString("Vehicle Brand");
+                                vehicleModel = document.getString("Vehicle Model");
+                                vehicleModelYr = document.getString("Model Year");
+                                vehicleColor = document.getString("Vehicle Color");
+                                vehicleBookingType = document.getString("Booking Type");
+                                vehicleLicensePlate = document.getString("License Plate");
+                                vehicleLicenseId = document.getString("License ID");
+                                driverStatus = document.getString("Driver Status");
+                                passengerRides = document.getString("Rides as Passenger");
+                                drivingRides  = document.getString("Rides as Driver");
+                                rating = document.getString("Rating");
+                                emailAddress = document.getString("Email Address");
+
+
+
+                                driverModel = new DriverModel(vehicleBrand, vehicleModel, vehicleModelYr, vehicleColor, vehicleBookingType,
+                                        vehicleLicensePlate, vehicleLicenseId, driverStatus, passengerRides, drivingRides, rating, emailAddress);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
     public void getUserData(){
         db.collection("Drivers")
                 .whereEqualTo("Email Address", getEmail())

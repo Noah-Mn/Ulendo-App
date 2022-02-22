@@ -1,5 +1,7 @@
 package com.example.ulendoapp;
 
+import static com.example.ulendoapp.HomeDriver.driverModel;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,6 +90,8 @@ public class EditDriverProfile extends AppCompatActivity {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(EditDriverProfile.this, driverModel.getVehicleBrand(), Toast.LENGTH_LONG).show();
+
                 if(validateUpdateForm()) {
                     updateAuthEmail();
                     updateFirstName();

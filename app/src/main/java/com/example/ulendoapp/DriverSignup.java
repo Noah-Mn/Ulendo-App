@@ -125,6 +125,7 @@ public class DriverSignup extends AppCompatActivity {
             driver.put("Rides as Passenger", "N/A");
             driver.put("Rides as Driver", "N/A");
             driver.put("Rating", "N/A");
+            driver.put("Email Address", getEmail());
 
             db.collection("Driver Vehicles")
                     .add(driver)
