@@ -7,7 +7,8 @@ public class RideModel {
     public RideModel() {
     }
 
-    public RideModel(String emailAddress, String latLng, String pickupPoint, String destination, String pickupTime, String numberOfSeats, String vehicleModel, String state, String specialInstructions) {
+    public RideModel(String emailAddress, String latLng, String pickupPoint, String destination, String pickupTime,
+                     String numberOfSeats, String vehicleModel, String state, String specialInstructions) {
         this.emailAddress = emailAddress;
         this.location = latLng;
         this.pickupPoint = pickupPoint;

@@ -90,7 +90,6 @@ public class EditDriverProfile extends AppCompatActivity {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(EditDriverProfile.this, driverModel.getVehicleBrand(), Toast.LENGTH_LONG).show();
 
                 if(validateUpdateForm()) {
                     updateAuthEmail();
@@ -110,7 +109,6 @@ public class EditDriverProfile extends AppCompatActivity {
     public boolean dialogGetPassword(){
         success = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
 
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.text_input_password, (ViewGroup) getView(), false);
         final EditText input = (EditText) viewInflated.findViewById(R.id.input);

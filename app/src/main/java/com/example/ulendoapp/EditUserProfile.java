@@ -102,7 +102,7 @@ public class EditUserProfile extends AppCompatActivity {
     public boolean dialogGetPassword(){
         success = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
+//        builder.setTitle("Enter password");
 
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.text_input_password, (ViewGroup) getView(), false);
         final EditText input = (EditText) viewInflated.findViewById(R.id.input);
