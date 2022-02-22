@@ -185,20 +185,20 @@ public class fragment_offer_rides extends Fragment{
         getRideInfo();
         db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        Map<String, Object> ride = new HashMap<>();
+        Map<String, Object> offerRide= new HashMap<>();
 
-        ride.put("Email Address", getEmail());
-        ride.put("Location", latLng);
-        ride.put("Pickup Point", pPoint);
-        ride.put("Destination", dest);
-        ride.put("Pickup Time", pTime);
-        ride.put("Number of seats", seats);
-        ride.put("Car Model", car);
-        ride.put("State", "Available");
-        ride.put("Special Instruction", sInstructions);
+        offerRide.put("Email Address", getEmail());
+        offerRide.put("Location", latLng);
+        offerRide.put("Pickup Point", pPoint);
+        offerRide.put("Destination", dest);
+        offerRide.put("Pickup Time", pTime);
+        offerRide.put("Number of seats", seats);
+        offerRide.put("Car Model", car);
+        offerRide.put("State", "Available");
+        offerRide.put("Special Instruction", sInstructions);
 
-        db.collection("Ride")
-                .add(ride)
+        db.collection("Offer Ride")
+                .add(offerRide)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {

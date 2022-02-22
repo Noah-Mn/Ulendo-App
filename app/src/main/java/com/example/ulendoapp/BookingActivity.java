@@ -40,7 +40,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         double longitude = Double.parseDouble(latlong[1]);
         LatLng location = new LatLng(latitude,longitude);
 
-        trip = new TripModel("noahmgamba@gmail.com", "Blantyre", "Chikanda", "2:00PM", "No luggage","nothing", "N/A", location);
+        trip = new TripModel("noahmgamba@gmail.com", "Blantyre", "Chikanda", "2:00PM", "No luggage","nothing", "N/A", "have children", location);
         tripModelList.add(trip);
         recyclerView = findViewById(R.id.trip_lists);
         recyclerView.setAdapter(adapter);

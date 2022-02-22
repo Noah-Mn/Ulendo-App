@@ -4,14 +4,14 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class TripModel extends UserModel{
 
-    private String email, destination, pickupPoint, pickupTime, luggage, complaint, status;
+    private String email, destination, pickupPoint, pickupTime, luggage, complaint, status, specialInstructions;
     private LatLng latLng;
 
     public TripModel() {
     }
 
     public TripModel(String email, String destination, String pickupPoint, String pickupTime,
-                     String luggage, String complaint, String status, LatLng latLng) {
+                     String luggage, String complaint, String status, String specialInstructions, LatLng latLng) {
         this.email = email;
         this.destination = destination;
         this.pickupPoint = pickupPoint;
@@ -19,6 +19,7 @@ public class TripModel extends UserModel{
         this.luggage = luggage;
         this.complaint = complaint;
         this.status = status;
+        this.specialInstructions = specialInstructions;
         this.latLng = latLng;
     }
 
@@ -32,8 +33,17 @@ public class TripModel extends UserModel{
                 ", luggage='" + luggage + '\'' +
                 ", complaint='" + complaint + '\'' +
                 ", status='" + status + '\'' +
+                ", specialInstructions='" + specialInstructions + '\'' +
                 ", latLng=" + latLng +
                 '}';
+    }
+
+    public String getSpecialInstructions() {
+        return specialInstructions;
+    }
+
+    public void setSpecialInstructions(String specialInstructions) {
+        this.specialInstructions = specialInstructions;
     }
 
     public String getEmail() {
