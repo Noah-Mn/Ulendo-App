@@ -37,6 +37,10 @@
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/model_layout.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/my_user_ride_model.xml" value="0.2105978260869565" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/navigation_header.xml" value="0.1" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/notificatin_accepted.xml" value="0.33" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/notificatin_layout.xml" value="0.2798913043478261" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/notification_ride_rejected.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/notification_transaction.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/text_input_password.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/user_ride_layout.xml" value="0.33" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/menu/driver_navigation_drawer.xml" value="0.1" />
@@ -62,7 +66,6 @@
         <entry key="..\:/Users/Computer Science/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_user_type.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/drawable/divider.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.18333333333333332" />
-        <entry key="app/src/main/res/layout/activity_add_vehicle.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_drawer_layout.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/activity_driver_profile.xml" value="0.25" />
@@ -85,7 +88,6 @@
         <entry key="app/src/main/res/layout/fragment_cancelled.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/fragment_completed.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/fragment_driver_home.xml" value="0.21203703703703702" />
-        <entry key="app/src/main/res/layout/fragment_driver_my_vehicles.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_find_rides.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_group.xml" value="0.14266304347826086" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.33" />
