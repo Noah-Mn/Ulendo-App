@@ -2,21 +2,22 @@ package com.example.ulendoapp;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class TripModel extends UserModel{
+public class FindRideModel extends UserModel{
 
-    private String email, destination, pickupPoint, pickupTime, luggage, complaint, status, specialInstructions;
+    private String email, destination, pickupPoint, pickupTime, luggage, bookedSeats, complaint, status, specialInstructions;
     private LatLng latLng;
 
-    public TripModel() {
+    public FindRideModel() {
     }
 
-    public TripModel(String email, String destination, String pickupPoint, String pickupTime,
-                     String luggage, String complaint, String status, String specialInstructions, LatLng latLng) {
+    public FindRideModel(String email, String destination, String pickupPoint, String pickupTime,
+                         String luggage, String bookedSeats, String complaint, String status, String specialInstructions, LatLng latLng) {
         this.email = email;
         this.destination = destination;
         this.pickupPoint = pickupPoint;
         this.pickupTime = pickupTime;
         this.luggage = luggage;
+        this.bookedSeats = bookedSeats;
         this.complaint = complaint;
         this.status = status;
         this.specialInstructions = specialInstructions;
@@ -25,12 +26,13 @@ public class TripModel extends UserModel{
 
     @Override
     public String toString() {
-        return "TripModel{" +
+        return "FindRideModel{" +
                 "email='" + email + '\'' +
                 ", destination='" + destination + '\'' +
                 ", pickupPoint='" + pickupPoint + '\'' +
                 ", pickupTime='" + pickupTime + '\'' +
                 ", luggage='" + luggage + '\'' +
+                ", bookedSeats='" + bookedSeats + '\'' +
                 ", complaint='" + complaint + '\'' +
                 ", status='" + status + '\'' +
                 ", specialInstructions='" + specialInstructions + '\'' +
@@ -84,6 +86,14 @@ public class TripModel extends UserModel{
 
     public void setLuggage(String luggage) {
         this.luggage = luggage;
+    }
+
+    public String getBookedSeats() {
+        return bookedSeats;
+    }
+
+    public void setBookedSeats(String bookedSeats) {
+        this.bookedSeats = bookedSeats;
     }
 
     public String getComplaint() {

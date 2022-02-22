@@ -145,6 +145,7 @@ public class fragment_find_rides extends Fragment {
         findRide.put("Pickup Point", pPoint);
         findRide.put("Pickup Time", pTime);
         findRide.put("Luggage", luggage);
+        findRide.put("Booked Seats", "N/A");
         findRide.put("Complaint", "N/A");
         findRide.put("Special Instruction", sInstructions);
         findRide.put("Status", "N/A");

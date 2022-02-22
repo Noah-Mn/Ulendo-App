@@ -1,5 +1,6 @@
 package com.example.ulendoapp;
 
+import static com.example.ulendoapp.HomeUser.userModel;
 import static com.example.ulendoapp.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragment_offer_rides.longitude;
 
@@ -7,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.compose.ui.geometry.Rect;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -16,7 +16,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -31,7 +30,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -51,7 +49,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -114,8 +111,9 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     public double currentLatitude;
     public double currentLongitude;
     public Fragment fr;
-    static DriverModel driverModel;
+    static DriverVehiclesModel driverVehiclesModel;
     private String emailAddress;
+    private String f_name, surname, birthday, gender, phoneNumber, nationalId, physicalAddress, status, numberOfTrips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,9 +142,41 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         getUserData();
         getUserName();
         checkService();
-        getDriverModel();
+        getUserModel();
         driver_bottom_nav.setSelectedItemId(R.id.home);
 
+    }
+
+    public void getUserModel(){
+        db.collection("Users")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                f_name = document.getString("First Name");
+                                surname = document.getString("Surname");
+                                birthday = document.getString("Date of Birth");
+                                gender = document.getString("Gender");
+                                phoneNumber = document.getString("Phone Number");
+                                emailAddress = document.getString("Email Address");
+                                nationalId = document.getString("National ID");
+                                physicalAddress = document.getString("Physical Address");
+                                status = document.getString("Status");
+                                numberOfTrips = document.getString("Number of Trips");
+                                rating = document.getString("Rating");
+
+                                userModel = new UserModel(f_name, surname, birthday, gender, phoneNumber, email,
+                                        nationalId, physicalAddress, status, numberOfTrips, rating);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
 
@@ -506,41 +536,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         });
     }
 
-    public void getDriverModel(){
-        db.collection("Driver Vehicles")
-                .whereEqualTo("Email Address", getEmail())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                vehicleBrand = document.getString("Vehicle Brand");
-                                vehicleModel = document.getString("Vehicle Model");
-                                vehicleModelYr = document.getString("Model Year");
-                                vehicleColor = document.getString("Vehicle Color");
-                                vehicleBookingType = document.getString("Booking Type");
-                                vehicleLicensePlate = document.getString("License Plate");
-                                vehicleLicenseId = document.getString("License ID");
-                                driverStatus = document.getString("Driver Status");
-                                passengerRides = document.getString("Rides as Passenger");
-                                drivingRides  = document.getString("Rides as Driver");
-                                rating = document.getString("Rating");
-                                emailAddress = document.getString("Email Address");
-
-
-
-                                driverModel = new DriverModel(vehicleBrand, vehicleModel, vehicleModelYr, vehicleColor, vehicleBookingType,
-                                        vehicleLicensePlate, vehicleLicenseId, driverStatus, passengerRides, drivingRides, rating, emailAddress);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
     public void getUserData(){
         db.collection("Drivers")
                 .whereEqualTo("Email Address", getEmail())

@@ -1,14 +1,14 @@
 package com.example.ulendoapp;
 
-public class DriverModel {
+public class DriverVehiclesModel {
     public String  vehicleBrand, vehicleModel, vehicleModelYr, vehicleColor, vehicleBookingType, vehicleLicensePlate, vehicleLicenseId,
             driverStatus, passengerRides, drivingRides, rating, email;
 
-     public DriverModel(){}
+     public DriverVehiclesModel(){}
 
-    public DriverModel(String vehicleBrand, String vehicleModel, String vehicleModelYr, String vehicleColor,
-                       String vehicleBookingType, String vehicleLicensePlate, String vehicleLicenseId,
-                       String driverStatus, String passengerRides, String drivingRides, String rating, String email) {
+    public DriverVehiclesModel(String vehicleBrand, String vehicleModel, String vehicleModelYr, String vehicleColor,
+                               String vehicleBookingType, String vehicleLicensePlate, String vehicleLicenseId,
+                               String driverStatus, String passengerRides, String drivingRides, String rating, String email) {
         this.vehicleBrand = vehicleBrand;
         this.vehicleModel = vehicleModel;
         this.vehicleModelYr = vehicleModelYr;
@@ -25,7 +25,7 @@ public class DriverModel {
 
     @Override
     public String toString() {
-        return "DriverModel{" +
+        return "DriverVehiclesModel{" +
                 "vehicleBrand='" + vehicleBrand + '\'' +
                 ", vehicleModel='" + vehicleModel + '\'' +
                 ", vehicleModelYr='" + vehicleModelYr + '\'' +

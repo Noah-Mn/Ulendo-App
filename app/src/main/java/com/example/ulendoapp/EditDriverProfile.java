@@ -1,7 +1,5 @@
 package com.example.ulendoapp;
 
-import static com.example.ulendoapp.HomeDriver.driverModel;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;

@@ -193,6 +193,7 @@ public class fragment_offer_rides extends Fragment{
         offerRide.put("Destination", dest);
         offerRide.put("Pickup Time", pTime);
         offerRide.put("Number of seats", seats);
+        offerRide.put("Booked seats", "N/A");
         offerRide.put("Car Model", car);
         offerRide.put("State", "Available");
         offerRide.put("Special Instruction", sInstructions);
