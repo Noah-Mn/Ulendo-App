@@ -201,7 +201,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         for(int i = 0; i < offerRideModelList.size(); i++){
             if(offerRideModelList.get(i).getPickupPoint().matches(pPoint)){
                 String pickupPoint = offerRideModelList.get(i).getPickupPoint();
-                String destination = offerRideModelList.get(i).getPickupPoint();
+                String destination = offerRideModelList.get(i).getDestination();
                 String email = offerRideModelList.get(i).getEmailAddress();
                 String pickupTime = offerRideModelList.get(i).getPickupTime();
 
