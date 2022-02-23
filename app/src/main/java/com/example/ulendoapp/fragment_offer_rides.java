@@ -79,7 +79,6 @@ public class fragment_offer_rides extends Fragment{
         carModel = view.findViewById(R.id.ride_car_model);
         specialInstructions = view.findViewById(R.id.ride_special_instructions);
         offerBtn = view.findViewById(R.id.ride_offer_btn);
-        latLng = new LatLng(latitude, longitude);
 
         offerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,17 +185,21 @@ public class fragment_offer_rides extends Fragment{
         db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         Map<String, Object> offerRide= new HashMap<>();
-
         offerRide.put("Email Address", getEmail());
-        offerRide.put("Location", latLng);
+        offerRide.put("Latitude", latitude);
+        offerRide.put("Longitude", longitude);
         offerRide.put("Pickup Point", pPoint);
         offerRide.put("Destination", dest);
         offerRide.put("Pickup Time", pTime);
         offerRide.put("Number of seats", seats);
         offerRide.put("Booked seats", "N/A");
+        offerRide.put("Luggage", "N/A");
         offerRide.put("Car Model", car);
         offerRide.put("State", "Available");
         offerRide.put("Special Instruction", sInstructions);
+        offerRide.put("Date", "N/A");
+        offerRide.put("Current Date", "N/A");
+
 
         db.collection("Offer Ride")
                 .add(offerRide)

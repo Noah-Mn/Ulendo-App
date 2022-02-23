@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class UserRideViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener{
     public TextView firstName, lastName, status, phoneNumber;
-    public CardView UserLayout;
     public UserRideAdapter.OnUserClickListener onUserClickListener;
 
     public UserRideViewHolder(View itemView, UserRideAdapter.OnUserClickListener onUserClickListener) {

@@ -54,6 +54,7 @@ public class fragment_find_rides extends Fragment {
     private int currentMinute;
     private TimePickerDialog timePickerDialog;
     private String amPm;
+    private Intent intent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,9 +82,18 @@ public class fragment_find_rides extends Fragment {
         findTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), BookingActivity.class);
-                startActivity(intent);
+                getTripInfo();
+                intent = new Intent(getContext(), BookingActivity.class);
+
+                intent.putExtra("destination", dest);
+                intent.putExtra("pickup time", pTime);
+                intent.putExtra("number of people", noPeople);
+                intent.putExtra("special instruction", sInstructions );
+                intent.putExtra("pickup point", pPoint);
+                intent.putExtra("luggage", String.valueOf(luggage));
                 addTrip();
+                startActivity(intent);
+
                 Log.d(TAG, dest + " " + pPoint);
                 Log.d(TAG, latitude + " " + longitude);
             }
@@ -100,7 +110,6 @@ public class fragment_find_rides extends Fragment {
         noPeople = numberOfPeople.getText().toString();
         sInstructions = specialInstructions.getText().toString();
         pPoint = pickupPoint.getText().toString();
-        dPoint = "your choice";
         luggage = null;
 
     }
@@ -140,7 +149,8 @@ public class fragment_find_rides extends Fragment {
         Map<String, Object> findRide = new HashMap<>();
 
         findRide.put("Email Address", getEmail());
-        findRide.put("Location", latLng);
+        findRide.put("Latitude", latitude);
+        findRide.put("Longitude", longitude);
         findRide.put("Destination", dest);
         findRide.put("Pickup Point", pPoint);
         findRide.put("Pickup Time", pTime);
@@ -149,6 +159,8 @@ public class fragment_find_rides extends Fragment {
         findRide.put("Complaint", "N/A");
         findRide.put("Special Instruction", sInstructions);
         findRide.put("Status", "N/A");
+        findRide.put("Date", "N/A");
+        findRide.put("Current Date", "N/A");
 
 
         db.collection("Find Ride")

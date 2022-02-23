@@ -1,41 +1,100 @@
 package com.example.ulendoapp;
 
 public class OfferRideModel {
-    public String emailAddress, location, pickupPoint, destination, pickupTime,
-            numberOfSeats, bookedSeats, vehicleModel, state, specialInstructions;
+    public String emailAddress, pickupPoint, destination, pickupTime,
+            numberOfSeats, bookedSeats, luggage, vehicleModel, state, specialInstructions, date, currDate;
+    public double latitude, longitude;
 
-    public OfferRideModel() {
-    }
-
-    public OfferRideModel(String emailAddress, String latLng, String pickupPoint, String destination, String pickupTime,
-                          String numberOfSeats, String bookedSeats, String vehicleModel, String state, String specialInstructions) {
-        this.emailAddress = emailAddress;
-        this.location = latLng;
+    public OfferRideModel(double latitude, double longitude, String pickupPoint, String destination, String pickupTime,
+                          String numberOfSeats, String bookedSeats, String luggage, String state, String date, String currDate, String email) {
+        this.emailAddress = email;
         this.pickupPoint = pickupPoint;
         this.destination = destination;
         this.pickupTime = pickupTime;
         this.numberOfSeats = numberOfSeats;
         this.bookedSeats = bookedSeats;
-        this.vehicleModel = vehicleModel;
+        this.luggage = luggage;
         this.state = state;
-        this.specialInstructions = specialInstructions;
+        this.date = date;
+        this.currDate = currDate;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
+
+    public OfferRideModel(double latitude, double longitude, String pickupPoint, String destination,
+                          String pickupTime, String numberOfSeats, String bookedSeats, String state, String luggage) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.pickupPoint = pickupPoint;
+        this.destination = destination;
+        this.pickupTime = pickupTime;
+        this.numberOfSeats = numberOfSeats;
+        this.bookedSeats = bookedSeats;
+        this.luggage = luggage;
+        this.state = state;
+    }
+
+//    String pickupPoint = offerRideModelList.get(i).getPickupPoint();
+//    String destination = offerRideModelList.get(i).getPickupPoint();
+//    String email = offerRideModelList.get(i).getEmailAddress();
+//    String pickupTime = offerRideModelList.get(i).getPickupTime();
+
+    public OfferRideModel(String pickupPoint, String destination, String pickupTime, String emailAddress) {
+        this.pickupPoint = pickupPoint;
+        this.destination = destination;
+        this.pickupTime = pickupTime;
+        this.emailAddress = emailAddress;
+    }
+
+    public OfferRideModel(String pickupPoint, String destination, String pickupTime,
+                          String numberOfSeats, String bookedSeats, String luggage, String state, String date, String currDate, String email) {
+        this.pickupPoint = pickupPoint;
+        this.destination = destination;
+        this.pickupTime = pickupTime;
+        this.numberOfSeats = numberOfSeats;
+        this.bookedSeats = bookedSeats;
+        this.luggage = luggage;
+        this.state = state;
+        this.date = date;
+        this.currDate = currDate;
+        this.emailAddress = email;
+    }
 
     @Override
     public String toString() {
         return "OfferRideModel{" +
                 "emailAddress='" + emailAddress + '\'' +
-                ", location='" + location + '\'' +
                 ", pickupPoint='" + pickupPoint + '\'' +
                 ", destination='" + destination + '\'' +
                 ", pickupTime='" + pickupTime + '\'' +
                 ", numberOfSeats='" + numberOfSeats + '\'' +
                 ", bookedSeats='" + bookedSeats + '\'' +
+                ", luggage='" + luggage + '\'' +
                 ", vehicleModel='" + vehicleModel + '\'' +
                 ", state='" + state + '\'' +
                 ", specialInstructions='" + specialInstructions + '\'' +
+                ", date='" + date + '\'' +
+                ", currDate='" + currDate + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getCurrDate() {
+        return currDate;
+    }
+
+    public void setCurrDate(String currDate) {
+        this.currDate = currDate;
     }
 
     public String getEmailAddress() {
@@ -46,12 +105,20 @@ public class OfferRideModel {
         this.emailAddress = emailAddress;
     }
 
-    public String getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getPickupPoint() {
@@ -88,6 +155,14 @@ public class OfferRideModel {
 
     public String getBookedSeats() {
         return bookedSeats;
+    }
+
+    public String getLuggage() {
+        return luggage;
+    }
+
+    public void setLuggage(String luggage) {
+        this.luggage = luggage;
     }
 
     public void setBookedSeats(String bookedSeats) {

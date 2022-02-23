@@ -3,15 +3,35 @@ package com.example.ulendoapp;
 import com.google.android.gms.maps.model.LatLng;
 
 public class FindRideModel extends UserModel{
-
     private String email, destination, pickupPoint, pickupTime, luggage, bookedSeats, complaint, status, specialInstructions;
-    private LatLng latLng;
+    private String latLng, date, currDate;
+
+    public FindRideModel(String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String latLng) {
+        this.destination = destination;
+        this.pickupPoint = pickupPoint;
+        this.pickupTime = pickupTime;
+        this.luggage = luggage;
+        this.bookedSeats = bookedSeats;
+        this.latLng = latLng;
+    }
+
+
+    public FindRideModel(String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String latLng, String date, String currDate) {
+        this.destination = destination;
+        this.pickupPoint = pickupPoint;
+        this.pickupTime = pickupTime;
+        this.luggage = luggage;
+        this.bookedSeats = bookedSeats;
+        this.latLng = latLng;
+        this.date = date;
+        this.currDate = currDate;
+    }
 
     public FindRideModel() {
     }
 
     public FindRideModel(String email, String destination, String pickupPoint, String pickupTime,
-                         String luggage, String bookedSeats, String complaint, String status, String specialInstructions, LatLng latLng) {
+                         String luggage, String bookedSeats, String complaint, String status, String specialInstructions, String latLng) {
         this.email = email;
         this.destination = destination;
         this.pickupPoint = pickupPoint;
@@ -36,8 +56,26 @@ public class FindRideModel extends UserModel{
                 ", complaint='" + complaint + '\'' +
                 ", status='" + status + '\'' +
                 ", specialInstructions='" + specialInstructions + '\'' +
-                ", latLng=" + latLng +
+                ", latLng='" + latLng + '\'' +
+                ", date='" + date + '\'' +
+                ", currDate='" + currDate + '\'' +
                 '}';
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getCurrDate() {
+        return currDate;
+    }
+
+    public void setCurrDate(String currDate) {
+        this.currDate = currDate;
     }
 
     public String getSpecialInstructions() {
@@ -114,11 +152,11 @@ public class FindRideModel extends UserModel{
         this.status = status;
     }
 
-    public LatLng getLatLng() {
+    public String getLatLng() {
         return latLng;
     }
 
-    public void setLatLng(LatLng latLng) {
+    public void setLatLng(String latLng) {
         this.latLng = latLng;
     }
 }

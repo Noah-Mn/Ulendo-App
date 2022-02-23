@@ -35,10 +35,6 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     }
 
-   /* public void highlightSearchText(String searchText){
-
-    }*/
-
     @Override
     public void onClick(View view) {
         onDriverClickListener.onDriverClick(getAdapterPosition());

@@ -444,7 +444,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void searchDriverData() {
-
         db.collection("Users")
                 .whereEqualTo("Status", "driver")
                 .get()

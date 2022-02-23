@@ -6,6 +6,13 @@ public class DriverVehiclesModel {
 
      public DriverVehiclesModel(){}
 
+    public DriverVehiclesModel(String vehicleBrand, String vehicleModel, String vehicleModelYr, String vehicleColor) {
+        this.vehicleBrand = vehicleBrand;
+        this.vehicleModel = vehicleModel;
+        this.vehicleModelYr = vehicleModelYr;
+        this.vehicleColor = vehicleColor;
+    }
+
     public DriverVehiclesModel(String vehicleBrand, String vehicleModel, String vehicleModelYr, String vehicleColor,
                                String vehicleBookingType, String vehicleLicensePlate, String vehicleLicenseId,
                                String driverStatus, String passengerRides, String drivingRides, String rating, String email) {
