@@ -58,12 +58,12 @@ public final class DriverChats extends AppCompatActivity {
                 ChannelListViewModel.DEFAULT_SORT
         );
 
-        ChannelListViewModel channelListViewModel = new ViewModelProvider(this, factory).get(ChannelListViewModel.class);
-
-        ChannelListViewModelBinding.bind(channelListViewModel, binding.channelListView, this);
-
-        binding.channelListView.setChannelItemClickListener(channel ->
-            startActivity(ChannelActivity.newIntent(this, channel))
-        );
+//        ChannelListViewModel channelListViewModel = new ViewModelProvider(this, factory).get(ChannelListViewModel.class);
+//
+//        ChannelListViewModelBinding.bind(channelListViewModel, binding.channelListView, this);
+//
+//        binding.channelListView.setChannelItemClickListener(channel ->
+//            startActivity(ChannelActivity.newIntent(this, channel))
+//        );
     }
 }

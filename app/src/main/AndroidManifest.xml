@@ -20,9 +20,6 @@
         android:theme="@style/Theme.UlendoApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ChannelActivity"
-            android:exported="false" />
-        <activity
             android:name=".DriverChats"
             android:exported="false" />
         <activity
