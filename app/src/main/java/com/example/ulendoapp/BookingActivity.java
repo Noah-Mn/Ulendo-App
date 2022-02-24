@@ -26,27 +26,20 @@ import java.util.List;
 
 public class BookingActivity extends AppCompatActivity implements BookRideAdapter.OnTripClickListener{
 
-
-//    private List<> carDetailModelList;
-    public OfferRideModel trip;
-    public DriverVehiclesModel carDetail;
     private TextView displayText;
     private FirebaseFirestore db;
     public RecyclerView recyclerViewTrip;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    public String tripPickupTime;
     public List<String> driverEmail;
 
     private final String TAG = "tag";
     public String dest, pTime, noPeople, sInstructions, pPoint, luggage;
     public List<OfferRideModel> filteredOffers;
     private List<OfferRideModel> offerRideModelList;
-//    private List<OfferRideModel> offerRide;
     List<DriverVehiclesModel> carDetailModelList;
     List<FindRideModel> findRideModelList;
     public Intent intent;
-    private ArrayList<DriverVehiclesModel> filteredCarDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +136,8 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
                             OfferRideModel offeredRide = new OfferRideModel(latitude, longitude, pickupPoint, destination, pickupTime,
                                     numberOfSeats, bookedSeats, luggage, state, date, currDate, email);
+
+                            Toast.makeText(BookingActivity.this, email, Toast.LENGTH_SHORT).show();
 
                             offerRideModelList.add(offeredRide);
 

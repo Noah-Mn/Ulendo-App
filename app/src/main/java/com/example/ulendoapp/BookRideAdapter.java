@@ -3,9 +3,17 @@ package com.example.ulendoapp;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
@@ -13,7 +21,8 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
     private List<OfferRideModel> offerRideModelList;
     private List<DriverVehiclesModel> carDetailModelList;
     private OnTripClickListener onTripClickListener;
-    private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel, carModelYr, carColor;
+    private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel, carModelYr, carColor, driverName, email, date;
+    private FirebaseFirestore db;
 
     public BookRideAdapter(List<OfferRideModel> offerRideModelList, List<DriverVehiclesModel> carDetailModelList, OnTripClickListener onTripClickListener) {
         this.offerRideModelList = offerRideModelList;
@@ -29,6 +38,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
     @NonNull
     @Override
     public BookRideViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        db = FirebaseFirestore.getInstance();
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View tripView = inflater.inflate(R.layout.book_trip_layout, parent, false);
 
@@ -39,20 +49,55 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
     @Override
     public void onBindViewHolder(@NonNull BookRideViewHolder holder, int position) {
 
-        String pickupPoint = offerRideModelList.get(position).getPickupPoint();
-        String destination = offerRideModelList.get(position).getDestination();
-        String email = offerRideModelList.get(position).getEmailAddress();
-        String pickupTime = offerRideModelList.get(position).getPickupTime();
-//        String vBrand = carDetailModelList.get(position).getVehicleBrand();
-//        String vModel = carDetailModelList.get(position).getVehicleModel();
-//        String vModelYr = carDetailModelList.get(position).getVehicleModelYr();
-//        String vColor = carDetailModelList.get(position).getVehicleColor();
+        pickupPoint = offerRideModelList.get(position).getPickupPoint();
+        destination = offerRideModelList.get(position).getDestination();
+        email = offerRideModelList.get(position).getEmailAddress();
+        pickupTime = offerRideModelList.get(position).getPickupTime();
+        date = offerRideModelList.get(position).getDate();
 
-        holder.driverName.setText("destination");
-        holder.tripState.setText("destination");
-        holder.carDetail.setText("destination");
+//        String vBrand = carDetailModelList.get(0).getVehicleBrand();
+//        String vModel = carDetailModelList.get(0).getVehicleModel();
+//        String vModelYr = carDetailModelList.get(0).getVehicleModelYr();
+//        String vColor = carDetailModelList.get(0).getVehicleColor();
+
+        getDriverName(email, holder);
+//        String car = new StringBuilder().append(vBrand).append(" ").append(vModel).append(" ")
+//                .append(vModelYr).append(" ").append(vColor).toString();
+
+        String dateTime =new StringBuilder().append("11 dec, 2022").append(" @ ")
+                .append("11 : 45 PM").toString();
+
+
+        holder.dateTime.setText(dateTime);
+        holder.carDetail.setText(email +" , "+ carDetailModelList.size());
         holder.tripStartPoint.setText(pickupPoint);
         holder.tripDestination.setText(destination);
+
+    }
+
+    public void getDriverName(String email, BookRideViewHolder holder){
+        db.collection("Users")
+                .whereEqualTo("Email Address", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        progressDialog.dismiss();
+                        for (DocumentSnapshot documentSnapshot: task.getResult()){
+                            String firstName = documentSnapshot.getString("First Name");
+                            String lastName = documentSnapshot.getString("Surname");
+
+                            driverName = firstName +" "+ lastName;
+                            holder.driverName.setText(driverName);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
 
     }
 
