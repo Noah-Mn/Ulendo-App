@@ -34,6 +34,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
+                        android:layout_marginStart="3dp"
                         android:orientation="horizontal"
                         android:gravity= "left"
                         >
@@ -44,7 +45,7 @@
                             android:layout_height="wrap_content"
                             android:text=" Noah"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:textSize="17dp"
+                            android:textSize="16dp"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
 
@@ -65,7 +66,7 @@
                             android:textColorHighlight="@color/quantum_googgreen"
                             android:layout_gravity="bottom"
                             android:textColor="@color/black"
-                            android:textStyle="bold" />
+                            android:textStyle="italic|bold" />
 
 
                     </LinearLayout>
