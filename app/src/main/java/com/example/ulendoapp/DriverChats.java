@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +20,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.Collections;
@@ -44,7 +47,7 @@ public final class DriverChats extends AppCompatActivity {
     private final String TAG = "Driver Chats";
     private User receiverUser;
     MaterialTextView textView;
-    String fName,lastName, encodedImage;
+    String fName,lastName, encodedImage, fcmToken, emailAddress,email;
     RoundedImageView roundedImageView;
 
     FirebaseFirestore db;
@@ -57,7 +60,7 @@ public final class DriverChats extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        textView = findViewById(R.id.text_name);
+        getToken();
 
 //        setContentView(R.layout.activity_driver_chats);
 
@@ -96,6 +99,37 @@ public final class DriverChats extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    private void getToken(){
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
+    }
+
+        private void updateToken(String token){
+            if(!token.isEmpty()){
+                db.collection("Users")
+                        .whereEqualTo("Email Address", getEmail())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Log.d(TAG, "Email already exist!");
+                                        String userId = document.getId();
+                                        db.collection("Users")
+                                                .document(userId)
+                                                .update("fcmToken", token);
+
+                                        Toast.makeText(DriverChats.this, "successfully updated token", Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Toast.makeText(DriverChats.this, "change failed", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+            } else {
+//            Toast.makeText(EditDriverProfile.this, "Email did not update", Toast.LENGTH_LONG).show();
+            }
     }
     public String getEmail(){
         String emailAddress;

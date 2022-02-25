@@ -32,7 +32,7 @@ import java.util.Objects;
 
 public class CreateAccount extends AppCompatActivity {
     private static final String TAG = "tag";
-    private String firstName, lastName, birthday,encodedImage, gender, phoneNumber, email, nationalId, physicalAddress, password, confirmPassword;
+    private String firstName, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, password, confirmPassword;
     private TextInputEditText textPassword, textConfirmPassword, textEmailAddress;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
@@ -176,6 +176,7 @@ public class CreateAccount extends AppCompatActivity {
             user.put("Number of Trips", "N/A");
             user.put("Rating", "N/A");
             user.put("Profile Pic", "N/A");
+            user.put("fcmToken", "N/A");
 
 
             db.collection("Users")
