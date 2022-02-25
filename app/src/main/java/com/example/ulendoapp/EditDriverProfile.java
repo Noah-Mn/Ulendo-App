@@ -1,12 +1,19 @@
 package com.example.ulendoapp;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +24,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ulendoapp.databinding.ActivityEditDriverProfileBinding;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +38,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class EditDriverProfile extends AppCompatActivity {
     private final String TAG = "tag";
@@ -44,14 +58,21 @@ public class EditDriverProfile extends AppCompatActivity {
     private Object view;
     private AuthCredential credential;
     static String driverPassword;
+    private String encodedImage;
+    MaterialTextView changeAvatar;
+    ImageView profileImage;
+    private PreferenceManager preferenceManager;
+    private ActivityEditDriverProfileBinding binding;
     private TextInputLayout materialFullName, materialBirthday, materialEmailAddress, materialPhoneNumber, materialNationalId, materialPhysicalAddress;
     private boolean valid;
+
     String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
             + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
             + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +87,26 @@ public class EditDriverProfile extends AppCompatActivity {
         edit_physical_address = findViewById(R.id.edit_driver_physical_address);
         edit_date_of_birth = findViewById(R.id.edit_driver_date_of_birth);
         edit_national_id = findViewById(R.id.edit_driver_national_id);
-
+        changeAvatar = findViewById(R.id.change_avatar);
         materialFullName = findViewById(R.id.material_driver_full_name);
         materialBirthday = findViewById(R.id.material_driver_date_of_birth);
         materialPhoneNumber = findViewById(R.id.material_driver_phone_number);
         materialEmailAddress = findViewById(R.id.material_driver_email_address);
         materialNationalId = findViewById(R.id.material_driver_national_id);
         materialPhysicalAddress = findViewById(R.id.material_driver_physical_address);
-
+        profileImage = findViewById(R.id.E_profile_pic);
         updateBtn = findViewById(R.id.driver_update_btn);
-
         currentUser = auth.getCurrentUser();
+        preferenceManager = new PreferenceManager(getApplicationContext());
+
+        changeAvatar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                pickImage.launch(intent);
+            }
+        });
 
         E_profile_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,11 +127,14 @@ public class EditDriverProfile extends AppCompatActivity {
                     updateNationalID();
                     updatePhoneNumber();
                     updatePhysicalAddress();
+                    changeAvatar();
                 }
             }
         });
 
         getMoreUserData();
+        Intent intent = new Intent(getApplicationContext(), DriverProfile.class);
+        startActivity(intent);
     }
 
     public boolean dialogGetPassword(){
@@ -171,7 +204,10 @@ public class EditDriverProfile extends AppCompatActivity {
                 materialPhoneNumber.setError("Invalid phone number");
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
                 materialEmailAddress.setError("Invalid email");
-            } else {
+            }else if (encodedImage == null){
+                Toast.makeText(this, "Select profile image", Toast.LENGTH_SHORT).show();
+            }
+            else {
                 valid = true;
             }
 
@@ -221,6 +257,7 @@ public class EditDriverProfile extends AppCompatActivity {
                                 email = document.getString("Email Address");
                                 id = document.getString("National ID");
                                 phyAddress = document.getString("Physical Address");
+                                encodedImage = document.getString("Profile Pic");
 
                                 edit_full_name.setText(new StringBuilder().append(fName).append(" ").append(surname).toString(),  TextView.BufferType.EDITABLE);
                                 edit_date_of_birth.setText(birthday,  TextView.BufferType.EDITABLE);
@@ -228,6 +265,7 @@ public class EditDriverProfile extends AppCompatActivity {
                                 edit_email_address.setText(email, TextView.BufferType.EDITABLE);
                                 edit_national_id.setText(id,  TextView.BufferType.EDITABLE);
                                 edit_physical_address.setText(phyAddress,  TextView.BufferType.EDITABLE);
+//                                profileImage.setImageBitmap(encodedImage, );
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -279,6 +317,7 @@ public class EditDriverProfile extends AppCompatActivity {
                                     db.collection("Users")
                                             .document(userId)
                                             .update("First Name", firstName);
+
 
                                     Toast.makeText(EditDriverProfile.this, "successfully changed first name", Toast.LENGTH_LONG).show();
                                 }
@@ -469,6 +508,36 @@ public class EditDriverProfile extends AppCompatActivity {
         }
 
     }
+    private void changeAvatar() {
+        if(!encodedImage.isEmpty()){
+            db.collection("Users")
+                    .whereEqualTo("Email Address", getEmail())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, "Email already exist!");
+                                    String userId = document.getId();
+                                    db.collection("Users")
+                                            .document(userId)
+                                            .update("Profile Pic", encodedImage);
+
+
+                                    Toast.makeText(EditDriverProfile.this, "successfully changed surname", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Log.d(TAG, "Email does not exist ", task.getException());
+                                Toast.makeText(EditDriverProfile.this, "change failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        } else {
+//            Toast.makeText(EditDriverProfile.this, "Surname did not update", Toast.LENGTH_LONG).show();
+        }
+
+    }
 
     public String getEmail(){
         String emailAddress;
@@ -483,4 +552,34 @@ public class EditDriverProfile extends AppCompatActivity {
     public void setView(Object view) {
         this.view = view;
     }
+
+    private String encodeImage(Bitmap bitmap){
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK){
+                    if (result.getData() != null){
+                        Uri imageUri = result.getData().getData();
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            profileImage.setImageBitmap(bitmap);
+                            encodedImage = encodeImage(bitmap);
+
+                        }catch (FileNotFoundException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+    );
 }

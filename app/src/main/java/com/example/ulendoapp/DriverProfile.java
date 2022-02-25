@@ -45,6 +45,7 @@ public class DriverProfile extends AppCompatActivity {
        currentUser = firebaseAuth.getCurrentUser();
        db = FirebaseFirestore.getInstance();
         textView = findViewById(R.id.profile_name);
+
        edit_profile.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {

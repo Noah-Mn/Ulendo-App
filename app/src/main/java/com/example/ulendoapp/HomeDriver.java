@@ -22,6 +22,7 @@ import android.content.IntentSender;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +33,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.ulendoapp.databinding.ActivityHomeDriverBinding;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
@@ -52,6 +54,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -86,6 +89,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     String fName, lastName, email;
     private final String TAG = "Home Driver";
     private Toolbar toolbar;
+    ActivityHomeDriverBinding binding;
 
     private static final String[] PERMISSIONS = {
             "android.permission.ACCESS_COARSE_LOCATION",
@@ -113,6 +117,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     public Fragment fr;
     static DriverVehiclesModel driverVehiclesModel;
     private String emailAddress;
+
     private String f_name, surname, birthday, gender, phoneNumber, nationalId, physicalAddress, status, numberOfTrips;
 
     @Override
@@ -144,6 +149,8 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         checkService();
         getUserModel();
         driver_bottom_nav.setSelectedItemId(R.id.home);
+
+
 
     }
 
@@ -497,7 +504,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                 switch (item.getItemId()) {
                     case R.id.driver_chats:
 
-                        replaceFragments(new drivers_chats());
+                        startActivity(new Intent(HomeDriver.this, DriverChats.class));
                         break;
 
                     case R.id.driver_rides:
@@ -606,6 +613,31 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
         }
         return true;
+    }
+    private void updateToken(String token){
+
+         db.collection("Users")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                fName = document.getString("First Name");
+                                lastName = document.getString("Surname");
+                                firstName.setText(fName);
+                                header_name.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
+                                email = document.getString("Email Address");
+                                header_email.setText(email);
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 }
 

@@ -32,12 +32,13 @@ import java.util.Objects;
 
 public class CreateAccount extends AppCompatActivity {
     private static final String TAG = "tag";
-    private String firstName, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, password, confirmPassword;
+    private String firstName, lastName, birthday,encodedImage, gender, phoneNumber, email, nationalId, physicalAddress, password, confirmPassword;
     private TextInputEditText textPassword, textConfirmPassword, textEmailAddress;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
     private ImageView signupBackBtn;
     private Button signupBtn;
+
     private TextInputLayout materialPassword, materialConfirmPassword, materialEmail;
     public boolean valid;
     String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
@@ -174,6 +175,8 @@ public class CreateAccount extends AppCompatActivity {
             user.put("Status", "customer");
             user.put("Number of Trips", "N/A");
             user.put("Rating", "N/A");
+            user.put("Profile Pic", "N/A");
+
 
             db.collection("Users")
                     .add(user)

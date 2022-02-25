@@ -70,8 +70,8 @@ public class Login extends AppCompatActivity {
         materialCreateAcc.setOnClickListener(v -> startActivity(new Intent(Login.this, UserSignup.class)));
 
         loginBtn.setOnClickListener(v -> {
-            Login.this.startActivity(new Intent(Login.this, HomeDriver.class));
-//            performLogin();
+//            Login.this.startActivity(new Intent(Login.this, HomeDriver.class));
+            performLogin();
         });
     }
 
@@ -140,14 +140,20 @@ public class Login extends AppCompatActivity {
 
     public void loginState(String userStatus){
 
-        if(userStatus.equals("customer")){
+        if(userStatus.equals("driver")){
+            Login.this.startActivity(intent = new Intent(Login.this, HomeDriver.class));
+            intent.putExtra("email", logEmailAddress);
+            Toast.makeText(Login.this.getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
+
+        }else if(userStatus.equals("customer")) {
             Login.this.startActivity(intent = new Intent(Login.this, HomeUser.class));
             intent.putExtra("email", logEmailAddress);
+            Toast.makeText(Login.this.getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
 
-        } else{
-            Login.this.startActivity(new Intent(Login.this, HomeDriver.class));
+        }else{
+            Toast.makeText(this, "Please make sure you have an account", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(Login.this.getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
+
     }
 
         private void updateUI(FirebaseUser user) {

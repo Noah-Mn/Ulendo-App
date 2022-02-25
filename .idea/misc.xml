@@ -6,11 +6,13 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/drawable/background_chat_input.xml" value="0.1" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/drawable/background_content_top.xml" value="0.1" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/drawable/background_icon.xml" value="0.1" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/drawable/background_received_message.xml" value="0.1" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/drawable/background_sent_message.xml" value="0.1" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_add_vehicle.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_booking.xml" value="0.17806484295845998" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_channel.xml" value="0.36186594202898553" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_chat.xml" value="0.2504528985507246" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_driver_chats.xml" value="0.18" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_driver_profile.xml" value="0.25" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_edit_driver_profile.xml" value="0.17831813576494426" />
