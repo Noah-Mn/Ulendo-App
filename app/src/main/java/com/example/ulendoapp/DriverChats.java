@@ -1,5 +1,6 @@
 package com.example.ulendoapp;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,8 +50,6 @@ public final class DriverChats extends AppCompatActivity {
     private User receiverUser;
     MaterialTextView textView;
     String fName,lastName, encodedImage, fcmToken, emailAddress,email;
-    RoundedImageView roundedImageView;
-
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser currentUser;
@@ -60,20 +60,22 @@ public final class DriverChats extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        binding = ActivityDriverChatsBinding.inflate(getLayoutInflater());
         getToken();
+        setListeners();
+        loadUserDetails();
 
 //        setContentView(R.layout.activity_driver_chats);
 
 //        inflate binding
 //        binding = ActivityDriverChatsBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_driver_chats);
-//        setContentView(binding.getRoot());
+//        setContentView(R.layout.activity_driver_chats);
+        setContentView(binding.getRoot());
 //        preferenceManager = new PreferenceManager(getApplicationContext());
-        loadUserDetails();
+
     }
     private void loadUserDetails(){
         textView = findViewById(R.id.text_name);
-        roundedImageView = findViewById(R.id.image_profile);
 
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -90,8 +92,8 @@ public final class DriverChats extends AppCompatActivity {
 
                                 byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                roundedImageView.setImageBitmap(bitmap);
-                                textView.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
+                                binding.imageProfile.setImageBitmap(bitmap);
+                                binding.textName.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
 
                             }
                         } else {
@@ -120,7 +122,7 @@ public final class DriverChats extends AppCompatActivity {
                                                 .document(userId)
                                                 .update("fcmToken", token);
 
-                                        Toast.makeText(DriverChats.this, "successfully updated token", Toast.LENGTH_LONG).show();
+//                                        Toast.makeText(DriverChats.this, "successfully updated token", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
                                     Toast.makeText(DriverChats.this, "change failed", Toast.LENGTH_LONG).show();
@@ -135,5 +137,10 @@ public final class DriverChats extends AppCompatActivity {
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
+    }
+    private void setListeners(){
+        binding.fabNewChat.setOnClickListener(view ->
+            startActivity(new Intent(getApplicationContext(), UsersActivity.class))
+        );
     }
 }

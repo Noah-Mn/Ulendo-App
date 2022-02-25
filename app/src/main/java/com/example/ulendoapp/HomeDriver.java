@@ -34,6 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.ulendoapp.databinding.ActivityHomeDriverBinding;
+import com.example.ulendoapp.utilities.Constants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
@@ -47,6 +48,8 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -55,11 +58,14 @@ import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -414,9 +420,9 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                     Toast.makeText(getApplicationContext(), "Help clicked", Toast.LENGTH_SHORT).show();
 
                 }else if (item.getItemId() == R.id.log_out_driver){
-                    FirebaseAuth.getInstance().signOut();
-                    HomeDriver.this.startActivity(new Intent(HomeDriver.this, Login.class));
-                    Toast.makeText(getApplicationContext(), "Succesfully logged out", Toast.LENGTH_SHORT).show();
+//                        logout();
+                        FirebaseAuth.getInstance().signOut();
+                        HomeDriver.this.startActivity(new Intent(HomeDriver.this, Login.class));
                 }
                 return false;
             }
@@ -614,30 +620,19 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         }
         return true;
     }
-    private void updateToken(String token){
-
-         db.collection("Users")
-                .whereEqualTo("Email Address", getEmail())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                fName = document.getString("First Name");
-                                lastName = document.getString("Surname");
-                                firstName.setText(fName);
-                                header_name.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
-                                email = document.getString("Email Address");
-                                header_email.setText(email);
-
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+    public void logout(){
+        db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("Users").document(Constants.KEY_USER_ID);
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+        documentReference.update(updates).addOnSuccessListener(unused -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getApplicationContext(), Login.class));
+            finish();
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Failed to log out", Toast.LENGTH_SHORT).show();
+        });
     }
+
 }
 

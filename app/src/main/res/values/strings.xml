@@ -60,4 +60,5 @@
     <string name="offer">Offer</string>
     <string name="special_instruction_eg_pets_luggage">Special instruction (eg pets, luggage)</string>
     <string name="type_a_message">Type a message</string>
+    <string name="select_user">Select user</string>
 </resources>
