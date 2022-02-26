@@ -1,7 +1,6 @@
 package com.example.ulendoapp.listeners;
-
-import com.example.ulendoapp.UserModel;
+import com.example.ulendoapp.models.User;
 
 public interface UserListener {
-    void onUserClicked(UserModel user);
+    void onUserClicked(User user);
 }

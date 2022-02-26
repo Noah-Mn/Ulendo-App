@@ -21,12 +21,14 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".EditDriverProfile"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".UsersActivity"
             android:exported="false" />
         <activity
             android:name=".ChatActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".DriverChats"
@@ -42,12 +44,14 @@
             android:exported="false" />
         <activity
             android:name=".EditUserProfile"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".HomeDriver"
             android:exported="false" />
         <activity
             android:name=".DriverSignup"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".CreateAccount"

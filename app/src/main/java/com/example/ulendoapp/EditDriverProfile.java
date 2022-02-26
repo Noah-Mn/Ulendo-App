@@ -292,24 +292,21 @@ public class EditDriverProfile extends AppCompatActivity {
             db.collection("Users")
                     .whereEqualTo("Email Address", getEmail())
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, "Email already exist!");
-                                    String userId = document.getId();
-                                    db.collection("Users")
-                                            .document(userId)
-                                            .update("First Name", firstName);
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, "Email already exist!");
+                                String userId = document.getId();
+                                db.collection("Users")
+                                        .document(userId)
+                                        .update("First Name", firstName);
 
 
-                                    Toast.makeText(EditDriverProfile.this, "successfully changed first name", Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Log.d(TAG, "Email does not exist ", task.getException());
-                                Toast.makeText(EditDriverProfile.this, "change failed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(EditDriverProfile.this, "successfully changed first name", Toast.LENGTH_LONG).show();
                             }
+                        } else {
+                            Log.d(TAG, "Email does not exist ", task.getException());
+                            Toast.makeText(EditDriverProfile.this, "change failed", Toast.LENGTH_LONG).show();
                         }
                     });
         } else {
