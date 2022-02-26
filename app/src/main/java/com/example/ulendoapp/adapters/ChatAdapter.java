@@ -19,7 +19,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final String senderId;
 
     public static final int VIEW_TYPE_SENT = 1;
-    public static final int VIEW_TYPE_RECIEVED = 2;
+    public static final int VIEW_TYPE_RECEIVED = 2;
 
     public ChatAdapter(List<ChatMessage> chatMessages, Bitmap receiverProfileImage, String senderId) {
         this.chatMessages = chatMessages;
@@ -70,7 +70,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         if (chatMessages.get(position).senderId.equals(senderId)){
             return VIEW_TYPE_SENT;
         }else {
-            return VIEW_TYPE_RECIEVED;
+            return VIEW_TYPE_RECEIVED;
         }
     }
 
