@@ -22,11 +22,11 @@
         android:name="com.example.ulendoapp.fragment_driver_notifications"
         android:label="fragment_driver_notifications"
         tools:layout="@layout/fragment_driver_notifications" />
-    <fragment
-        android:id="@+id/fragment_driver_profile"
-        android:name="com.example.ulendoapp.fragment_driver_profile"
-        android:label="fragment_driver_profile"
-        tools:layout="@layout/fragment_driver_profile" />
+<!--    <fragment-->
+<!--        android:id="@+id/fragment_driver_profile"-->
+<!--        android:name="com.example.ulendoapp."-->
+<!--        android:label="fragment_driver_profile"-->
+<!--        tools:layout="@layout/fragment_driver_profile" />-->
     <fragment
         android:id="@+id/find_rides2"
         android:name="com.example.ulendoapp.fragment_find_rides"

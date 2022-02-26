@@ -18,19 +18,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ulendoapp.databinding.ActivityEditDriverProfileBinding;
-import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,82 +37,52 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import io.getstream.chat.android.ui.common.extensions.internal.ViewGroupKt;
+
 public class EditDriverProfile extends AppCompatActivity {
     private final String TAG = "tag";
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private TextInputEditText edit_full_name, edit_email_address, edit_phone_number, edit_date_of_birth, edit_national_id, edit_physical_address;
-    private String firstName, lastName, phoneNumber, dateOfBirth, nationalId, physicalAddress, emailAddress;
-    private String fName, surname, birthday, pNumber, email, id, phyAddress;
-    private ImageView E_profile_back;
-    private Button updateBtn;
-    private boolean success;
+    private boolean success, valid;
     public String password;
-    private Object view;
-    private AuthCredential credential;
-    static String driverPassword;
+    private String firstName, lastName, phoneNumber, dateOfBirth, nationalId, physicalAddress, emailAddress;
     private String encodedImage;
-    MaterialTextView changeAvatar;
-    ImageView profileImage;
-    private PreferenceManager preferenceManager;
-    private ActivityEditDriverProfileBinding binding;
-    private TextInputLayout materialFullName, materialBirthday, materialEmailAddress, materialPhoneNumber, materialNationalId, materialPhysicalAddress;
-    private boolean valid;
+    private Object view;
+    static String driverPassword;
+    private AuthCredential credential;
+    private String fName, surname, birthday, pNumber, email, id, phyAddress;
 
-    String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
-            + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-            + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
-            + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
-
+    ActivityEditDriverProfileBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        binding = ActivityEditDriverProfileBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_driver_profile);
+        setContentView(binding.getRoot());
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        E_profile_back = findViewById(R.id.E_driver_profile_back);
-        edit_full_name = findViewById(R.id.edit_driver_full_name);
-        edit_phone_number = findViewById(R.id.edit_driver_phone_number);
-        edit_email_address = findViewById(R.id.edit_driver_email_address);
-        edit_physical_address = findViewById(R.id.edit_driver_physical_address);
-        edit_date_of_birth = findViewById(R.id.edit_driver_date_of_birth);
-        edit_national_id = findViewById(R.id.edit_driver_national_id);
-        changeAvatar = findViewById(R.id.change_avatar);
-        materialFullName = findViewById(R.id.material_driver_full_name);
-        materialBirthday = findViewById(R.id.material_driver_date_of_birth);
-        materialPhoneNumber = findViewById(R.id.material_driver_phone_number);
-        materialEmailAddress = findViewById(R.id.material_driver_email_address);
-        materialNationalId = findViewById(R.id.material_driver_national_id);
-        materialPhysicalAddress = findViewById(R.id.material_driver_physical_address);
-        profileImage = findViewById(R.id.E_profile_pic);
-        updateBtn = findViewById(R.id.driver_update_btn);
         currentUser = auth.getCurrentUser();
-        preferenceManager = new PreferenceManager(getApplicationContext());
 
-        changeAvatar.setOnClickListener(new View.OnClickListener(){
+        binding.changeAvatar.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){
+            public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 pickImage.launch(intent);
             }
         });
 
-        E_profile_back.setOnClickListener(new View.OnClickListener() {
+        binding.EDriverProfileBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 startActivity(new Intent(EditDriverProfile.this, UserProfile.class));
             }
         });
 
-        updateBtn.setOnClickListener(new View.OnClickListener() {
+        binding.driverUpdateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(validateUpdateForm()) {
                     updateAuthEmail();
                     updateFirstName();
@@ -131,12 +95,8 @@ public class EditDriverProfile extends AppCompatActivity {
                 }
             }
         });
-
         getMoreUserData();
-        Intent intent = new Intent(getApplicationContext(), DriverProfile.class);
-        startActivity(intent);
     }
-
     public boolean dialogGetPassword(){
         success = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -173,8 +133,38 @@ public class EditDriverProfile extends AppCompatActivity {
 
     }
 
+    private String encodeImage(Bitmap bitmap){
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK){
+                    if (result.getData() != null){
+                        Uri imageUri = result.getData().getData();
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            binding.EProfilePic.setImageBitmap(bitmap);
+                            encodedImage = encodeImage(bitmap);
+
+                        }catch (FileNotFoundException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+    );
+
     public void setUserTextInfo(){
-        String fullName = edit_full_name.getText().toString();
+        String fullName = binding.editDriverFullName.getText().toString();
         if(fullName != null){
             String[] splitName = fullName.split(" ");
             if(splitName != null){
@@ -187,23 +177,22 @@ public class EditDriverProfile extends AppCompatActivity {
             }
         }
 
-        dateOfBirth = edit_date_of_birth.getText().toString();
-        phoneNumber = edit_phone_number.getText().toString();
-        emailAddress = edit_email_address.getText().toString();
-        nationalId = edit_national_id.getText().toString();
-        physicalAddress = edit_physical_address.getText().toString();
+        dateOfBirth = binding.editDriverDateOfBirth.getText().toString();
+        phoneNumber = binding.editDriverPhoneNumber.getText().toString();
+        emailAddress = binding.editDriverEmailAddress.getText().toString();
+        nationalId = binding.editDriverNationalId.getText().toString();
+        physicalAddress = binding.editDriverPhysicalAddress.getText().toString();
     }
-
     public boolean validateUpdateForm(){
         setUserTextInfo();
         valid = false;
         try {
             if (firstName.length() > 20) {
-                materialFullName.setError("Invalid first name");
+                binding.materialDriverFullName.setError("Invalid first name");
             } else if(phoneNumber.length() > 12){
-                materialPhoneNumber.setError("Invalid phone number");
+                binding.materialDriverPhoneNumber.setError("Invalid phone number");
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
-                materialEmailAddress.setError("Invalid email");
+                binding.materialDriverEmailAddress.setError("Invalid email");
             }else if (encodedImage == null){
                 Toast.makeText(this, "Select profile image", Toast.LENGTH_SHORT).show();
             }
@@ -217,7 +206,6 @@ public class EditDriverProfile extends AppCompatActivity {
         }
         return valid;
     }
-
     private boolean validateEmail(){
         db.collection("Users")
                 .whereEqualTo("Email Address", email)
@@ -228,7 +216,7 @@ public class EditDriverProfile extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, "Email already exist!");
-                                materialEmailAddress.setError("Email address already in use");
+                                binding.materialDriverEmailAddress.setError("Email address already in use");
                                 valid = false;
                             }
                         } else {
@@ -239,7 +227,6 @@ public class EditDriverProfile extends AppCompatActivity {
                 });
         return valid;
     }
-
     public void getMoreUserData(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -259,12 +246,12 @@ public class EditDriverProfile extends AppCompatActivity {
                                 phyAddress = document.getString("Physical Address");
                                 encodedImage = document.getString("Profile Pic");
 
-                                edit_full_name.setText(new StringBuilder().append(fName).append(" ").append(surname).toString(),  TextView.BufferType.EDITABLE);
-                                edit_date_of_birth.setText(birthday,  TextView.BufferType.EDITABLE);
-                                edit_phone_number.setText(pNumber,  TextView.BufferType.EDITABLE);
-                                edit_email_address.setText(email, TextView.BufferType.EDITABLE);
-                                edit_national_id.setText(id,  TextView.BufferType.EDITABLE);
-                                edit_physical_address.setText(phyAddress,  TextView.BufferType.EDITABLE);
+                                binding.editDriverFullName.setText(new StringBuilder().append(fName).append(" ").append(surname).toString(),  TextView.BufferType.EDITABLE);
+                                binding.editDriverDateOfBirth.setText(birthday,  TextView.BufferType.EDITABLE);
+                                binding.editDriverPhoneNumber.setText(pNumber,  TextView.BufferType.EDITABLE);
+                                binding.editDriverEmailAddress.setText(email, TextView.BufferType.EDITABLE);
+                                binding.editDriverNationalId.setText(id,  TextView.BufferType.EDITABLE);
+                                binding.editDriverPhysicalAddress.setText(phyAddress,  TextView.BufferType.EDITABLE);
 //                                profileImage.setImageBitmap(encodedImage, );
                             }
                         } else {
@@ -273,7 +260,6 @@ public class EditDriverProfile extends AppCompatActivity {
                     }
                 });
     }
-
     public void updateAuthEmail(){
         if(!emailAddress.isEmpty() && !emailAddress.equals(email)) {
             if(dialogGetPassword()){
@@ -301,7 +287,6 @@ public class EditDriverProfile extends AppCompatActivity {
             }
         }
     }
-
     private void updateFirstName() {
         if(!firstName.isEmpty() && !firstName.equals(fName)){
             db.collection("Users")
@@ -332,7 +317,6 @@ public class EditDriverProfile extends AppCompatActivity {
         }
 
     }
-
     private void updateSurname() {
         if(!lastName.isEmpty() && !lastName.equals(surname)){
             db.collection("Users")
@@ -391,7 +375,6 @@ public class EditDriverProfile extends AppCompatActivity {
         }
 
     }
-
     private void updatePhoneNumber() {
         if(!phoneNumber.isEmpty() && !phoneNumber.equals(pNumber)){
             db.collection("Users")
@@ -420,7 +403,6 @@ public class EditDriverProfile extends AppCompatActivity {
         }
 
     }
-
     private void updateEmail() {
         if(!emailAddress.isEmpty() && !emailAddress.equals(email)){
             db.collection("Users")
@@ -449,7 +431,6 @@ public class EditDriverProfile extends AppCompatActivity {
         }
 
     }
-
     private void updateNationalID() {
         if(!nationalId.isEmpty() && !nationalId.equals(id)){
             db.collection("Users")
@@ -525,10 +506,10 @@ public class EditDriverProfile extends AppCompatActivity {
                                             .update("Profile Pic", encodedImage);
 
 
-                                    Toast.makeText(EditDriverProfile.this, "successfully changed surname", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(EditDriverProfile.this, "successfully changed Profile pic", Toast.LENGTH_LONG).show();
                                 }
                             } else {
-                                Log.d(TAG, "Email does not exist ", task.getException());
+//                                Log.d(TAG, "Email does not exist ", task.getException());
                                 Toast.makeText(EditDriverProfile.this, "change failed", Toast.LENGTH_LONG).show();
                             }
                         }
@@ -538,13 +519,11 @@ public class EditDriverProfile extends AppCompatActivity {
         }
 
     }
-
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
-
     public Object getView() {
         return view;
     }
@@ -553,33 +532,4 @@ public class EditDriverProfile extends AppCompatActivity {
         this.view = view;
     }
 
-    private String encodeImage(Bitmap bitmap){
-        int previewWidth = 150;
-        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
-        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(bytes, Base64.DEFAULT);
-    }
-
-    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK){
-                    if (result.getData() != null){
-                        Uri imageUri = result.getData().getData();
-                        try {
-                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
-                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            profileImage.setImageBitmap(bitmap);
-                            encodedImage = encodeImage(bitmap);
-
-                        }catch (FileNotFoundException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-    );
 }

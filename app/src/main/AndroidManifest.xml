@@ -20,6 +20,9 @@
         android:theme="@style/Theme.UlendoApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".EditDriverProfile"
+            android:exported="false" />
+        <activity
             android:name=".UsersActivity"
             android:exported="false" />
         <activity
@@ -36,9 +39,6 @@
             android:exported="false" />
         <activity
             android:name=".UserProfile"
-            android:exported="false" />
-        <activity
-            android:name=".EditDriverProfile"
             android:exported="false" />
         <activity
             android:name=".EditUserProfile"

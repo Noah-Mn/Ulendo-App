@@ -49,7 +49,9 @@ public class UsersActivity extends AppCompatActivity {
                                 continue;
                             }
                             User user = new User();
-                            user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                            String name = queryDocumentSnapshot.getString("First Name");
+                            String lname = queryDocumentSnapshot.getString("Surname");
+                            user.name = name +" "+ lname;
                             user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
                             user.image = queryDocumentSnapshot.getString("Profile Pic");
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);

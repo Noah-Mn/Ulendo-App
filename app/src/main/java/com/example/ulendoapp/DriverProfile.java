@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.ulendoapp.databinding.ActivityDriverProfileBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textview.MaterialTextView;
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class DriverProfile extends AppCompatActivity {
+    ActivityDriverProfileBinding binding;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
@@ -32,28 +34,30 @@ public class DriverProfile extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        binding = ActivityDriverProfileBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_profile);
+        setContentView(binding.getRoot());
 
        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
 
-       profile_back = findViewById(R.id.profile_back);
-       edit_profile = findViewById(R.id.edit_profile);
+//       profile_back = findViewById(R.id.profile_back);
+//       edit_profile = findViewById(R.id.edit_profile);
        firebaseAuth = FirebaseAuth.getInstance();
        currentUser = firebaseAuth.getCurrentUser();
        db = FirebaseFirestore.getInstance();
-        textView = findViewById(R.id.profile_name);
+//        textView = findViewById(R.id.profile_name);
 
-       edit_profile.setOnClickListener(new View.OnClickListener() {
+       binding.editProfile.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               startActivity(new Intent(DriverProfile.this, EditDriverProfile.class));
+               Intent intent = new Intent(DriverProfile.this, EditDriverProfile.class);
+               startActivity(intent);
            }
        });
 
-       profile_back.setOnClickListener(new View.OnClickListener() {
+       binding.profileBack.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                startActivity(new Intent(DriverProfile.this, HomeDriver.class));
@@ -74,7 +78,7 @@ public class DriverProfile extends AppCompatActivity {
                                 fName = document.getString("First Name");
                                 lastName = document.getString("Surname");
 
-                                textView.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
+                                binding.profileName.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
 
                             }
                         } else {
