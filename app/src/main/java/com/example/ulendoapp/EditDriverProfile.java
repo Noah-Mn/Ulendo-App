@@ -80,7 +80,7 @@ public class EditDriverProfile extends AppCompatActivity {
         binding.EDriverProfileBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(EditDriverProfile.this, UserProfile.class));
+                startActivity(new Intent(EditDriverProfile.this, DriverProfile.class));
             }
         });
 
@@ -250,7 +250,7 @@ public class EditDriverProfile extends AppCompatActivity {
                                 email = document.getString("Email Address");
                                 id = document.getString("National ID");
                                 phyAddress = document.getString("Physical Address");
-                                encodedImage = document.getString("Profile Pic");
+                                encodedImage = document.getString(Constants.KEY_IMAGE);
 
                                 binding.editDriverFullName.setText(new StringBuilder().append(fName).append(" ").append(surname).toString(),  TextView.BufferType.EDITABLE);
                                 binding.editDriverDateOfBirth.setText(birthday,  TextView.BufferType.EDITABLE);
@@ -259,7 +259,7 @@ public class EditDriverProfile extends AppCompatActivity {
                                 binding.editDriverNationalId.setText(id,  TextView.BufferType.EDITABLE);
                                 binding.editDriverPhysicalAddress.setText(phyAddress,  TextView.BufferType.EDITABLE);
 
-                                byte[] bytes = Base64.decode(Constants.KEY_IMAGE, Base64.DEFAULT);
+                                byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                 binding.EProfilePic.setImageBitmap(bitmap);
                             }

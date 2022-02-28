@@ -34,9 +34,7 @@ public class DriverProfile extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseFirestore db;
     private final String TAG = "Driver Profile";
-    String fName, lastName;
-    MaterialTextView textView;
-    ImageView profile_back, edit_profile;
+    String fName, lastName, encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,20 +43,13 @@ public class DriverProfile extends AppCompatActivity {
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
 
-        byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE), Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        binding.profileImage.setImageBitmap(bitmap);
 
        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-
-//       profile_back = findViewById(R.id.profile_back);
-//       edit_profile = findViewById(R.id.edit_profile);
        firebaseAuth = FirebaseAuth.getInstance();
        currentUser = firebaseAuth.getCurrentUser();
        db = FirebaseFirestore.getInstance();
-//        textView = findViewById(R.id.profile_name);
 
        binding.editProfile.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -88,9 +79,11 @@ public class DriverProfile extends AppCompatActivity {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 fName = document.getString("First Name");
                                 lastName = document.getString("Surname");
-
+                                encodedImage = document.getString(Constants.KEY_IMAGE);
+                                byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                binding.profileImage.setImageBitmap(bitmap);
                                 binding.profileName.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
-
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
