@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.ulendoapp.models.User;
+import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,6 +41,8 @@ public class CreateAccount extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ImageView signupBackBtn;
     private Button signupBtn;
+    private User senderUser;
+    PreferenceManager preferenceManager;
 
     private TextInputLayout materialPassword, materialConfirmPassword, materialEmail;
     public boolean valid;
@@ -65,6 +70,7 @@ public class CreateAccount extends AppCompatActivity {
 
         signupBtn = findViewById(R.id.create_account_btn);
         signupBackBtn = findViewById(R.id.create_account_back_btn);
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         getUserintentExtras();
         signupBtn.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +190,10 @@ public class CreateAccount extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
+                            String ids = documentReference.getId();
+                            UserModel sender = new UserModel(ids);
                             Log.d(TAG, "inserted successfully");
+                            sender.setSenderID(ids) ;
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

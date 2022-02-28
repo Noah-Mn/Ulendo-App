@@ -1,9 +1,10 @@
 package com.example.ulendoapp;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class UserModel {
-    private String firstName, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, status, numberOfTrips, rating;
+public class UserModel implements Serializable {
+    private String firstName,name, image, token, senderID, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, status, numberOfTrips, rating;
 
     public UserModel(){}
 
@@ -12,6 +13,17 @@ public class UserModel {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+    }
+    public UserModel(String senderID){
+        this.senderID = senderID;
+    }
+
+    public String getSenderID() {
+        return senderID;
+    }
+
+    public void setSenderID(String senderID) {
+        this.senderID = senderID;
     }
 
     public UserModel(String firstName, String lastName, String birthday, String gender, String phoneNumber, String email, String nationalId, String physicalAddress, String status, String numberOfTrips, String rating) {

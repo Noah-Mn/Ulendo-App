@@ -43,7 +43,7 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                 .get()
                 .addOnCompleteListener(task -> {
                     loading(false);
-                    String currentUserId = Constants.KEY_USER_ID;
+                    String currentUserId = Constants.KEY_USER_ID ;
                     if (task.isSuccessful() && task.getResult() != null){
                         List<User> users = new ArrayList<>();
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
@@ -55,7 +55,7 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                             String lname = queryDocumentSnapshot.getString("Surname");
                             user.name = name +" "+ lname;
                             user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
-                            user.image = queryDocumentSnapshot.getString("Profile Pic");
+                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                             user.id = queryDocumentSnapshot.getId();
                             users.add(user);

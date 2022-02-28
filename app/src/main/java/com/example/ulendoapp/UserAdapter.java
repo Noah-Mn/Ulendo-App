@@ -1,5 +1,8 @@
 package com.example.ulendoapp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ulendoapp.databinding.ItemContainerUserBinding;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +21,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> implements
     private List<UserModel> onlineUserModelList;
     private OnUserOnlineClickListener onUserOnlineClickListener;
     RecyclerView rc;
+    private List<UserModel> user;
+
+    private Bitmap getUserImage(String encodedImage){
+        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
 
     public UserAdapter(List<UserModel> onlineUserModelList, UserAdapter.OnUserOnlineClickListener onUserOnlineClickListener) {
         this.onlineUserModelList = onlineUserModelList;
@@ -30,6 +41,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> implements
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemContainerUserBinding itemContainerUserBinding = ItemContainerUserBinding.inflate(LayoutInflater.from(parent.getContext()));
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View onlineUserView = inflater.inflate(R.layout.online_user_layout, parent, false);
 
@@ -50,4 +62,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> implements
     public interface OnUserOnlineClickListener {
         void onUserOnlineClick(int adapterPosition);
     }
+
+
 }

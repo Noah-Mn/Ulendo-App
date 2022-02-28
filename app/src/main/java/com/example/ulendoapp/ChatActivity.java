@@ -1,5 +1,8 @@
 package com.example.ulendoapp;
 
+import static com.example.ulendoapp.HomeUser.userModel;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -7,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 
 import com.example.ulendoapp.adapters.ChatAdapter;
@@ -16,6 +20,10 @@ import com.example.ulendoapp.models.ChatMessage;
 import com.example.ulendoapp.models.User;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,22 +43,60 @@ import java.util.Locale;
 public class ChatActivity extends AppCompatActivity {
     private ActivityChatBinding binding;
     private User receiverUser;
-
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
+    FirebaseAuth auth;
+    FirebaseUser currentUser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setListeners();
         loadReceiverDetails();
         init();
         listenMessages();
+
+    }
+
+    private void sendMessage(){
+
+        database.collection("Users")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                              String uid = document.getId();
+
+                              UserModel sender = new UserModel(uid);
+                              sender.setSenderID(uid);
+                              preferenceManager.putString(Constants.KEY_USER_ID, uid);
+
+
+
+                        HashMap<String, Object> message = new HashMap<>();
+                        message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                        message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+                        message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+                        message.put(Constants.KEY_TIMESTAMP, new Date());
+                        database.collection(Constants.KEY_COLLECT_CHAT).add(message);
+                        binding.inputMessage.setText(null);
+
+                            }
+                        }
+                    }
+                });
+
     }
     private void init(){
         preferenceManager = new PreferenceManager(getApplicationContext());
@@ -58,30 +104,28 @@ public class ChatActivity extends AppCompatActivity {
         chatAdapter = new ChatAdapter(
                 chatMessages,
                 getBitMapFromEncodedString(receiverUser.image),
-                Constants.KEY_USER_ID
+                preferenceManager.getString(Constants.KEY_USER_ID)
         );
         binding.chatRecyclerView.setAdapter(chatAdapter);
         database = FirebaseFirestore.getInstance();
     }
-    private void sendMessage(){
-        HashMap<String, Object> message = new HashMap<>();
-        message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-        message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-        message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
-        message.put(Constants.KEY_TIMESTAMP, new Date());
-        database.collection(Constants.KEY_COLLECT_CHAT).add(message);
-        binding.inputMessage.setText(null);
+
+
+    public String getEmail(){
+        String emailAddress;
+        emailAddress = currentUser.getEmail();
+        return emailAddress;
     }
 
     private void listenMessages(){
         database.collection(Constants.KEY_COLLECT_CHAT)
-                .whereEqualTo(Constants.KEY_SENDER_ID, Constants.KEY_USER_ID)
+                .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
                 .addSnapshotListener(eventListener);
 
         database.collection(Constants.KEY_COLLECT_CHAT)
                 .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, Constants.KEY_USER_ID)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .addSnapshotListener(eventListener);
     }
 
@@ -104,7 +148,7 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessages.add(chatMessage);
                 }
             }
-            Collections.sort(chatMessages, Comparator.comparing(obj -> obj.dateObject));
+            Collections.sort(chatMessages, (obj1, obj2) ->obj1.dateObject.compareTo(obj2.dateObject));
             if (count == 0){
                 chatAdapter.notifyDataSetChanged();
             }else {
