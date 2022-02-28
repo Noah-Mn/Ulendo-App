@@ -6,12 +6,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.ulendoapp.databinding.ActivityDriverProfileBinding;
+import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textview.MaterialTextView;
@@ -23,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class DriverProfile extends AppCompatActivity {
     ActivityDriverProfileBinding binding;
+    PreferenceManager preferenceManager;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
@@ -37,6 +43,11 @@ public class DriverProfile extends AppCompatActivity {
         binding = ActivityDriverProfileBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
+        preferenceManager = new PreferenceManager(getApplicationContext());
+
+        byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE), Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        binding.profileImage.setImageBitmap(bitmap);
 
        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);

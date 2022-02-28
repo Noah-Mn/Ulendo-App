@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ulendoapp.databinding.ActivityEditDriverProfileBinding;
+import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -51,6 +53,7 @@ public class EditDriverProfile extends AppCompatActivity {
     private Object view;
     static String driverPassword;
     private AuthCredential credential;
+    PreferenceManager preferenceManager;
     private String fName, surname, birthday, pNumber, email, id, phyAddress;
 
     ActivityEditDriverProfileBinding binding;
@@ -63,6 +66,7 @@ public class EditDriverProfile extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         binding.changeAvatar.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -92,6 +96,7 @@ public class EditDriverProfile extends AppCompatActivity {
                     updatePhoneNumber();
                     updatePhysicalAddress();
                     changeAvatar();
+                    startActivity(new Intent(EditDriverProfile.this, DriverProfile.class));
                 }
             }
         });
@@ -154,6 +159,7 @@ public class EditDriverProfile extends AppCompatActivity {
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                             binding.EProfilePic.setImageBitmap(bitmap);
                             encodedImage = encodeImage(bitmap);
+                            preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
 
                         }catch (FileNotFoundException e){
                             e.printStackTrace();
@@ -252,7 +258,10 @@ public class EditDriverProfile extends AppCompatActivity {
                                 binding.editDriverEmailAddress.setText(email, TextView.BufferType.EDITABLE);
                                 binding.editDriverNationalId.setText(id,  TextView.BufferType.EDITABLE);
                                 binding.editDriverPhysicalAddress.setText(phyAddress,  TextView.BufferType.EDITABLE);
-//                                profileImage.setImageBitmap(encodedImage, );
+
+                                byte[] bytes = Base64.decode(Constants.KEY_IMAGE, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                binding.EProfilePic.setImageBitmap(bitmap);
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -496,23 +505,18 @@ public class EditDriverProfile extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, "Email already exist!");
                                     String userId = document.getId();
                                     db.collection("Users")
                                             .document(userId)
                                             .update("Profile Pic", encodedImage);
 
-
-                                    Toast.makeText(EditDriverProfile.this, "successfully changed Profile pic", Toast.LENGTH_LONG).show();
                                 }
                             } else {
-//                                Log.d(TAG, "Email does not exist ", task.getException());
+
                                 Toast.makeText(EditDriverProfile.this, "change failed", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
-        } else {
-//            Toast.makeText(EditDriverProfile.this, "Surname did not update", Toast.LENGTH_LONG).show();
         }
 
     }
