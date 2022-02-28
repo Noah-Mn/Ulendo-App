@@ -142,5 +142,7 @@ public final class DriverChats extends AppCompatActivity {
         binding.fabNewChat.setOnClickListener(view ->
             startActivity(new Intent(getApplicationContext(), UsersActivity.class))
         );
+        binding.imageCancel.setOnClickListener(View ->
+                startActivity(new Intent(DriverChats.this, HomeDriver.class)));
     }
 }
