@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -169,7 +170,7 @@ public class ChatActivity extends AppCompatActivity {
         binding.textName.setText(receiverUser.name);
     }
     private void setListeners(){
-        binding.imageBack.setOnClickListener(view -> onBackPressed());
+        binding.imageBack.setOnClickListener(view -> startActivity(new Intent(ChatActivity.this, UsersActivity.class)));
         binding.layoutSend.setOnClickListener(view -> sendMessage());
     }
     private String getReadableDateTime(Date date){
