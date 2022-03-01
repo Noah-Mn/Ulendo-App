@@ -74,42 +74,43 @@ public class ChatActivity extends AppCompatActivity {
         database.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                              String uid = document.getId();
+                .addOnCompleteListener(task -> {
 
-                              UserModel sender = new UserModel(uid);
-                              sender.setSenderID(uid);
-                              preferenceManager.putString(Constants.KEY_USER_ID, uid);
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String uid = document.getId();
+                            UserModel sender = new UserModel(uid);
+                            sender.setSenderID(uid);
+                            String fName = document.getString("First Name");
+                            String lastName = document.getString("Surname");
+                            String encodedImage = document.getString(Constants.KEY_IMAGE);
+                            String name = fName+ " " + lastName;
+                            preferenceManager.putString(Constants.KEY_USER_ID, uid);
+                            preferenceManager.putString(Constants.KEY_NAME, name);
+                            preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
 
+                    HashMap<String, Object> message = new HashMap<>();
+                    message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                    message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+                    message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+                    message.put(Constants.KEY_TIMESTAMP, new Date());
+                    database.collection(Constants.KEY_COLLECT_CHAT).add(message);
+                    if (conversationId != null){
+                        updateConversations(binding.inputMessage.getText().toString());
+                    }else {
+                        HashMap<String, Object> conversation = new HashMap<>();
+                        conversation.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                        conversation.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                        conversation.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+                        conversation.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+                        conversation.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
+                        conversation.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
+                        conversation.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+                        conversation.put(Constants.KEY_TIMESTAMP, new Date());
+                        addConversation(conversation);
+                    }
+                    binding.inputMessage.setText(null);
 
-
-                        HashMap<String, Object> message = new HashMap<>();
-                        message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                        message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-                        message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
-                        message.put(Constants.KEY_TIMESTAMP, new Date());
-                        database.collection(Constants.KEY_COLLECT_CHAT).add(message);
-                        if (conversationId != null){
-                            updateConversations(binding.inputMessage.getText().toString());
-                        }else {
-                            HashMap<String, Object> conversation = new HashMap<>();
-                            conversation.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                            conversation.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
-                            conversation.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
-                            conversation.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-                            conversation.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
-                            conversation.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
-                            conversation.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
-                            conversation.put(Constants.KEY_TIMESTAMP, new Date());
-                            addConversation(conversation);
-                        }
-                        binding.inputMessage.setText(null);
-
-                            }
                         }
                     }
                 });

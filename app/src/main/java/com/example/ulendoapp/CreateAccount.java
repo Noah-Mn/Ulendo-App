@@ -41,7 +41,6 @@ public class CreateAccount extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ImageView signupBackBtn;
     private Button signupBtn;
-    private User senderUser;
     PreferenceManager preferenceManager;
 
     private TextInputLayout materialPassword, materialConfirmPassword, materialEmail;

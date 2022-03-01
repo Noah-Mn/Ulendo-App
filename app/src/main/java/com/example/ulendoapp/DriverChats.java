@@ -67,6 +67,7 @@ public final class DriverChats extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDriverChatsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        preferenceManager = new PreferenceManager(getApplicationContext());
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
@@ -84,7 +85,6 @@ public final class DriverChats extends AppCompatActivity {
     }
 
     private void loadUserDetails(){
-        textView = findViewById(R.id.text_name);
 
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
