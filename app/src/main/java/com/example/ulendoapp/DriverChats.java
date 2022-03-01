@@ -10,54 +10,34 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.ulendoapp.adapters.RecentConversationsAdapter;
 import com.example.ulendoapp.databinding.ActivityDriverChatsBinding;
-import com.example.ulendoapp.databinding.ActivityMainBinding;
 import com.example.ulendoapp.listeners.ConversationListener;
 import com.example.ulendoapp.models.ChatMessage;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.getstream.chat.android.client.ChatClient;
-import io.getstream.chat.android.client.api.models.FilterObject;
-import io.getstream.chat.android.client.logger.ChatLogLevel;
-import io.getstream.chat.android.client.models.Filters;
-import io.getstream.chat.android.client.models.User;
-import io.getstream.chat.android.offline.ChatDomain;
-import io.getstream.chat.android.ui.channel.list.ChannelListView;
-import io.getstream.chat.android.ui.channel.list.viewmodel.ChannelListViewModel;
-import io.getstream.chat.android.ui.channel.list.viewmodel.ChannelListViewModelBinding;
-import io.getstream.chat.android.ui.channel.list.viewmodel.factory.ChannelListViewModelFactory;
-
-public final class DriverChats extends AppCompatActivity implements ConversationListener {
+public final class DriverChats extends BaseActivity implements ConversationListener {
 
     private ActivityDriverChatsBinding binding;
     private PreferenceManager preferenceManager;
     private final String TAG = "Driver Chats";
-    private User receiverUser;
-    MaterialTextView textView;
-    String fName,lastName, encodedImage, fcmToken, emailAddress,email;
+    String fName,lastName, encodedImage;
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser currentUser;
