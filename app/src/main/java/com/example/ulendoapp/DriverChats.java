@@ -61,14 +61,15 @@ public final class DriverChats extends AppCompatActivity {
     private RecentConversationsAdapter conversationsAdapter;
     private FirebaseFirestore database;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityDriverChatsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        binding = ActivityDriverChatsBinding.inflate(getLayoutInflater());
         init();
         getToken();
         setListeners();
