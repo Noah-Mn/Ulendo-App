@@ -19,11 +19,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +34,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.ulendoapp.databinding.ActivityHomeDriverBinding;
@@ -79,6 +83,7 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
     LocationListener{
@@ -95,7 +100,8 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     String fName, lastName, email;
     private final String TAG = "Home Driver";
     private Toolbar toolbar;
-    ActivityHomeDriverBinding binding;
+//    ActivityHomeDriverBinding binding;
+    private RoundedImageView profilePic;
 
     private static final String[] PERMISSIONS = {
             "android.permission.ACCESS_COARSE_LOCATION",
@@ -129,6 +135,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        binding = ActivityHomeDriverBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_home_driver);
 
         toolbar = findViewById(R.id.toolbarDriver);
@@ -141,6 +148,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         header_name = findViewById(R.id.header_name);
         header_email = findViewById(R.id.header_email);
         layout = findViewById(R.id.fragment_container);
+        profilePic = navigation_view_driver.getHeaderView(0).findViewById(R.id.profile_pic);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -499,6 +507,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         header_name = navigation_view_driver.getHeaderView(0).findViewById(R.id.header_name);
         header_email = navigation_view_driver.getHeaderView(0).findViewById(R.id.header_email);
 
+
         navigation_view_driver.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -583,10 +592,15 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 fName = document.getString("First Name");
                                 lastName = document.getString("Surname");
+                                String encodedImage = document.getString(Constants.KEY_IMAGE);
                                 firstName.setText(fName);
                                 header_name.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
                                 email = document.getString("Email Address");
                                 header_email.setText(email);
+
+                                byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                profilePic.setImageBitmap(bitmap);
 
                             }
                         } else {

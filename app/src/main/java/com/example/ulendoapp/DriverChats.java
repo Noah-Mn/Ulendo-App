@@ -12,8 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.ulendoapp.adapters.RecentConversationsAdapter;
 import com.example.ulendoapp.databinding.ActivityDriverChatsBinding;
 import com.example.ulendoapp.databinding.ActivityMainBinding;
+import com.example.ulendoapp.models.ChatMessage;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,7 +31,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import io.getstream.chat.android.client.ChatClient;
 import io.getstream.chat.android.client.api.models.FilterObject;
@@ -53,27 +57,31 @@ public final class DriverChats extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser currentUser;
+    private List<ChatMessage> conversations;
+    private RecentConversationsAdapter conversationsAdapter;
+    private FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         binding = ActivityDriverChatsBinding.inflate(getLayoutInflater());
+        init();
         getToken();
         setListeners();
         loadUserDetails();
-
-//        setContentView(R.layout.activity_driver_chats);
-
-//        inflate binding
-//        binding = ActivityDriverChatsBinding.inflate(getLayoutInflater());
-//        setContentView(R.layout.activity_driver_chats);
-        setContentView(binding.getRoot());
-//        preferenceManager = new PreferenceManager(getApplicationContext());
-
     }
+
+    private void init(){
+        conversations = new ArrayList<>();
+        conversationsAdapter = new RecentConversationsAdapter(conversations);
+        binding.conversationsRecyclerView.setAdapter(conversationsAdapter);
+        database = FirebaseFirestore.getInstance();
+    }
+
     private void loadUserDetails(){
         textView = findViewById(R.id.text_name);
 

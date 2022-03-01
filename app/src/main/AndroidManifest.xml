@@ -20,16 +20,19 @@
         android:theme="@style/Theme.UlendoApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".EditDriverProfile"
-            android:windowSoftInputMode="adjustResize"
+            android:name=".UserChat"
             android:exported="false" />
+        <activity
+            android:name=".EditDriverProfile"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".UsersActivity"
             android:exported="false" />
         <activity
             android:name=".ChatActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".DriverChats"
             android:exported="false" />
@@ -44,15 +47,15 @@
             android:exported="false" />
         <activity
             android:name=".EditUserProfile"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".HomeDriver"
             android:exported="false" />
         <activity
             android:name=".DriverSignup"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".CreateAccount"
             android:exported="false"

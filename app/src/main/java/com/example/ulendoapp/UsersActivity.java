@@ -93,4 +93,7 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
         startActivity(intent);
         finish();
     }
+    public void pushUserChat(){
+
+    }
 }

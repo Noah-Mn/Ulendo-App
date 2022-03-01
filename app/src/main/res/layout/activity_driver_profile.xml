@@ -42,14 +42,15 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/profile_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:layout_marginBottom="-30dp"
+        android:scaleType="centerCrop"
         android:background="@drawable/background_image"
-        android:elevation="7dp"
-        android:src="@mipmap/ic_launcher" />
+        app:riv_oval="true"
+        android:elevation="7dp"/>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

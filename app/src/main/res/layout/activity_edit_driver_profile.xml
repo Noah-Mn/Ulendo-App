@@ -49,7 +49,9 @@
         app:layout_constraintTop_toBottomOf="@+id/appbar_layout"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/background_image"
         app:layout_constraintEnd_toEndOf="parent"
+        app:riv_oval="true"
         app:layout_constraintBottom_toTopOf="@+id/change_avatar"
         android:contentDescription="@string/profile_pic" />
 

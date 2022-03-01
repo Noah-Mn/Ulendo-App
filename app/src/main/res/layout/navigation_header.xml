@@ -2,19 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/purple_700"
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:paddingTop="16dp"
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/profile_pic"
         android:layout_marginTop="10dp"
         android:layout_width="60dp"
+        android:scaleType="centerCrop"
         android:layout_height="60dp"
-        android:src="@mipmap/ic_launcher" />
+        app:riv_oval="true"
+        android:background="@drawable/background_image"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/header_name"

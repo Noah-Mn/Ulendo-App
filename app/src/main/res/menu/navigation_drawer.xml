@@ -22,6 +22,17 @@
             android:id="@+id/my_wallet"
             android:icon="@drawable/ic_baseline_money_24"
             android:title="@string/wallet" />
+        <item
+            android:id="@+id/my_chats"
+            android:title="Chat"
+            android:icon="@drawable/chat_24"
+            />
+        <item
+            android:id="@+id/my_groups"
+            android:title="Groups"
+            android:icon="@drawable/ic_baseline_group_24"
+            />
+
 
 
     </group>
