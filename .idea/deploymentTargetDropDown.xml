@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
-    <targetSelectedWithDropDown>
+    <runningDeviceTargetSelectedWithDropDown>
       <Target>
-        <type value="QUICK_BOOT_TARGET" />
+        <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
@@ -11,7 +11,29 @@
           </Key>
         </deviceKey>
       </Target>
-    </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-03-01T19:35:28.818715600Z" />
+    </runningDeviceTargetSelectedWithDropDown>
+    <timeTargetWasSelectedWithDropDown value="2022-03-01T21:29:07.142954Z" />
+    <runningDeviceTargetsSelectedWithDialog>
+      <Target>
+        <type value="RUNNING_DEVICE_TARGET" />
+        <deviceKey>
+          <Key>
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\BSC_COM_09_17\.android\avd\Pixel_2_API_29.avd" />
+          </Key>
+        </deviceKey>
+      </Target>
+    </runningDeviceTargetsSelectedWithDialog>
+    <targetsSelectedWithDialog>
+      <Target>
+        <type value="QUICK_BOOT_TARGET" />
+        <deviceKey>
+          <Key>
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\BSC_COM_09_17\.android\avd\Nexus_5_API_29.avd" />
+          </Key>
+        </deviceKey>
+      </Target>
+    </targetsSelectedWithDialog>
   </component>
 </project>

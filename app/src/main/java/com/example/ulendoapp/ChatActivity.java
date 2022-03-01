@@ -190,7 +190,7 @@ public class ChatActivity extends AppCompatActivity {
         binding.textName.setText(receiverUser.name);
     }
     private void setListeners(){
-        binding.imageBack.setOnClickListener(view -> startActivity(new Intent(ChatActivity.this, UsersActivity.class)));
+        binding.imageBack.setOnClickListener(view -> onBackPressed());
         binding.layoutSend.setOnClickListener(view -> sendMessage());
     }
     private String getReadableDateTime(Date date){

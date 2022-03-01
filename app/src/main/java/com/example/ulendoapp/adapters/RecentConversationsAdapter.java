@@ -10,16 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ulendoapp.databinding.ItemContainerRecentConversationBinding;
+import com.example.ulendoapp.listeners.ConversationListener;
 import com.example.ulendoapp.models.ChatMessage;
+import com.example.ulendoapp.models.User;
 
 import java.util.List;
 
 public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConversationsAdapter.ConversationHolder>{
 
     private final List<ChatMessage> chatMessages;
+    private ConversationListener conversationListener;
 
-    public RecentConversationsAdapter(List<ChatMessage> chatMessages) {
+    public RecentConversationsAdapter(List<ChatMessage> chatMessages, ConversationListener conversationListener) {
         this.chatMessages = chatMessages;
+        this.conversationListener = conversationListener;
     }
 
     @NonNull
@@ -47,6 +51,7 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
     class ConversationHolder extends RecyclerView.ViewHolder{
 
         ItemContainerRecentConversationBinding binding;
+
         ConversationHolder(ItemContainerRecentConversationBinding itemContainerRecentConversationBinding){
             super(itemContainerRecentConversationBinding.getRoot());
             binding = itemContainerRecentConversationBinding;
@@ -56,6 +61,13 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
             binding.imageProfile.setImageBitmap(getConversationImage(chatMessage.conversionImage));
             binding.textName.setText(chatMessage.conversationName);
             binding.textRecentMessage.setText(chatMessage.message);
+            binding.getRoot().setOnClickListener(view -> {
+                User user = new User();
+                user.id = chatMessage.conversationId;
+                user.name = chatMessage.conversationName;
+                user.image = chatMessage.conversionImage;
+                conversationListener.onConversationClicked(user);
+            });
         }
     }
 
