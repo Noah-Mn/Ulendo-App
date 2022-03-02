@@ -190,7 +190,7 @@ public class PassengerChats extends BaseActivity implements ConversationListener
                 startActivity(new Intent(getApplicationContext(), UsersActivity.class))
         );
         binding.imageCancel.setOnClickListener(View ->
-                startActivity(new Intent(PassengerChats.this, HomeDriver.class)));
+                startActivity(new Intent(PassengerChats.this, HomeUser.class)));
     }
 
     @Override

@@ -36,6 +36,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
@@ -96,6 +97,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     private Toolbar toolbar;
 //    ActivityHomeDriverBinding binding;
     private RoundedImageView profilePic;
+    PreferenceManager preferenceManager;
 
     private static final String[] PERMISSIONS = {
             "android.permission.ACCESS_COARSE_LOCATION",
@@ -131,6 +133,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         super.onCreate(savedInstanceState);
 //        binding = ActivityHomeDriverBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_home_driver);
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         toolbar = findViewById(R.id.toolbarDriver);
         driver_bottom_nav = findViewById(R.id.driver_bottom_nav);
@@ -422,9 +425,9 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                     Toast.makeText(getApplicationContext(), "Help clicked", Toast.LENGTH_SHORT).show();
 
                 }else if (item.getItemId() == R.id.log_out_driver){
-//                        logout();
-                        FirebaseAuth.getInstance().signOut();
-                        HomeDriver.this.startActivity(new Intent(HomeDriver.this, Login.class));
+                        logout();
+//                        FirebaseAuth.getInstance().signOut();
+//                        HomeDriver.this.startActivity(new Intent(HomeDriver.this, Login.class));
                 }
                 return false;
             }
@@ -625,7 +628,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     }
     public void logout(){
         db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Users").document(Constants.KEY_USER_ID);
+        DocumentReference documentReference = db.collection(Constants.KEY_COLLECTION_USERS).document(preferenceManager.getString(Constants.KEY_USER_ID));
         HashMap<String, Object> updates = new HashMap<>();
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
         documentReference.update(updates).addOnSuccessListener(unused -> {
