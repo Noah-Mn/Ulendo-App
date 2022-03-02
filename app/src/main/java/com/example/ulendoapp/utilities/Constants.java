@@ -1,5 +1,7 @@
 package com.example.ulendoapp.utilities;
 
+import java.util.HashMap;
+
 public class Constants {
     public static final String KEY_COLLECTION_USERS = "Users";
     public static final String KEY_EMAIL = "Email Address";
@@ -20,6 +22,24 @@ public class Constants {
     public static final String KEY_RECEIVER_IMAGE = "receiverImage";
     public static final String KEY_LAST_MESSAGE = "lastMessage";
     public static final String KEY_AVAILABILITY = "availability";
-    public static final String KEY_MSG_AUTHORIZATION = "Authorization";
+    public static final String REMOTE_MSG_AUTHORIZATION = "Authorization";
     public static final String KEY_PREFERENCE_NAME = "chatAppPreference";
+    public static final String REMOTE_MSG_CONTENT_TYPE = "Content-Type";
+    public static final String REMOTE_MSG_DATA = "data";
+    public static final String REMOTE_MSG_REGISTRATION_IDS = "registration_ids";
+
+    public static HashMap<String, String> remoteMsgHeaders = null;
+    public static HashMap<String, String> getRemoteMsgHeaders(){
+        if (remoteMsgHeaders == null){
+            remoteMsgHeaders = new HashMap<>();
+            remoteMsgHeaders.put(
+                    REMOTE_MSG_AUTHORIZATION, "key =  AAAAT2GYdrM:APA91bGQ1bP__6Z8wdVPrSiPn0I-5-YGbMhOXG8Hivm1YbrNHxrVACxuP6uxzbnXKHeh2-1OFoc6cFhg_huPpHhmJxr4UpnkVPgKR0sS-JVIXbl0ZAkWLxviUk3FFqQ6JPgFznD9Z3xv "
+            );
+            remoteMsgHeaders.put(
+                    REMOTE_MSG_CONTENT_TYPE,
+                    "application/json"
+            );
+        }
+        return remoteMsgHeaders;
+    }
 }
