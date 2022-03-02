@@ -156,13 +156,30 @@ public final class DriverChats extends BaseActivity implements ConversationListe
 
         private void updateToken(String token){
         preferenceManager.putString(Constants.KEY_FCM_TOKEN, token);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-            DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
-                    preferenceManager.getString(Constants.KEY_USER_ID)
-            );
-        documentReference.update(Constants.KEY_FCM_TOKEN, token).addOnFailureListener(e -> {
-            Toast.makeText(getApplicationContext(), "Unable to update token", Toast.LENGTH_SHORT).show();
-        });
+            if(!token.isEmpty()){
+                db.collection(Constants.KEY_COLLECTION_USERS)
+                        .whereEqualTo("Email Address", getEmail())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String userId = document.getId();
+                                        db.collection("Users")
+                                                .document(userId)
+                                                .update(Constants.KEY_FCM_TOKEN, token);
+
+//                                        Toast.makeText(DriverChats.this, "successfully updated token", Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Toast.makeText(DriverChats.this, "Unable to update token", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+            } else {
+            Toast.makeText(DriverChats.this, "Email did not update", Toast.LENGTH_LONG).show();
+            }
     }
     public String getEmail(){
         String emailAddress;

@@ -191,8 +191,9 @@ public class CreateAccount extends AppCompatActivity {
                         public void onSuccess(DocumentReference documentReference) {
                             String ids = documentReference.getId();
                             UserModel sender = new UserModel(ids);
-                            Log.d(TAG, "inserted successfully");
+                            Log.d(TAG, "Inserted successfully");
                             sender.setSenderID(ids) ;
+                            preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -203,7 +204,9 @@ public class CreateAccount extends AppCompatActivity {
                     });
 
         }
+
     }
+
 
     private void performSignUp(){
 

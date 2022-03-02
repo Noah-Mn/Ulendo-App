@@ -89,7 +89,7 @@ public class ChatActivity extends BaseActivity {
                             String lastName = document.getString("Surname");
                             String encodedImage = document.getString(Constants.KEY_IMAGE);
                             String name = fName+ " " + lastName;
-                            preferenceManager.putString(Constants.KEY_USER_ID, uid);
+
                             preferenceManager.putString(Constants.KEY_NAME, name);
                             preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
 
@@ -193,6 +193,11 @@ public class ChatActivity extends BaseActivity {
                     isReceiverAvailable = availability == 1;
                 }
                 receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
+                if (receiverUser.image == null){
+                    receiverUser.image = value.getString(Constants.KEY_IMAGE);
+                    chatAdapter.setReceiverProfileImage(getBitMapFromEncodedString(receiverUser.image));
+                    chatAdapter.notifyItemRangeChanged(0, chatMessages.size());
+                }
             }
             if (isReceiverAvailable){
                 binding.textAvailability.setVisibility(View.VISIBLE);
@@ -269,8 +274,13 @@ public class ChatActivity extends BaseActivity {
     };
 
     private Bitmap getBitMapFromEncodedString(String encodedImage){
-        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        if (encodedImage != null){
+            byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
+        else {
+            return null;
+        }
     }
     private void loadReceiverDetails(){
         receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
