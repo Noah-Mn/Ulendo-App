@@ -43,6 +43,9 @@
             android:name=".DriverProfile"
             android:exported="false" />
         <activity
+            android:name=".PassengerChats"
+            android:exported="false" />
+        <activity
             android:name=".UserProfile"
             android:exported="false" />
         <activity
