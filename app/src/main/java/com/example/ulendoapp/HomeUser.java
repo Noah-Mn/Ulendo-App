@@ -413,7 +413,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                         break;
 
                     case R.id.my_chats:
-                        HomeUser.this.startActivity(new Intent(HomeUser.this, UserChat.class));
+                        HomeUser.this.startActivity(new Intent(HomeUser.this, PassengerChats.class));
                         break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
