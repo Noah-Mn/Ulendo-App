@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class UserModel implements Serializable {
-    private String firstName,name, image, token, senderID, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, status, numberOfTrips, rating;
+    private String firstName,name, image, token,id, senderID, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, status, numberOfTrips, rating;
 
     public UserModel(){}
 
