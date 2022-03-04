@@ -1,62 +1,55 @@
 package com.example.ulendoapp.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ulendoapp.R;
+import com.example.ulendoapp.databinding.ItemContainerVehicleBinding;
 import com.example.ulendoapp.models.Vehicles;
-import com.google.android.material.textview.MaterialTextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder>{
 
-    Context context;
-    ArrayList<Vehicles> vehiclesArrayList;
+    List<Vehicles> vehiclesList;
 
-    public VehicleAdapter(Context context, ArrayList<Vehicles> vehiclesArrayList) {
-        this.context = context;
-        this.vehiclesArrayList = vehiclesArrayList;
+    public VehicleAdapter(List<Vehicles> vehiclesList) {
+
+        this.vehiclesList = vehiclesList;
     }
 
     @NonNull
     @Override
     public VehicleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v;
-        v = LayoutInflater.from(context).inflate(R.layout.item_container_vehicle,parent,false);
-        return new VehicleViewHolder(v);
+        ItemContainerVehicleBinding itemContainerVehicleBinding = ItemContainerVehicleBinding.inflate(LayoutInflater.from(parent.getContext()),
+                parent, false);
+        return new VehicleViewHolder(itemContainerVehicleBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull VehicleViewHolder holder, int position) {
-        Vehicles vehicles = vehiclesArrayList.get(position);
-        holder.textVehicleName.setText(vehicles.vehicleName);
-        holder.textLicencePlate.setText(vehicles.licensePlate);
-
+        holder.setVehicleData(vehiclesList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return vehiclesArrayList.size();
+        return vehiclesList.size();
     }
 
     public static class VehicleViewHolder extends RecyclerView.ViewHolder{
 
-        MaterialTextView textVehicleName, textLicencePlate;
+        ItemContainerVehicleBinding binding;
 
-       public VehicleViewHolder(View itemView){
-           super(itemView);
-
-           textVehicleName = (MaterialTextView) itemView.findViewById(R.id.text_vehicle_name);
-           textLicencePlate = (MaterialTextView) itemView.findViewById(R.id.text_licence_plate);
-
+       public VehicleViewHolder(ItemContainerVehicleBinding itemContainerVehicleBinding){
+           super(itemContainerVehicleBinding.getRoot());
+           binding = itemContainerVehicleBinding;
        }
+        void setVehicleData(Vehicles vehicles) {
+            binding.textVehicleName.setText(vehicles.vehicleName);
+            binding.textLicencePlate.setText(vehicles.licensePlate);
+        }
     }
 
 }

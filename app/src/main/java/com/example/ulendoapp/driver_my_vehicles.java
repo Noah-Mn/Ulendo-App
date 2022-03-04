@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.ulendoapp.adapters.VehicleAdapter;
-import com.example.ulendoapp.databinding.FragmentDriverMyVehiclesBinding;
 import com.example.ulendoapp.models.Vehicles;
 import com.example.ulendoapp.utilities.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -74,6 +73,13 @@ public class driver_my_vehicles extends Fragment {
             ifNoVehicles.setVisibility(View.INVISIBLE);
         }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getVehicles();
+    }
+
     private void getVehicles(){
 
         loading(true);
@@ -99,7 +105,7 @@ public class driver_my_vehicles extends Fragment {
                             vehicles.add(vehicle);
                         }
                         if (vehicles.size() > 0){
-                            VehicleAdapter vehiclesAdapter = new VehicleAdapter(getContext(), vehicles);
+                            VehicleAdapter vehiclesAdapter = new VehicleAdapter(vehicles);
 //                            binding.vehicleList.setAdapter(vehiclesAdapter);
 //                            binding.vehicleList.setVisibility(View.VISIBLE);
                         }else{
