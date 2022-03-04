@@ -12,9 +12,9 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/profile_pic"
         android:layout_marginTop="10dp"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:scaleType="centerCrop"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         app:riv_oval="true"
         android:background="@drawable/background_image"/>
 

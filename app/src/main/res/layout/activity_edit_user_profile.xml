@@ -41,13 +41,16 @@
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/E_profile_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintTop_toBottomOf="@+id/appbar_layout"
             android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/background_image"
+            app:riv_oval="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/change_avatar"
