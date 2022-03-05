@@ -65,21 +65,12 @@ public class UserSignup extends AppCompatActivity {
         setSpinner();
 
 
-        nextBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if(validateFirstForm()){
-                    setIntentExtras();
-                }
-            }
-        });
+        nextBtn.setOnClickListener(view -> setIntentExtras());
     }
 
     private void setIntentExtras() {
         if(validateFirstForm()){
-            nextBtn.setOnClickListener(view -> {
                 intent = new Intent(UserSignup.this, CreateAccount.class);
-
                 intent.putExtra("firstName", firstName);
                 intent.putExtra("lastName", lastName);
                 intent.putExtra("birthday", birthday);
@@ -89,8 +80,6 @@ public class UserSignup extends AppCompatActivity {
                 intent.putExtra("physicalAddress", physicalAddress);
 
                 startActivity(intent);
-
-            });
         }
 
     }

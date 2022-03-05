@@ -17,9 +17,11 @@
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_channel.xml" value="0.36186594202898553" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_chat.xml" value="0.2504528985507246" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_driver_chats.xml" value="0.18" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_driver_my_vehicles.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_driver_profile.xml" value="0.25" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_edit_driver_pro.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_edit_driver_profile.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_edit_user_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_final_signup.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_home.xml" value="0.24583333333333332" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_home_driver.xml" value="0.25" />
@@ -32,6 +34,8 @@
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_user_chats.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_user_profile.xml" value="0.30570652173913043" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_users.xml" value="0.25" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/blank_layout.xml" value="0.13055555555555556" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/car_model_layout.xml" value="0.5" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_driver_dashboard.xml" value="0.30570652173913043" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_driver_groups.xml" value="0.30570652173913043" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/fragment_driver_home.xml" value="0.11944444444444445" />
@@ -56,7 +60,10 @@
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/my_user_ride_model.xml" value="0.2105978260869565" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/navigation_header.xml" value="0.25" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/notification_rejected.xml" value="0.26811594202898553" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/rides_layout.xml" value="0.13055555555555556" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/text_input_password.xml" value="0.3283514492753623" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/user_ride_layout.xml" value="0.33" />
+        <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/vehicle_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.15" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/menu/driver_navigation_drawer.xml" value="0.1" />
         <entry key="..\:/Users/BSC_COM_09_17/AndroidStudioProjects/Ulendo-App/app/src/main/res/menu/menu_driver.xml" value="0.36666666666666664" />

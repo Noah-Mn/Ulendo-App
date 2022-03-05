@@ -21,10 +21,13 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -78,6 +81,7 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 
 public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener,
@@ -85,7 +89,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
     private MaterialTextView name, header_name, header_email;
     private String firstName, lastName, email;
-    private String f_name, surname, birthday, gender, phoneNumber, emailAddress, nationalId, physicalAddress, status, numberOfTrips, rating;
+    private String f_name, surname, birthday, gender, phoneNumber, emailAddress, encodedImage, nationalId, physicalAddress, status, numberOfTrips, rating;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
@@ -95,7 +99,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     public static String newText;
     private NavigationView navigationView;
     static UserModel userModel;
-
+    RoundedImageView profilePic;
     private RecyclerView recyclerView;
     private List<UserModel> userModelList;
     private CustomAdapter adapter;
@@ -384,6 +388,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private void navInit() {
         header_name = navigationView.getHeaderView(0).findViewById(R.id.header_name);
         header_email = navigationView.getHeaderView(0).findViewById(R.id.header_email);
+        profilePic = navigationView.getHeaderView(0).findViewById(R.id.profile_pic);
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -634,6 +640,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                                 firstName = document.getString("First Name");
                                 lastName = document.getString("Surname");
                                 email = document.getString("Email Address");
+                                encodedImage = document.getString("Profile Pic");
+                                byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                profilePic.setImageBitmap(bitmap);
                                 name.setText(firstName);
                                 header_name.setText(new StringBuilder().append(firstName).append(" ").append(lastName).toString());
                                 header_email.setText(email);

@@ -3,78 +3,117 @@ package com.example.ulendoapp;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.example.ulendoapp.adapters.VehicleAdapter;
+import com.example.ulendoapp.models.Vehicles;
+import com.example.ulendoapp.utilities.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link driver_my_vehicles#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class driver_my_vehicles extends Fragment {
     FloatingActionButton floatingActionButton;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private View vehicleView;
+    private RecyclerView recyclerView;
+    ProgressBar progressBar;
+    MaterialTextView ifNoVehicles;
 
     public driver_my_vehicles() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment driver_my_vehicles.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static driver_my_vehicles newInstance(String param1, String param2) {
-        driver_my_vehicles fragment = new driver_my_vehicles();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+    }
+
+
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        vehicleView = inflater.inflate(R.layout.fragment_driver_my_vehicles,container,false);
+
+        ifNoVehicles = (MaterialTextView) vehicleView.findViewById(R.id.if_no_vehicles);
+        progressBar = (ProgressBar)vehicleView.findViewById(R.id.progress_bar);
+        recyclerView = (RecyclerView) vehicleView.findViewById(R.id.vehicle_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        return vehicleView;
+    }
+
+
+
+    private void loading(Boolean isLoading){
+        if (isLoading){
+            progressBar.setVisibility(View.VISIBLE);
+        }else{
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void textVisible(Boolean isVisible){
+        if (isVisible){
+            ifNoVehicles.setVisibility(View.VISIBLE);
+        }else {
+            ifNoVehicles.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_driver_my_vehicles, container, false);
-        floatingActionButton = view.findViewById(R.id.floatingActionButton);
+    public void onStart() {
+        super.onStart();
+        getVehicles();
+    }
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent intent = new Intent(getActivity(), AddVehicle.class);
-               startActivity(intent);
-            }
-        });
-        return view;
+    private void getVehicles(){
 
-
+        loading(true);
+        textVisible(true);
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection("Driver Vehicles")
+                .get()
+                .addOnCompleteListener(task -> {
+                    loading(false);
+                    textVisible(false);
+                    String currentVehicleID = Constants.KEY_VEHICLE_ID ;
+                    if (task.isSuccessful() && task.getResult() != null){
+                        ArrayList<Vehicles> vehicles = new ArrayList<>();
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                            if (currentVehicleID.equals((queryDocumentSnapshot.getId()))){
+                                continue;
+                            }
+                            Vehicles vehicle = new Vehicles();
+                            String name = queryDocumentSnapshot.getString("Vehicle Brand");
+                            String numberPlate = queryDocumentSnapshot.getString("License Plate");
+                            vehicle.vehicleName = name;
+                            vehicle.licensePlate = numberPlate;
+                            vehicles.add(vehicle);
+                        }
+                        if (vehicles.size() > 0){
+                            VehicleAdapter vehiclesAdapter = new VehicleAdapter(vehicles);
+//                            binding.vehicleList.setAdapter(vehiclesAdapter);
+//                            binding.vehicleList.setVisibility(View.VISIBLE);
+                        }else{
+                            Toast.makeText(getContext(), "Error!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(getContext(), "Error!", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

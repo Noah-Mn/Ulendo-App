@@ -426,8 +426,6 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
                 }else if (item.getItemId() == R.id.log_out_driver){
                         logout();
-//                        FirebaseAuth.getInstance().signOut();
-//                        HomeDriver.this.startActivity(new Intent(HomeDriver.this, Login.class));
                 }
                 return false;
             }
@@ -530,7 +528,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                         break;
                     case R.id.my_vehicles:
 
-                        replaceFragments(new driver_my_vehicles());
+                        startActivity(new Intent(HomeDriver.this, DriverMyVehicles.class));
                         break;
                     case R.id.driver_groups:
 

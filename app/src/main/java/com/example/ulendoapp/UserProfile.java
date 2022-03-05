@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 public class UserProfile extends AppCompatActivity {
     ImageView profile_back, user_edit_profile;
@@ -24,8 +28,9 @@ public class UserProfile extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
+    RoundedImageView userprofilePic;
     private final String TAG = "User Profile";
-    String firstName, lastName, number;
+    String firstName, lastName, number, encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class UserProfile extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
         user_edit_profile = findViewById(R.id.user_edit_profile);
+        userprofilePic = findViewById(R.id.user_profile_pic);
         getUserData();
 
         profile_back.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +73,10 @@ public class UserProfile extends AppCompatActivity {
                                 firstName = document.getString("First Name");
                                 lastName = document.getString("Surname");
                                 number = document.getString("Phone Number");
+                                encodedImage = document.getString("Profile Pic");
+                                byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                userprofilePic.setImageBitmap(bitmap);
 
                                 user_name.setText(new StringBuilder().append(firstName).append(" ").append(lastName).toString());
                                 user_number.setText(number);

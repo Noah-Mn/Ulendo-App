@@ -2,13 +2,20 @@ package com.example.ulendoapp;
 
 import static com.example.ulendoapp.HomeUser.userModel;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +26,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ulendoapp.utilities.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +39,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.makeramen.roundedimageview.RoundedImageView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class EditUserProfile extends AppCompatActivity {
     private final String TAG = "tag";
@@ -38,13 +52,15 @@ public class EditUserProfile extends AppCompatActivity {
     private FirebaseUser currentUser;
     private TextInputEditText edit_full_name, edit_email_address, edit_phone_number, edit_date_of_birth, edit_national_id, edit_physical_address;
     private String firstName, lastName, phoneNumber, dateOfBirth, nationalId, physicalAddress, emailAddress;
-    private String fName, surname, birthday, pNumber, email, id, phyAddress;
+    private String fName, surname, birthday, pNumber, email, id, phyAddress, encodedImage;
     private ImageView E_profile_back;
     private Button updateBtn;
     private boolean success;
     public String password;
     private Object view;
     private AuthCredential credential;
+    RoundedImageView EProfilePic;
+    MaterialTextView changeAvatar;
     static String userPassword;
     private TextInputLayout materialFullName, materialBirthday, materialEmailAddress, materialPhoneNumber, materialNationalId, materialPhysicalAddress;
     private boolean valid;
@@ -61,13 +77,14 @@ public class EditUserProfile extends AppCompatActivity {
         edit_physical_address = findViewById(R.id.edit_physical_address);
         edit_date_of_birth = findViewById(R.id.edit_date_of_birth);
         edit_national_id = findViewById(R.id.edit_national_id);
-
+        EProfilePic = findViewById(R.id.E_profile_pic);
         materialFullName = findViewById(R.id.material_full_name);
         materialBirthday = findViewById(R.id.material_date_of_birth);
         materialPhoneNumber = findViewById(R.id.material_phone_number);
         materialEmailAddress = findViewById(R.id.material_email_address);
         materialNationalId = findViewById(R.id.material_national_id);
         materialPhysicalAddress = findViewById(R.id.material_physical_address);
+        changeAvatar = findViewById(R.id.change_avatar);
 
         updateBtn = findViewById(R.id.user_update_btn);
 
@@ -78,6 +95,11 @@ public class EditUserProfile extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(EditUserProfile.this, UserProfile.class));
             }
+        });
+        changeAvatar.setOnClickListener(view1 -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            pickImage.launch(intent);
         });
 
         updateBtn.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +113,7 @@ public class EditUserProfile extends AppCompatActivity {
                     updateDoB();
                     updateNationalID();
                     updatePhysicalAddress();
-
+                    changeAvatar();
                 }
             }
         });
@@ -174,6 +196,10 @@ public class EditUserProfile extends AppCompatActivity {
                                 email = document.getString("Email Address");
                                 id = document.getString("National ID");
                                 phyAddress = document.getString("Physical Address");
+                                encodedImage = document.getString("Profile Pic");
+                                byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                EProfilePic.setImageBitmap(bitmap);
 
                                 edit_full_name.setText(new StringBuilder().append(fName).append(" ").append(surname).toString(),  TextView.BufferType.EDITABLE);
                                 edit_date_of_birth.setText(birthday,  TextView.BufferType.EDITABLE);
@@ -458,4 +484,60 @@ public class EditUserProfile extends AppCompatActivity {
     public void setView(Object view) {
         this.view = view;
     }
+
+    private String encodeImage(Bitmap bitmap){
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK){
+                    if (result.getData() != null){
+                        Uri imageUri = result.getData().getData();
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            EProfilePic.setImageBitmap(bitmap);
+                            encodedImage = encodeImage(bitmap);
+
+                        }catch (FileNotFoundException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+    );
+    private void changeAvatar() {
+        if(!encodedImage.isEmpty()){
+            db.collection("Users")
+                    .whereEqualTo("Email Address", getEmail())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String userId = document.getId();
+                                    db.collection("Users")
+                                            .document(userId)
+                                            .update("Profile Pic", encodedImage);
+
+                                }
+                            } else {
+
+                                Toast.makeText(EditUserProfile.this, "change failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
+
+    }
+
 }
