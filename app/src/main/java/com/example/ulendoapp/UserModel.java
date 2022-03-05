@@ -44,6 +44,10 @@ public class UserModel implements Serializable {
     public String toString() {
         return "UserModel{" +
                 "firstName='" + firstName + '\'' +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", token='" + token + '\'' +
+                ", senderID='" + senderID + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", gender='" + gender + '\'' +
@@ -119,6 +123,30 @@ public class UserModel implements Serializable {
 
     public void setPhysicalAddress(String physicalAddress) {
         this.physicalAddress = physicalAddress;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getStatus() {

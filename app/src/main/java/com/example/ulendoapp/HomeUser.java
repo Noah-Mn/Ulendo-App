@@ -109,7 +109,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private LocationRequest locationRequest;
     private boolean isPermissionGranted;
-    public FusedLocationProviderClient client;
     public GoogleApiClient gClient;
     public CameraUpdate cameraUpdate;
     public GoogleMap gMap;
@@ -118,8 +117,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE" ,
-            "android.permission.READ_PHONE_STATE"};
+            "android.permission.READ_EXTERNAL_STORAGE" };
 
     private FrameLayout layout;
     public LatLng latLng;
@@ -174,7 +172,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             if(isPermissionGranted){
                 checkGps();
             }
-
         }else{
             Toast.makeText(HomeUser.this, "Google PlayService not available", Toast.LENGTH_LONG).show();
         }
@@ -203,14 +200,16 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                         if (report.areAllPermissionsGranted()) {
 //                            getCurrentUpdate(gMap);
                             isPermissionGranted = true;
-                            gMap.setMyLocationEnabled(true);
-                            gMap.getUiSettings().setMyLocationButtonEnabled(true);
                             location = LocationServices.FusedLocationApi.getLastLocation(gClient);
 
                             if (location == null) {
                                 LocationServices.FusedLocationApi.requestLocationUpdates(gClient, locationRequest, HomeUser.this);
+                                gMap.setMyLocationEnabled(true);
+                                gMap.getUiSettings().setMyLocationButtonEnabled(true);
                             }
                             else {
+                                gMap.setMyLocationEnabled(true);
+                                gMap.getUiSettings().setMyLocationButtonEnabled(true);
                                 handleNewLocation(location);
                                 Toast.makeText(getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
                             }
