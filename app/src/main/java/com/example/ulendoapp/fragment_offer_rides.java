@@ -153,9 +153,9 @@ public class fragment_offer_rides extends Fragment{
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null){
-                        List<Vehicles> vehiclesList = new ArrayList<>();
+
                         for (QueryDocumentSnapshot document : task.getResult()){
-                            Vehicles vehicles = new Vehicles();
+
                             String name = document.getString("Vehicle Brand");
                             count.add(name);
                             ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
