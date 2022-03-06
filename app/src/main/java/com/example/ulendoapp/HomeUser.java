@@ -121,7 +121,8 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE" };
+            "android.permission.READ_EXTERNAL_STORAGE" ,
+            "android.permission.READ_PHONE_STATE"};
 
     private FrameLayout layout;
     public LatLng latLng;
