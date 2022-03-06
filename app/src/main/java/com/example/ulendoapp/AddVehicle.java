@@ -57,13 +57,12 @@ public class AddVehicle extends AppCompatActivity {
     }
     private void listeners(){
         btnBack.setOnClickListener(view -> {
-            Intent intent = new Intent(AddVehicle.this, driver_my_vehicles.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
+            Intent intent = new Intent(AddVehicle.this, DriverMyVehicles.class);
+            startActivity(intent);
         });
-        complete.setOnClickListener(view -> addDriver());
+        complete.setOnClickListener(view -> addVehicle());
     }
-    private void addDriver(){
+    private void addVehicle(){
         vBookingType = Objects.requireNonNull(textBookingType.getText()).toString().trim();
         vBrand = Objects.requireNonNull(textVehicleBrand.getText()).toString().trim();
         vColor = Objects.requireNonNull(textColor.getText()).toString().trim();
@@ -91,9 +90,8 @@ public class AddVehicle extends AppCompatActivity {
                         String ID = documentReference.getId();
                         preferenceManager.putString(Constants.KEY_VEHICLE_ID, ID);
                         Toast.makeText(AddVehicle.this, "Vehicle added successfully", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(AddVehicle.this, driver_my_vehicles.class);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        finish();
+                        Intent intent = new Intent(AddVehicle.this, DriverMyVehicles.class);
+                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

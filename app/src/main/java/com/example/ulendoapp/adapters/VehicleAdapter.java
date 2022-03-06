@@ -7,23 +7,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ulendoapp.databinding.ItemContainerVehicleBinding;
+import com.example.ulendoapp.listeners.VehicleListener;
 import com.example.ulendoapp.models.Vehicles;
 
 import java.util.List;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder>{
 
-    List<Vehicles> vehiclesList;
+    private final List<Vehicles> vehiclesList;
+    private final VehicleListener vehicleListener;
 
-    public VehicleAdapter(List<Vehicles> vehiclesList) {
+    public VehicleAdapter(List<Vehicles> vehiclesList, VehicleListener vehicleListener) {
 
         this.vehiclesList = vehiclesList;
+        this.vehicleListener = vehicleListener;
     }
 
     @NonNull
     @Override
     public VehicleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemContainerVehicleBinding itemContainerVehicleBinding = ItemContainerVehicleBinding.inflate(LayoutInflater.from(parent.getContext()),
+        ItemContainerVehicleBinding itemContainerVehicleBinding = ItemContainerVehicleBinding.inflate(
+                LayoutInflater.from(parent.getContext()),
                 parent, false);
         return new VehicleViewHolder(itemContainerVehicleBinding);
     }
@@ -49,7 +53,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
         void setVehicleData(Vehicles vehicles) {
             binding.textVehicleName.setText(vehicles.vehicleName);
             binding.textLicencePlate.setText(vehicles.licensePlate);
+            binding.getRoot();
         }
     }
-
 }
