@@ -1,6 +1,4 @@
 package com.example.ulendoapp.fragments;
-
-
 import android.app.TimePickerDialog;
 import android.icu.util.Calendar;
 import android.os.Build;
@@ -17,8 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.adapters.VehicleAdapter;
+import com.example.ulendoapp.models.Vehicles;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,10 +30,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class fragment_offer_rides extends Fragment{
@@ -41,7 +44,8 @@ public class fragment_offer_rides extends Fragment{
     public TextInputEditText pickupPoint, destination, pickupTime, dropPoint, specialInstructions;
     public String pPoint, dest, pTime, seats, car, sInstructions, dPoint;
     public MaterialSpinner   numberOfSeats, carModel;
-    public static double latitude, longitude;
+    public static double latitude;
+    public static double longitude;
     static String placeName;
     private Button offerBtn;
     private FirebaseFirestore db;
@@ -55,6 +59,7 @@ public class fragment_offer_rides extends Fragment{
     private TimePickerDialog timePickerDialog;
     private String amPm;
     private LatLng latLng;
+    private FirebaseFirestore database;
 
     public fragment_offer_rides() {
         // Required empty public constructor
@@ -71,7 +76,7 @@ public class fragment_offer_rides extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_offer_rides, container, false);
-
+        database = FirebaseFirestore.getInstance();
         pickupPoint = view.findViewById(R.id.ride_start_point);
         destination = view.findViewById(R.id.ride_destination);
         pickupTime = view.findViewById(R.id.ride_pickup_time);
@@ -135,15 +140,34 @@ public class fragment_offer_rides extends Fragment{
     public void setCarModelSpinner(View view){
         getCarModel = (MaterialSpinner)view.findViewById(R.id.ride_car_model);
         ArrayList<String> count = new ArrayList<String>();
-        count.add("BMW");
-        count.add("Mazda");
-        count.add("Mercedes-Benz ");
-        count.add("Audi");
-        count.add("VW");
-        count.add("Toyota");
-        ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
-        countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        getCarModel.setAdapter(countAdapter);
+//        Vehicles vehicles = new Vehicles();
+//        count.add(vehicles.getVehicleName());
+//        count.add("Mazda");
+//        count.add("Mercedes-Benz ");
+//        count.add("Audi");
+//        count.add("VW");
+//        count.add("Toyota");
+
+        database.collection("Driver Vehicles")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null){
+
+                        for (QueryDocumentSnapshot document : task.getResult()){
+
+                            String name = document.getString("Vehicle Brand");
+                            count.add(name);
+                            ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
+                            countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            getCarModel.setAdapter(countAdapter);
+                        }
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Failed to get Vehicles", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
 
@@ -164,12 +188,12 @@ public class fragment_offer_rides extends Fragment{
     }
 
     public void getRideInfo(){
-      pPoint = pickupPoint.getText().toString();
-      dest = destination.getText().toString();
-      pTime = pickupTime.getText().toString();
-      seats = numberOfSeats.getText().toString();
-      car = carModel.getText().toString();
-      sInstructions = specialInstructions.getText().toString();
+        pPoint = pickupPoint.getText().toString();
+        dest = destination.getText().toString();
+        pTime = pickupTime.getText().toString();
+        seats = numberOfSeats.getText().toString();
+        car = carModel.getText().toString();
+        sInstructions = specialInstructions.getText().toString();
 //      dPoint = "your choice";
 
     }

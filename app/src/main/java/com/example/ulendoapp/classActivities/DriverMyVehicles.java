@@ -5,45 +5,45 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.ulendoapp.adapters.VehicleAdapter;
+import com.example.ulendoapp.classActivities.AddVehicle;
+import com.example.ulendoapp.classActivities.HomeDriver;
 import com.example.ulendoapp.databinding.ActivityDriverMyVehiclesBinding;
+import com.example.ulendoapp.listeners.VehicleListener;
 import com.example.ulendoapp.models.Vehicles;
-import com.example.ulendoapp.utilities.Constants;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverMyVehicles extends AppCompatActivity {
+public class DriverMyVehicles extends AppCompatActivity implements VehicleListener {
     ActivityDriverMyVehiclesBinding binding;
-    private List<Vehicles> vehiclesList;
     FirebaseFirestore database;
-    private VehicleAdapter vehicleAdapter;
+    FirebaseUser currentUser;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDriverMyVehiclesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseFirestore.getInstance();
+        currentUser = auth.getCurrentUser();
         Listeners();
         loading(true);
         textVisible(true);
-        init();
-        listenChanges();
-    }
-    private void init(){
-        vehiclesList = new ArrayList<>();
-        database = FirebaseFirestore.getInstance();
-        vehicleAdapter = new VehicleAdapter(vehiclesList);
-        binding.vehicleList.setAdapter(vehicleAdapter);
+        getVehicles();
     }
 
     private void Listeners(){
         binding.floatingActionButton.setOnClickListener(view -> startActivity(new Intent(DriverMyVehicles.this, AddVehicle.class)));
+        binding.imageBack.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), HomeDriver.class)));
     }
 
     private void loading(Boolean isLoading){
@@ -62,31 +62,45 @@ public class DriverMyVehicles extends AppCompatActivity {
         }
     }
 
-    private void listenChanges(){
+    public void getVehicles(){
         database.collection("Driver Vehicles")
-                .whereEqualTo("Vehicle Brand", "")
-                .addSnapshotListener(eventListener);
-        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-                .whereEqualTo("License Plate", "")
-                .addSnapshotListener(eventListener);
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null){
+                        textVisible(false);
+                        loading(false);
+                        List<Vehicles>  vehiclesList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()){
+                            Vehicles vehicles = new Vehicles();
+                            String name = document.getString("Vehicle Brand");
+                            String numberPlate = document.getString("License Plate");
+                            vehicles.vehicleName = name;
+                            vehicles.licensePlate = numberPlate;
+                            vehiclesList.add(vehicles);
+                        }
+                        if (vehiclesList.size() > 0){
+                            VehicleAdapter vehicleAdapter = new VehicleAdapter(vehiclesList, this);
+                            binding.vehicleList.setAdapter(vehicleAdapter);
+                            binding.vehicleList.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            Toast.makeText(DriverMyVehicles.this, "Failed to get Vehicles", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(DriverMyVehicles.this, "Failed to get Vehicles", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    public String getEmail(){
+        String emailAddress;
+        emailAddress = currentUser.getEmail();
+        return emailAddress;
     }
 
-    private final EventListener<QuerySnapshot> eventListener = ((value, error) -> {
-        if (error != null){
-            return;
-        }if (value != null){
-            for (DocumentChange documentChange : value.getDocumentChanges()){
-                if (documentChange.getType() == DocumentChange.Type.ADDED){
-                    String name = documentChange.getDocument().getString("Vehicle Brand");
-                    String numberPlate = documentChange.getDocument().getString("License Plate");
-                    Vehicles vehicles = new Vehicles();
-                    vehicles.vehicleName = name;
-                    vehicles.licensePlate = numberPlate;
-                    vehiclesList.add(vehicles);
-                }
-            }
-            binding.progressBar.setVisibility(View.GONE);
-            binding.ifNoVehicles.setVisibility(View.GONE);
-        }
-    });
+    @Override
+    public void onVehicleClick(Vehicles vehicles) {
+
+    }
 }
