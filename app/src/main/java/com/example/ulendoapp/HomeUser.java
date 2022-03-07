@@ -1,7 +1,7 @@
 package com.example.ulendoapp;
 
-import static com.example.ulendoapp.fragment_offer_rides.latitude;
-import static com.example.ulendoapp.fragment_offer_rides.longitude;
+import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
+import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +37,17 @@ import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.ulendoapp.adapters.CustomAdapter;
+import com.example.ulendoapp.fragments.My_Favorites;
+import com.example.ulendoapp.fragments.My_Payments;
+import com.example.ulendoapp.fragments.UserMyRides;
+import com.example.ulendoapp.fragments.fragment_driver_home;
+import com.example.ulendoapp.fragments.fragment_home;
+import com.example.ulendoapp.fragments.fragment_notifications;
+import com.example.ulendoapp.fragments.fragment_recyclerview;
+import com.example.ulendoapp.fragments.wallet;
+import com.example.ulendoapp.models.UserModel;
+import com.example.ulendoapp.utilities.Constants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
@@ -44,7 +55,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
@@ -154,6 +164,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         name = findViewById(R.id.firstName);
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        Toast.makeText(HomeUser.this, Constants.KEY_USER_ID, Toast.LENGTH_LONG).show();
 
         getUserData();
         navInit();

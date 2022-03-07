@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/my_Payments"
     android:background="@color/white"
-    tools:context=".My_Payments">
+    tools:context=".fragments.My_Payments">
 
     <LinearLayout
         android:layout_width="match_parent"

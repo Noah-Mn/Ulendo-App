@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".driver_wallet">
+    tools:context=".fragments.driver_wallet">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/balance_cardView"

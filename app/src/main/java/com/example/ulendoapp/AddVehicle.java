@@ -2,14 +2,13 @@ package com.example.ulendoapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.ulendoapp.databinding.ActivityAddVehicleBinding;
+import com.example.ulendoapp.fragments.driver_my_vehicles;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,6 +42,7 @@ public class AddVehicle extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
+
         textBookingType = findViewById(R.id.text_booking_type);
         textColor = findViewById(R.id.text_color);
         textLicencePlate = findViewById(R.id.text_licence_plate);
@@ -57,12 +57,13 @@ public class AddVehicle extends AppCompatActivity {
     }
     private void listeners(){
         btnBack.setOnClickListener(view -> {
-            Intent intent = new Intent(AddVehicle.this, DriverMyVehicles.class);
-            startActivity(intent);
+            Intent intent = new Intent(AddVehicle.this, driver_my_vehicles.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
         });
-        complete.setOnClickListener(view -> addVehicle());
+        complete.setOnClickListener(view -> addDriver());
     }
-    private void addVehicle(){
+    private void addDriver(){
         vBookingType = Objects.requireNonNull(textBookingType.getText()).toString().trim();
         vBrand = Objects.requireNonNull(textVehicleBrand.getText()).toString().trim();
         vColor = Objects.requireNonNull(textColor.getText()).toString().trim();
@@ -90,8 +91,9 @@ public class AddVehicle extends AppCompatActivity {
                         String ID = documentReference.getId();
                         preferenceManager.putString(Constants.KEY_VEHICLE_ID, ID);
                         Toast.makeText(AddVehicle.this, "Vehicle added successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddVehicle.this, DriverMyVehicles.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(AddVehicle.this, driver_my_vehicles.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

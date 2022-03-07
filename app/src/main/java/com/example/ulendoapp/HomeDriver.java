@@ -1,8 +1,8 @@
 package com.example.ulendoapp;
 
 import static com.example.ulendoapp.HomeUser.userModel;
-import static com.example.ulendoapp.fragment_offer_rides.latitude;
-import static com.example.ulendoapp.fragment_offer_rides.longitude;
+import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
+import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +35,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.ulendoapp.fragments.driver_groups;
+import com.example.ulendoapp.fragments.driver_my_payments;
+import com.example.ulendoapp.fragments.driver_my_rides;
+import com.example.ulendoapp.fragments.driver_wallet;
+import com.example.ulendoapp.fragments.fragment_driver_home;
+import com.example.ulendoapp.fragments.fragment_driver_notifications;
+import com.example.ulendoapp.models.UserModel;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.common.ConnectionResult;

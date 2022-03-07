@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_driver_home"
-        android:name="com.example.ulendoapp.fragment_driver_home"
+        android:name="com.example.ulendoapp.fragments.fragment_driver_home"
         android:label="fragment_driver_home"
         tools:layout="@layout/fragment_driver_home" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_driver_notifications"
-        android:name="com.example.ulendoapp.fragment_driver_notifications"
+        android:name="com.example.ulendoapp.fragments.fragment_driver_notifications"
         android:label="fragment_driver_notifications"
         tools:layout="@layout/fragment_driver_notifications" />
 <!--    <fragment-->
@@ -29,12 +29,12 @@
 <!--        tools:layout="@layout/fragment_driver_profile" />-->
     <fragment
         android:id="@+id/find_rides2"
-        android:name="com.example.ulendoapp.fragment_find_rides"
+        android:name="com.example.ulendoapp.fragments.fragment_find_rides"
         android:label="fragment_find_rides"
         tools:layout="@layout/fragment_find_rides" />
     <fragment
         android:id="@+id/offer_rides"
-        android:name="com.example.ulendoapp.fragment_offer_rides"
+        android:name="com.example.ulendoapp.fragments.fragment_offer_rides"
         android:label="fragment_offer_rides"
         tools:layout="@layout/fragment_offer_rides" />
 </navigation>

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/notifications"
-    tools:context=".fragment_notifications">
+    tools:context=".fragments.fragment_notifications">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notifications_list"

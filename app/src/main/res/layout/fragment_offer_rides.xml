@@ -5,7 +5,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            tools:context=".fragment_offer_rides"
+            tools:context=".fragments.fragment_offer_rides"
             android:id="@+id/driver_home"
             android:fitsSystemWindows="true"
             android:gravity="bottom"

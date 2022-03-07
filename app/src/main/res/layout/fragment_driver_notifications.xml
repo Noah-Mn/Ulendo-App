@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment_driver_notifications"
+    tools:context=".fragments.fragment_driver_notifications"
     android:id="@+id/driver_notifications">
 
     <!-- TODO: Update blank fragment layout -->

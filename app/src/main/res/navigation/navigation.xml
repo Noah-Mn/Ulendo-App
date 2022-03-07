@@ -5,18 +5,18 @@
 
     <fragment
         android:id="@+id/my_Favorites"
-        android:name="com.example.ulendoapp.My_Favorites"
+        android:name="com.example.ulendoapp.fragments.My_Favorites"
         android:label="fragment_my__favorites"
         tools:layout="@layout/fragment_my__favorites" />
     <fragment
         android:id="@+id/my_Payments"
-        android:name="com.example.ulendoapp.My_Payments"
+        android:name="com.example.ulendoapp.fragments.My_Payments"
         android:label="fragment_my__payments"
         tools:layout="@layout/fragment_my__payments" />
 
     <fragment
         android:id="@+id/my_wallet"
-        android:name="com.example.ulendoapp.wallet"
+        android:name="com.example.ulendoapp.fragments.wallet"
         android:label="fragment_wallet"
         tools:layout="@layout/fragment_wallet" />
 

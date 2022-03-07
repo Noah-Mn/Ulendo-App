@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.ulendoapp.models.User;
+import com.example.ulendoapp.models.UserModel;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -189,10 +189,10 @@ public class CreateAccount extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-//                            String ids = documentReference.getId();
-//                            UserModel sender = new UserModel(ids);
-//                            Log.d(TAG, "Inserted successfully");
-//                            sender.setSenderID(ids);
+                            String ids = documentReference.getId();
+                            UserModel sender = new UserModel(ids);
+                            Log.d(TAG, "Inserted successfully");
+                            sender.setSenderID(ids) ;
                             preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
                         }
                     })
