@@ -82,9 +82,9 @@ public class ChatActivity extends BaseActivity {
 
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            String uid = document.getId();
-                            UserModel sender = new UserModel(uid);
-                            sender.setSenderID(uid);
+//                            String uid = document.getId();
+//                            UserModel sender = new UserModel(uid);
+//                            sender.setSenderID(uid);
                             String fName = document.getString("First Name");
                             String lastName = document.getString("Surname");
                             String encodedImage = document.getString(Constants.KEY_IMAGE);
@@ -93,47 +93,47 @@ public class ChatActivity extends BaseActivity {
                             preferenceManager.putString(Constants.KEY_NAME, name);
                             preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
 
-                    HashMap<String, Object> message = new HashMap<>();
-                    message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                    message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-                    message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
-                    message.put(Constants.KEY_TIMESTAMP, new Date());
-                    database.collection(Constants.KEY_COLLECT_CHAT).add(message);
-                    if (conversationId != null){
-                        updateConversations(binding.inputMessage.getText().toString());
-                    }else {
-                        HashMap<String, Object> conversation = new HashMap<>();
-                        conversation.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                        conversation.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
-                        conversation.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
-                        conversation.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-                        conversation.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
-                        conversation.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
-                        conversation.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
-                        conversation.put(Constants.KEY_TIMESTAMP, new Date());
-                        addConversation(conversation);
-                    }
-                    if (!isReceiverAvailable){
-                        try {
-                            JSONArray tokens = new JSONArray();
-                            tokens.put(receiverUser.token);
+                            HashMap<String, Object> message = new HashMap<>();
+                            message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                            message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+                            message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+                            message.put(Constants.KEY_TIMESTAMP, new Date());
+                            database.collection(Constants.KEY_COLLECT_CHAT).add(message);
+                            if (conversationId != null){
+                                updateConversations(binding.inputMessage.getText().toString());
+                            }else {
+                                HashMap<String, Object> conversation = new HashMap<>();
+                                conversation.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                                conversation.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                                conversation.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+                                conversation.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+                                conversation.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
+                                conversation.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
+                                conversation.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+                                conversation.put(Constants.KEY_TIMESTAMP, new Date());
+                                addConversation(conversation);
+                            }
+                            if (!isReceiverAvailable){
+                                try {
+                                    JSONArray tokens = new JSONArray();
+                                    tokens.put(receiverUser.token);
 
-                            JSONObject data = new JSONObject();
-                            data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                            data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
-                            data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
-                            data.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+                                    JSONObject data = new JSONObject();
+                                    data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                                    data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                                    data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
+                                    data.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
 
-                            JSONObject body = new JSONObject();
-                            body.put(Constants.REMOTE_MSG_DATA, data);
-                            body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
+                                    JSONObject body = new JSONObject();
+                                    body.put(Constants.REMOTE_MSG_DATA, data);
+                                    body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
 
-                            sendNotification(body.toString());
-                        }catch (Exception exception){
-                            showToast(exception.getMessage());
-                        }
-                    }
-                    binding.inputMessage.setText(null);
+                                    sendNotification(body.toString());
+                                }catch (Exception exception){
+                                    showToast(exception.getMessage());
+                                }
+                            }
+                            binding.inputMessage.setText(null);
 
                         }
                     }
