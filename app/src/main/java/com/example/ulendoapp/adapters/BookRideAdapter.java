@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ulendoapp.DriverVehiclesModel;
+import com.example.ulendoapp.classActivities.DriverVehiclesModel;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.viewHolders.BookRideViewHolder;

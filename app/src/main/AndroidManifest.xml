@@ -20,61 +20,61 @@
         android:theme="@style/Theme.UlendoApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".DriverMyVehicles"
+            android:name=".classActivities.DriverMyVehicles"
             android:exported="false" />
         <activity
-            android:name=".EditDriverProfile"
+            android:name=".classActivities.EditDriverProfile"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".UsersActivity"
+            android:name=".classActivities.UsersActivity"
             android:exported="false" />
         <activity
-            android:name=".ChatActivity"
+            android:name=".classActivities.ChatActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".DriverChats"
+            android:name=".classActivities.DriverChats"
             android:exported="false" />
         <activity
-            android:name=".AddVehicle"
+            android:name=".classActivities.AddVehicle"
             android:exported="false" />
         <activity
-            android:name=".DriverProfile"
+            android:name=".classActivities.DriverProfile"
             android:exported="false" />
         <activity
-            android:name=".PassengerChats"
+            android:name=".classActivities.PassengerChats"
             android:exported="false" />
         <activity
-            android:name=".UserProfile"
+            android:name=".classActivities.UserProfile"
             android:exported="false" />
         <activity
-            android:name=".EditUserProfile"
+            android:name=".classActivities.EditUserProfile"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".HomeDriver"
+            android:name=".classActivities.HomeDriver"
             android:exported="false" />
         <activity
-            android:name=".DriverSignup"
+            android:name=".classActivities.DriverSignup"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".CreateAccount"
+            android:name=".classActivities.CreateAccount"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".UserSignup"
+            android:name=".classActivities.UserSignup"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ForgotPassword"
+            android:name=".classActivities.ForgotPassword"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".classActivities.Login"
             android:exported="true" />
         <activity
-            android:name=".BookingActivity"
+            android:name=".classActivities.BookingActivity"
             android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -112,10 +112,10 @@
         <!-- android:value=".SearchableActivity" /> -->
         <!-- </activity> -->
         <activity
-            android:name=".HomeUser"
+            android:name=".classActivities.HomeUser"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".classActivities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

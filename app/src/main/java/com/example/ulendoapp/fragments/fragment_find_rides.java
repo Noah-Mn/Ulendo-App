@@ -20,7 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TimePicker;
 
-import com.example.ulendoapp.BookingActivity;
+import com.example.ulendoapp.classActivities.BookingActivity;
 import com.example.ulendoapp.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:background="#12000000"
-    tools:context=".DriverProfile"
+    tools:context=".classActivities.DriverProfile"
     android:id="@+id/driver_profile">
 
     <com.google.android.material.appbar.AppBarLayout

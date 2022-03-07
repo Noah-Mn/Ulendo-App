@@ -1,4 +1,4 @@
-package com.example.ulendoapp;
+package com.example.ulendoapp.classActivities;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;

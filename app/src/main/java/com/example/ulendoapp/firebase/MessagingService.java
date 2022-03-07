@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.example.ulendoapp.ChatActivity;
+import com.example.ulendoapp.classActivities.ChatActivity;
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.models.User;
 import com.example.ulendoapp.utilities.Constants;

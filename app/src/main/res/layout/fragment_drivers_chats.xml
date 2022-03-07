@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".DriverChats">
+    tools:context=".classActivities.DriverChats">
 
     <io.getstream.chat.android.ui.channel.list.ChannelListView
         android:id="@+id/channel_list_view"

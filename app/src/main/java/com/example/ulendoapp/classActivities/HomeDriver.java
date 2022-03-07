@@ -1,6 +1,6 @@
-package com.example.ulendoapp;
+package com.example.ulendoapp.classActivities;
 
-import static com.example.ulendoapp.HomeUser.userModel;
+import static com.example.ulendoapp.classActivities.HomeUser.userModel;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;
 
@@ -35,6 +35,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.ulendoapp.R;
 import com.example.ulendoapp.fragments.driver_groups;
 import com.example.ulendoapp.fragments.driver_my_payments;
 import com.example.ulendoapp.fragments.driver_my_rides;

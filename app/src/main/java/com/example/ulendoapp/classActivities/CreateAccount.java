@@ -1,4 +1,4 @@
-package com.example.ulendoapp;
+package com.example.ulendoapp.classActivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.ulendoapp.R;
 import com.example.ulendoapp.models.UserModel;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;

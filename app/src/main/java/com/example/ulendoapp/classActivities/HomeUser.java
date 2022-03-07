@@ -1,4 +1,4 @@
-package com.example.ulendoapp;
+package com.example.ulendoapp.classActivities;
 
 import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;
@@ -37,6 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.ulendoapp.R;
 import com.example.ulendoapp.adapters.CustomAdapter;
 import com.example.ulendoapp.fragments.My_Favorites;
 import com.example.ulendoapp.fragments.My_Payments;

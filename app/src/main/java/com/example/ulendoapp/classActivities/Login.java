@@ -1,8 +1,8 @@
-package com.example.ulendoapp;
+package com.example.ulendoapp.classActivities;
 
 
-import static com.example.ulendoapp.EditDriverProfile.driverPassword;
-import static com.example.ulendoapp.EditUserProfile.userPassword;
+import static com.example.ulendoapp.classActivities.EditDriverProfile.driverPassword;
+import static com.example.ulendoapp.classActivities.EditUserProfile.userPassword;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,17 +19,16 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ulendoapp.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;

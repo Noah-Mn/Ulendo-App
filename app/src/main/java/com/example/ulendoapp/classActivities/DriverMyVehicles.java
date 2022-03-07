@@ -1,11 +1,10 @@
-package com.example.ulendoapp;
+package com.example.ulendoapp.classActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.ulendoapp.adapters.VehicleAdapter;
 import com.example.ulendoapp.databinding.ActivityDriverMyVehiclesBinding;
@@ -14,7 +13,6 @@ import com.example.ulendoapp.utilities.Constants;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
-package com.example.ulendoapp;
+package com.example.ulendoapp.classActivities;
 
-import static com.example.ulendoapp.HomeUser.userModel;
+import static com.example.ulendoapp.classActivities.HomeUser.userModel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ulendoapp.R;
 import com.example.ulendoapp.adapters.BookRideAdapter;
 import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
