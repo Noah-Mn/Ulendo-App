@@ -15,7 +15,6 @@ import com.google.android.material.button.MaterialButton;
 public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     public ImageView imageView;
     public TextView driverName, carDetail, tripStartPoint, tripDestination, dateTime;
-    public BookRideAdapter.OnTripClickListener onTripClickListener;
     public CardView tripLayout;
     public MaterialButton btnBook;
 
@@ -29,6 +28,7 @@ public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.
         tripLayout = (CardView) itemView.findViewById(R.id.trip_layout);
         btnBook = itemView.findViewById(R.id.trip_book_btn);
         itemView.setOnClickListener(this);
+        onTripClickListener.onTripClick(getAdapterPosition());
 
 //
 //        tripLayout = itemView.findViewById(R.id.trip_layout);

@@ -279,6 +279,8 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     @Override
     public void onTripClick(int position) {
-        btnBook.setClickable(true);
+        if (position >= 0){
+           btnBook.setClickable(true);
+        }
     }
 }
