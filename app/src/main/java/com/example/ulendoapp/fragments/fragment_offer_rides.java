@@ -1,5 +1,6 @@
 package com.example.ulendoapp.fragments;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class fragment_offer_rides extends Fragment{
     MaterialSpinner getCount;
@@ -231,15 +233,17 @@ public class fragment_offer_rides extends Fragment{
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "inserted successfully");
+                        Toast.makeText(getContext(), "Ride has been offered", Toast.LENGTH_SHORT).show();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "error! failed");
+                        Toast.makeText(getContext(), "Error! Failed to offer ride", Toast.LENGTH_SHORT).show();
                     }
                 });
+
 
     }
 

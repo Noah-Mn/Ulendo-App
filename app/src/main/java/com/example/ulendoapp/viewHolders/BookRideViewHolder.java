@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ulendoapp.adapters.BookRideAdapter;
 import com.example.ulendoapp.R;
+import com.google.android.material.button.MaterialButton;
 
 public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     public ImageView imageView;
     public TextView driverName, carDetail, tripStartPoint, tripDestination, dateTime;
     public BookRideAdapter.OnTripClickListener onTripClickListener;
     public CardView tripLayout;
+    public MaterialButton btnBook;
 
     public BookRideViewHolder(@NonNull View itemView, BookRideAdapter.OnTripClickListener onTripClickListener) {
         super(itemView);
@@ -24,6 +26,9 @@ public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.
         carDetail = itemView.findViewById(R.id.car_details);
         tripStartPoint = itemView.findViewById(R.id.book_trip_starting_point);
         tripDestination = itemView.findViewById(R.id.book_trip_end_point);
+        tripLayout = (CardView) itemView.findViewById(R.id.trip_layout);
+        btnBook = itemView.findViewById(R.id.trip_book_btn);
+        itemView.setOnClickListener(this);
 
 //
 //        tripLayout = itemView.findViewById(R.id.trip_layout);
@@ -34,6 +39,10 @@ public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View view) {
-        onTripClickListener.onTripClick(getAdapterPosition());
+      if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
+      else {
+          btnBook.setClickable(true);
+      }
+
     }
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.example.ulendoapp.models.OfferRideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,6 +46,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
     List<DriverVehiclesModel> carDetailModelList;
     List<FindRideModel> findRideModelList;
     public Intent intent;
+    MaterialButton btnBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         recyclerViewTrip = findViewById(R.id.booking_trip_lists);
-
+        btnBook = findViewById(R.id.trip_book_btn);
         driverEmail = new ArrayList<>();
 
         offerRideModelList = new ArrayList<>();
@@ -65,8 +68,10 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         getOfferRideData();
         getFindRideData();
         bookingActivity();
+
 //        setDisplayText();
 //        getFilteredRides();
+        btnBook.setVisibility(View.GONE);
     }
 
     public void setDisplayText(){
@@ -82,10 +87,13 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         if(filteredOffers.size() != 0){
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName()).append(", ")
                     .append(diz).append("  :we found these rides for you").toString());
+            btnBook.setVisibility(View.VISIBLE);
+            btnBook.setClickable(false);
 
         } else{
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName())
                     .append(", ").append(diz).append("  :No ride match your search").toString());
+            btnBook.setVisibility(View.GONE);
         }
 
 
@@ -271,6 +279,6 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     @Override
     public void onTripClick(int position) {
-
+        btnBook.setClickable(true);
     }
 }

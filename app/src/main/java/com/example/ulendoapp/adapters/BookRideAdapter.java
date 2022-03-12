@@ -1,5 +1,8 @@
 package com.example.ulendoapp.adapters;
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import com.example.ulendoapp.viewHolders.BookRideViewHolder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -26,11 +30,14 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
     private OnTripClickListener onTripClickListener;
     private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel, carModelYr, carColor, driverName, email, date;
     private FirebaseFirestore db;
+    private int selectedPos;
+    MaterialButton btnBook;
 
     public BookRideAdapter(List<OfferRideModel> offerRideModelList, List<DriverVehiclesModel> carDetailModelList, OnTripClickListener onTripClickListener) {
         this.offerRideModelList = offerRideModelList;
         this.carDetailModelList = carDetailModelList;
         this.onTripClickListener = onTripClickListener;
+        selectedPos = -1;
     }
 
     @Override
@@ -50,7 +57,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookRideViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BookRideViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         pickupPoint = offerRideModelList.get(position).getPickupPoint();
         destination = offerRideModelList.get(position).getDestination();
@@ -75,6 +82,20 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
         holder.carDetail.setText(email +" , "+ carDetailModelList.size());
         holder.tripStartPoint.setText(pickupPoint);
         holder.tripDestination.setText(destination);
+
+        if (selectedPos == position){
+            holder.tripLayout.setBackgroundColor(Color.LTGRAY);
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int previousItem  = selectedPos;
+                selectedPos = position;
+                notifyItemChanged(previousItem);
+                notifyItemChanged(position);
+            }
+        });
 
     }
 

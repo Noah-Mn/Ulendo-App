@@ -159,21 +159,18 @@ public class PassengerChats extends BaseActivity implements ConversationListener
             db.collection(Constants.KEY_COLLECTION_USERS)
                     .whereEqualTo("Email Address", getEmail())
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    String userId = document.getId();
-                                    db.collection("Users")
-                                            .document(userId)
-                                            .update(Constants.KEY_FCM_TOKEN, token);
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String userId = document.getId();
+                                db.collection("Users")
+                                        .document(userId)
+                                        .update(Constants.KEY_FCM_TOKEN, token);
 
 //                                        Toast.makeText(DriverChats.this, "successfully updated token", Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Toast.makeText(PassengerChats.this, "Unable to update token", Toast.LENGTH_LONG).show();
                             }
+                        } else {
+                            Toast.makeText(PassengerChats.this, "Unable to update token", Toast.LENGTH_LONG).show();
                         }
                     });
         } else {
