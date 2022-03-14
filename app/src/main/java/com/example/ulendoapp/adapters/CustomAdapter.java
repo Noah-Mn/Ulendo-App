@@ -1,6 +1,6 @@
 package com.example.ulendoapp.adapters;
 
-import static com.example.ulendoapp.classActivities.HomeUser.newText;
+import static com.example.ulendoapp.activityClasses.HomeUser.newText;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;

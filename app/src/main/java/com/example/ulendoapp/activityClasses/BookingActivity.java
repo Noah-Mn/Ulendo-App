@@ -1,6 +1,6 @@
-package com.example.ulendoapp.classActivities;
+package com.example.ulendoapp.activityClasses;
 
-import static com.example.ulendoapp.classActivities.HomeUser.userModel;
+import static com.example.ulendoapp.activityClasses.HomeUser.userModel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,11 +40,10 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
     public List<String> driverEmail;
 
     private final String TAG = "tag";
-    public String dest, pTime, noPeople, sInstructions, pPoint, luggage;
+    public String dest, pTime, noPeople, pDate, pPoint, luggage;
     public List<OfferRideModel> filteredOffers;
     private List<OfferRideModel> offerRideModelList;
-    List<DriverVehiclesModel> carDetailModelList;
-    List<FindRideModel> findRideModelList;
+//    private List<FindRideModel> findRideModelList;
     public Intent intent;
     MaterialButton btnBook;
 
@@ -61,44 +60,34 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         driverEmail = new ArrayList<>();
 
         offerRideModelList = new ArrayList<>();
-        carDetailModelList = new ArrayList<>();
-        findRideModelList = new ArrayList<>();
+//        findRideModelList = new ArrayList<>();
 
         getFindRideExtras();
         getOfferRideData();
-        getFindRideData();
         bookingActivity();
 
-//        setDisplayText();
-//        getFilteredRides();
         btnBook.setVisibility(View.GONE);
     }
 
     public void setDisplayText(){
         displayText = findViewById(R.id.display_name);
-        displayText.setTextSize(19);
+        displayText.setTextSize(17);
         int z1,z,z3,z4,z5;
         z = offerRideModelList.size();
-        z1 = driverEmail.size();
-        z3 = carDetailModelList.size();
 
-        String diz = z + ", "+ z1 + ", " + z3;
+        String diz = "list " + z ;
 
         if(filteredOffers.size() != 0){
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName()).append(", ")
-                    .append(diz).append("  :we found these rides for you").toString());
+                    .append(diz).append("we found these rides for you").toString());
             btnBook.setVisibility(View.VISIBLE);
             btnBook.setClickable(false);
 
         } else{
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName())
-                    .append(", ").append(diz).append("  :No ride match your search").toString());
+                    .append(", ").append(diz).append("No ride match your search").toString());
             btnBook.setVisibility(View.GONE);
         }
-
-
-//        Toast.makeText(BookingActivity.this, offerRideModelList.size() + " damn!!", Toast.LENGTH_SHORT).show();
-//        Toast.makeText(BookingActivity.this, carDetailModelList.size() + " damn!!", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -107,8 +96,8 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
         dest = intent.getStringExtra("destination");
         pTime = intent.getStringExtra("pickup time");
+        pDate = intent.getStringExtra("pickup date");
         noPeople = intent.getStringExtra("number of people");
-        sInstructions = intent.getStringExtra("special instruction");
         pPoint = intent.getStringExtra("pickup point");
         luggage = intent.getStringExtra("luggage");
 
@@ -143,7 +132,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
                             String state = documentSnapshot.getString("State");
                             String date = documentSnapshot.getString("Date");
                             String currDate = documentSnapshot.getString("Current Date");
-                            String email = documentSnapshot.getString("Email");
+                            String email = documentSnapshot.getString("Email Address");
 
 
                             OfferRideModel offeredRide = new OfferRideModel(latitude, longitude, pickupPoint, destination, pickupTime,
@@ -152,9 +141,14 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
                             Toast.makeText(BookingActivity.this, email, Toast.LENGTH_SHORT).show();
 
                             offerRideModelList.add(offeredRide);
+                            driverEmail.add(email);
+                            for(int i = 0; i < driverEmail.size(); i++){
+                                if(driverEmail.get(i).equals(email)){
+                                    driverEmail.remove(i);
+                                }
+                            }
 
                             getFilteredRides();
-//                            setDisplayText();
                         }
 
                     }
@@ -168,42 +162,10 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     }
 
-    public void getFindRideData() {
-            db.collection("Driver Vehicles")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        progressDialog.dismiss();
-                            carDetailModelList.clear();
-                            for (DocumentSnapshot documentSnapshot: task.getResult()){
 
-                                String vBrand = documentSnapshot.getString("Vehicle Brand");
-                                String vModel = documentSnapshot.getString("Vehicle Model");
-                                String vModelYr = documentSnapshot.getString("Model Year");
-                                String vColor = documentSnapshot.getString("Vehicle Color");
-
-                                DriverVehiclesModel carDetail = new DriverVehiclesModel(vBrand, vModel, vModelYr, vColor);
-
-                                carDetailModelList.add(carDetail);
-                                getFilteredRides();
-//                                setDisplayText();
-//                                Toast.makeText(BookingActivity.this, carDetailModelList.get(0).getVehicleBrand(), Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(BookingActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-    }
 
     public void getFilteredRides(){
         getFindRideExtras();
-//        filteredCarDetail = new ArrayList<>();
         filteredOffers = new ArrayList<>();
         for(int i = 0; i < offerRideModelList.size(); i++){
             if(offerRideModelList.get(i).getPickupPoint().matches(pPoint)){
@@ -211,65 +173,25 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
                 String destination = offerRideModelList.get(i).getDestination();
                 String email = offerRideModelList.get(i).getEmailAddress();
                 String pickupTime = offerRideModelList.get(i).getPickupTime();
+                String pickupDate = offerRideModelList.get(i).getPickupDate();
 
-                OfferRideModel newOffer = new OfferRideModel(pickupPoint, destination, pickupTime, email);
+
+                OfferRideModel newOffer = new OfferRideModel(pickupPoint, destination, pickupTime, pickupDate, email);
 
                 filteredOffers.add(newOffer);
             }
 
-            /************ not uziful for nou****************/
-//                driverEmail.clear();
-//                for(int j = 0; j < filteredOffers.size(); j++){
-//                    driverEmail.add(filteredOffers.get(j).getEmailAddress());
-//                }
-
         }
 
-        BookRideAdapter adapter = new BookRideAdapter(filteredOffers, carDetailModelList, BookingActivity.this);
+        BookRideAdapter adapter = new BookRideAdapter(filteredOffers, BookingActivity.this);
         recyclerViewTrip.setAdapter(adapter);
         recyclerViewTrip.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         setDisplayText();
 
-        Toast.makeText(BookingActivity.this, carDetailModelList.size() + "  damn prt 4  "+ filteredOffers.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(BookingActivity.this,  "  damn  "+ filteredOffers.size(), Toast.LENGTH_SHORT).show();
     }
 
-   /* public void getCarDetailData() {
-        db.collection("Find Ride")
-                .whereEqualTo("Email Address", getEmail())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        progressDialog.dismiss();
-                        carDetailModelList.clear();
-                        for (DocumentSnapshot documentSnapshot: task.getResult()){
 
-                            String destination = documentSnapshot.getString("Destination");
-                            String pickupPoint = documentSnapshot.getString("Pickup Point");
-                            String pickupTime = documentSnapshot.getString("Pickup Time");
-                            String luggage = documentSnapshot.getString("Luggage");
-                            String bookedSeats = documentSnapshot.getString("Booked Seats");
-                            String latLng = String.valueOf(documentSnapshot.getString("Location"));
-
-                            DriverVehiclesModel carDetail = new DriverVehiclesModel();
-
-                            carDetailModelList.add(carDetail);
-
-                            getFilteredRides();
-                            Toast.makeText(BookingActivity.this, carDetailModelList.get(0).getVehicleBrand(), Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(BookingActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-*/
 
     public String getEmail(){
         String emailAddress;

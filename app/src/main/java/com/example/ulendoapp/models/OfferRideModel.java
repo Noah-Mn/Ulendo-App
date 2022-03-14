@@ -1,12 +1,12 @@
 package com.example.ulendoapp.models;
 
 public class OfferRideModel {
-    public String emailAddress, pickupPoint, destination, pickupTime,
-            numberOfSeats, bookedSeats, luggage, vehicleModel, state, specialInstructions, date, currDate;
+    public String emailAddress, pickupPoint, destination, pickupTime, pickupDate,
+            numberOfSeats, bookedSeats, luggage, vehicleModel, state, specialInstructions, currDate;
     public double latitude, longitude;
 
     public OfferRideModel(double latitude, double longitude, String pickupPoint, String destination, String pickupTime,
-                          String numberOfSeats, String bookedSeats, String luggage, String state, String date, String currDate, String email) {
+                          String numberOfSeats, String bookedSeats, String luggage, String state, String pickupDate, String currDate, String email) {
         this.emailAddress = email;
         this.pickupPoint = pickupPoint;
         this.destination = destination;
@@ -15,50 +15,18 @@ public class OfferRideModel {
         this.bookedSeats = bookedSeats;
         this.luggage = luggage;
         this.state = state;
-        this.date = date;
+        this.pickupDate = pickupDate;
         this.currDate = currDate;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-
-    public OfferRideModel(double latitude, double longitude, String pickupPoint, String destination,
-                          String pickupTime, String numberOfSeats, String bookedSeats, String state, String luggage) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public OfferRideModel(String pickupPoint, String destination, String pickupTime, String pickupDate, String emailAddress) {
         this.pickupPoint = pickupPoint;
         this.destination = destination;
         this.pickupTime = pickupTime;
-        this.numberOfSeats = numberOfSeats;
-        this.bookedSeats = bookedSeats;
-        this.luggage = luggage;
-        this.state = state;
-    }
-
-//    String pickupPoint = offerRideModelList.get(i).getPickupPoint();
-//    String destination = offerRideModelList.get(i).getPickupPoint();
-//    String email = offerRideModelList.get(i).getEmailAddress();
-//    String pickupTime = offerRideModelList.get(i).getPickupTime();
-
-    public OfferRideModel(String pickupPoint, String destination, String pickupTime, String emailAddress) {
-        this.pickupPoint = pickupPoint;
-        this.destination = destination;
-        this.pickupTime = pickupTime;
+        this.pickupDate = pickupDate;
         this.emailAddress = emailAddress;
-    }
-
-    public OfferRideModel(String pickupPoint, String destination, String pickupTime,
-                          String numberOfSeats, String bookedSeats, String luggage, String state, String date, String currDate, String email) {
-        this.pickupPoint = pickupPoint;
-        this.destination = destination;
-        this.pickupTime = pickupTime;
-        this.numberOfSeats = numberOfSeats;
-        this.bookedSeats = bookedSeats;
-        this.luggage = luggage;
-        this.state = state;
-        this.date = date;
-        this.currDate = currDate;
-        this.emailAddress = email;
     }
 
     @Override
@@ -74,19 +42,19 @@ public class OfferRideModel {
                 ", vehicleModel='" + vehicleModel + '\'' +
                 ", state='" + state + '\'' +
                 ", specialInstructions='" + specialInstructions + '\'' +
-                ", date='" + date + '\'' +
+                ", date='" + pickupDate + '\'' +
                 ", currDate='" + currDate + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
     }
 
-    public String getDate() {
-        return date;
+    public String getPickupDate() {
+        return pickupDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setPickupDate(String pickupDate) {
+        this.pickupDate = pickupDate;
     }
 
     public String getCurrDate() {

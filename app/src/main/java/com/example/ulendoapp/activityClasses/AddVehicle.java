@@ -1,4 +1,4 @@
-package com.example.ulendoapp.classActivities;
+package com.example.ulendoapp.activityClasses;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ulendoapp.R;
-import com.example.ulendoapp.classActivities.DriverMyVehicles;
-import com.example.ulendoapp.databinding.ActivityAddVehicleBinding;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnFailureListener;

@@ -69,10 +69,8 @@ public class fragment_home extends Fragment {
         pickupPoint = view.findViewById(R.id.user_trip_start_point);
         destination = view.findViewById(R.id.user_trip_detination);
         pickupTime = view.findViewById(R.id.user_trip_pickup_time);
-//        dropPoint = view.findViewById(R.id.trip_drop_point);
-        specialInstructions = view.findViewById(R.id.user_trip_special_instruction);
-        numberOfPeople = view.findViewById(R.id.user_trip_number_of_people);
-//        luggage = view.findViewById(R.id.trip_luggage);
+        numberOfPeople = view.findViewById(R.id.user_trip_number_of_passengers);
+        luggage = view.findViewById(R.id.user_trip_luggage);
         findTripBtn = view.findViewById(R.id.user_trip_find_btn);
 
         latLng = new LatLng(latitude, longitude);
@@ -84,7 +82,8 @@ public class fragment_home extends Fragment {
             }
         });
 
-        setSpinner(view);
+        setPassengerSpinner(view);
+        setLuggageSpinner(view);
         loadTimePicker();
        return view;
 
@@ -144,7 +143,6 @@ public class fragment_home extends Fragment {
         trip.put("Pickup Time", pTime);
         trip.put("Luggage", luggage);
         trip.put("Complaint", "N/A");
-        trip.put("Special Instruction", sInstructions);
         trip.put("Status", "N/A");
 
 
@@ -164,8 +162,8 @@ public class fragment_home extends Fragment {
                 });
 
     }
-    public void setSpinner(View view){
-        getCount = (MaterialSpinner)view.findViewById(R.id.user_trip_number_of_people);
+    public void setPassengerSpinner(View view){
+        getCount = (MaterialSpinner)view.findViewById(R.id.user_trip_number_of_passengers);
         ArrayList<String> count = new ArrayList<String>();
         count.add("1");
         count.add("2");
@@ -173,6 +171,19 @@ public class fragment_home extends Fragment {
         count.add("4");
         count.add("5");
         count.add("6");
+        ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
+        countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        getCount.setAdapter(countAdapter);
+    }
+
+    public void setLuggageSpinner(View view){
+        getCount = (MaterialSpinner)view.findViewById(R.id.user_trip_luggage);
+        ArrayList<String> count = new ArrayList<String>();
+        count.add("None");
+        count.add("Small");
+        count.add("Medium");
+        count.add("Large");
+
         ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
         countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getCount.setAdapter(countAdapter);

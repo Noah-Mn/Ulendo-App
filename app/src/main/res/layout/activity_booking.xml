@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    tools:context=".classActivities.BookingActivity">
+    tools:context=".activityClasses.BookingActivity">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/display_name"

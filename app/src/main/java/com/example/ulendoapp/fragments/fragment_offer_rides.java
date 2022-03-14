@@ -43,8 +43,8 @@ import java.util.Objects;
 public class fragment_offer_rides extends Fragment{
     MaterialSpinner getCount;
     private final String TAG =  "tag";
-    public TextInputEditText pickupPoint, destination, pickupTime, dropPoint, specialInstructions;
-    public String pPoint, dest, pTime, seats, car, sInstructions, dPoint;
+    public TextInputEditText pickupPoint, destination, pickupTime, pickupDate,  specialInstructions;
+    public String pPoint, dest, pTime, pDate, seats, car, sInstructions;
     public MaterialSpinner   numberOfSeats, carModel;
     public static double latitude;
     public static double longitude;
@@ -76,13 +76,12 @@ public class fragment_offer_rides extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_offer_rides, container, false);
         database = FirebaseFirestore.getInstance();
         pickupPoint = view.findViewById(R.id.ride_start_point);
         destination = view.findViewById(R.id.ride_destination);
         pickupTime = view.findViewById(R.id.ride_pickup_time);
-//        dropPoint = view.findViewById(R.id.ride_drop_point);
+        pickupDate = view.findViewById(R.id.ride_pickup_date);
         numberOfSeats = view.findViewById(R.id.ride_number_of_seats);
         carModel = view.findViewById(R.id.ride_car_model);
         specialInstructions = view.findViewById(R.id.ride_special_instructions);
@@ -142,13 +141,6 @@ public class fragment_offer_rides extends Fragment{
     public void setCarModelSpinner(View view){
         getCarModel = (MaterialSpinner)view.findViewById(R.id.ride_car_model);
         ArrayList<String> count = new ArrayList<String>();
-//        Vehicles vehicles = new Vehicles();
-//        count.add(vehicles.getVehicleName());
-//        count.add("Mazda");
-//        count.add("Mercedes-Benz ");
-//        count.add("Audi");
-//        count.add("VW");
-//        count.add("Toyota");
 
         database.collection("Driver Vehicles")
                 .whereEqualTo("Email Address", getEmail())
@@ -193,6 +185,7 @@ public class fragment_offer_rides extends Fragment{
         pPoint = pickupPoint.getText().toString();
         dest = destination.getText().toString();
         pTime = pickupTime.getText().toString();
+        pDate = pickupDate.getText().toString();
         seats = numberOfSeats.getText().toString();
         car = carModel.getText().toString();
         sInstructions = specialInstructions.getText().toString();
@@ -218,13 +211,13 @@ public class fragment_offer_rides extends Fragment{
         offerRide.put("Pickup Point", pPoint);
         offerRide.put("Destination", dest);
         offerRide.put("Pickup Time", pTime);
+        offerRide.put("Date", pDate);
         offerRide.put("Number of seats", seats);
         offerRide.put("Booked seats", "N/A");
         offerRide.put("Luggage", "N/A");
         offerRide.put("Car Model", car);
         offerRide.put("State", "Available");
         offerRide.put("Special Instruction", sInstructions);
-        offerRide.put("Date", "N/A");
         offerRide.put("Current Date", "N/A");
 
 

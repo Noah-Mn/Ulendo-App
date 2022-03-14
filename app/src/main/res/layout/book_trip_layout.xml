@@ -59,14 +59,14 @@
                         android:gravity="right">
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/trip_status"
+                            android:id="@+id/trip_date_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Available"
+                            android:text="date_time"
                             android:textColorHighlight="@color/quantum_googgreen"
                             android:layout_gravity="bottom"
                             android:textColor="@color/black"
-                            android:textStyle="italic|bold" />
+                            android:textStyle="italic" />
 
 
                     </LinearLayout>

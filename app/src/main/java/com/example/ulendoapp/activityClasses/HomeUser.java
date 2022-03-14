@@ -1,4 +1,4 @@
-package com.example.ulendoapp.classActivities;
+package com.example.ulendoapp.activityClasses;
 
 import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;

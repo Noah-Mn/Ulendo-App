@@ -1,6 +1,6 @@
-package com.example.ulendoapp.classActivities;
+package com.example.ulendoapp.activityClasses;
 
-import static com.example.ulendoapp.classActivities.HomeUser.userModel;
+import static com.example.ulendoapp.activityClasses.HomeUser.userModel;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;
 
@@ -285,8 +285,8 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         gMap.clear();
         Log.d(TAG, location.toString());
 
-        currentLatitude = this.location.getLatitude();
-        currentLongitude = this.location.getLongitude();
+//        currentLatitude = this.location.getLatitude();
+//        currentLongitude = this.location.getLongitude();
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
         cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
 

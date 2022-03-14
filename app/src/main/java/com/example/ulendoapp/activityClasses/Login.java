@@ -1,8 +1,8 @@
-package com.example.ulendoapp.classActivities;
+package com.example.ulendoapp.activityClasses;
 
 
-import static com.example.ulendoapp.classActivities.EditDriverProfile.driverPassword;
-import static com.example.ulendoapp.classActivities.EditUserProfile.userPassword;
+import static com.example.ulendoapp.activityClasses.EditDriverProfile.driverPassword;
+import static com.example.ulendoapp.activityClasses.EditUserProfile.userPassword;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 

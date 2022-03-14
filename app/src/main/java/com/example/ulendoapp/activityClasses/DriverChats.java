@@ -1,7 +1,4 @@
-package com.example.ulendoapp.classActivities;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.ulendoapp.activityClasses;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +8,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.example.ulendoapp.adapters.RecentConversationsAdapter;
 import com.example.ulendoapp.databinding.ActivityDriverChatsBinding;
@@ -33,10 +32,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PassengerChats extends BaseActivity implements ConversationListener {
+public final class DriverChats extends BaseActivity implements ConversationListener {
+
     private ActivityDriverChatsBinding binding;
     private PreferenceManager preferenceManager;
-    private final String TAG = "Passenger Chats";
+    private final String TAG = "Driver Chats";
     String fName,lastName, encodedImage;
     FirebaseFirestore db;
     FirebaseAuth auth;
@@ -159,22 +159,25 @@ public class PassengerChats extends BaseActivity implements ConversationListener
             db.collection(Constants.KEY_COLLECTION_USERS)
                     .whereEqualTo("Email Address", getEmail())
                     .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String userId = document.getId();
-                                db.collection("Users")
-                                        .document(userId)
-                                        .update(Constants.KEY_FCM_TOKEN, token);
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String userId = document.getId();
+                                    db.collection("Users")
+                                            .document(userId)
+                                            .update(Constants.KEY_FCM_TOKEN, token);
 
 //                                        Toast.makeText(DriverChats.this, "successfully updated token", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(DriverChats.this, "Unable to update token", Toast.LENGTH_LONG).show();
                             }
-                        } else {
-                            Toast.makeText(PassengerChats.this, "Unable to update token", Toast.LENGTH_LONG).show();
                         }
                     });
         } else {
-            Toast.makeText(PassengerChats.this, "Email did not update", Toast.LENGTH_LONG).show();
+            Toast.makeText(DriverChats.this, "Email did not update", Toast.LENGTH_LONG).show();
         }
     }
     public String getEmail(){
@@ -187,7 +190,7 @@ public class PassengerChats extends BaseActivity implements ConversationListener
                 startActivity(new Intent(getApplicationContext(), UsersActivity.class))
         );
         binding.imageCancel.setOnClickListener(View ->
-                startActivity(new Intent(PassengerChats.this, HomeUser.class)));
+                startActivity(new Intent(DriverChats.this, HomeDriver.class)));
     }
 
     @Override

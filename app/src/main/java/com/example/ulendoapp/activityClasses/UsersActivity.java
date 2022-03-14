@@ -1,4 +1,4 @@
-package com.example.ulendoapp.classActivities;
+package com.example.ulendoapp.activityClasses;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -7,47 +7,13 @@
     android:gravity="bottom"
     tools:context=".fragments.fragment_find_rides">
 
-<!--    <FrameLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:layout_marginTop="-30dp"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        >-->
-
-<!--        <com.google.android.material.card.MaterialCardView-->
-<!--            android:id="@+id/find_rides"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:contextClickable="true"-->
-<!--            app:cardCornerRadius="10dp">-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:src="@drawable/search_24" />-->
-
-<!--            <com.google.android.material.textview.MaterialTextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="25dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                android:text="Find Rides"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textStyle="bold" />-->
-<!--        </com.google.android.material.card.MaterialCardView>-->
-
-<!--    </FrameLayout>-->
-
     <LinearLayout
         android:id="@+id/trip_starting_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:orientation="horizontal">
@@ -56,6 +22,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
             android:src="@drawable/origin_24" />
 
         <com.google.android.material.textfield.TextInputEditText
@@ -69,50 +36,84 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/trip_destin"
+        android:id="@+id/destination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
         android:layout_below="@+id/trip_starting_point"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:orientation="horizontal"
-        >
-        <ImageView
-            android:layout_marginTop="12dp"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/end_24"
-            />
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/trip_destination"
-            android:textSize="15sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Choose destination"
-            android:textColorHint="#72000000"
-            android:inputType="text"
-            android:layout_marginBottom="5dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/trip_time__number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/trip_destin"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/end_24" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/trip_destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:hint="Choose destination"
+            android:inputType="text"
+            android:textColorHint="#72000000"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pickup_time_and_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/passenger_detail"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom ="10dp"
+        android:orientation="horizontal">
+
         <LinearLayout
+            android:id="@+id/pickup_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1.0"
+            android:layout_weight="0.3"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_baseline_date_range_24" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/trip_pickup_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:hint="dd/mm/yyyy"
+                android:inputType="datetime"
+                android:spinnersShown="true"
+                android:textColor="@color/black"
+                android:textColorHint="#72000000"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pickup_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginStart="5dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -125,7 +126,7 @@
                 android:id="@+id/trip_pickup_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.1"
                 android:hint="@string/pickup_time"
                 android:inputType="datetime"
                 android:textColor="@color/black"
@@ -133,66 +134,80 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/passenger_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/destination"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:gravity="center"
+            android:layout_marginStart="5dp"
+            android:gravity="center|left"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="5dp"
                 android:src="@drawable/ic_baseline_group_24" />
 
             <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/trip_number_of_people"
+                android:id="@+id/trip_number_of_passengers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Number"
+                android:hint="passenger No."
                 android:inputType="number"
                 android:textColorHint="#72000000"
                 android:textSize="15sp"
-                app:ms_hint="Number"/>
+                android:textAlignment="gravity"
+                app:ms_hint="passenger No." />
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/trip_instruction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_below="@+id/trip_time__number"
-        android:layout_marginStart="10dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/objects_24"
-            android:layout_marginTop="12dp"
-            />
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/trip_special_instruction"
-            android:textSize="15sp"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/luggage_size"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="Special instruction (eg pets, luggage)"
-            android:textColorHint="#72000000"/>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_baseline_shopping_bag_24" />
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/trip_luggage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:hint="Luggage"
+                android:inputType="text"
+                android:textColorHint="#72000000"
+                android:textSize="15sp"
+                app:ms_hint="Luggage" />
+        </LinearLayout>
+
     </LinearLayout>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/trip_find_rides_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_below="@+id/trip_instruction"
+        android:layout_below="@+id/pickup_time_and_date"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_alignParentStart="true"

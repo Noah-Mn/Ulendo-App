@@ -21,7 +21,7 @@ public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.
     public BookRideViewHolder(@NonNull View itemView, BookRideAdapter.OnTripClickListener onTripClickListener) {
         super(itemView);
         driverName = itemView.findViewById(R.id.name_of_driver);
-        dateTime = itemView.findViewById(R.id.trip_status);
+        dateTime = itemView.findViewById(R.id.trip_date_time);
         carDetail = itemView.findViewById(R.id.car_details);
         tripStartPoint = itemView.findViewById(R.id.book_trip_starting_point);
         tripDestination = itemView.findViewById(R.id.book_trip_end_point);

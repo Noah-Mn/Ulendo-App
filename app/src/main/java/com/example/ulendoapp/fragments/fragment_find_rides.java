@@ -20,8 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TimePicker;
 
-import com.example.ulendoapp.classActivities.BookingActivity;
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.activityClasses.BookingActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,8 +39,8 @@ import java.util.Map;
 
 public class fragment_find_rides extends Fragment {
     MaterialSpinner getCount;
-    public TextInputEditText pickupPoint, destination, pickupTime, dropPoint, specialInstructions;
-    public String pPoint, dest, pTime, noPeople, status, sInstructions, dPoint;
+    public TextInputEditText pickupPoint, destination, pickupTime, pickupDate;
+    public String pPoint, dest, pTime, pDate, noPeople, status;
     public MaterialSpinner   numberOfPeople, luggage;
     public final String TAG = "tag";
 
@@ -71,10 +71,9 @@ public class fragment_find_rides extends Fragment {
         pickupPoint = view.findViewById(R.id.trip_pickup_point);
         destination = view.findViewById(R.id.trip_destination);
         pickupTime = view.findViewById(R.id.trip_pickup_time);
-//        dropPoint = view.findViewById(R.id.trip_drop_point);
-        specialInstructions = view.findViewById(R.id.trip_special_instruction);
-        numberOfPeople = view.findViewById(R.id.trip_number_of_people);
-//        luggage = view.findViewById(R.id.trip_luggage);
+        pickupDate = view.findViewById(R.id.trip_pickup_date);
+        numberOfPeople = view.findViewById(R.id.trip_number_of_passengers);
+        luggage = view.findViewById(R.id.trip_luggage);
         findTripBtn = view.findViewById(R.id.trip_find_rides_btn);
         latLng = new LatLng(latitude, longitude);
 
@@ -88,7 +87,7 @@ public class fragment_find_rides extends Fragment {
                 intent.putExtra("destination", dest);
                 intent.putExtra("pickup time", pTime);
                 intent.putExtra("number of people", noPeople);
-                intent.putExtra("special instruction", sInstructions );
+                intent.putExtra("pickup date", pDate);
                 intent.putExtra("pickup point", pPoint);
                 intent.putExtra("luggage", String.valueOf(luggage));
                 addTrip();
@@ -107,8 +106,8 @@ public class fragment_find_rides extends Fragment {
     public void getTripInfo(){
         dest = destination.getText().toString();
         pTime = pickupTime.getText().toString();
+        pDate = pickupDate.getText().toString();
         noPeople = numberOfPeople.getText().toString();
-        sInstructions = specialInstructions.getText().toString();
         pPoint = pickupPoint.getText().toString();
         luggage = null;
 
@@ -157,7 +156,7 @@ public class fragment_find_rides extends Fragment {
         findRide.put("Luggage", luggage);
         findRide.put("Booked Seats", "N/A");
         findRide.put("Complaint", "N/A");
-        findRide.put("Special Instruction", sInstructions);
+        findRide.put("Pickup Date", pDate);
         findRide.put("Status", "N/A");
         findRide.put("Date", "N/A");
         findRide.put("Current Date", "N/A");
@@ -180,7 +179,7 @@ public class fragment_find_rides extends Fragment {
 
     }
     public void setSpinner(View view){
-        getCount = (MaterialSpinner)view.findViewById(R.id.trip_number_of_people);
+        getCount = (MaterialSpinner)view.findViewById(R.id.trip_number_of_passengers);
         ArrayList<String> count = new ArrayList<String>();
         count.add("1");
         count.add("2");

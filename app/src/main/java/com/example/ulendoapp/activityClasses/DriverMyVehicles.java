@@ -1,4 +1,4 @@
-package com.example.ulendoapp.classActivities;
+package com.example.ulendoapp.activityClasses;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.ulendoapp.adapters.VehicleAdapter;
-import com.example.ulendoapp.classActivities.AddVehicle;
-import com.example.ulendoapp.classActivities.HomeDriver;
 import com.example.ulendoapp.databinding.ActivityDriverMyVehiclesBinding;
 import com.example.ulendoapp.listeners.VehicleListener;
 import com.example.ulendoapp.models.Vehicles;

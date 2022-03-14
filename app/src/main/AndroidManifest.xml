@@ -20,61 +20,61 @@
         android:theme="@style/Theme.UlendoApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".classActivities.DriverMyVehicles"
+            android:name=".activityClasses.DriverMyVehicles"
             android:exported="false" />
         <activity
-            android:name=".classActivities.EditDriverProfile"
+            android:name=".activityClasses.EditDriverProfile"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".classActivities.UsersActivity"
+            android:name=".activityClasses.UsersActivity"
             android:exported="false" />
         <activity
-            android:name=".classActivities.ChatActivity"
+            android:name=".activityClasses.ChatActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".classActivities.DriverChats"
+            android:name=".activityClasses.DriverChats"
             android:exported="false" />
         <activity
-            android:name=".classActivities.AddVehicle"
+            android:name=".activityClasses.AddVehicle"
             android:exported="false" />
         <activity
-            android:name=".classActivities.DriverProfile"
+            android:name=".activityClasses.DriverProfile"
             android:exported="false" />
         <activity
-            android:name=".classActivities.PassengerChats"
+            android:name=".activityClasses.PassengerChats"
             android:exported="false" />
         <activity
-            android:name=".classActivities.UserProfile"
+            android:name=".activityClasses.UserProfile"
             android:exported="false" />
         <activity
-            android:name=".classActivities.EditUserProfile"
+            android:name=".activityClasses.EditUserProfile"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".classActivities.HomeDriver"
+            android:name=".activityClasses.HomeDriver"
             android:exported="false" />
         <activity
-            android:name=".classActivities.DriverSignup"
+            android:name=".activityClasses.DriverSignup"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".classActivities.CreateAccount"
+            android:name=".activityClasses.CreateAccount"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".classActivities.UserSignup"
+            android:name=".activityClasses.UserSignup"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".classActivities.ForgotPassword"
+            android:name=".activityClasses.ForgotPassword"
             android:exported="false" />
         <activity
-            android:name=".classActivities.Login"
+            android:name=".activityClasses.Login"
             android:exported="true" />
         <activity
-            android:name=".classActivities.BookingActivity"
+            android:name=".activityClasses.BookingActivity"
             android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -112,10 +112,10 @@
         <!-- android:value=".SearchableActivity" /> -->
         <!-- </activity> -->
         <activity
-            android:name=".classActivities.HomeUser"
+            android:name=".activityClasses.HomeUser"
             android:exported="true" />
         <activity
-            android:name=".classActivities.MainActivity"
+            android:name=".activityClasses.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
