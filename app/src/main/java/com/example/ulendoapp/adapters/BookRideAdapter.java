@@ -1,7 +1,10 @@
 package com.example.ulendoapp.adapters;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,15 +29,18 @@ import java.util.List;
 public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> implements View.OnClickListener {
     private List<OfferRideModel> offerRideModelList;
     private OnTripClickListener onTripClickListener;
-    private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel, carModelYr, carColor, driverName, email, date;
+    private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel, carModelYr, carColor, driverName, email, date,encodedImage;
     private FirebaseFirestore db;
     private int selectedPos;
-    MaterialButton btnBook;
 
     public BookRideAdapter(List<OfferRideModel> offerRideModelList, OnTripClickListener onTripClickListener) {
         this.offerRideModelList = offerRideModelList;
         this.onTripClickListener = onTripClickListener;
         selectedPos = -1;
+    }
+
+    public BookRideAdapter() {
+
     }
 
     @Override
@@ -54,7 +60,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookRideViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull BookRideViewHolder holder, int position) {
 
         pickupPoint = offerRideModelList.get(position).getPickupPoint();
         destination = offerRideModelList.get(position).getDestination();
@@ -64,7 +70,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
 
         getDriverName(email, holder);
         getRideData(email, holder);
-        String dateTime =new StringBuilder().append("Data: ").append(date).append(" @ ")
+        String dateTime =new StringBuilder().append("Date: ").append(date).append(" @ ")
                 .append(pickupTime).toString();
 
 
@@ -74,16 +80,21 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
 
         if (selectedPos == position){
             holder.tripLayout.setBackgroundColor(Color.LTGRAY);
+            holder.itemView.setSelected(true);
+        }
+        else {
+            holder.itemView.setSelected(false);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int previousItem  = selectedPos;
-                selectedPos = position;
-                notifyItemChanged(previousItem);
-                notifyItemChanged(position);
-            }
+        holder.itemView.setOnClickListener(view -> {
+            if (selectedPos >= 0)
+                notifyItemChanged(selectedPos);
+            selectedPos = holder.getAdapterPosition();
+            notifyItemChanged(selectedPos);
+//            int previousItem  = selectedPos;
+//            selectedPos = position;
+//            notifyItemChanged(previousItem);
+//            notifyItemChanged(selectedPos);
         });
 
     }
@@ -169,7 +180,10 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideViewHolder> im
                         for (DocumentSnapshot documentSnapshot: task.getResult()){
                             String firstName = documentSnapshot.getString("First Name");
                             String lastName = documentSnapshot.getString("Surname");
-
+                            String encodedImage = documentSnapshot.getString("Profile Pic");
+                            byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            holder.driverProfilePic.setImageBitmap(bitmap);
                             driverName = firstName +" "+ lastName;
                             holder.driverName.setText(driverName);
                         }

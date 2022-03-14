@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ulendoapp.adapters.BookRideAdapter;
 import com.example.ulendoapp.R;
 import com.google.android.material.button.MaterialButton;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-    public ImageView imageView;
+    public RoundedImageView driverProfilePic;
     public TextView driverName, carDetail, tripStartPoint, tripDestination, dateTime;
     public CardView tripLayout;
     public MaterialButton btnBook;
@@ -27,6 +28,7 @@ public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.
         tripDestination = itemView.findViewById(R.id.book_trip_end_point);
         tripLayout = (CardView) itemView.findViewById(R.id.trip_layout);
         btnBook = itemView.findViewById(R.id.trip_book_btn);
+        driverProfilePic = itemView.findViewById(R.id.trip_driver_profile_image);
         itemView.setOnClickListener(this);
         onTripClickListener.onTripClick(getAdapterPosition());
 
