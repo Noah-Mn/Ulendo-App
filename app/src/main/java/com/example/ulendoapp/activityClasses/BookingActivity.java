@@ -44,6 +44,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
     public String dest, pTime, noPeople, pDate, pPoint, luggage;
     public ArrayList<OfferRideModel> filteredOffers;
     private List<OfferRideModel> offerRideModelList;
+    OfferRideModel offerRideModel;
 //    private List<FindRideModel> findRideModelList;
     public Intent intent;
     MaterialButton btnBook;
@@ -66,15 +67,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         getFindRideExtras();
         getOfferRideData();
         bookingActivity();
-
-       btnBook.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               if (adapter.getSelected() != null){
-//                   will write code later
-               }
-           }
-       });
+        handleBookingEvent();
     }
 
     public void setDisplayText(){
@@ -89,7 +82,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName()).append(", ")
                     .append(diz).append("we found these rides for you").toString());
             btnBook.setVisibility(View.VISIBLE);
-            btnBook.setClickable(false);
+            btnBook.setClickable(true);
 
         } else{
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName())
@@ -207,9 +200,19 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     @Override
     public void onTripClick(int position) {
-        if (adapter.getSelected() != null){
-            btnBook.setVisibility(View.VISIBLE);
-            btnBook.setClickable(true);
-        }
+        offerRideModel.setChecked(true);
+
+//        if (adapter.getSelected() != null){
+//            btnBook.setVisibility(View.VISIBLE);
+//            btnBook.setClickable(true);
+//        }
     }
+    public void handleBookingEvent(){
+            btnBook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(BookingActivity.this, "Hi", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 }
