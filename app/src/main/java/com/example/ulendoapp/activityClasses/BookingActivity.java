@@ -211,8 +211,15 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
             btnBook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(BookingActivity.this, "Hi", Toast.LENGTH_SHORT).show();
+                   if (adapter.getSelected() != null){
+                       showToast(adapter.getSelected().getEmailAddress());
+                   }else{
+                       showToast("No selection");
+                   }
                 }
             });
+        }
+        private void showToast(String msg){
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
 }
