@@ -33,7 +33,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
     private OnTripClickListener onTripClickListener;
     private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel, carModelYr, carColor, driverName, email, date,encodedImage;
     private FirebaseFirestore db;
-    private int checkedPosition = 0;
+    private int checkedPosition = -1;
 
     public BookRideAdapter(ArrayList<OfferRideModel> offerRideModelList, OnTripClickListener onTripClickListener) {
         this.offerRideModelList = offerRideModelList;
@@ -76,26 +76,6 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     }
 
-//    @SuppressLint("RecyclerView")
-//    @Override
-//    public void onBindViewHolder(@NonNull BookRideViewHolder holder, int position) {
-//
-//        pickupPoint = offerRideModelList.get(position).getPickupPoint();
-//        destination = offerRideModelList.get(position).getDestination();
-//        email = offerRideModelList.get(position).getEmailAddress();
-//        pickupTime = offerRideModelList.get(position).getPickupTime();
-//        date = offerRideModelList.get(position).getPickupDate();
-//
-//        getDriverName(email, holder);
-//        getRideData(email, holder);
-//        String dateTime =new StringBuilder().append("Date: ").append(date).append(" @ ")
-//                .append(pickupTime).toString();
-//
-//        holder.dateTime.setText(dateTime);
-//        holder.tripStartPoint.setText(pickupPoint);
-//        holder.tripDestination.setText(destination);
-//
-//    }
     class BookRideViewHolder extends RecyclerView.ViewHolder{
 
 
@@ -118,7 +98,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
         }
         void bind(final OfferRideModel offerRideModel){
             if (checkedPosition == -1){
-                itemView.setBackgroundColor(Color.WHITE);
+//                itemView.setBackgroundColor(Color.WHITE);
             }else {
                 if (checkedPosition == getAdapterPosition()){
                     itemView.setBackgroundColor(Color.LTGRAY);
@@ -201,84 +181,12 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     }
     }
-    private OfferRideModel getSelected(){
+    public OfferRideModel getSelected(){
         if (checkedPosition != -1){
             return offerRideModelList.get(checkedPosition);
         }
         return null;
     }
-
-      /* public void getCarDetailData() {
-        db.collection("Find Ride")
-                .whereEqualTo("Email Address", getEmail())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        progressDialog.dismiss();
-                        carDetailModelList.clear();
-                        for (DocumentSnapshot documentSnapshot: task.getResult()){
-
-                            String destination = documentSnapshot.getString("Destination");
-                            String pickupPoint = documentSnapshot.getString("Pickup Point");
-                            String pickupTime = documentSnapshot.getString("Pickup Time");
-                            String luggage = documentSnapshot.getString("Luggage");
-                            String bookedSeats = documentSnapshot.getString("Booked Seats");
-                            String latLng = String.valueOf(documentSnapshot.getString("Location"));
-
-                            DriverVehiclesModel carDetail = new DriverVehiclesModel();
-
-                            carDetailModelList.add(carDetail);
-
-                            getFilteredRides();
-                            Toast.makeText(BookingActivity.this, carDetailModelList.get(0).getVehicleBrand(), Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(BookingActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-*/
-
-//    public void getRideData(String email) {
-//        db.collection("Driver Vehicles")
-//                .whereEqualTo("Email Address", email)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-////                        progressDialog.dismiss();
-//                        for (DocumentSnapshot documentSnapshot: task.getResult()){
-//
-//                            String vBrand = documentSnapshot.getString("Vehicle Brand");
-//                            String vModel = documentSnapshot.getString("Vehicle Model");
-//                            String vModelYr = documentSnapshot.getString("Model Year");
-//                            String vColor = documentSnapshot.getString("Vehicle Color");
-//
-//                            DriverVehiclesModel carDetail = new DriverVehiclesModel(vBrand, vModel, vModelYr, vColor);
-//                            String car = new StringBuilder().append(vBrand).append(" ").append(vModel).append(" ")
-//                                    .append(vModelYr).append(" ").append(vColor).toString();
-//
-//
-//                        }
-//
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//
-//                    }
-//                });
-//    }
-
-
 
     @Override
     public int getItemCount() {

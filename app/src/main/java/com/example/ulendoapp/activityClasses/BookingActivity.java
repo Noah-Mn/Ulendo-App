@@ -67,7 +67,14 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         getOfferRideData();
         bookingActivity();
 
-        btnBook.setVisibility(View.GONE);
+       btnBook.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               if (adapter.getSelected() != null){
+//                   will write code later
+               }
+           }
+       });
     }
 
     public void setDisplayText(){
@@ -182,7 +189,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
         }
 
-        BookRideAdapter adapter = new BookRideAdapter(filteredOffers, BookingActivity.this);
+        BookRideAdapter adapter = new BookRideAdapter(filteredOffers,this);
         recyclerViewTrip.setAdapter(adapter);
         recyclerViewTrip.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         setDisplayText();
@@ -200,7 +207,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     @Override
     public void onTripClick(int position) {
-        if (position >= 0){
+        if (adapter.getSelected() != null){
             btnBook.setVisibility(View.VISIBLE);
             btnBook.setClickable(true);
         }
