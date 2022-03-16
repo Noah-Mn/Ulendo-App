@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.adapters.BookRideAdapter;
+import com.example.ulendoapp.databinding.ActivityBookingBinding;
 import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,10 +39,10 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     public List<String> driverEmail;
-
+    private BookRideAdapter adapter;
     private final String TAG = "tag";
     public String dest, pTime, noPeople, pDate, pPoint, luggage;
-    public List<OfferRideModel> filteredOffers;
+    public ArrayList<OfferRideModel> filteredOffers;
     private List<OfferRideModel> offerRideModelList;
 //    private List<FindRideModel> findRideModelList;
     public Intent intent;
@@ -174,8 +175,6 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
                 String email = offerRideModelList.get(i).getEmailAddress();
                 String pickupTime = offerRideModelList.get(i).getPickupTime();
                 String pickupDate = offerRideModelList.get(i).getPickupDate();
-
-
                 OfferRideModel newOffer = new OfferRideModel(pickupPoint, destination, pickupTime, pickupDate, email);
 
                 filteredOffers.add(newOffer);
@@ -202,7 +201,8 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
     @Override
     public void onTripClick(int position) {
         if (position >= 0){
-           btnBook.setClickable(true);
+            btnBook.setVisibility(View.VISIBLE);
+            btnBook.setClickable(true);
         }
     }
 }

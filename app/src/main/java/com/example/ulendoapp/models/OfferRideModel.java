@@ -1,9 +1,12 @@
 package com.example.ulendoapp.models;
 
-public class OfferRideModel {
+import java.io.Serializable;
+
+public class OfferRideModel implements Serializable {
     public String emailAddress, pickupPoint, destination, pickupTime, pickupDate,
             numberOfSeats, bookedSeats, luggage, vehicleModel, state, specialInstructions, currDate;
     public double latitude, longitude;
+    private boolean isChecked = false;
 
     public OfferRideModel(double latitude, double longitude, String pickupPoint, String destination, String pickupTime,
                           String numberOfSeats, String bookedSeats, String luggage, String state, String pickupDate, String currDate, String email) {
@@ -47,6 +50,14 @@ public class OfferRideModel {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     public String getPickupDate() {

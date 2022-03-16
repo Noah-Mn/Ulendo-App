@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ulendoapp.adapters.BookRideAdapter;
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.models.OfferRideModel;
 import com.google.android.material.button.MaterialButton;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -18,6 +19,7 @@ public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.
     public TextView driverName, carDetail, tripStartPoint, tripDestination, dateTime;
     public CardView tripLayout;
     public MaterialButton btnBook;
+    BookRideAdapter.OnTripClickListener onTripClickListener;
 
     public BookRideViewHolder(@NonNull View itemView, BookRideAdapter.OnTripClickListener onTripClickListener) {
         super(itemView);
@@ -30,7 +32,14 @@ public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.
         btnBook = itemView.findViewById(R.id.trip_book_btn);
         driverProfilePic = itemView.findViewById(R.id.trip_driver_profile_image);
         itemView.setOnClickListener(this);
-        onTripClickListener.onTripClick(getAdapterPosition());
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 
 //
 //        tripLayout = itemView.findViewById(R.id.trip_layout);
@@ -38,13 +47,12 @@ public class BookRideViewHolder extends RecyclerView.ViewHolder implements View.
 //        itemView.setOnClickListener(this);
 
     }
+    void clickEvent(){
+        tripLayout.setOnClickListener(view -> onTripClickListener.onTripClick(getAdapterPosition()));
+    }
 
     @Override
     public void onClick(View view) {
-      if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
-      else {
-          btnBook.setClickable(true);
-      }
-
+        onTripClickListener.onTripClick(getAdapterPosition());
     }
 }
