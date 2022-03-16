@@ -97,16 +97,13 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
             driverProfilePic = itemView.findViewById(R.id.trip_driver_profile_image);
         }
         void bind(final OfferRideModel offerRideModel){
-            if (checkedPosition == -1){
-//                itemView.setBackgroundColor(Color.WHITE);
-            }else {
+
                 if (checkedPosition == getAdapterPosition()){
                     itemView.setBackgroundColor(Color.LTGRAY);
                 }else {
                     itemView.setBackgroundColor(Color.WHITE);
                 }
 
-            }
             getRideData(email);
             getDriverName(email);
             itemView.setOnClickListener(new View.OnClickListener() {

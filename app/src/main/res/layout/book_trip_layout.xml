@@ -43,9 +43,9 @@
                             android:id="@+id/name_of_driver"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=" Noah"
+                            android:text=" "
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:textSize="16dp"
+                            android:textSize="14dp"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
 
@@ -63,6 +63,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="date_time"
+                            android:textSize="@dimen/_10ssp"
                             android:textColorHighlight="@color/quantum_googgreen"
                             android:layout_gravity="bottom"
                             android:textColor="@color/black"
@@ -97,8 +98,8 @@
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/trip_driver_profile_image"
-                            android:layout_width="@dimen/_65sdp"
-                            android:layout_height="@dimen/_65sdp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
                             android:layout_marginStart="5dp"
                             android:src="@mipmap/ic_launcher"
                             android:background="@drawable/background_image"
@@ -122,8 +123,8 @@
                             android:layout_marginTop="2dp">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="@dimen/_12sdp"
+                                android:layout_height="@dimen/_12sdp"
                                 android:src="@drawable/car_24" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -131,7 +132,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
-                                android:text="Toyota"
+                                android:text=" "
+                                android:textSize="@dimen/_11ssp"
                                 android:layout_gravity="center"
                                 android:fontFamily="@font/cambo"/> />
 
@@ -146,14 +148,15 @@
                             android:layout_marginStart="20dp">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="@dimen/_12sdp"
+                                android:layout_height="@dimen/_12sdp"
                                 android:src="@drawable/origin_24" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/book_trip_starting_point"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="@dimen/_10ssp"
                                 android:text="Starting point" />
 
                         </LinearLayout>
@@ -167,14 +170,15 @@
                             android:layout_marginStart="20dp">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="@dimen/_12sdp"
+                                android:layout_height="@dimen/_12sdp"
                                 android:src="@drawable/end_24" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/book_trip_end_point"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="@dimen/_10ssp"
                                 android:text="Ending point" />
 
                         </LinearLayout>
