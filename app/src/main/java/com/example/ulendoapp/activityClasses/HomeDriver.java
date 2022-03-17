@@ -36,6 +36,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.fragments.MyRides;
 import com.example.ulendoapp.fragments.driver_groups;
 import com.example.ulendoapp.fragments.driver_my_payments;
 import com.example.ulendoapp.fragments.driver_my_rides;
@@ -527,7 +528,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
                     case R.id.driver_rides:
 
-                        replaceFragments(new driver_my_rides());
+                        replaceFragments(new MyRides());
                         break;
 
                     case R.id.driver_payments:

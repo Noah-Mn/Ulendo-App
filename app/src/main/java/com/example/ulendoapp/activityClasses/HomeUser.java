@@ -41,7 +41,7 @@ import com.example.ulendoapp.R;
 import com.example.ulendoapp.adapters.CustomAdapter;
 import com.example.ulendoapp.fragments.My_Favorites;
 import com.example.ulendoapp.fragments.My_Payments;
-import com.example.ulendoapp.fragments.UserMyRides;
+import com.example.ulendoapp.fragments.MyRides;
 import com.example.ulendoapp.fragments.fragment_driver_home;
 import com.example.ulendoapp.fragments.fragment_home;
 import com.example.ulendoapp.fragments.fragment_notifications;
@@ -414,7 +414,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
                 switch (item.getItemId()) {
                     case R.id.myRidesItem:
-                        replaceFragments(new UserMyRides());
+                        replaceFragments(new MyRides());
                         break;
                     case R.id.myFavoritesItem:
                         replaceFragments(new My_Favorites());

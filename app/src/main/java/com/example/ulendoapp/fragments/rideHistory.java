@@ -83,8 +83,8 @@ public class rideHistory extends Fragment implements UserRideAdapter.OnUserClick
         userList.add(user);
 
         UserRideAdapter adapter = new UserRideAdapter(userList, rideHistory.this);
-        recyclerViewCard.setAdapter(adapter);
-        recyclerViewCard.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerViewCard.setAdapter(adapter);
+//        recyclerViewCard.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return true;
     }

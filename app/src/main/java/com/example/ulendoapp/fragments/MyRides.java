@@ -1,5 +1,6 @@
 package com.example.ulendoapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +12,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.activityClasses.AddNewRide;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link UserMyRides#newInstance} factory method to
+ * Use the {@link MyRides#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserMyRides extends Fragment{
+public class MyRides extends Fragment{
 
-    private ImageView backBtn;
+    private FloatingActionButton addRide;
     Chip currentRides, ridesHistory;
 
 
@@ -34,7 +37,7 @@ public class UserMyRides extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    public UserMyRides() {
+    public MyRides() {
         // Required empty public constructor
     }
 
@@ -47,8 +50,8 @@ public class UserMyRides extends Fragment{
      * @return A new instance of fragment UserMyRides.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserMyRides newInstance(String param1, String param2) {
-        UserMyRides fragment = new UserMyRides();
+    public static MyRides newInstance(String param1, String param2) {
+        MyRides fragment = new MyRides();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -82,9 +85,12 @@ public class UserMyRides extends Fragment{
     private void addFragment(View view){
         currentRides = view.findViewById(R.id.currentRideChip);
         ridesHistory = view.findViewById(R.id.historyChip);
+        addRide = view.findViewById(R.id.add_ride_btn);
         assert getFragmentManager() != null;
         currentRides.setOnClickListener(view1 -> replaceFragments(new currentRides()));
         ridesHistory.setOnClickListener(view1 -> replaceFragments(new rideHistory()));
+        Intent intent = new Intent(getActivity(), AddNewRide.class);
+        addRide.setOnClickListener(view1 -> startActivity(intent));
     }
     private void replaceFragments(Fragment fragment){
         FragmentManager fragmentManager = getChildFragmentManager();
