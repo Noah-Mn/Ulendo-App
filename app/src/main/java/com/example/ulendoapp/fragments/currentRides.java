@@ -81,8 +81,6 @@ public class currentRides extends Fragment {
         db = FirebaseFirestore.getInstance();
         textView = view.findViewById(R.id.show_text);
         getData();
-
-
         return view;
     }
 

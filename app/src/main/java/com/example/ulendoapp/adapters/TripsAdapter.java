@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHolder> {
-    private ArrayList<TripModel> tripModelArrayList;
+    private List<TripModel> tripModelList;
     private BookRideAdapter.OnTripClickListener onTripClickListener;
     String startingPoint, destination, time, date, status, email;
 
-    public TripsAdapter(ArrayList<TripModel> tripModelArrayList, BookRideAdapter.OnTripClickListener onTripClickListener, String startingPoint, String destination, String time, String date, String status, String email) {
-        this.tripModelArrayList = tripModelArrayList;
+    public TripsAdapter(List<TripModel> tripModelList, BookRideAdapter.OnTripClickListener onTripClickListener, String startingPoint, String destination, String time, String date, String status, String email) {
+        this.tripModelList = tripModelList;
         this.onTripClickListener = onTripClickListener;
         this.startingPoint = startingPoint;
         this.destination = destination;
@@ -39,13 +39,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
     }
 
     public TripsAdapter(List<TripModel> tripModelList) {
-    }
-
-    public void setTrips(ArrayList<TripModel> tripModelArrayList) {
-        this.tripModelArrayList = new ArrayList<>();
-        this.tripModelArrayList = tripModelArrayList;
-        notifyDataSetChanged();
-
+        this.tripModelList = tripModelList;
     }
 
     @NonNull
@@ -61,12 +55,12 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
 
     @Override
     public void onBindViewHolder(@NonNull TripViewHolder holder, int position) {
-        holder.setTripData(tripModelArrayList.get(position));
+        holder.setTripData(tripModelList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return tripModelArrayList.size();
+        return tripModelList.size();
     }
 
 

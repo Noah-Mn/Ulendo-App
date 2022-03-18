@@ -84,12 +84,6 @@ public class rideHistory extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        getData();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -99,10 +93,7 @@ public class rideHistory extends Fragment {
         userRideHistory = view.findViewById(R.id.user_ride_history);
         db = FirebaseFirestore.getInstance();
         textView = view.findViewById(R.id.show_text);
-        return view;
-    }
 
-    public void getData(){
         db.collection("MyTrips")
                 .whereEqualTo("Email Address", getEmail())
                 .whereEqualTo("Status","Current")
@@ -126,6 +117,7 @@ public class rideHistory extends Fragment {
                         }
                         if (tripModelList.size() > 0){
                             TripsAdapter adapter = new TripsAdapter(tripModelList);
+                            userRideHistory.setLayoutManager(new LinearLayoutManager(this.getContext()));
                             userRideHistory.setAdapter(adapter);
                             userRideHistory.setVisibility(View.VISIBLE);
                         }
@@ -137,7 +129,10 @@ public class rideHistory extends Fragment {
                         Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
                     }
                 });
+        return view;
     }
+
+
     private String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
