@@ -22,19 +22,23 @@
             app:layout_constraintTop_toTopOf="parent"/>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/show_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-        <!-- TODO: Update blank fragment layout -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/user_ride_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:visibility="gone"
-            android:text="@string/hello_blank_fragment"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="@dimen/_20sdp"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/show_text"
+            android:layout_marginTop="@dimen/_10sdp"/>
 
     </FrameLayout>
 

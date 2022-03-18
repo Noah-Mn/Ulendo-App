@@ -1,4 +1,4 @@
-package com.example.ulendoapp.activityClasses;
+package com.example.ulendoapp.models;
 
 public class DriverVehiclesModel {
     public String  vehicleBrand, vehicleModel, vehicleModelYr, vehicleColor, vehicleBookingType, vehicleLicensePlate, vehicleLicenseId,

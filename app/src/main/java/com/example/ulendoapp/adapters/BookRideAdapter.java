@@ -1,6 +1,5 @@
 package com.example.ulendoapp.adapters;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -14,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ulendoapp.activityClasses.DriverVehiclesModel;
+import com.example.ulendoapp.models.DriverVehiclesModel;
 import com.example.ulendoapp.databinding.BookTripLayoutBinding;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.example.ulendoapp.R;
@@ -46,7 +45,6 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
         this.offerRideModelList = offerRideModelLists;
         notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override

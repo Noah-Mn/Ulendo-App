@@ -42,19 +42,45 @@
                     android:layout_weight="1"
                     android:gravity="left">
 
-                    <TextView
-                        android:id="@+id/originDetails"
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:layout_marginStart="20dp"
-                        android:text="Origin details" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/originDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="20dp"
+                            android:text="Origin" />
 
-                    <TextView
-                        android:id="@+id/destinationDetails"
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:layout_marginStart="20dp"
-                        android:text="destination details" />
+                        <TextView
+                            android:id="@+id/origin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="20dp"
+                            android:text=" " />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/destinationDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="20dp"
+                            android:text="Destination" />
+
+                        <TextView
+                            android:id="@+id/destination"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="20dp"
+                            android:text=" " />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <ImageButton
@@ -62,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:background="@null"
                     android:src="@drawable/ic_baseline_more_horiz_24"
                     tools:ignore="SpeakableTextPresentCheck" />
@@ -132,6 +158,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:orientation="vertical"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:paddingEnd="2dp"
 
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -144,10 +171,11 @@
                 <TextView
                     android:id="@+id/dateNtime"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:gravity="right"
                     android:paddingTop="5dp"
+                    android:textSize="@dimen/_10ssp"
                     android:paddingEnd="10dp"
                     android:text="date and time" />
 

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.activityClasses.DriverMyVehicles;
+import com.example.ulendoapp.adapters.TripsAdapter;
 import com.example.ulendoapp.adapters.UserAdapter;
 import com.example.ulendoapp.adapters.UserRideAdapter;
 import com.example.ulendoapp.adapters.VehicleAdapter;
@@ -33,10 +34,8 @@ import java.util.List;
  * Use the {@link rideHistory#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class rideHistory extends Fragment implements UserRideAdapter.OnUserClickListener, UserAdapter.OnUserOnlineClickListener{
+public class rideHistory extends Fragment {
     private RecyclerView userRideHistory;
-    private List<UserModel> userList;
-    private UserModel user;
     FirebaseAuth auth;
     FirebaseUser currentUser;
     FirebaseFirestore db;
@@ -77,6 +76,7 @@ public class rideHistory extends Fragment implements UserRideAdapter.OnUserClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -84,43 +84,28 @@ public class rideHistory extends Fragment implements UserRideAdapter.OnUserClick
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        getData();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ride_history, container, false);
-        userList = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         userRideHistory = view.findViewById(R.id.user_ride_history);
         db = FirebaseFirestore.getInstance();
         textView = view.findViewById(R.id.show_text);
-        getData();
-        userRide();
         return view;
     }
-    public boolean userRide() {
-        user = new UserModel("passenger", "lonjezo", "banthapo", "088889");
-        userList.add(user);
 
-//        UserRideAdapter adapter = new UserRideAdapter(userList, rideHistory.this);
-//        recyclerViewCard.setAdapter(adapter);
-//        recyclerViewCard.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        return true;
-    }
-
-    @Override
-    public void onUserOnlineClick(int adapterPosition) {
-
-    }
-
-    @Override
-    public void onUserClick(int position) {
-
-    }
     public void getData(){
         db.collection("MyTrips")
                 .whereEqualTo("Email Address", getEmail())
+                .whereEqualTo("Status","Current")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null){
@@ -137,8 +122,11 @@ public class rideHistory extends Fragment implements UserRideAdapter.OnUserClick
                             tripModel.setTime(time);
                             tripModel.setDate(date);
                             tripModelList.add(tripModel);
+
                         }
                         if (tripModelList.size() > 0){
+                            TripsAdapter adapter = new TripsAdapter(tripModelList);
+                            userRideHistory.setAdapter(adapter);
                             userRideHistory.setVisibility(View.VISIBLE);
                         }
                         else {
