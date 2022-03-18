@@ -3,6 +3,8 @@ package com.example.ulendoapp.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.adapters.TripsAdapter;
 import com.example.ulendoapp.models.TripModel;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +33,7 @@ public class currentRides extends Fragment {
     FirebaseAuth auth;
     FirebaseUser currentUser;
     MaterialTextView textView;
+    RecyclerView userRideHistory;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,18 +84,16 @@ public class currentRides extends Fragment {
         currentUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         textView = view.findViewById(R.id.show_text);
-        getData();
-        return view;
-    }
+        userRideHistory = view.findViewById(R.id.user_ride_history);
 
-    public void getData(){
         db.collection("MyTrips")
                 .whereEqualTo("Email Address", getEmail())
+                .whereEqualTo("Status","Current")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null){
                         textVisible(false);
-                        List<TripModel> tripModelList = new ArrayList<>();
+                        List<TripModel>  tripModelList = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()){
                             TripModel tripModel = new TripModel();
                             String startPoint = document.getString("Starting Point");
@@ -103,9 +105,13 @@ public class currentRides extends Fragment {
                             tripModel.setTime(time);
                             tripModel.setDate(date);
                             tripModelList.add(tripModel);
+
                         }
                         if (tripModelList.size() > 0){
-
+                            TripsAdapter adapter = new TripsAdapter(tripModelList);
+                            userRideHistory.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                            userRideHistory.setAdapter(adapter);
+                            userRideHistory.setVisibility(View.VISIBLE);
                         }
                         else {
                             Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
@@ -115,6 +121,7 @@ public class currentRides extends Fragment {
                         Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
                     }
                 });
+        return view;
     }
 
     private String getEmail(){

@@ -35,9 +35,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
         this.email = email;
     }
 
-    public TripsAdapter(List<TripModel> tripModelList, rideHistory rideHistory) {
-    }
-
     public TripsAdapter(List<TripModel> tripModelList) {
         this.tripModelList = tripModelList;
     }

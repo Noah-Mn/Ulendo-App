@@ -21,7 +21,7 @@
 
      <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/show_text"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,10 +30,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/user_ride_history"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:visibility="gone"
-            android:text="@string/hello_blank_fragment"/>
+            android:layout_height="match_parent"
+            android:padding="@dimen/_5sdp"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:visibility="gone"/>
 
     </FrameLayout>
 

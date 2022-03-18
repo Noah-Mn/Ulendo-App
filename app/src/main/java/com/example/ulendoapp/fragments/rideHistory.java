@@ -96,7 +96,7 @@ public class rideHistory extends Fragment {
 
         db.collection("MyTrips")
                 .whereEqualTo("Email Address", getEmail())
-                .whereEqualTo("Status","Current")
+                .whereEqualTo("Status","Recent")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null){
