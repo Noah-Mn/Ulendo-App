@@ -91,6 +91,7 @@ public class fragment_offer_rides extends Fragment{
             @Override
             public void onClick(View view) {
                 addRide();
+                addGroup();
                 Log.d(TAG, dest + " " + pPoint);
                 Log.d(TAG, latitude + " " + longitude);
             }
@@ -237,7 +238,30 @@ public class fragment_offer_rides extends Fragment{
                     }
                 });
 
+    }
+    private void addGroup(){
+        db = FirebaseFirestore.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        Map<String, Object> group= new HashMap<>();
 
+        group.put("Email Address", getEmail());
+        group.put("Pickup Point", pPoint);
+        group.put("Destination", dest);
+
+        db.collection("Groups")
+                .add(group)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getContext(), "A group for your ride has been created", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Failed to create group", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }
