@@ -26,6 +26,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_below="@id/text_group">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/black"
+            android:text="You don't belong to any group"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/group_list"

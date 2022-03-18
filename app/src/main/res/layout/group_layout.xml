@@ -43,7 +43,7 @@
             android:textStyle="bold"
             android:layout_toEndOf="@id/start_point"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="to "/>
+            android:text=" to "/>
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/destination_point"
             android:layout_width="wrap_content"

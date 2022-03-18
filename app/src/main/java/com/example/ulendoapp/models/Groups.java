@@ -9,6 +9,10 @@ public class Groups {
         this.memberName = memberName;
     }
 
+    public Groups() {
+
+    }
+
     public String getStartingPoint() {
         return startingPoint;
     }

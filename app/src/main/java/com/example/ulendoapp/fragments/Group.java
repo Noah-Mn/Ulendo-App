@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.adapters.GroupsAdapter;
 import com.example.ulendoapp.adapters.TripsAdapter;
+import com.example.ulendoapp.models.Groups;
 import com.example.ulendoapp.models.TripModel;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +30,7 @@ public class Group extends Fragment {
     FirebaseAuth auth;
     FirebaseUser currentUser;
     FirebaseFirestore db;
+    MaterialTextView textView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,43 +44,40 @@ public class Group extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_group, container, false);
         groupList = view.findViewById(R.id.group_list);
+        textView = view.findViewById(R.id.textView);
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        db.collection("MyTrips")
+        db.collection("Groups")
                 .whereEqualTo("Email Address", getEmail())
-                .whereEqualTo("Status","Current")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null){
                         textVisible(false);
-                        List<TripModel> tripModelList = new ArrayList<>();
+                        List<Groups> groupsList = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()){
-                            TripModel tripModel = new TripModel();
-                            String startPoint = document.getString("Starting Point");
+                            Groups groups = new Groups();
+                            String startPoint = document.getString("Pickup Point");
                             String destination = document.getString("Destination");
-                            String time = document.getString("Time");
-                            String date = document.getString("Date");
-                            tripModel.setStartPoint(startPoint);
-                            tripModel.setDestination(destination);
-                            tripModel.setTime(time);
-                            tripModel.setDate(date);
-                            tripModelList.add(tripModel);
+
+                            groups.setStartingPoint(startPoint);
+                            groups.setDestination(destination);
+                            groupsList.add(groups);
 
                         }
-                        if (tripModelList.size() > 0){
-                            TripsAdapter adapter = new TripsAdapter(tripModelList);
-                            userRideHistory.setLayoutManager(new LinearLayoutManager(this.getContext()));
-                            userRideHistory.setAdapter(adapter);
-                            userRideHistory.setVisibility(View.VISIBLE);
+                        if (groupsList.size() > 0){
+                            GroupsAdapter adapter = new GroupsAdapter(groupsList);
+                            groupList.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                            groupList.setAdapter(adapter);
+                            groupList.setVisibility(View.VISIBLE);
                         }
                         else {
-                            Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
+                           textVisible(true);
                         }
                     }
                     else {
-                        Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Failed to get groups", Toast.LENGTH_SHORT).show();
                     }
                 });
         return view;
