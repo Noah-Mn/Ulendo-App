@@ -14,6 +14,9 @@ import android.widget.Toast;
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.adapters.TripsAdapter;
 import com.example.ulendoapp.models.TripModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -21,6 +24,9 @@ import java.util.List;
 
 public class Group extends Fragment {
     RecyclerView groupList;
+    FirebaseAuth auth;
+    FirebaseUser currentUser;
+    FirebaseFirestore db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,9 @@ public class Group extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_group, container, false);
         groupList = view.findViewById(R.id.group_list);
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
 
         db.collection("MyTrips")
                 .whereEqualTo("Email Address", getEmail())
