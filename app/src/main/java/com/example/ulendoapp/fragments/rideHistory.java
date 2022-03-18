@@ -9,11 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.activityClasses.DriverMyVehicles;
 import com.example.ulendoapp.adapters.UserAdapter;
 import com.example.ulendoapp.adapters.UserRideAdapter;
+import com.example.ulendoapp.adapters.VehicleAdapter;
+import com.example.ulendoapp.models.TripModel;
 import com.example.ulendoapp.models.UserModel;
+import com.example.ulendoapp.models.Vehicles;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +34,14 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class rideHistory extends Fragment implements UserRideAdapter.OnUserClickListener, UserAdapter.OnUserOnlineClickListener{
-    private RecyclerView recyclerViewCard;
+    private RecyclerView userRideHistory;
     private List<UserModel> userList;
     private UserModel user;
+    FirebaseAuth auth;
+    FirebaseUser currentUser;
+    FirebaseFirestore db;
+    MaterialTextView textView;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,15 +89,20 @@ public class rideHistory extends Fragment implements UserRideAdapter.OnUserClick
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ride_history, container, false);
         userList = new ArrayList<>();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        userRideHistory = view.findViewById(R.id.user_ride_history);
+        db = FirebaseFirestore.getInstance();
+        textView = view.findViewById(R.id.show_text);
+        getData();
         userRide();
-//        recyclerViewCard = view.findViewById(R.id.user_ride_history);
         return view;
     }
     public boolean userRide() {
         user = new UserModel("passenger", "lonjezo", "banthapo", "088889");
         userList.add(user);
 
-        UserRideAdapter adapter = new UserRideAdapter(userList, rideHistory.this);
+//        UserRideAdapter adapter = new UserRideAdapter(userList, rideHistory.this);
 //        recyclerViewCard.setAdapter(adapter);
 //        recyclerViewCard.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -97,5 +117,49 @@ public class rideHistory extends Fragment implements UserRideAdapter.OnUserClick
     @Override
     public void onUserClick(int position) {
 
+    }
+    public void getData(){
+        db.collection("MyTrips")
+                .whereEqualTo("Email Address", getEmail())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null){
+                        textVisible(false);
+                        List<TripModel>  tripModelList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()){
+                            TripModel tripModel = new TripModel();
+                            String startPoint = document.getString("Starting Point");
+                            String destination = document.getString("Destination");
+                            String time = document.getString("Time");
+                            String date = document.getString("Date");
+                            tripModel.setStartPoint(startPoint);
+                            tripModel.setDestination(destination);
+                            tripModel.setTime(time);
+                            tripModel.setDate(date);
+                            tripModelList.add(tripModel);
+                        }
+                        if (tripModelList.size() > 0){
+                            userRideHistory.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    private String getEmail(){
+        String emailAddress;
+        emailAddress = currentUser.getEmail();
+        return emailAddress;
+    }
+    private void textVisible(Boolean isVisible){
+        if (isVisible){
+            textView.setVisibility(View.VISIBLE);
+        }else {
+            textView.setVisibility(View.INVISIBLE);
+        }
     }
 }
