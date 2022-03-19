@@ -2,11 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:icon="@drawable/ic_baseline_read_more_24" >
 
-        <item android:id="@+id/menu_add_to_itinerary"
-            android:title="Details"
-            android:icon="@drawable/ic_baseline_read_more_24"/>
+        <item android:id="@+id/menu_finished"
+            android:title="Mark as finished"/>
+
+        <item android:id="@+id/menu_favourite"
+            android:title="Mark as favourite"/>
 
         <item android:id="@+id/menu_remove_from_itinerary"
-            android:title="Cancel Trip"
-            android:icon="@drawable/ic_baseline_cancel_24"/>
+            android:title="Cancel Trip"/>
+
 </menu>
