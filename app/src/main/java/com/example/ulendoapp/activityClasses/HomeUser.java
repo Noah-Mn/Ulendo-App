@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.adapters.CustomAdapter;
+import com.example.ulendoapp.fragments.Group;
 import com.example.ulendoapp.fragments.My_Favorites;
 import com.example.ulendoapp.fragments.My_Payments;
 import com.example.ulendoapp.fragments.MyRides;
@@ -432,6 +433,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
                     case R.id.my_chats:
                         HomeUser.this.startActivity(new Intent(HomeUser.this, PassengerChats.class));
+                        break;
+
+                    case R.id.my_groups:
+                        replaceFragments(new Group());
                         break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);

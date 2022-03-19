@@ -122,7 +122,7 @@ public class rideHistory extends Fragment {
                             userRideHistory.setVisibility(View.VISIBLE);
                         }
                         else {
-                            Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
+                            textVisible(true);
                         }
                     }
                     else {
