@@ -42,11 +42,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
     FirebaseUser currentUser;
     PreferenceManager preferenceManager;
 
-    public TripsAdapter(List<TripModel> tripModelList) {
-        this.tripModelList = tripModelList;
-
-    }
-
     public TripsAdapter(List<TripModel> tripModelList, Context context) {
         this.tripModelList = tripModelList;
         this.context = context;

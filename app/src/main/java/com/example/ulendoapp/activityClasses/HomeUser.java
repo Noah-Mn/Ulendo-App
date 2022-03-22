@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -164,6 +165,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         layout = findViewById(R.id.fragment_container_user);
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
+        toolbar.getOverflowIcon().setTint(Color.WHITE);
 
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         Toast.makeText(HomeUser.this, Constants.KEY_USER_ID, Toast.LENGTH_LONG).show();

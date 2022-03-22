@@ -23,6 +23,7 @@
                 android:id="@+id/toolbarUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/purple_700"
                 app:navigationIconTint="@color/black"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -31,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_menu_24"
-                    app:tint="@color/black"
+                    app:tint="@color/white"
                     />
 
                 <LinearLayout
@@ -56,7 +57,7 @@
                             android:paddingStart="5dp"
                             android:text="Hey"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="15dp" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -64,7 +65,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="15dp" />
 
                         <com.google.android.material.textview.MaterialTextView
@@ -73,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="!"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="15dp"/>
                     </LinearLayout>
 
@@ -84,7 +85,7 @@
                         android:layout_marginStart="40dp"
                         android:paddingStart="5dp"
                         android:text="book a ride"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="15dp"/>
 
                 </LinearLayout>
