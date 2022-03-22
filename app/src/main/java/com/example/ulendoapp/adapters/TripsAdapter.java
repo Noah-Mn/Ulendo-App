@@ -12,6 +12,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ulendoapp.R;
@@ -19,10 +20,16 @@ import com.example.ulendoapp.databinding.UserRideLayoutBinding;
 import com.example.ulendoapp.fragments.rideHistory;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.example.ulendoapp.models.TripModel;
+import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +40,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser currentUser;
+    PreferenceManager preferenceManager;
 
     public TripsAdapter(List<TripModel> tripModelList) {
         this.tripModelList = tripModelList;
@@ -57,6 +65,11 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
 
     @Override
     public void onBindViewHolder(@NonNull TripViewHolder holder, int position) {
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        preferenceManager = new PreferenceManager(context.getApplicationContext());
+
         TripModel tripModel = tripModelList.get(position);
         holder.binding.dateNtime.setText(tripModel.getDate());
         holder.binding.destination.setText(tripModel.getDestination());
@@ -73,13 +86,13 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()){
                             case R.id.menu_finished:
-                                Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show();
+                                finished();
                                 break;
                             case R.id.menu_favourite:
-                                Toast.makeText(context, "Yes there", Toast.LENGTH_SHORT).show();
+                                favourite();
                                 break;
                             case R.id.menu_remove_from_itinerary:
-                                Toast.makeText(context, "yeeeee", Toast.LENGTH_SHORT).show();
+                                canceled();
                                 break;
                             default:
                                 break;
@@ -106,6 +119,81 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
             binding = userRideLayoutBinding;
         }
 
+    }
+    public void finished(){
+        db.collection("MyTrips")
+                .whereEqualTo("Email Address", getEmail())
+                .whereEqualTo("Status","Current")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+
+                            db.collection("MyTrips")
+                                    .document(preferenceManager.getString(Constants.KEY_TRIP_ID))
+                                    .update("Status", " Finished");
+                        }
+                    }
+                    else {
+                        Toast.makeText(context.getApplicationContext(), "Failed to change status", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    public void canceled(){
+        db.collection("MyTrips")
+                .whereEqualTo("Email Address", getEmail())
+                .whereEqualTo("Status","Current")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+//                                String documentId = documentSnapshot.getId();
+                                db.collection("MyTrips")
+                                        .document(preferenceManager.getString(Constants.KEY_TRIP_ID))
+                                        .update("Status", " Canceled");
+
+
+                            }
+                        }
+                        else {
+                            Toast.makeText(context.getApplicationContext(), "Failed to change status", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
+
+    public void favourite(){
+        db.collection("MyTrips")
+                .whereEqualTo("Email Address", getEmail())
+                .whereEqualTo("Status","Current")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+//                                String documentId = documentSnapshot.getId();
+                                db.collection("MyTrips")
+                                        .document(preferenceManager.getString(Constants.KEY_TRIP_ID))
+                                        .update("Status", " Favourite");
+                            }
+                        }
+                        else {
+                            Toast.makeText(context.getApplicationContext(), "Failed to change status", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private String getEmail(){
+        String emailAddress;
+        emailAddress = currentUser.getEmail();
+        return emailAddress;
     }
 
 }

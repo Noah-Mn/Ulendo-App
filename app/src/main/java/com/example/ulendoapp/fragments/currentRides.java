@@ -114,7 +114,7 @@ public class currentRides extends Fragment {
                             userRideHistory.setVisibility(View.VISIBLE);
                         }
                         else {
-                            Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "You don't have any trips yet", Toast.LENGTH_SHORT).show();
                         }
                     }
                     else {

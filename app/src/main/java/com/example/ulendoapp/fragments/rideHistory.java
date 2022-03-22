@@ -96,7 +96,7 @@ public class rideHistory extends Fragment {
 
         db.collection("MyTrips")
                 .whereEqualTo("Email Address", getEmail())
-                .whereEqualTo("Status","Recent")
+                .whereEqualTo("Status"," Finished")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null){
@@ -116,7 +116,7 @@ public class rideHistory extends Fragment {
 
                         }
                         if (tripModelList.size() > 0){
-                            TripsAdapter adapter = new TripsAdapter(tripModelList);
+                            TripsAdapter adapter = new TripsAdapter(tripModelList, getContext());
                             userRideHistory.setLayoutManager(new LinearLayoutManager(this.getContext()));
                             userRideHistory.setAdapter(adapter);
                             userRideHistory.setVisibility(View.VISIBLE);
