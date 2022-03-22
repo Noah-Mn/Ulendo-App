@@ -57,7 +57,39 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
 
     @Override
     public void onBindViewHolder(@NonNull TripViewHolder holder, int position) {
-        holder.setTripData(tripModelList.get(position));
+        TripModel tripModel = tripModelList.get(position);
+        holder.binding.dateNtime.setText(tripModel.getDate());
+        holder.binding.destination.setText(tripModel.getDestination());
+        holder.binding.origin.setText(tripModel.getStartPoint());
+        holder.binding.tripState.setText(tripModel.getStatus());
+        holder.binding.driverInitials.setVisibility(View.GONE);
+        holder.binding.userCardViewMenuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(context, holder.binding.userCardViewMenuBtn);
+                popupMenu.inflate(R.menu.my_ride_menu);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.menu_finished:
+                                Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.menu_favourite:
+                                Toast.makeText(context, "Yes there", Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.menu_remove_from_itinerary:
+                                Toast.makeText(context, "yeeeee", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
     }
 
     @Override
@@ -72,39 +104,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
         TripViewHolder(@NonNull UserRideLayoutBinding userRideLayoutBinding) {
             super(userRideLayoutBinding.getRoot());
             binding = userRideLayoutBinding;
-        }
-        void setTripData(TripModel tripModel){
-            binding.dateNtime.setText(tripModel.getDate());
-            binding.destination.setText(tripModel.getDestination());
-            binding.origin.setText(tripModel.getStartPoint());
-            binding.tripState.setText(tripModel.getStatus());
-            binding.driverInitials.setVisibility(View.GONE);
-            binding.userCardViewMenuBtn.setOnClickListener(view -> onClick());
-            binding.getRoot();
-        }
-        void  onClick(){
-            PopupMenu popupMenu = new PopupMenu(context, binding.userCardViewMenuBtn);
-            popupMenu.inflate(R.menu.my_ride_menu);
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    switch (menuItem.getItemId()){
-                        case R.id.menu_finished:
-                            Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show();
-                            break;
-                        case R.id.menu_favourite:
-                            Toast.makeText(context, "Yes there", Toast.LENGTH_SHORT).show();
-                            break;
-                        case R.id.menu_remove_from_itinerary:
-                            Toast.makeText(context, "yeeeee", Toast.LENGTH_SHORT).show();
-                            break;
-                        default:
-                            break;
-                    }
-                    return false;
-                }
-            });
-            popupMenu.show();
         }
 
     }

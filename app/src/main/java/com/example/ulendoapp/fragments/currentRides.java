@@ -108,7 +108,7 @@ public class currentRides extends Fragment {
 
                         }
                         if (tripModelList.size() > 0){
-                            TripsAdapter adapter = new TripsAdapter(tripModelList);
+                            TripsAdapter adapter = new TripsAdapter(tripModelList, getContext());
                             userRideHistory.setLayoutManager(new LinearLayoutManager(this.getContext()));
                             userRideHistory.setAdapter(adapter);
                             userRideHistory.setVisibility(View.VISIBLE);
