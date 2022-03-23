@@ -62,47 +62,16 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <RelativeLayout
-        android:id="@+id/info_collection_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/info_display_name"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:orientation="horizontal">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:text="Name"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/info_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:text=" "
-            android:textColor="@color/primary_text" />
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/info_collection_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/info_collection_name"
+        android:layout_below="@+id/info_display_name"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_25sdp"
         android:orientation="horizontal">
 
         <com.google.android.material.textview.MaterialTextView
