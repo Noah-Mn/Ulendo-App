@@ -20,6 +20,9 @@
         android:theme="@style/Theme.UlendoApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".PersonalInfo"
+            android:exported="false" />
+        <activity
             android:name=".activityClasses.AddNewRide"
             android:exported="false" />
         <activity
