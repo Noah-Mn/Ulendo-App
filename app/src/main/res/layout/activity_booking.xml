@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    android:background="@color/primary"
     tools:context=".activityClasses.BookingActivity">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/display_name"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:text="Noah "
-        android:textSize="@dimen/_11ssp"
-        android:textColor="@color/white"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text=" "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,25 +20,20 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/booking_trip_lists"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:splitMotionEvents="false"
-        android:overScrollMode="ifContentScrolls"
-        android:background="@drawable/background_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/trip_book_btn"
         app:layout_constraintTop_toBottomOf="@+id/display_name" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/trip_book_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
         android:text="Book Now"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

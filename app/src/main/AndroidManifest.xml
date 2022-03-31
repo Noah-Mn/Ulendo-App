@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ulendoapp"
-    android:exported="true">
+    android:exported="true" >
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,12 +18,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UlendoApp"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true" >
         <activity
             android:name=".PersonalInfo"
             android:exported="false" />
         <activity
             android:name=".activityClasses.AddNewRide"
+            android:exported="false" />
+        <activity
+            android:name=".activityClasses.BookingRide"
             android:exported="false" />
         <activity
             android:name=".activityClasses.DriverMyVehicles"
@@ -122,7 +125,7 @@
             android:exported="true" />
         <activity
             android:name=".activityClasses.MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -132,7 +135,7 @@
 
         <service
             android:name=".firebase.MessagingService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

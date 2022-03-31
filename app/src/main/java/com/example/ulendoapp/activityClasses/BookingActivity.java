@@ -2,21 +2,19 @@ package com.example.ulendoapp.activityClasses;
 
 import static com.example.ulendoapp.activityClasses.HomeUser.userModel;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.adapters.BookRideAdapter;
-import com.example.ulendoapp.databinding.ActivityBookingBinding;
-import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,7 +42,6 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
     public String dest, pTime, noPeople, pDate, pPoint, luggage;
     public ArrayList<OfferRideModel> filteredOffers;
     private List<OfferRideModel> offerRideModelList;
-    OfferRideModel offerRideModel;
 //    private List<FindRideModel> findRideModelList;
     public Intent intent;
     MaterialButton btnBook;
@@ -67,7 +64,8 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         getFindRideExtras();
         getOfferRideData();
         bookingActivity();
-        handleBookingEvent();
+
+        btnBook.setVisibility(View.GONE);
     }
 
     public void setDisplayText(){
@@ -82,7 +80,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName()).append(", ")
                     .append(diz).append("we found these rides for you").toString());
             btnBook.setVisibility(View.VISIBLE);
-            btnBook.setClickable(true);
+            btnBook.setClickable(false);
 
         } else{
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName())
@@ -110,7 +108,6 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
 //        Toast.makeText(BookingActivity.this, "dead brooo", Toast.LENGTH_SHORT).show();
     }
-
 
     public void getOfferRideData(){
         db.collection("Offer Ride")
@@ -163,8 +160,6 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     }
 
-
-
     public void getFilteredRides(){
         getFindRideExtras();
         filteredOffers = new ArrayList<>();
@@ -182,15 +177,13 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
         }
 
-        BookRideAdapter adapter = new BookRideAdapter(filteredOffers,this);
+        BookRideAdapter adapter = new BookRideAdapter(filteredOffers, BookingActivity.this);
         recyclerViewTrip.setAdapter(adapter);
         recyclerViewTrip.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         setDisplayText();
 
         Toast.makeText(BookingActivity.this,  "  damn  "+ filteredOffers.size(), Toast.LENGTH_SHORT).show();
     }
-
-
 
     public String getEmail(){
         String emailAddress;
@@ -200,26 +193,11 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     @Override
     public void onTripClick(int position) {
-        offerRideModel.setChecked(true);
-
-//        if (adapter.getSelected() != null){
-//            btnBook.setVisibility(View.VISIBLE);
-//            btnBook.setClickable(true);
-//        }
+        if (position >= 0){
+            BookingActivity.this.startActivity(new Intent(BookingActivity.this, BookingRide.class));
+            Toast.makeText(BookingActivity.this,  "  damn  "+ filteredOffers.size(), Toast.LENGTH_SHORT).show();
+            btnBook.setVisibility(View.VISIBLE);
+            btnBook.setClickable(true);
+        }
     }
-    public void handleBookingEvent(){
-            btnBook.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                   if (adapter.getSelected() != null){
-                       showToast(adapter.getSelected().getEmailAddress());
-                   }else{
-                       showToast("No selection");
-                   }
-                }
-            });
-        }
-        private void showToast(String msg){
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        }
 }

@@ -13,10 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ulendoapp.models.DriverVehiclesModel;
-import com.example.ulendoapp.databinding.BookTripLayoutBinding;
-import com.example.ulendoapp.models.OfferRideModel;
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.databinding.BookTripLayoutBinding;
+import com.example.ulendoapp.models.DriverVehiclesModel;
+import com.example.ulendoapp.models.OfferRideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -27,14 +27,15 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
-public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRideViewHolder>{
+public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRideViewHolder> implements View.OnClickListener{
     private ArrayList<OfferRideModel> offerRideModelList;
     private OnTripClickListener onTripClickListener;
-    private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel, carModelYr, carColor, driverName, email, date,encodedImage;
+    private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel,
+            carModelYr, carColor, driverName, email, date,encodedImage;
     private FirebaseFirestore db;
-    private int checkedPosition = -1;
+    private int checkedPosition = 0;
 
-    public BookRideAdapter(ArrayList<OfferRideModel> offerRideModelList, OnTripClickListener onTripClickListener) {
+    public BookRideAdapter(ArrayList<OfferRideModel> offerRideModelList, BookRideAdapter.OnTripClickListener onTripClickListener) {
         this.offerRideModelList = offerRideModelList;
         this.onTripClickListener = onTripClickListener;
 
@@ -44,6 +45,21 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
         this.offerRideModelList = new ArrayList<>();
         this.offerRideModelList = offerRideModelLists;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return offerRideModelList.size();
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    public interface OnTripClickListener {
+        void onTripClick(int position);
     }
 
     @NonNull
@@ -56,15 +72,13 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     @Override
     public void onBindViewHolder(@NonNull BookRideViewHolder holder, int position) {
-        holder.bind(offerRideModelList.get(position));
+//        holder.bind(offerRideModelList.get(position));
         pickupPoint = offerRideModelList.get(position).getPickupPoint();
         destination = offerRideModelList.get(position).getDestination();
         email = offerRideModelList.get(position).getEmailAddress();
         pickupTime = offerRideModelList.get(position).getPickupTime();
         date = offerRideModelList.get(position).getPickupDate();
 
-//        getDriverName(email);
-//        getRideData(email, holder);
         String dateTime =new StringBuilder().append("Date: ").append(date).append(" @ ")
                 .append(pickupTime).toString();
 
@@ -74,7 +88,27 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     }
 
-    class BookRideViewHolder extends RecyclerView.ViewHolder{
+//    @SuppressLint("RecyclerView")
+//    @Override
+//    public void onBindViewHolder(@NonNull BookRideViewHolder holder, int position) {
+//
+//        pickupPoint = offerRideModelList.get(position).getPickupPoint();
+//        destination = offerRideModelList.get(position).getDestination();
+//        email = offerRideModelList.get(position).getEmailAddress();
+//        pickupTime = offerRideModelList.get(position).getPickupTime();
+//        date = offerRideModelList.get(position).getPickupDate();
+//
+//        getDriverName(email, holder);
+//        getRideData(email, holder);
+//        String dateTime =new StringBuilder().append("Date: ").append(date).append(" @ ")
+//                .append(pickupTime).toString();
+//
+//        holder.dateTime.setText(dateTime);
+//        holder.tripStartPoint.setText(pickupPoint);
+//        holder.tripDestination.setText(destination);
+//
+//    }
+    class BookRideViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
 
         public RoundedImageView driverProfilePic;
@@ -91,30 +125,43 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
             carDetail = itemView.findViewById(R.id.car_details);
             tripStartPoint = itemView.findViewById(R.id.book_trip_starting_point);
             tripDestination = itemView.findViewById(R.id.book_trip_end_point);
-            tripLayout = (CardView) itemView.findViewById(R.id.trip_layout);
+            tripLayout = itemView.findViewById(R.id.trip_layout);
             driverProfilePic = itemView.findViewById(R.id.trip_driver_profile_image);
-        }
-        void bind(final OfferRideModel offerRideModel){
-
-                if (checkedPosition == getAdapterPosition()){
-                    itemView.setBackgroundColor(Color.LTGRAY);
-                }else {
-                    itemView.setBackgroundColor(Color.WHITE);
-                }
 
             getRideData(email);
             getDriverName(email);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                  itemView.setBackgroundColor(Color.LTGRAY);
-                  if (checkedPosition != getAdapterPosition()){
-                      notifyItemChanged(checkedPosition);
-                      checkedPosition = getAdapterPosition();
-                  }
-                }
-            });
         }
+//        void bind(final OfferRideModel offerRideModel){
+//            if (checkedPosition == -1){
+//                itemView.setBackgroundColor(Color.WHITE);
+//            }else {
+//                if (checkedPosition == getAdapterPosition()){
+//                    itemView.setBackgroundColor(Color.LTGRAY);
+//                }else {
+//                    itemView.setBackgroundColor(Color.WHITE);
+//                }
+//
+//            }
+//            getRideData(email);
+//            getDriverName(email);
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                  itemView.setBackgroundColor(Color.LTGRAY);
+//                  if (checkedPosition != getAdapterPosition()){
+//                      notifyItemChanged(checkedPosition);
+//                      checkedPosition = getAdapterPosition();
+//                  }
+//                }
+//            });
+//        }
+
+    @Override
+    public void onClick(View view) {
+        onTripClickListener.onTripClick(getAdapterPosition());
+    }
+
+
     public void getRideData(String email) {
         db.collection("Driver Vehicles")
                 .whereEqualTo("Email Address", email)
@@ -176,21 +223,6 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     }
     }
-    public OfferRideModel getSelected(){
-        if (checkedPosition != -1){
-            return offerRideModelList.get(checkedPosition);
-        }
-        return null;
-    }
 
-    @Override
-    public int getItemCount() {
-        return offerRideModelList.size();
-
-    }
-
-    public interface OnTripClickListener {
-        void onTripClick(int position);
-    }
 
 }
