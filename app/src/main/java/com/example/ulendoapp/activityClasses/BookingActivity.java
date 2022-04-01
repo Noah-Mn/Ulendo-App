@@ -162,19 +162,14 @@ public class BookingActivity extends AppCompatActivity implements RideListener {
         filteredOffers = new ArrayList<>();
         for(int i = 0; i < offerRideModelList.size(); i++){
             if(offerRideModelList.get(i).getPickupPoint().matches(pPoint)){
-                offerRideModel.pickupPoint = offerRideModelList.get(i).getPickupPoint();
-                offerRideModel.destination = offerRideModelList.get(i).getDestination();
-                offerRideModel.emailAddress = offerRideModelList.get(i).getEmailAddress();
-                offerRideModel.pickupTime = offerRideModelList.get(i).getPickupTime();
-                offerRideModel.pickupDate = offerRideModelList.get(i).getPickupDate();
-                filteredOffers.add(offerRideModel);
-//                String pickupPoint = offerRideModelList.get(i).getPickupPoint();
-//                String destination = offerRideModelList.get(i).getDestination();
-//                String email = offerRideModelList.get(i).getEmailAddress();
-//                String pickupTime = offerRideModelList.get(i).getPickupTime();
-//                String pickupDate = offerRideModelList.get(i).getPickupDate();
-//                OfferRideModel newOffer = new OfferRideModel(pickupPoint, destination, pickupTime, pickupDate, email);
-//                filteredOffers.add(newOffer);
+
+                String pickupPoint = offerRideModelList.get(i).getPickupPoint();
+                String destination = offerRideModelList.get(i).getDestination();
+                String email = offerRideModelList.get(i).getEmailAddress();
+                String pickupTime = offerRideModelList.get(i).getPickupTime();
+                String pickupDate = offerRideModelList.get(i).getPickupDate();
+                OfferRideModel newOffer = new OfferRideModel(pickupPoint, destination, pickupTime, pickupDate, email);
+                filteredOffers.add(newOffer);
             }
 
         }

@@ -59,18 +59,18 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
     public void onBindViewHolder(@NonNull BookRideViewHolder holder, int position) {
         OfferRideModel offerRideModel = new OfferRideModel();
 //        holder.bind(offerRideModelList.get(position));
-//        pickupPoint = offerRideModelList.get(position).getPickupPoint();
-//        destination = offerRideModelList.get(position).getDestination();
-//        email = offerRideModelList.get(position).getEmailAddress();
-//        pickupTime = offerRideModelList.get(position).getPickupTime();
-//        date = offerRideModelList.get(position).getPickupDate();
+        pickupPoint = offerRideModelList.get(position).getPickupPoint();
+        destination = offerRideModelList.get(position).getDestination();
+        email = offerRideModelList.get(position).getEmailAddress();
+        pickupTime = offerRideModelList.get(position).getPickupTime();
+        date = offerRideModelList.get(position).getPickupDate();
 
         String dateTime =new StringBuilder().append("Date: ").append(date).append(" @ ")
                 .append(pickupTime).toString();
 
         holder.dateTime.setText(dateTime);
-        holder.tripStartPoint.setText(offerRideModel.pickupPoint);
-        holder.tripDestination.setText(offerRideModel.destination);
+        holder.tripStartPoint.setText(pickupPoint);
+        holder.tripDestination.setText(destination);
         holder.tripLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
