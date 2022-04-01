@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.databinding.BookTripLayoutBinding;
+import com.example.ulendoapp.listeners.RideListener;
 import com.example.ulendoapp.models.DriverVehiclesModel;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,39 +28,23 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
-public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRideViewHolder> implements View.OnClickListener{
+public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRideViewHolder>{
     private ArrayList<OfferRideModel> offerRideModelList;
-    private OnTripClickListener onTripClickListener;
+    private final RideListener rideListener;
     private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel,
             carModelYr, carColor, driverName, email, date,encodedImage;
     private FirebaseFirestore db;
     private int checkedPosition = 0;
 
-    public BookRideAdapter(ArrayList<OfferRideModel> offerRideModelList, BookRideAdapter.OnTripClickListener onTripClickListener) {
+    public BookRideAdapter(ArrayList<OfferRideModel> offerRideModelList, RideListener rideListener) {
         this.offerRideModelList = offerRideModelList;
-        this.onTripClickListener = onTripClickListener;
-
-    }
-
-    public void setTrips(ArrayList<OfferRideModel> offerRideModelLists) {
-        this.offerRideModelList = new ArrayList<>();
-        this.offerRideModelList = offerRideModelLists;
-        notifyDataSetChanged();
+        this.rideListener = rideListener;
     }
 
     @Override
     public int getItemCount() {
         return offerRideModelList.size();
 
-    }
-
-    @Override
-    public void onClick(View view) {
-
-    }
-
-    public interface OnTripClickListener {
-        void onTripClick(int position);
     }
 
     @NonNull
@@ -72,19 +57,26 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     @Override
     public void onBindViewHolder(@NonNull BookRideViewHolder holder, int position) {
+        OfferRideModel offerRideModel = new OfferRideModel();
 //        holder.bind(offerRideModelList.get(position));
-        pickupPoint = offerRideModelList.get(position).getPickupPoint();
-        destination = offerRideModelList.get(position).getDestination();
-        email = offerRideModelList.get(position).getEmailAddress();
-        pickupTime = offerRideModelList.get(position).getPickupTime();
-        date = offerRideModelList.get(position).getPickupDate();
+//        pickupPoint = offerRideModelList.get(position).getPickupPoint();
+//        destination = offerRideModelList.get(position).getDestination();
+//        email = offerRideModelList.get(position).getEmailAddress();
+//        pickupTime = offerRideModelList.get(position).getPickupTime();
+//        date = offerRideModelList.get(position).getPickupDate();
 
         String dateTime =new StringBuilder().append("Date: ").append(date).append(" @ ")
                 .append(pickupTime).toString();
 
         holder.dateTime.setText(dateTime);
-        holder.tripStartPoint.setText(pickupPoint);
-        holder.tripDestination.setText(destination);
+        holder.tripStartPoint.setText(offerRideModel.pickupPoint);
+        holder.tripDestination.setText(offerRideModel.destination);
+        holder.tripLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rideListener.onRideClick(offerRideModel);
+            }
+        });
 
     }
 
@@ -108,8 +100,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 //        holder.tripDestination.setText(destination);
 //
 //    }
-    class BookRideViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
-
+    class BookRideViewHolder extends RecyclerView.ViewHolder{
 
         public RoundedImageView driverProfilePic;
         public TextView driverName, carDetail, tripStartPoint, tripDestination, dateTime;
@@ -119,7 +110,6 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
          BookRideViewHolder(BookTripLayoutBinding bookTripLayoutBinding) {
             super(bookTripLayoutBinding.getRoot());
             binding = bookTripLayoutBinding;
-
             driverName = itemView.findViewById(R.id.name_of_driver);
             dateTime = itemView.findViewById(R.id.trip_date_time);
             carDetail = itemView.findViewById(R.id.car_details);
@@ -155,12 +145,6 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 //                }
 //            });
 //        }
-
-    @Override
-    public void onClick(View view) {
-        onTripClickListener.onTripClick(getAdapterPosition());
-    }
-
 
     public void getRideData(String email) {
         db.collection("Driver Vehicles")

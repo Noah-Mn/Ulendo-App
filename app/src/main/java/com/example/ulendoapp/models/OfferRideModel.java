@@ -32,6 +32,10 @@ public class OfferRideModel implements Serializable {
         this.emailAddress = emailAddress;
     }
 
+    public OfferRideModel() {
+
+    }
+
     @Override
     public String toString() {
         return "OfferRideModel{" +
