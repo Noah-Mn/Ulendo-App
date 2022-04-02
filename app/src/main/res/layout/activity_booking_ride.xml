@@ -5,21 +5,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="80dp"
     android:gravity="center"
     tools:context=".activityClasses.BookingRide">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="5dp"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/E_profile_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_24"
+            android:contentDescription="@string/back_button" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@color/white"
+            android:text="Book Rire"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="3dp"
-        android:padding="2dp"
-        android:orientation="vertical">
+        android:padding="1dp"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="110dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-20dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/background_image"
+                android:elevation="7dp"
+                android:scaleType="centerCrop"
+                app:riv_oval="true" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="1dp"
+            android:layout_marginTop="150dp"
             android:padding="2dp"
             android:orientation="horizontal">
 
@@ -37,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:text="Driver Name"
                     android:padding="5dp"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -46,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:text="Starting Point"
                     android:padding="5dp"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -55,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:text="Destination"
                     android:padding="5dp"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -64,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:text="Remaining Seats"
                     android:padding="5dp"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -73,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:text="Trip Date"
                     android:padding="5dp"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -82,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:text="Pickup Time"
                     android:padding="5dp"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -91,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:text="Special Instruction"
                     android:padding="5dp"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"/>
             </LinearLayout>
 
@@ -101,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:padding="3dp"
+                android:layout_gravity="bottom"
                 android:orientation="vertical">
 
 
@@ -108,8 +155,8 @@
                     android:id="@+id/booking_driver_name_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Driver name"
-                    android:padding="5dp"
+                    android:text="Banthapo Chijuwa Phiri"
+                    android:padding="6dp"
                     android:textSize="16dp"
                     />
 
@@ -118,7 +165,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Origin"
-                    android:padding="5dp"
+                    android:padding="6dp"
                     android:textSize="16dp"
                     />
 
@@ -127,7 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="destination"
-                    android:padding="5dp"
+                    android:padding="6dp"
                     android:textSize="16dp"
                     />
 
@@ -136,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ramaining seats"
-                    android:padding="5dp"
+                    android:padding="6dp"
                     android:textSize="16dp"
                     />
 
@@ -145,7 +192,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Date"
-                    android:padding="5dp"
+                    android:padding="6dp"
                     android:textSize="16dp"
                     />
 
@@ -154,7 +201,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Time"
-                    android:padding="5dp"
+                    android:padding="6dp"
                     android:textSize="16dp"
                     />
 
@@ -163,7 +210,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Instruction"
-                    android:padding="5dp"
+                    android:padding="6dp"
                     android:textSize="16dp"
                     />
             </LinearLayout>
@@ -173,7 +220,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="230dp"
             android:text="Book Now" />
     </LinearLayout>
 

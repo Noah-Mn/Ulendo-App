@@ -47,10 +47,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:layout_marginBottom="-30dp"
-        android:scaleType="centerCrop"
         android:background="@drawable/background_image"
-        app:riv_oval="true"
-        android:elevation="7dp"/>
+        android:elevation="7dp"
+        android:scaleType="centerCrop"
+        app:riv_oval="true" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

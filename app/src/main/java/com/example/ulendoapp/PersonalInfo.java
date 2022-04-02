@@ -2,13 +2,11 @@ package com.example.ulendoapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 
 import com.example.ulendoapp.databinding.ActivityPersonalInfoBinding;
 import com.example.ulendoapp.utilities.Constants;
@@ -34,8 +32,6 @@ public class PersonalInfo extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
-
-        binding.profileBack.setOnClickListener(view -> onBackPressed());
 
         getInformation();
     }
