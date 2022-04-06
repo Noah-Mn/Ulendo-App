@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/back_24"
-                />
+                android:contentDescription="TODO" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -102,7 +102,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:background="#221040EF"
-                android:src="@drawable/edit_24" />
+                android:src="@drawable/edit_24"
+                android:contentDescription="TODO" />
 
             <RelativeLayout
                 android:id="@+id/rides_details"
@@ -201,7 +202,8 @@
                         android:id="@+id/rating"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/star_rate_24" />
+                        android:src="@drawable/star_rate_24"
+                        android:contentDescription="TODO" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/rating_value"
@@ -264,7 +266,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/next_24" />
+                    android:src="@drawable/next_24"
+                    android:contentDescription="TODO" />
 
             </RelativeLayout>
 
@@ -290,7 +293,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:src="@drawable/settings_24" />
+                        android:src="@drawable/settings_24"
+                        android:contentDescription="TODO" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/text_settings"
@@ -307,7 +311,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="10dp"
-                        android:src="@drawable/next_24" />
+                        android:src="@drawable/next_24"
+                        android:contentDescription="TODO" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -324,9 +329,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
+                        android:contentDescription="TODO"
                         android:src="@drawable/lock_24" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/terms_conditions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -341,7 +348,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="10dp"
-                        android:src="@drawable/next_24" />
+                        android:src="@drawable/next_24"
+                        android:contentDescription="TODO" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -359,7 +367,8 @@
                         android:layout_alignParentStart="true"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:src="@drawable/support_agent_24" />
+                        android:src="@drawable/support_agent_24"
+                        android:contentDescription="TODO" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -375,7 +384,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="10dp"
-                        android:src="@drawable/next_24" />
+                        android:src="@drawable/next_24"
+                        android:contentDescription="TODO" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -394,7 +404,8 @@
                         android:layout_alignParentStart="true"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:src="@drawable/question_answer_24" />
+                        android:src="@drawable/question_answer_24"
+                        android:contentDescription="TODO" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -411,7 +422,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_gravity="right"
                         android:layout_marginEnd="10dp"
-                        android:src="@drawable/next_24" />
+                        android:src="@drawable/next_24"
+                        android:contentDescription="TODO" />
                 </RelativeLayout>
 
 

@@ -29,8 +29,8 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.util.ArrayList;
 
 public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRideViewHolder>{
-    private ArrayList<OfferRideModel> offerRideModelList;
     private final RideListener rideListener;
+    private ArrayList<OfferRideModel> offerRideModelList;
     private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel,
             carModelYr, carColor, driverName, email, date,encodedImage;
     private FirebaseFirestore db;
@@ -207,6 +207,5 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     }
     }
-
 
 }

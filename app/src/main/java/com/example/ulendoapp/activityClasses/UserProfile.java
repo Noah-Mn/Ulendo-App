@@ -1,5 +1,6 @@
 package com.example.ulendoapp.activityClasses;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +10,6 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.ulendoapp.PersonalInfo;
 import com.example.ulendoapp.databinding.ActivityUserProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,7 +46,11 @@ public class UserProfile extends AppCompatActivity {
             Intent intent = new Intent(UserProfile.this, PersonalInfo.class);
             startActivity(intent);
         });
+
+        binding.termsConditions.setOnClickListener(view -> startActivity(
+                new Intent(UserProfile.this, TermsAndConditionsCustomer.class)));
     }
+    @SuppressLint("SetTextI18n")
     public void getUserData(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -62,8 +66,7 @@ public class UserProfile extends AppCompatActivity {
                             byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
                             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                             binding.userProfilePic.setImageBitmap(bitmap);
-
-                            binding.userName.setText(new StringBuilder().append(firstName).append(" ").append(lastName).toString());
+                            binding.userName.setText(firstName + " " + lastName);
                             binding.userNumber.setText(number);
 
                         }

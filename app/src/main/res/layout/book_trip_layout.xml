@@ -125,7 +125,8 @@
                             <ImageView
                                 android:layout_width="@dimen/_12sdp"
                                 android:layout_height="@dimen/_12sdp"
-                                android:src="@drawable/car_24" />
+                                android:src="@drawable/car_24"
+                                android:contentDescription="TODO" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/car_details"
@@ -150,7 +151,8 @@
                             <ImageView
                                 android:layout_width="@dimen/_12sdp"
                                 android:layout_height="@dimen/_12sdp"
-                                android:src="@drawable/origin_24" />
+                                android:src="@drawable/origin_24"
+                                android:contentDescription="TODO" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/book_trip_starting_point"
@@ -172,7 +174,8 @@
                             <ImageView
                                 android:layout_width="@dimen/_12sdp"
                                 android:layout_height="@dimen/_12sdp"
-                                android:src="@drawable/end_24" />
+                                android:src="@drawable/end_24"
+                                android:contentDescription="TODO" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/book_trip_end_point"

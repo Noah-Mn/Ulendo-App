@@ -63,4 +63,12 @@
     <string name="select_user">Select user</string>
     <string name="online">Online</string>
     <string name="your_added_vehicles_will_appear_here">Your added vehicles will appear here</string>
+    <string name="string">non</string>
+    <string name="non" />
+    <string name="part1">All registered drivers should provide a valid and an updated drivers licence, national Id and registered vehicle(s). Failure to follow this rule would result into loosing the driver account</string>
+    <string name="part2">The driver is supposed to abid by all traffic rules. No driving while drunk, no driving while smoking, no driving while on a phone call or texting using a phone. Failure to abid by this rule would mean being arrested and even loosing the driver account.</string>
+    <string name="terms_and_conditions">TERMS AND CONDITIONS</string>
+    <string name="part3">Drivers should make sure that their vehicle(s) are serviced at regular basis to make sure they are safe and to guarantee the safety of customers</string>
+    <string name="customer1">Customers should make sure to provide a valid and an updated nation ID. Failure to do that would result into loosing an account</string>
+    <string name="customer2">Customers who book a ride should make sure to take the booked car unless a valid reason is provided for not doing so. Failure to follow this rule would result into a penalty which will be charged immediately. Failure to pay the penalty would result into an account being blocked</string>
 </resources>

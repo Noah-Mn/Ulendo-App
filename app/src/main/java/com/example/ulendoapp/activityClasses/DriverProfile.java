@@ -10,7 +10,6 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.ulendoapp.PersonalInfo;
 import com.example.ulendoapp.databinding.ActivityDriverProfileBinding;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
@@ -51,6 +50,11 @@ public class DriverProfile extends AppCompatActivity {
 
        binding.aLotOfStuff.setOnClickListener(view -> {
            Intent intent = new Intent(DriverProfile.this, PersonalInfo.class);
+           startActivity(intent);
+       });
+
+       binding.termsConditions.setOnClickListener(view -> {
+           Intent intent = new Intent(DriverProfile.this, TermsAndConditions.class);
            startActivity(intent);
        });
 

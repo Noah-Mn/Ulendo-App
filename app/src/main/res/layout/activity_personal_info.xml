@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PersonalInfo">
+    tools:context=".activityClasses.PersonalInfo">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout"
@@ -22,7 +22,8 @@
                 android:id="@+id/profile_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/back_24" />
+                android:src="@drawable/back_24"
+                android:contentDescription="TODO" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package com.example.ulendoapp;
+package com.example.ulendoapp.activityClasses;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -98,7 +98,7 @@
         <entry key="app/src/main/res/drawable/divider.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/activity_add_vehicle.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/activity_booking.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_booking.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_booking_ride.xml" value="0.16621376811594202" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.25" />
@@ -122,6 +122,8 @@
         <entry key="app/src/main/res/layout/activity_personal_info.xml" value="0.20024721878862795" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.22314814814814815" />
+        <entry key="app/src/main/res/layout/activity_terms_and_conditions.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_terms_and_conditions_customer.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_users.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/book_trip_layout.xml" value="0.3098958333333333" />
@@ -165,7 +167,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

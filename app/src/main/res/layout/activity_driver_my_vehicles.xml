@@ -99,6 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="@dimen/_20sdp"
-        android:src="@drawable/ic_baseline_add_24" />
+        android:src="@drawable/ic_baseline_add_24"
+        android:contentDescription="TODO" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

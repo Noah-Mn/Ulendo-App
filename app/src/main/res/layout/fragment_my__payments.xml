@@ -30,7 +30,8 @@
 
            android:layout_width="24dp"
            android:layout_height="24dp"
-           android:src="@drawable/cash_icon"/>
+           android:src="@drawable/cash_icon"
+           android:contentDescription="TODO" />
 
        <com.google.android.material.textview.MaterialTextView
            android:layout_marginStart="5dp"
@@ -51,7 +52,8 @@
 
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/debit_card"/>
+                android:src="@drawable/debit_card"
+                android:contentDescription="TODO" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_marginStart="5dp"

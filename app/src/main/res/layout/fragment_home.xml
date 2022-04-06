@@ -35,7 +35,7 @@
                   android:layout_height="wrap_content"
                   android:src="@drawable/search_24"
                   android:layout_marginStart="5dp"
-                  />
+                  android:contentDescription="TODO" />
 
               <com.google.android.material.textview.MaterialTextView
                   android:layout_width="wrap_content"
@@ -69,7 +69,8 @@
                   android:layout_width="20dp"
                   android:layout_height="20dp"
                   android:layout_marginTop="10dp"
-                  android:src="@drawable/origin_24" />
+                  android:src="@drawable/origin_24"
+                  android:contentDescription="TODO" />
 
               <com.google.android.material.textfield.TextInputEditText
                   android:id="@+id/user_trip_start_point"
@@ -98,7 +99,7 @@
               android:layout_width="20dp"
               android:layout_height="20dp"
               android:src="@drawable/end_24"
-              />
+              android:contentDescription="TODO" />
           <com.google.android.material.textfield.TextInputEditText
               android:id="@+id/user_trip_detination"
               android:textSize="15sp"
@@ -132,7 +133,8 @@
                       android:layout_width="20dp"
                       android:layout_height="20dp"
                       android:layout_marginStart="5dp"
-                      android:src="@drawable/ic_baseline_group_24" />
+                      android:src="@drawable/ic_baseline_group_24"
+                      android:contentDescription="TODO" />
 
                   <com.jaredrummler.materialspinner.MaterialSpinner
                       android:id="@+id/user_trip_number_of_passengers"
@@ -162,7 +164,8 @@
                       android:layout_width="20dp"
                       android:layout_height="20dp"
                       android:layout_marginTop="12dp"
-                      android:src="@drawable/ic_baseline_shopping_bag_24" />
+                      android:src="@drawable/ic_baseline_shopping_bag_24"
+                      android:contentDescription="TODO" />
 
                   <com.jaredrummler.materialspinner.MaterialSpinner
                       android:id="@+id/user_trip_luggage"
@@ -203,7 +206,8 @@
                       android:layout_width="20dp"
                       android:layout_height="20dp"
                       android:layout_marginTop="10dp"
-                      android:src="@drawable/ic_baseline_date_range_24" />
+                      android:src="@drawable/ic_baseline_date_range_24"
+                      android:contentDescription="TODO" />
 
                   <com.google.android.material.textfield.TextInputEditText
                       android:id="@+id/user_trip_pickup_date"
@@ -229,7 +233,8 @@
                       android:layout_width="20dp"
                       android:layout_height="20dp"
                       android:layout_marginTop="10dp"
-                      android:src="@drawable/time_24" />
+                      android:src="@drawable/time_24"
+                      android:contentDescription="TODO" />
 
                   <com.google.android.material.textfield.TextInputEditText
                       android:id="@+id/user_trip_pickup_time"

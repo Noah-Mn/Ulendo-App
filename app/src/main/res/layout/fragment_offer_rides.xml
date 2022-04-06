@@ -93,7 +93,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_baseline_date_range_24" />
+                android:src="@drawable/ic_baseline_date_range_24"
+                android:contentDescription="TODO" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ride_pickup_date"
@@ -118,7 +119,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/time_24" />
+                android:src="@drawable/time_24"
+                android:contentDescription="TODO" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ride_pickup_time"
@@ -159,7 +161,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/car_24" />
+                android:src="@drawable/car_24"
+                android:contentDescription="TODO" />
 
             <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/ride_car_model"
@@ -187,7 +190,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="0dp"
-                android:src="@drawable/ic_baseline_group_24" />
+                android:src="@drawable/ic_baseline_group_24"
+                android:contentDescription="TODO" />
 
             <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/ride_number_of_seats"
