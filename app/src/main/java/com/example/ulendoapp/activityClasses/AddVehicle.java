@@ -2,24 +2,19 @@ package com.example.ulendoapp.activityClasses;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -84,22 +79,14 @@ public class AddVehicle extends AppCompatActivity {
 
         db.collection("Driver Vehicles")
                 .add(vehicle)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        String ID = documentReference.getId();
-                        preferenceManager.putString(Constants.KEY_VEHICLE_ID, ID);
-                        Toast.makeText(AddVehicle.this, "Vehicle added successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddVehicle.this, DriverMyVehicles.class);
-                        startActivity(intent);
-                    }
+                .addOnSuccessListener(documentReference -> {
+                    String ID = documentReference.getId();
+                    preferenceManager.putString(Constants.KEY_VEHICLE_ID, ID);
+                    Toast.makeText(AddVehicle.this, "Vehicle added successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(AddVehicle.this, DriverMyVehicles.class);
+                    startActivity(intent);
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AddVehicle.this, "Failed to add vehicle", Toast.LENGTH_LONG).show();
-                    }
-                });
+                .addOnFailureListener(e -> Toast.makeText(AddVehicle.this, "Failed to add vehicle", Toast.LENGTH_LONG).show());
     }
 
     private String getEmail(){

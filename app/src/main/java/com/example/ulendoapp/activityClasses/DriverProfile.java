@@ -1,5 +1,6 @@
 package com.example.ulendoapp.activityClasses;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,34 +37,35 @@ public class DriverProfile extends AppCompatActivity {
         preferenceManager = new PreferenceManager(getApplicationContext());
 
 
-       LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-       layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-       firebaseAuth = FirebaseAuth.getInstance();
-       currentUser = firebaseAuth.getCurrentUser();
-       db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
 
-       binding.editProfile.setOnClickListener(v -> {
-           Intent intent = new Intent(DriverProfile.this, EditDriverProfile.class);
-           startActivity(intent);
-       });
+        binding.editProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(DriverProfile.this, EditDriverProfile.class);
+            startActivity(intent);
+        });
 
-       binding.aLotOfStuff.setOnClickListener(view -> {
-           Intent intent = new Intent(DriverProfile.this, PersonalInfo.class);
-           startActivity(intent);
-       });
+        binding.aLotOfStuff.setOnClickListener(view -> {
+            Intent intent = new Intent(DriverProfile.this, PersonalInfo.class);
+            startActivity(intent);
+        });
 
-       binding.termsConditions.setOnClickListener(view -> {
-           Intent intent = new Intent(DriverProfile.this, TermsAndConditions.class);
-           startActivity(intent);
-       });
+        binding.termsConditions.setOnClickListener(view -> {
+            Intent intent = new Intent(DriverProfile.this, TermsAndConditions.class);
+            startActivity(intent);
+        });
 
-       binding.profileBack.setOnClickListener(v -> startActivity(
-               new Intent(DriverProfile.this, HomeDriver.class)));
+        binding.profileBack.setOnClickListener(v -> startActivity(
+                new Intent(DriverProfile.this, HomeDriver.class)));
         getUserName();
     }
 
-    public void getUserName(){
+    @SuppressLint("SetTextI18n")
+    public void getUserName() {
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
                 .get()
@@ -77,14 +79,15 @@ public class DriverProfile extends AppCompatActivity {
                             byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
                             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                             binding.profileImage.setImageBitmap(bitmap);
-                            binding.profileName.setText(new StringBuilder().append(fName).append(" ").append(lastName).toString());
+                            binding.profileName.setText(fName + " " + lastName);
                         }
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
     }
-    public String getEmail(){
+
+    public String getEmail() {
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
