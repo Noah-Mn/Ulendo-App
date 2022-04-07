@@ -4,12 +4,16 @@ import java.io.Serializable;
 
 public class OfferRideModel implements Serializable {
     public String emailAddress, pickupPoint, destination, pickupTime, pickupDate,
-            numberOfSeats, bookedSeats, luggage, vehicleModel, state, specialInstructions, currDate;
+            numberOfSeats, bookedSeats, luggage, vehicleModel, state, specialInstructions, currDate, tripId, date;
     public double latitude, longitude;
     private boolean isChecked = false;
 
+    public OfferRideModel() {
+    }
+
     public OfferRideModel(double latitude, double longitude, String pickupPoint, String destination, String pickupTime,
-                          String numberOfSeats, String bookedSeats, String luggage, String state, String pickupDate, String currDate, String email) {
+                          String numberOfSeats, String bookedSeats, String luggage, String state, String pickupDate,
+                          String currDate, String email, String tripId) {
         this.emailAddress = email;
         this.pickupPoint = pickupPoint;
         this.destination = destination;
@@ -22,18 +26,25 @@ public class OfferRideModel implements Serializable {
         this.currDate = currDate;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.tripId = tripId;
     }
 
-    public OfferRideModel(String pickupPoint, String destination, String pickupTime, String pickupDate, String emailAddress) {
+    public OfferRideModel(String pickupPoint, String destination, String pickupTime, String pickupDate, String emailAddress, String tripId,
+     String luggage, String bookedSeats, double latitude, double longitude, String numberOfSeats, String state, String date, String currDate) {
         this.pickupPoint = pickupPoint;
         this.destination = destination;
         this.pickupTime = pickupTime;
         this.pickupDate = pickupDate;
         this.emailAddress = emailAddress;
-    }
-
-    public OfferRideModel() {
-
+        this.tripId = tripId;
+        this.luggage = luggage;
+        this.bookedSeats =bookedSeats;
+        this.latitude = latitude;
+        this.longitude =longitude;
+        this.numberOfSeats = numberOfSeats;
+        this.state = state;
+        this.date =date;
+        this.currDate = currDate;
     }
 
     @Override
@@ -43,17 +54,27 @@ public class OfferRideModel implements Serializable {
                 ", pickupPoint='" + pickupPoint + '\'' +
                 ", destination='" + destination + '\'' +
                 ", pickupTime='" + pickupTime + '\'' +
+                ", pickupDate='" + pickupDate + '\'' +
                 ", numberOfSeats='" + numberOfSeats + '\'' +
                 ", bookedSeats='" + bookedSeats + '\'' +
                 ", luggage='" + luggage + '\'' +
                 ", vehicleModel='" + vehicleModel + '\'' +
                 ", state='" + state + '\'' +
                 ", specialInstructions='" + specialInstructions + '\'' +
-                ", date='" + pickupDate + '\'' +
                 ", currDate='" + currDate + '\'' +
+                ", tripId='" + tripId + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", isChecked=" + isChecked +
                 '}';
+    }
+
+    public String getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(String tripId) {
+        this.tripId = tripId;
     }
 
     public boolean isChecked() {
