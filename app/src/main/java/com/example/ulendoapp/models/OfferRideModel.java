@@ -4,22 +4,23 @@ import java.io.Serializable;
 
 public class OfferRideModel implements Serializable {
     public String emailAddress, pickupPoint, destination, pickupTime, pickupDate,
-            numberOfSeats, bookedSeats, luggage, vehicleModel, state, specialInstructions, currDate, tripId, date;
+            luggage, vehicleModel, state, specialInstructions, currDate, tripId, date;
     public double latitude, longitude;
+    public long numberOfSeats, remainingSeats;
     private boolean isChecked = false;
 
     public OfferRideModel() {
     }
 
     public OfferRideModel(double latitude, double longitude, String pickupPoint, String destination, String pickupTime,
-                          String numberOfSeats, String bookedSeats, String luggage, String state, String pickupDate,
+                          long numberOfSeats, long remainingSeats, String luggage, String state, String pickupDate,
                           String currDate, String email, String tripId) {
         this.emailAddress = email;
         this.pickupPoint = pickupPoint;
         this.destination = destination;
         this.pickupTime = pickupTime;
         this.numberOfSeats = numberOfSeats;
-        this.bookedSeats = bookedSeats;
+        this.remainingSeats = remainingSeats;
         this.luggage = luggage;
         this.state = state;
         this.pickupDate = pickupDate;
@@ -30,7 +31,7 @@ public class OfferRideModel implements Serializable {
     }
 
     public OfferRideModel(String pickupPoint, String destination, String pickupTime, String pickupDate, String emailAddress, String tripId,
-     String luggage, String bookedSeats, double latitude, double longitude, String numberOfSeats, String state, String date, String currDate) {
+     String luggage, long remainingSeats, double latitude, double longitude, long numberOfSeats, String state, String date, String currDate, String specialInst) {
         this.pickupPoint = pickupPoint;
         this.destination = destination;
         this.pickupTime = pickupTime;
@@ -38,13 +39,14 @@ public class OfferRideModel implements Serializable {
         this.emailAddress = emailAddress;
         this.tripId = tripId;
         this.luggage = luggage;
-        this.bookedSeats =bookedSeats;
+        this.remainingSeats = remainingSeats;
         this.latitude = latitude;
         this.longitude =longitude;
         this.numberOfSeats = numberOfSeats;
         this.state = state;
         this.date =date;
         this.currDate = currDate;
+        this.specialInstructions = specialInst;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class OfferRideModel implements Serializable {
                 ", pickupTime='" + pickupTime + '\'' +
                 ", pickupDate='" + pickupDate + '\'' +
                 ", numberOfSeats='" + numberOfSeats + '\'' +
-                ", bookedSeats='" + bookedSeats + '\'' +
+                ", bookedSeats='" + remainingSeats + '\'' +
                 ", luggage='" + luggage + '\'' +
                 ", vehicleModel='" + vehicleModel + '\'' +
                 ", state='" + state + '\'' +
@@ -149,16 +151,16 @@ public class OfferRideModel implements Serializable {
         this.pickupTime = pickupTime;
     }
 
-    public String getNumberOfSeats() {
+    public long getNumberOfSeats() {
         return numberOfSeats;
     }
 
-    public void setNumberOfSeats(String numberOfSeats) {
+    public void setNumberOfSeats(int numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public String getBookedSeats() {
-        return bookedSeats;
+    public long getRemainingSeats() {
+        return remainingSeats;
     }
 
     public String getLuggage() {
@@ -169,8 +171,8 @@ public class OfferRideModel implements Serializable {
         this.luggage = luggage;
     }
 
-    public void setBookedSeats(String bookedSeats) {
-        this.bookedSeats = bookedSeats;
+    public void setRemainingSeats(int remainingSeats) {
+        this.remainingSeats = remainingSeats;
     }
 
     public String getVehicleModel() {

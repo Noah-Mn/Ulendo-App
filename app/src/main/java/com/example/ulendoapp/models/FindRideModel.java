@@ -2,17 +2,25 @@ package com.example.ulendoapp.models;
 
 public class FindRideModel extends UserModel{
     private String email, destination, pickupPoint, pickupTime, luggage, bookedSeats, complaint, status, specialInstructions;
-    private String latLng, date, currDate;
+    private String latLng, date, currDate, pickupDate;
+//
+//    public FindRideModel(String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String latLng) {
+//        this.destination = destination;
+//        this.pickupPoint = pickupPoint;
+//        this.pickupTime = pickupTime;
+//        this.luggage = luggage;
+//        this.bookedSeats = bookedSeats;
+//        this.latLng = latLng;
+//    }
 
-    public FindRideModel(String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String latLng) {
-        this.destination = destination;
-        this.pickupPoint = pickupPoint;
-        this.pickupTime = pickupTime;
+    public FindRideModel(String dest, String pTime, String pDate, String noPeople, String pPoint, String luggage){
+        this.destination = dest;
+        this.pickupTime = pTime;
+        this.pickupDate = pDate;
+        this.bookedSeats = noPeople;
+        this.pickupPoint = pPoint;
         this.luggage = luggage;
-        this.bookedSeats = bookedSeats;
-        this.latLng = latLng;
     }
-
 
     public FindRideModel(String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String latLng, String date, String currDate) {
         this.destination = destination;
@@ -57,7 +65,16 @@ public class FindRideModel extends UserModel{
                 ", latLng='" + latLng + '\'' +
                 ", date='" + date + '\'' +
                 ", currDate='" + currDate + '\'' +
+                ", pickupDate='" + pickupDate + '\'' +
                 '}';
+    }
+
+    public String getPickupDate() {
+        return pickupDate;
+    }
+
+    public void setPickupDate(String pickupDate) {
+        this.pickupDate = pickupDate;
     }
 
     public String getDate() {

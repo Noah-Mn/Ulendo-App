@@ -36,12 +36,11 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class fragment_find_rides extends Fragment {
     MaterialSpinner getCount;
-    public TextInputEditText pickupPoint, destination, pickupTime, pickupDate;
-    public String pPoint, dest, pTime, pDate, noPeople, status;
+    public TextInputEditText pickupPoint, destination, pickupDate;
+    public String pPoint, dest, pDate, noPeople, status, lug;
     public MaterialSpinner   numberOfPeople, luggage;
     public final String TAG = "tag";
 
@@ -53,7 +52,6 @@ public class fragment_find_rides extends Fragment {
     private Calendar calendar;
     private int currentHour;
     private int currentMinute;
-    private TimePickerDialog timePickerDialog;
     private String amPm;
     private Intent intent;
 
@@ -68,10 +66,11 @@ public class fragment_find_rides extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_find_rides, container, false);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         pickupPoint = view.findViewById(R.id.trip_pickup_point);
         destination = view.findViewById(R.id.trip_destination);
-        pickupTime = view.findViewById(R.id.trip_pickup_time);
         pickupDate = view.findViewById(R.id.trip_pickup_date);
         numberOfPeople = view.findViewById(R.id.trip_number_of_passengers);
         luggage = view.findViewById(R.id.trip_luggage);
@@ -84,61 +83,33 @@ public class fragment_find_rides extends Fragment {
             public void onClick(View view) {
                 getTripInfo();
                 intent = new Intent(getContext(), BookingActivity.class);
+
                 intent.putExtra("destination", dest);
-                intent.putExtra("pickup time", pTime);
                 intent.putExtra("number of people", noPeople);
                 intent.putExtra("pickup date", pDate);
                 intent.putExtra("pickup point", pPoint);
                 intent.putExtra("luggage", String.valueOf(luggage));
-//                addTrip();
+                addTrip();
                 startActivity(intent);
+
                 Log.d(TAG, dest + " " + pPoint);
                 Log.d(TAG, latitude + " " + longitude);
             }
         });
 
-        setSpinner(view);
-        loadTimePicker();
+        setPassengerSpinner(view);
+        setLuggageSpinner(view);
         return view;
     }
 
     public void getTripInfo(){
-        dest = Objects.requireNonNull(destination.getText()).toString();
-        pTime = Objects.requireNonNull(pickupTime.getText()).toString();
-        pDate = Objects.requireNonNull(pickupDate.getText()).toString();
+        dest = destination.getText().toString();
+        pDate = pickupDate.getText().toString();
         noPeople = numberOfPeople.getText().toString();
-        pPoint = Objects.requireNonNull(pickupPoint.getText()).toString();
-        luggage = null;
+        pPoint = pickupPoint.getText().toString();
+        lug = luggage.getText().toString();
 
     }
-
-    public void loadTimePicker() {
-        disableSoftInputFromAppearing(pickupTime);
-        pickupTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                calendar = Calendar.getInstance();
-                currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-                currentMinute = calendar.get(Calendar.MINUTE);
-
-                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                        if (hourOfDay >= 12) {
-                            amPm = "PM";
-                        } else {
-                            amPm = "AM";
-                        }
-                        pickupTime.setText(String.format("%02d : %02d", hourOfDay, minutes) + " " + amPm);
-                    }
-                }, currentHour, currentMinute, false);
-
-                timePickerDialog.show();
-            }
-        });
-    }
-
 
     private void addTrip(){
         getTripInfo();
@@ -151,8 +122,7 @@ public class fragment_find_rides extends Fragment {
         findRide.put("Longitude", longitude);
         findRide.put("Destination", dest);
         findRide.put("Pickup Point", pPoint);
-        findRide.put("Pickup Time", pTime);
-        findRide.put("Luggage", luggage);
+        findRide.put("Luggage", lug);
         findRide.put("Booked Seats", "N/A");
         findRide.put("Complaint", "N/A");
         findRide.put("Pickup Date", pDate);
@@ -177,7 +147,8 @@ public class fragment_find_rides extends Fragment {
                 });
 
     }
-    public void setSpinner(View view){
+
+    public void setPassengerSpinner(View view){
         getCount = (MaterialSpinner)view.findViewById(R.id.trip_number_of_passengers);
         ArrayList<String> count = new ArrayList<String>();
         count.add("1");
@@ -194,9 +165,19 @@ public class fragment_find_rides extends Fragment {
 
     }
 
+    public void setLuggageSpinner(View view){
+        getCount = (MaterialSpinner)view.findViewById(R.id.trip_luggage);
+        ArrayList<String> count = new ArrayList<String>();
+        count.add("Small");
+        count.add("Medium");
+        count.add("Large");
+        ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
+        countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        getCount.setAdapter(countAdapter);
+
+    }
+
     public String getEmail(){
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
         String emailAddress;
         emailAddress = user.getEmail();
         return emailAddress;

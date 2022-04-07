@@ -182,10 +182,10 @@
                     android:id="@+id/booking_remaining_seats_texts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ramaining seats"
+                    android:inputType="number"
                     android:padding="6dp"
-                    android:textSize="16dp"
-                    />
+                    android:text="Ramaining seats"
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/booking_trip_date_text"
@@ -215,12 +215,25 @@
                     />
             </LinearLayout>
         </LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/booked_ride_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="You have already requested this ride"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginTop="200dp"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            android:visibility="invisible"/>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/trip_book_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="230dp"
+            android:layout_marginTop="10dp"
             android:text="Book Now" />
     </LinearLayout>
 

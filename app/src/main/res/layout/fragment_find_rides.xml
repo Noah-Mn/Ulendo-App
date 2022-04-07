@@ -23,8 +23,7 @@
             android:layout_height="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="5dp"
-            android:src="@drawable/origin_24"
-            android:contentDescription="TODO" />
+            android:src="@drawable/origin_24" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/trip_pickup_point"
@@ -53,8 +52,7 @@
             android:layout_height="20dp"
             android:layout_marginTop="12dp"
             android:layout_marginStart="5dp"
-            android:src="@drawable/end_24"
-            android:contentDescription="TODO" />
+            android:src="@drawable/end_24" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/trip_destination"
@@ -92,8 +90,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_baseline_date_range_24"
-                android:contentDescription="TODO" />
+                android:src="@drawable/ic_baseline_date_range_24" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/trip_pickup_date"
@@ -109,33 +106,6 @@
                 android:textColorHint="#72000000"
                 android:textSize="15sp" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/pickup_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_marginStart="5dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/time_24"
-                android:contentDescription="TODO" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/trip_pickup_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:hint="@string/pickup_time"
-                android:inputType="datetime"
-                android:textColor="@color/black"
-                android:textColorHint="#72000000"
-                android:textSize="15sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -160,8 +130,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="5dp"
-                android:src="@drawable/ic_baseline_group_24"
-                android:contentDescription="TODO" />
+                android:src="@drawable/ic_baseline_group_24" />
 
             <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/trip_number_of_passengers"
@@ -190,8 +159,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="12dp"
-                android:src="@drawable/ic_baseline_shopping_bag_24"
-                android:contentDescription="TODO" />
+                android:src="@drawable/ic_baseline_shopping_bag_24" />
 
             <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/trip_luggage"

@@ -1,7 +1,5 @@
 package com.example.ulendoapp.fragments;
-
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,12 +39,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class fragment_offer_rides extends Fragment {
+public class fragment_offer_rides extends Fragment{
     MaterialSpinner getCount;
-    private final String TAG = "tag";
-    public TextInputEditText pickupPoint, destination, pickupTime, pickupDate, specialInstructions;
-    public String pPoint, dest, pTime, pDate, seats, car, sInstructions;
-    public MaterialSpinner numberOfSeats, carModel;
+    private final String TAG =  "tag";
+    public TextInputEditText pickupPoint, destination, pickupTime, pickupDate,  specialInstructions;
+    public String pPoint, dest, pTime, pDate, car, sInstructions;
+    public MaterialSpinner  numberOfSeats, carModel;
     public static double latitude;
     public static double longitude;
     static String placeName;
@@ -57,7 +55,7 @@ public class fragment_offer_rides extends Fragment {
     private MaterialSpinner getCarModel;
     private MaterialTimePicker picker;
     private Calendar calendar;
-    private int currentHour;
+    private int currentHour, seats;
     private int currentMinute;
     private TimePickerDialog timePickerDialog;
     private String amPm;
@@ -140,25 +138,26 @@ public class fragment_offer_rides extends Fragment {
         }
     }
 
-    public void setCarModelSpinner(View view) {
-        getCarModel = (MaterialSpinner) view.findViewById(R.id.ride_car_model);
+    public void setCarModelSpinner(View view){
+        getCarModel = (MaterialSpinner)view.findViewById(R.id.ride_car_model);
         ArrayList<String> count = new ArrayList<String>();
 
         database.collection("Driver Vehicles")
                 .whereEqualTo("Email Address", getEmail())
                 .get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
+                    if (task.isSuccessful() && task.getResult() != null){
 
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (QueryDocumentSnapshot document : task.getResult()){
 
                             String name = document.getString("Vehicle Brand");
                             count.add(name);
-                            ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item, count);
+                            ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
                             countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             getCarModel.setAdapter(countAdapter);
                         }
-                    } else {
+                    }
+                    else {
                         Toast.makeText(getContext(), "Failed to get Vehicles", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -166,34 +165,34 @@ public class fragment_offer_rides extends Fragment {
     }
 
 
-    public void setSpinner(View view) {
-        getCount = (MaterialSpinner) view.findViewById(R.id.ride_number_of_seats);
-        ArrayList<String> count = new ArrayList<String>();
-        count.add("1");
-        count.add("2");
-        count.add("3");
-        count.add("4");
-        count.add("5");
-        count.add("6");
-        count.add("7");
-        count.add("8");
-        ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item, count);
+    public void setSpinner(View view){
+        getCount = (MaterialSpinner)view.findViewById(R.id.ride_number_of_seats);
+        ArrayList<Long> count = new ArrayList<>();
+        count.add(1L);
+        count.add(2L);
+        count.add(3L);
+        count.add(4L);
+        count.add(5L);
+        count.add(6L);
+        count.add(7L);
+        count.add(8L);
+        ArrayAdapter<Long> countAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item,count);
         countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getCount.setAdapter(countAdapter);
     }
 
-    public void getRideInfo() {
-        pPoint = Objects.requireNonNull(pickupPoint.getText()).toString();
-        dest = Objects.requireNonNull(destination.getText()).toString();
-        pTime = Objects.requireNonNull(pickupTime.getText()).toString();
-        pDate = Objects.requireNonNull(pickupDate.getText()).toString();
-        seats = numberOfSeats.getText().toString();
+    public void getRideInfo(){
+        pPoint = pickupPoint.getText().toString();
+        dest = destination.getText().toString();
+        pTime = pickupTime.getText().toString();
+        pDate = pickupDate.getText().toString();
+        seats = Integer.parseInt(numberOfSeats.getText().toString());
         car = carModel.getText().toString();
-        sInstructions = Objects.requireNonNull(specialInstructions.getText()).toString();
+        sInstructions = specialInstructions.getText().toString();
 //      dPoint = "your choice";
-    }
 
-    public String getEmail() {
+    }
+    public String getEmail(){
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         String emailAddress;
@@ -201,11 +200,11 @@ public class fragment_offer_rides extends Fragment {
         return emailAddress;
     }
 
-    private void addRide() {
+    private void addRide(){
         getRideInfo();
         db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        Map<String, Object> offerRide = new HashMap<>();
+        Map<String, Object> offerRide= new HashMap<>();
         offerRide.put("Email Address", getEmail());
         offerRide.put("Latitude", latitude);
         offerRide.put("Longitude", longitude);
@@ -214,25 +213,35 @@ public class fragment_offer_rides extends Fragment {
         offerRide.put("Pickup Time", pTime);
         offerRide.put("Date", pDate);
         offerRide.put("Number of seats", seats);
-        offerRide.put("Booked seats", "N/A");
+        offerRide.put("Remaining Seats", seats);
         offerRide.put("Luggage", "N/A");
         offerRide.put("Car Model", car);
         offerRide.put("State", "Available");
-        offerRide.put("As", "Driver");
         offerRide.put("Special Instruction", sInstructions);
         offerRide.put("Current Date", "N/A");
 
+
         db.collection("Offer Ride")
                 .add(offerRide)
-                .addOnSuccessListener(documentReference -> Toast.makeText(getContext(), "Ride has been offered", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error! Failed to offer ride", Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getContext(), "Ride has been offered", Toast.LENGTH_SHORT).show();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error! Failed to offer ride", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
-
-    private void addGroup() {
+    private void addGroup(){
         db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        Map<String, Object> group = new HashMap<>();
+        Map<String, Object> group= new HashMap<>();
 
         group.put("Email Address", getEmail());
         group.put("Pickup Point", pPoint);
@@ -240,8 +249,18 @@ public class fragment_offer_rides extends Fragment {
 
         db.collection("Groups")
                 .add(group)
-                .addOnSuccessListener(documentReference -> Toast.makeText(getContext(), "A group for your ride has been created", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to create group", Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getContext(), "A group for your ride has been created", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Failed to create group", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }

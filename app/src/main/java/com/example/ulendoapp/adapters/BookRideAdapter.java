@@ -1,5 +1,8 @@
 package com.example.ulendoapp.adapters;
 
+import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
+import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +27,7 @@ import com.example.ulendoapp.activityClasses.BookingActivity;
 import com.example.ulendoapp.activityClasses.BookingRide;
 import com.example.ulendoapp.databinding.BookTripLayoutBinding;
 import com.example.ulendoapp.models.DriverVehiclesModel;
+import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,11 +48,14 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
             carModelYr, carColor, driverName, email, date,encodedImage;
     private FirebaseFirestore db;
     private int checkedPosition = 0;
+    private FindRideModel findRideDetails;
     private Context context;
 
-    public BookRideAdapter(ArrayList<OfferRideModel> offerRideModelList, BookRideAdapter.OnTripClickListener onTripClickListener, Context context) {
+    public BookRideAdapter(ArrayList<OfferRideModel> offerRideModelList, BookRideAdapter.OnTripClickListener onTripClickListener,
+                           FindRideModel findRideDetails, Context context) {
         this.offerRideModelList = offerRideModelList;
         this.onTripClickListener = onTripClickListener;
+        this.findRideDetails = findRideDetails;
         this.context = context;
 
     }
@@ -125,16 +133,16 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
         }
 
         void bind(final OfferRideModel offerRideModel){
-//            if (checkedPosition == -1){
-//                itemView.setBackgroundColor(Color.WHITE);
-//            }else {
-//                if (checkedPosition == getAdapterPosition()){
-//                    itemView.setBackgroundColor(Color.LTGRAY);
-//                }else {
-//                    itemView.setBackgroundColor(Color.WHITE);
-//                }
-//
-//            }
+            if (checkedPosition == -1){
+                itemView.setBackgroundColor(Color.WHITE);
+            }else {
+                if (checkedPosition == getAdapterPosition()){
+                    itemView.setBackgroundColor(Color.LTGRAY);
+                }else {
+                    itemView.setBackgroundColor(Color.WHITE);
+                }
+
+            }
             getRideData(email);
             getDriverName(email);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +157,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
                       Intent intent = new Intent(context, BookingRide.class);
                       intent.putExtra("tripDetails", (Serializable) tripDetails);
+                      intent.putExtra("findRideDetails", (Serializable) findRideDetails);
 
                       context.startActivity(intent);
                   }

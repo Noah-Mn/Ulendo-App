@@ -4,7 +4,6 @@ import static com.example.ulendoapp.activityClasses.HomeUser.userModel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.adapters.BookRideAdapter;
+import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,15 +35,12 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
     public RecyclerView recyclerViewTrip;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    public List<String> driverEmail;
-    private BookRideAdapter adapter;
     private final String TAG = "tag";
     public String dest, pTime, noPeople, pDate, pPoint, luggage;
     public ArrayList<OfferRideModel> filteredOffers;
+    public FindRideModel findRideDetails;
     private List<OfferRideModel> offerRideModelList;
-//    private List<FindRideModel> findRideModelList;
     public Intent intent;
-    MaterialButton btnBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,37 +51,22 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         recyclerViewTrip = findViewById(R.id.booking_trip_lists);
-        btnBook = findViewById(R.id.trip_book_btn);
-        driverEmail = new ArrayList<>();
 
         offerRideModelList = new ArrayList<>();
-//        findRideModelList = new ArrayList<>();
-
         getFindRideExtras();
         getOfferRideData();
-        bookingActivity();
-
-        btnBook.setVisibility(View.GONE);
     }
 
     public void setDisplayText(){
         displayText = findViewById(R.id.display_name);
         displayText.setTextSize(17);
-        int z1,z,z3,z4,z5;
-        z = offerRideModelList.size();
-
-        String diz = "list " + z ;
 
         if(filteredOffers.size() != 0){
-            displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName()).append(", ")
-                    .append(diz).append("we found these rides for you").toString());
-            btnBook.setVisibility(View.VISIBLE);
-            btnBook.setClickable(false);
+            displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName()).append(", ").append("we found these rides for you").toString());
 
         } else{
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName())
-                    .append(", ").append(diz).append("No ride match your search").toString());
-            btnBook.setVisibility(View.GONE);
+                    .append(", ").append("No ride match your search").toString());
         }
 
     }
@@ -100,13 +81,10 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         pPoint = intent.getStringExtra("pickup point");
         luggage = intent.getStringExtra("luggage");
 
+        findRideDetails = new FindRideModel(dest, pTime, pDate, noPeople, pPoint, luggage);
+
 //        Toast.makeText(BookingActivity.this, dest + " => " + pPoint, Toast.LENGTH_SHORT).show();
 
-    }
-
-    public void bookingActivity(){
-
-//        Toast.makeText(BookingActivity.this, "dead brooo", Toast.LENGTH_SHORT).show();
     }
 
     public void getOfferRideData(){
@@ -123,30 +101,24 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
                             String pickupPoint = documentSnapshot.getString("Pickup Point");
                             String pickupTime = documentSnapshot.getString("Pickup Time");
                             String luggage = documentSnapshot.getString("Luggage");
-                            String bookedSeats = documentSnapshot.getString("Booked Seats");
+                            long remainingSeats = documentSnapshot.getLong("Remaining Seats");
                             double latitude = documentSnapshot.getDouble("Latitude");
                             double longitude = documentSnapshot.getDouble("Longitude");
-                            String numberOfSeats = documentSnapshot.getString("Number of seats");
+                            long numberOfSeats = documentSnapshot.getLong("Number of seats");
                             String state = documentSnapshot.getString("State");
                             String date = documentSnapshot.getString("Date");
                             String currDate = documentSnapshot.getString("Current Date");
                             String email = documentSnapshot.getString("Email Address");
+                            String sInst = documentSnapshot.getString("Special Instruction");
                             String tripId = documentSnapshot.getId();
 
 
-                            OfferRideModel offeredRide = new OfferRideModel(latitude, longitude, pickupPoint, destination, pickupTime,
-                                    numberOfSeats, bookedSeats, luggage, state, date, currDate, email, tripId);
+                            OfferRideModel offeredRide = new OfferRideModel(pickupPoint, destination, pickupTime, date, email, tripId, luggage,
+                                    remainingSeats, latitude, longitude, numberOfSeats, state, date, currDate, sInst);
 
                             Toast.makeText(BookingActivity.this, tripId, Toast.LENGTH_SHORT).show();
 
                             offerRideModelList.add(offeredRide);
-                            driverEmail.add(email);
-                            for(int i = 0; i < driverEmail.size(); i++){
-                                if(driverEmail.get(i).equals(email)){
-                                    driverEmail.remove(i);
-                                }
-                            }
-
                             getFilteredRides();
                         }
 
@@ -173,23 +145,24 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
                 String pickupDate = offerRideModelList.get(i).getPickupDate();
                 String tripId = offerRideModelList.get(i).getTripId();
                 String luggage =  offerRideModelList.get(i).getLuggage();
-                String bookedSeats =  offerRideModelList.get(i).getBookedSeats();
+                long remainingSeats =  offerRideModelList.get(i).getRemainingSeats();
                 double latitude =  offerRideModelList.get(i).getLatitude();
                 double longitude =  offerRideModelList.get(i).getLongitude();
-                String numberOfSeats =  offerRideModelList.get(i).getNumberOfSeats();
+                long numberOfSeats =  offerRideModelList.get(i).getNumberOfSeats();
                 String state =  offerRideModelList.get(i).getState();
                 String date =  offerRideModelList.get(i).getPickupDate();
                 String currDate =  offerRideModelList.get(i).getCurrDate();
+                String sInst = offerRideModelList.get(i).getSpecialInstructions();
 
                 OfferRideModel newOffer = new OfferRideModel(pickupPoint, destination, pickupTime, pickupDate, email, tripId, luggage,
-                        bookedSeats, latitude, longitude, numberOfSeats, state, date, currDate);
+                        remainingSeats, latitude, longitude, numberOfSeats, state, date, currDate, sInst);
 
                 filteredOffers.add(newOffer);
             }
 
         }
 
-        BookRideAdapter adapter = new BookRideAdapter(filteredOffers, BookingActivity.this, this);
+        BookRideAdapter adapter = new BookRideAdapter(filteredOffers, BookingActivity.this, findRideDetails , this);
         recyclerViewTrip.setAdapter(adapter);
         recyclerViewTrip.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         setDisplayText();
@@ -206,8 +179,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
     @Override
     public void onTripClick(int position) {
         if (position >= 0){
-            btnBook.setVisibility(View.VISIBLE);
-            btnBook.setClickable(true);
+
         }
     }
 }
