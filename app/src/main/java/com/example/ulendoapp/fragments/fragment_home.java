@@ -5,6 +5,7 @@ import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.TimePicker;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.activityClasses.BookingActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,12 +39,10 @@ import java.util.Map;
 
 public class fragment_home extends Fragment {
     MaterialSpinner getCount;
-
     public TextInputEditText pickupPoint, destination, pickupTime, dropPoint, specialInstructions;
     public String pPoint, dest, pTime, noPeople, status, sInstructions, dPoint;
     public MaterialSpinner   numberOfPeople, luggage;
     public final String TAG = "tag";
-
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser user;
@@ -53,6 +53,7 @@ public class fragment_home extends Fragment {
     private int currentMinute;
     private TimePickerDialog timePickerDialog;
     private String amPm;
+    private Intent intent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,13 +73,23 @@ public class fragment_home extends Fragment {
         numberOfPeople = view.findViewById(R.id.user_trip_number_of_passengers);
         luggage = view.findViewById(R.id.user_trip_luggage);
         findTripBtn = view.findViewById(R.id.user_trip_find_btn);
-
+//        specialInstructions = view.findViewById(R.id.special_instruction);
         latLng = new LatLng(latitude, longitude);
 
         findTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTrip();
+                getTripInfo();
+                intent = new Intent(getContext(), BookingActivity.class);
+                intent.putExtra("destination", dest);
+                intent.putExtra("pickup time", pTime);
+                intent.putExtra("number of people", noPeople);
+                intent.putExtra("pickup point", pPoint);
+                intent.putExtra("luggage", String.valueOf(luggage));
+                startActivity(intent);
+                Log.d(TAG, dest + " " + pPoint);
+                Log.d(TAG, latitude + " " + longitude);
+
             }
         });
 
@@ -86,19 +97,16 @@ public class fragment_home extends Fragment {
         setLuggageSpinner(view);
         loadTimePicker();
        return view;
-
-
     }
 
     public void getTripInfo(){
         dest = destination.getText().toString();
         pTime = pickupTime.getText().toString();
         noPeople = numberOfPeople.getText().toString();
-        sInstructions = specialInstructions.getText().toString();
+//        sInstructions = specialInstructions.getText().toString();
         pPoint = pickupPoint.getText().toString();
         dPoint = "your choice";
         luggage = null;
-
     }
 
     public void loadTimePicker() {
@@ -128,10 +136,8 @@ public class fragment_home extends Fragment {
         });
     }
 
-
-
     private void addTrip(){
-        getTripInfo();
+//        getTripInfo();
         db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         Map<String, Object> trip = new HashMap<>();
@@ -144,7 +150,6 @@ public class fragment_home extends Fragment {
         trip.put("Luggage", luggage);
         trip.put("Complaint", "N/A");
         trip.put("Status", "N/A");
-
 
         db.collection("Trip")
                 .add(trip)

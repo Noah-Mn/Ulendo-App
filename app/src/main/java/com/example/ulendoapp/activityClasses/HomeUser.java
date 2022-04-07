@@ -24,6 +24,8 @@ import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -98,7 +100,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 
 public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener,
-        OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
+        OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     private MaterialTextView name, header_name, header_email;
     private String firstName, lastName, email;
@@ -134,7 +136,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE" ,
+            "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.READ_PHONE_STATE"};
 
     private FrameLayout layout;
@@ -166,7 +168,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         userModelList = new ArrayList<>();
         name = findViewById(R.id.firstName);
         toolbar.getOverflowIcon().setTint(Color.WHITE);
-
         bottom_navigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         Toast.makeText(HomeUser.this, Constants.KEY_USER_ID, Toast.LENGTH_LONG).show();
 
@@ -185,14 +186,14 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void checkService() {
-        if(checkGooglePlayServices()){
+        if (checkGooglePlayServices()) {
             mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
 
-            if(isPermissionGranted){
+            if (isPermissionGranted) {
                 checkGps();
             }
-        }else{
+        } else {
             Toast.makeText(HomeUser.this, "Google PlayService not available", Toast.LENGTH_LONG).show();
         }
         gClient = new GoogleApiClient.Builder(this)
@@ -226,8 +227,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                                 LocationServices.FusedLocationApi.requestLocationUpdates(gClient, locationRequest, HomeUser.this);
                                 gMap.setMyLocationEnabled(true);
                                 gMap.getUiSettings().setMyLocationButtonEnabled(true);
-                            }
-                            else {
+                            } else {
                                 gMap.setMyLocationEnabled(true);
                                 gMap.getUiSettings().setMyLocationButtonEnabled(true);
                                 handleNewLocation(location);
@@ -287,7 +287,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
                 gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 gMap.animateCamera(cameraUpdate);
-
                 return true;
             }
         });
@@ -392,7 +391,6 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -448,7 +446,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
-    public void setMenu(){
+    public void setMenu() {
         toolbar.inflateMenu(R.menu.menu_user);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 
@@ -458,10 +456,10 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     searchDriver();
                     replaceFragments(new fragment_recyclerview());
 
-                }else if (item.getItemId()==R.id.help){
+                } else if (item.getItemId() == R.id.help) {
                     Toast.makeText(getApplicationContext(), "Help clicked", Toast.LENGTH_SHORT).show();
 
-                }else if (item.getItemId() == R.id.log_out){
+                } else if (item.getItemId() == R.id.log_out) {
                     FirebaseAuth.getInstance().signOut();
                     HomeUser.this.startActivity(new Intent(HomeUser.this, Login.class));
                     Toast.makeText(getApplicationContext(), "log out clicked", Toast.LENGTH_SHORT).show();
@@ -481,7 +479,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 //                        progressDialog.dismiss();
                         userModelList.clear();
-                        for (DocumentSnapshot documentSnapshot: task.getResult()){
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
                             UserModel userModel = new UserModel(documentSnapshot.getString("Status"),
                                     documentSnapshot.getString("First Name"),
                                     documentSnapshot.getString("Surname"),
@@ -507,19 +505,19 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                     switch (item.getItemId()) {
                         case R.id.home:
                             fr = new fragment_home();
-                            if(count % 2 == 0 && count1 % 2 == 0){
+                            if (count % 2 == 0 && count1 % 2 == 0) {
                                 replaceFragments(fr);
                                 fragmentTransaction.hide(new fragment_notifications());
                                 count++;
                                 break;
 
-                            } else if(count % 2 == 0 && count1 % 2 != 0){
+                            } else if (count % 2 == 0 && count1 % 2 != 0) {
                                 replaceFragments(fr);
                                 fragmentTransaction.hide(new fragment_notifications());
                                 count1++;
                                 count++;
                                 break;
-                            } else{
+                            } else {
                                 layout.setVisibility(View.GONE);
                                 Toast.makeText(HomeUser.this, String.valueOf(count), Toast.LENGTH_LONG).show();
                                 count++;
@@ -527,19 +525,19 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                             }
                         case R.id.notifications:
                             fr = new fragment_notifications();
-                            if(count1 % 2 == 0 && count % 2 == 0){
+                            if (count1 % 2 == 0 && count % 2 == 0) {
                                 replaceFragments(fr);
                                 fragmentTransaction.hide(new fragment_driver_home());
                                 count1++;
                                 break;
 
-                            } else if(count1 % 2 == 0 && count % 2 != 0){
+                            } else if (count1 % 2 == 0 && count % 2 != 0) {
                                 replaceFragments(fr);
                                 fragmentTransaction.hide(new fragment_driver_home());
                                 count1++;
                                 count++;
                                 break;
-                            } else{
+                            } else {
                                 layout.setVisibility(View.GONE);
                                 Toast.makeText(HomeUser.this, String.valueOf(count1), Toast.LENGTH_LONG).show();
                                 count1++;
@@ -554,7 +552,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 }
             };
 
-    public void searchDriver(){
+    public void searchDriver() {
         menuItem = toolbar.getMenu().findItem(R.id.searchItem);
         searchView = (SearchView) menuItem.getActionView();
         searchView.setIconifiedByDefault(false);
@@ -578,29 +576,28 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 searchView.setQueryHint("Search driver");
                 Log.i("well", " this worked");
                 if (!query.isEmpty()) {
-                    for(int i = 0; i < userModelList.size(); i++){
+                    for (int i = 0; i < userModelList.size(); i++) {
                         fName = userModelList.get(i).getFirstName();
                         lName = userModelList.get(i).getLastName();
                         String userStatus = userModelList.get(i).getStatus();
                         String phoneNumber = userModelList.get(i).getPhoneNumber();
                         fullName = fName + " " + lName;
 
-                        if (fName.toLowerCase().contains(query.toLowerCase()) || lName.toLowerCase().contains(query.toLowerCase())){
+                        if (fName.toLowerCase().contains(query.toLowerCase()) || lName.toLowerCase().contains(query.toLowerCase())) {
                             UserModel model = new UserModel(userStatus, fName, lName, phoneNumber);
                             searchList.add(model);
                             Toast.makeText(HomeUser.this, "size of search list is " + searchList.size(), Toast.LENGTH_SHORT).show();
 
-                        } else if (fullName.toLowerCase().contains(query.toLowerCase())){
+                        } else if (fullName.toLowerCase().contains(query.toLowerCase())) {
                             UserModel model = new UserModel(userStatus, fName, lName, phoneNumber);
                             searchList.add(model);
                         }
 
                     }
 
-                } else if(query.isEmpty()){
+                } else if (query.isEmpty()) {
                     searchList.clear();
                 }
-
 
 
                 recyclerView = findViewById(R.id.searchRecyclerView);
@@ -609,13 +606,13 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 recyclerView.setLayoutManager(new LinearLayoutManager(HomeUser.this));
 
                 return true;
-                }
+            }
 
         });
 
     }
 
-    public void getUserModel(){
+    public void getUserModel() {
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
                 .get()
@@ -639,7 +636,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
                                 userModel = new UserModel(f_name, surname, birthday, gender, phoneNumber, email,
                                         nationalId, physicalAddress, status, numberOfTrips, rating);
-                                }
+                            }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -647,7 +644,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 });
     }
 
-    public void getUserData(){
+    public void getUserData() {
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
                 .get()
@@ -676,7 +673,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 });
     }
 
-    public String getEmail(){
+    public String getEmail() {
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
@@ -684,9 +681,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else {
+        } else {
             super.onBackPressed();
             FirebaseAuth.getInstance().signOut();
             HomeUser.this.startActivity(new Intent(HomeUser.this, Login.class));
@@ -698,14 +695,14 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         return true;
     }
 
-    private void replaceFragments(Fragment fragment){
+    private void replaceFragments(Fragment fragment) {
         layout.setVisibility(View.VISIBLE);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         fragmentTransaction.replace(R.id.fragment_container_user, fragment);
         fragmentTransaction.commit();
-        }
+    }
 
 
     @Override

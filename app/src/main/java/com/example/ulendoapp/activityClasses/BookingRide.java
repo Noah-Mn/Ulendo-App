@@ -24,7 +24,13 @@ import java.util.List;
 
 public class BookingRide extends AppCompatActivity {
     TextView dName, origin, destination, remainingSeats, date, pTime, sInstructions;
-    String textName, textOrigin, textDestination, textSeats, textDate, textTime, textInst;
+    String textName;
+    String textOrigin;
+    String textDestination;
+    String textSeats;
+    String textDate;
+    String textTime;
+    String textInst;
     TextView tName, tOrigin, tDestination, tSeats, tDate, tTime, tInst;
     MaterialButton btnBook;
     OfferRideModel tripDetails;

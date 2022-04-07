@@ -87,4 +87,7 @@
     <string name="_277">(277)</string>
     <string name="personal_information">Personal Information</string>
     <string name="name_national_id_email_physical_address">Name, National ID, Email, Physical Address</string>
+    <string name="book_a_ride">Book a ride</string>
+    <string name="q">!</string>
+    <string name="hey">Hey</string>
 </resources>

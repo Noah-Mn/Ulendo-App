@@ -5,7 +5,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".activityClasses.HomeUser">
 
     <RelativeLayout
@@ -16,8 +15,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/drawer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbarUser"
@@ -31,17 +29,17 @@
                     android:id="@+id/imageMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/todo"
                     android:src="@drawable/ic_baseline_menu_24"
-                    app:tint="@color/white"
-                    android:contentDescription="TODO" />
+                    app:tint="@color/white" />
 
                 <LinearLayout
                     android:id="@+id/toolbarLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginStart="30dp"
-                    android:layout_marginEnd="80dp">
+                    android:layout_marginEnd="80dp"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -55,10 +53,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="5dp"
-                            android:text="Hey"
+                            android:text="@string/hey"
                             android:textAlignment="center"
                             android:textColor="@color/white"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/firstName"
@@ -66,16 +64,16 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:textColor="@color/white"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/excraMark"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:text="!"
+                            android:text="@string/q"
                             android:textColor="@color/white"
-                            android:textSize="15dp"/>
+                            android:textSize="15sp" />
                     </LinearLayout>
 
                     <com.google.android.material.textview.MaterialTextView
@@ -84,9 +82,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="40dp"
                         android:paddingStart="5dp"
-                        android:text="book a ride"
+                        android:text="@string/book_a_ride"
                         android:textColor="@color/white"
-                        android:textSize="15dp"/>
+                        android:textSize="15sp" />
 
                 </LinearLayout>
             </com.google.android.material.appbar.MaterialToolbar>
@@ -108,44 +106,42 @@
                 android:id="@+id/fragment_container_user"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/bottom_navigation"
-                android:layout_below="@+id/drawer"
                 android:soundEffectsEnabled="true" />
         </fragment>
-<!--
+        <!--
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_below="@+id/drawer"
-            android:layout_above="@+id/bottom_navigation"
-            android:apiKey="AIzaSyC9pFcQr1IsjSRl36s_Xbt4ZDzE3fSslcs"
-            android:layout_weight="1">
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_below="@+id/drawer"
+                    android:layout_above="@+id/bottom_navigation"
+                    android:apiKey="AIzaSyC9pFcQr1IsjSRl36s_Xbt4ZDzE3fSslcs"
+                    android:layout_weight="1">
 
-            <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottom_navigation"
-            android:layout_below="@+id/drawer"
-            android:soundEffectsEnabled="true" />
-        </com.google.android.gms.maps.MapView>
+                    <FrameLayout
+                    android:id="@+id/fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/bottom_navigation"
+                    android:layout_below="@+id/drawer"
+                    android:soundEffectsEnabled="true" />
+                </com.google.android.gms.maps.MapView>
 
--->
+        -->
 
         <!--        <fragment-->
-<!--            android:id="@+id/google_map"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_above="@+id/bottom_navigation"-->
-<!--            android:name="com.google.android.gms.maps.SupportMapFragment"-->
-<!--            android:layout_below="@+id/drawer"/>-->
+        <!--            android:id="@+id/google_map"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_above="@+id/bottom_navigation"-->
+        <!--            android:name="com.google.android.gms.maps.SupportMapFragment"-->
+        <!--            android:layout_below="@+id/drawer"/>-->
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -155,14 +151,13 @@
             app:labelVisibilityMode="unlabeled"
             app:menu="@menu/bottom_navigation_menu" />
 
-
     </RelativeLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:headerLayout="@layout/navigation_header"
-        app:menu= "@menu/navigation_drawer"
         android:layout_gravity="start"
-        />
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/navigation_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>

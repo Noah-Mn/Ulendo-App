@@ -36,6 +36,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class fragment_find_rides extends Fragment {
     MaterialSpinner getCount;
@@ -83,16 +84,14 @@ public class fragment_find_rides extends Fragment {
             public void onClick(View view) {
                 getTripInfo();
                 intent = new Intent(getContext(), BookingActivity.class);
-
                 intent.putExtra("destination", dest);
                 intent.putExtra("pickup time", pTime);
                 intent.putExtra("number of people", noPeople);
                 intent.putExtra("pickup date", pDate);
                 intent.putExtra("pickup point", pPoint);
                 intent.putExtra("luggage", String.valueOf(luggage));
-                addTrip();
+//                addTrip();
                 startActivity(intent);
-
                 Log.d(TAG, dest + " " + pPoint);
                 Log.d(TAG, latitude + " " + longitude);
             }
@@ -104,11 +103,11 @@ public class fragment_find_rides extends Fragment {
     }
 
     public void getTripInfo(){
-        dest = destination.getText().toString();
-        pTime = pickupTime.getText().toString();
-        pDate = pickupDate.getText().toString();
+        dest = Objects.requireNonNull(destination.getText()).toString();
+        pTime = Objects.requireNonNull(pickupTime.getText()).toString();
+        pDate = Objects.requireNonNull(pickupDate.getText()).toString();
         noPeople = numberOfPeople.getText().toString();
-        pPoint = pickupPoint.getText().toString();
+        pPoint = Objects.requireNonNull(pickupPoint.getText()).toString();
         luggage = null;
 
     }
