@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -51,6 +53,7 @@ public class BookingRide extends AppCompatActivity {
     private Snackbar snackbar;
     private FindRideModel fRideDetails;
     private long prevValue;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class BookingRide extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
+        handler = new Handler();
 
         dName = findViewById(R.id.booking_driver_name_text);
         origin = findViewById(R.id.booking_origin_text);
@@ -75,13 +79,10 @@ public class BookingRide extends AppCompatActivity {
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getTripId();
-//                addBookedTrip(view);
-//                startActivity(new Intent(BookingRide.this, BookingActivity.class));
+                getTripId(view);
             }
         });
     }
-
 
     public String getEmail(){
         String emailAddress;
@@ -89,7 +90,7 @@ public class BookingRide extends AppCompatActivity {
         return emailAddress;
     }
 
-    public void getTripId(){
+    public void getTripId(View view){
         db.collection("Offer Ride")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -98,7 +99,7 @@ public class BookingRide extends AppCompatActivity {
 //                        progressDialog.dismiss();
                         for (DocumentSnapshot documentSnapshot: task.getResult()){
                             String tripId = documentSnapshot.getId();
-                            checkRemainingSeats(tripId);
+                            checkRemainingSeats(tripId, view);
                         }
 
                     }
@@ -112,9 +113,11 @@ public class BookingRide extends AppCompatActivity {
 
     }
 
-    public void checkRemainingSeats(String tripId){
+
+    public void checkRemainingSeats(String tripId, View view){
         getTripExtras();
         db.collection("Offer Ride")
+                .whereEqualTo(FieldPath.documentId(), tripId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -144,6 +147,16 @@ public class BookingRide extends AppCompatActivity {
                       public void onSuccess(Void aVoid) {
                           Log.d(TAG, "DocumentSnapshot successfully updated!");
                           remainingSeats.setText(String.valueOf(newValue));
+                          snackbar = Snackbar.make(view, "You have successfully requested to book this ride", Snackbar.LENGTH_LONG);
+                          snackbar.show();
+                          addBookedTrip();
+
+                          handler.postDelayed(new Runnable() {
+                              @Override
+                              public void run() {
+                                  BookingRide.super.onBackPressed();
+                              }
+                          }, 3000);
                       }
                   })
                   .addOnFailureListener(new OnFailureListener() {
@@ -152,12 +165,11 @@ public class BookingRide extends AppCompatActivity {
                           Log.w(TAG, "Error updating document", e);
                       }
                   });
-            Toast.makeText(BookingRide.this, String.valueOf(newValue), Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    private void addBookedTrip(View view){
+    private void addBookedTrip(){
         getTripExtras();
         db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -179,9 +191,6 @@ public class BookingRide extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "inserted successfully");
-                        snackbar = Snackbar.make(view, "You have successfully requested to book this ride", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                        BookingRide.super.onBackPressed();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -197,21 +206,20 @@ public class BookingRide extends AppCompatActivity {
     public void setText(){
         getTripExtras();
         getDriverName();
+//        getRemainingSeats();
 
         textOrigin =  tDetails.getPickupPoint();
         textDestination =  tDetails.getDestination();
-        textSeats =  tDetails.getNumberOfSeats();
         textDate =  tDetails.getPickupDate();
         textTime =  tDetails.getPickupTime();
         textInst =  tDetails.getSpecialInstructions();
+        remainingSeats.setText(String.valueOf(tDetails.getRemainingSeats()));
 
         origin.setText(textOrigin);
         destination.setText(textDestination);
-        remainingSeats.setText(String.valueOf(textSeats));
         date.setText(textDate);
         pTime.setText(textTime);
         sInstructions.setText(textInst);
-
 //        Toast.makeText(this, tripDetails.getTripId(), Toast.LENGTH_LONG).show();
     }
 

@@ -186,7 +186,6 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
                             String vModelYr = documentSnapshot.getString("Model Year");
                             String vColor = documentSnapshot.getString("Vehicle Color");
 
-                            DriverVehiclesModel carDetail = new DriverVehiclesModel(vBrand, vModel, vModelYr, vColor);
                             String car = new StringBuilder().append(vBrand).append(" ").append(vModel).append(" ")
                                     .append(vModelYr).append(" ").append(vColor).toString();
                             binding.carDetails.setText(car);
