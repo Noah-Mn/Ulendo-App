@@ -54,6 +54,11 @@ public class BookingRide extends AppCompatActivity {
     private FindRideModel fRideDetails;
     private long prevValue;
     private Handler handler;
+    private long newValue;
+    private long bookedSeats;
+    private String userEmail;
+    private String bookingId;
+    private String tripId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +84,7 @@ public class BookingRide extends AppCompatActivity {
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getTripId(view);
+                checkRemainingSeats(view);
             }
         });
     }
@@ -90,18 +95,19 @@ public class BookingRide extends AppCompatActivity {
         return emailAddress;
     }
 
-    public void getTripId(View view){
+
+    public void checkRemainingSeats(View view){
+        getTripExtras();
         db.collection("Offer Ride")
+                .whereEqualTo(FieldPath.documentId(), tDetails.getTripId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        progressDialog.dismiss();
-                        for (DocumentSnapshot documentSnapshot: task.getResult()){
-                            String tripId = documentSnapshot.getId();
-                            checkRemainingSeats(tripId, view);
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                            prevValue = documentSnapshot.getLong("Remaining Seats");
+                            updateSeats(view);
                         }
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -113,18 +119,18 @@ public class BookingRide extends AppCompatActivity {
 
     }
 
-
-    public void checkRemainingSeats(String tripId, View view){
+    public void getBookingDetails(View view){
         getTripExtras();
-        db.collection("Offer Ride")
-                .whereEqualTo(FieldPath.documentId(), tripId)
+        db.collection("Booking Ride")
+                .whereEqualTo("Trip Id", tDetails.getTripId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            long rSeats = documentSnapshot.getLong("Remaining Seats");
-                            prevValue = rSeats;
+                            userEmail = documentSnapshot.getString("Passenger Email Address");
+                            bookingId = documentSnapshot.getId();
+                            tripId = documentSnapshot.getString("Trip Id");
                         }
                     }
                 })
@@ -134,37 +140,43 @@ public class BookingRide extends AppCompatActivity {
 
                     }
                 });
-        long bookedSeats = Integer.parseInt(fRideDetails.getBookedSeats());
 
-        long newValue = prevValue - bookedSeats;
+    }
+
+    private void updateSeats(View view) {
+        bookedSeats = Integer.parseInt(fRideDetails.getBookedSeats());
+        newValue = prevValue - bookedSeats;
 
         if(newValue >= 0){
             db.collection("Offer Ride")
-                  .document( tDetails.getTripId())
-                  .update("Remaining Seats", newValue)
-                  .addOnSuccessListener(new OnSuccessListener<Void>() {
-                      @Override
-                      public void onSuccess(Void aVoid) {
-                          Log.d(TAG, "DocumentSnapshot successfully updated!");
-                          remainingSeats.setText(String.valueOf(newValue));
-                          snackbar = Snackbar.make(view, "You have successfully requested to book this ride", Snackbar.LENGTH_LONG);
-                          snackbar.show();
-                          addBookedTrip();
+                    .document( tDetails.getTripId())
+                    .update("Remaining Seats", newValue)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully updated!");
+                            remainingSeats.setText(String.valueOf(newValue));
+                            snackbar = Snackbar.make(view, "You have successfully requested to book this ride", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                            addBookedTrip();
 
-                          handler.postDelayed(new Runnable() {
-                              @Override
-                              public void run() {
-                                  BookingRide.super.onBackPressed();
-                              }
-                          }, 3000);
-                      }
-                  })
-                  .addOnFailureListener(new OnFailureListener() {
-                      @Override
-                      public void onFailure(@NonNull Exception e) {
-                          Log.w(TAG, "Error updating document", e);
-                      }
-                  });
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    BookingRide.super.onBackPressed();
+                                }
+                            }, 3000);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error updating document", e);
+                        }
+                    });
+        } else{
+            snackbar = Snackbar.make(view, "The ride is out of seats", Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
     }
 
@@ -206,7 +218,6 @@ public class BookingRide extends AppCompatActivity {
     public void setText(){
         getTripExtras();
         getDriverName();
-//        getRemainingSeats();
 
         textOrigin =  tDetails.getPickupPoint();
         textDestination =  tDetails.getDestination();
