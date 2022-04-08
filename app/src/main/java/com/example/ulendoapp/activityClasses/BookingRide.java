@@ -85,7 +85,7 @@ public class BookingRide extends AppCompatActivity {
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                getBookingDetails();
+                getBookingDetails();
                 checkRemainingSeats(view);
             }
         });
@@ -148,7 +148,7 @@ public class BookingRide extends AppCompatActivity {
     }
 
     public  void checkBookedRide(String email, String id){
-        if(email == fRideDetails.getEmail() && id == tDetails.getTripId()){
+        if(email == getEmail() && id == tDetails.getTripId()){
             btnBook.setVisibility(View.INVISIBLE);
 
         } else{
