@@ -133,7 +133,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
         }
 
         void bind(final OfferRideModel offerRideModel){
-           /* if (checkedPosition == -1){
+            if (checkedPosition == -1){
                 itemView.setBackgroundColor(Color.WHITE);
             }else {
                 if (checkedPosition == getAdapterPosition()){
@@ -142,7 +142,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
                     itemView.setBackgroundColor(Color.WHITE);
                 }
 
-            }*/
+            }
             getRideData(email);
             getDriverName(email);
             itemView.setOnClickListener(new View.OnClickListener() {
