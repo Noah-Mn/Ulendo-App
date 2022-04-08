@@ -15,9 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.models.BookRequest;
 import com.example.ulendoapp.models.DriverVehiclesModel;
 import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
+import com.example.ulendoapp.models.User;
+import com.example.ulendoapp.network.ApiClient;
+import com.example.ulendoapp.network.ApiService;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,17 +33,27 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookingRide extends AppCompatActivity {
     private static final String TAG = "tag";
@@ -49,6 +63,7 @@ public class BookingRide extends AppCompatActivity {
     private MaterialButton btnBook;
     private String driverName;
     private OfferRideModel tDetails;
+    private List<BookRequest> bookRequests;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
@@ -62,6 +77,7 @@ public class BookingRide extends AppCompatActivity {
     private String bookingId;
     private String tripId;
     private boolean accept;
+    User receiver;
     PreferenceManager preferenceManager;
 
     @Override
@@ -74,6 +90,8 @@ public class BookingRide extends AppCompatActivity {
         handler = new Handler();
         preferenceManager = new PreferenceManager(getApplicationContext());
 
+        bookRequests = new ArrayList<>();
+        receiver = new User();
         dName = findViewById(R.id.booking_driver_name_text);
         origin = findViewById(R.id.booking_origin_text);
         destination = findViewById(R.id.booking_destination_text);
@@ -91,6 +109,7 @@ public class BookingRide extends AppCompatActivity {
             public void onClick(View view) {
                 getBookingDetails();
                 checkRemainingSeats(view);
+                sendBookingRequest();
             }
         });
     }
@@ -101,6 +120,9 @@ public class BookingRide extends AppCompatActivity {
         return emailAddress;
     }
 
+    public void setIntent(){
+
+    }
 
     public void checkRemainingSeats(View view){
         getTripExtras();
@@ -314,4 +336,83 @@ public class BookingRide extends AppCompatActivity {
 
         return tDetails;
     }
+    private void sendBookingRequest(){
+        db.collection("Booking Ride")
+                .whereEqualTo(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .whereEqualTo(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_T_RECEIVER_ID))
+                .addSnapshotListener(eventListener);
+        db.collection("Booking Ride")
+                .whereEqualTo(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_T_RECEIVER_ID))
+                .whereEqualTo(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener(eventListener);
+    }
+    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+        if (error != null) {
+            return;
+        }if (value != null){
+           for(DocumentChange documentChange : value.getDocumentChanges()){
+               if (documentChange.getType() ==  DocumentChange.Type.ADDED){
+                   BookRequest bookRequest = new BookRequest();
+                   bookRequest.senderId = documentChange.getDocument().getString(Constants.KEY_T_SENDER_ID);
+                   bookRequest.receiverId = documentChange.getDocument().getString(Constants.KEY_T_RECEIVER_ID);
+                   bookRequest.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
+                   bookRequests.add(bookRequest);
+               }
+           }
+        }
+        try {
+            JSONArray tokens = new JSONArray();
+            tokens.put(receiver.token);
+
+            JSONObject data = new JSONObject();
+            data.put(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+            data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
+            data.put(Constants.KEY_MESSAGE, "Booking Request");
+
+            JSONObject body = new JSONObject();
+            body.put(Constants.REMOTE_MSG_DATA, data);
+            body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
+
+            sendNotification(body.toString());
+        }catch (Exception exception){
+            showToast(exception.getMessage());
+        }
+    };
+private void sendNotification(String messageBody){
+    ApiClient.getClient().create(ApiService.class).sendMessage(
+            Constants.getRemoteMsgHeaders(),
+            messageBody
+    ).enqueue(new Callback<String>() {
+        @Override
+        public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+            if (response.isSuccessful()){
+                try {
+                    if (response.body() != null){
+                        JSONObject responseJson = new JSONObject(response.body());
+                        JSONArray results = responseJson.getJSONArray("results");
+                        if (responseJson.getInt("failure") == 1){
+                            JSONObject error = (JSONObject) results.get(0);
+                            showToast(error.getString("error"));
+                        }
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+                showToast("Notification sent successfully");
+            }else {
+                showToast("Error: " + response.code());
+            }
+        }
+
+        @Override
+        public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+            showToast(t.getMessage());
+        }
+    });
+
+}
+    private void showToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
 }

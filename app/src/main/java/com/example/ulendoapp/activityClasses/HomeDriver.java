@@ -291,7 +291,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 //        currentLatitude = this.location.getLatitude();
 //        currentLongitude = this.location.getLongitude();
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
+        cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
 
         gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         gMap.animateCamera(cameraUpdate);

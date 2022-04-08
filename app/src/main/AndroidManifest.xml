@@ -20,6 +20,9 @@
         android:theme="@style/Theme.UlendoApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activityClasses.BookRideRequest"
+            android:exported="false" />
+        <activity
             android:name=".activityClasses.TermsAndConditionsCustomer"
             android:exported="false" />
         <activity
