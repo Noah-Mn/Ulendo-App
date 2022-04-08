@@ -15,5 +15,4 @@ ApiService {
             @HeaderMap HashMap<String, String> headers,
             @Body String messageBody
             );
-
 }

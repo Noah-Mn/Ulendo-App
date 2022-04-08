@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,6 +43,7 @@ public class DriverSignup extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
+    PreferenceManager preferenceManager;
 
 
     @Override
@@ -50,6 +53,7 @@ public class DriverSignup extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         textVehicleBrand = findViewById(R.id.text_vehicle_brand);
         textVehicleModel = findViewById(R.id.text_vehicle_model);
@@ -168,7 +172,7 @@ public class DriverSignup extends AppCompatActivity {
                                 db.collection("Users")
                                         .document(userId)
                                         .update("Status","driver" );
-
+                                preferenceManager.putString(Constants.KEY_T_RECEIVER_ID, userId);
                                 Toast.makeText(DriverSignup.this, "successfully changed status", Toast.LENGTH_LONG).show();
                             }
                         } else {

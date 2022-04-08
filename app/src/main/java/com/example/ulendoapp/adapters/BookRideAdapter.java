@@ -47,7 +47,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
     private String textDriverName, textTripState, pickupTime, pickupPoint, destination, carBrand, carModel,
             carModelYr, carColor, driverName, email, date,encodedImage;
     private FirebaseFirestore db;
-    private int checkedPosition = 0;
+    private int checkedPosition = -1;
     private FindRideModel findRideDetails;
     private Context context;
 
@@ -133,16 +133,16 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
         }
 
         void bind(final OfferRideModel offerRideModel){
-            if (checkedPosition == -1){
-                itemView.setBackgroundColor(Color.WHITE);
-            }else {
-                if (checkedPosition == getAdapterPosition()){
-                    itemView.setBackgroundColor(Color.LTGRAY);
-                }else {
-                    itemView.setBackgroundColor(Color.WHITE);
-                }
-
-            }
+//            if (checkedPosition == -1){
+//                itemView.setBackgroundColor(Color.WHITE);
+//            }else {
+//                if (checkedPosition == getAdapterPosition()){
+//                    itemView.setBackgroundColor(Color.LTGRAY);
+//                }else {
+//                    itemView.setBackgroundColor(Color.WHITE);
+//                }
+//
+//            }
             getRideData(email);
             getDriverName(email);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +158,6 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
                       Intent intent = new Intent(context, BookingRide.class);
                       intent.putExtra("tripDetails", (Serializable) tripDetails);
                       intent.putExtra("findRideDetails", (Serializable) findRideDetails);
-
                       context.startActivity(intent);
                   }
                 }

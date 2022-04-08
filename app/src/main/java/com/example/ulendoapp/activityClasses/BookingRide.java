@@ -18,6 +18,8 @@ import com.example.ulendoapp.R;
 import com.example.ulendoapp.models.DriverVehiclesModel;
 import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
+import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -60,6 +62,7 @@ public class BookingRide extends AppCompatActivity {
     private String bookingId;
     private String tripId;
     private boolean accept;
+    PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class BookingRide extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         handler = new Handler();
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         dName = findViewById(R.id.booking_driver_name_text);
         origin = findViewById(R.id.booking_origin_text);
@@ -231,6 +235,8 @@ public class BookingRide extends AppCompatActivity {
         bookedTrip.put("Booked Date", tDetails.getPickupDate());
         bookedTrip.put("Current Date", tDetails.getCurrDate());
         bookedTrip.put("Booking Status", "pending");
+        bookedTrip.put(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+        bookedTrip.put(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_T_RECEIVER_ID));
 
         db.collection("Booking Ride")
                 .add(bookedTrip)

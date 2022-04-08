@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:background="@color/white"
-            android:text="Book Rire"
+            android:text="Book Ride"
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:text="Driver Name"
                     android:padding="5dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -157,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:text="Banthapo Chijuwa Phiri"
                     android:padding="6dp"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     />
 
                 <TextView
@@ -211,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:text="Instruction"
                     android:padding="6dp"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     />
             </LinearLayout>
         </LinearLayout>
