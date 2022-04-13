@@ -1,7 +1,7 @@
 package com.example.ulendoapp.models;
 
 public class BookingModel {
-    String driverEmail, passengerEmail, tripId, origin, dest, date, currDate;
+    String driverEmail,passengerName, passengerEmail, tripId, origin, dest, date, currDate;
     long noPassengers;
 
     public BookingModel(String driverEmail, String passengerEmail, String tripId, String origin, String dest, String date, String currDate, long noPassengers) {
@@ -15,13 +15,26 @@ public class BookingModel {
         this.noPassengers = noPassengers;
     }
 
-    public BookingModel(String email, long noPassengers, String origin, String destination, String date) {
+    public BookingModel(String email, long noPassengers, String origin, String destination,String passengerName, String date) {
         this.date = date;
         this.noPassengers = noPassengers;
         this.origin = origin;
         this.dest = destination;
         this.passengerEmail = email;
+        this.passengerName = passengerName;
 
+    }
+
+    public BookingModel() {
+
+    }
+
+    public String getPassengerName() {
+        return passengerName;
+    }
+
+    public void setPassengerName(String passengerName) {
+        this.passengerName = passengerName;
     }
 
     public String getDriverEmail() {

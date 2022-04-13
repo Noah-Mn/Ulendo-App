@@ -17,8 +17,11 @@ import com.example.ulendoapp.activityClasses.BookingActivity;
 import com.example.ulendoapp.activityClasses.BookingRide;
 import com.example.ulendoapp.adapters.BookRideAdapter;
 import com.example.ulendoapp.adapters.NotificationAdapter;
+import com.example.ulendoapp.adapters.TripsAdapter;
 import com.example.ulendoapp.models.BookingModel;
 import com.example.ulendoapp.models.OfferRideModel;
+import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -29,12 +32,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class fragment_driver_notifications extends Fragment{
     private RecyclerView recyclerView;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
+    PreferenceManager preferenceManager;
     public fragment_driver_notifications() {
         // Required empty public constructor
     }
@@ -42,6 +48,7 @@ public class fragment_driver_notifications extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        preferenceManager = new PreferenceManager(getContext());
     }
 
     @Override
@@ -52,9 +59,54 @@ public class fragment_driver_notifications extends Fragment{
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         recyclerView = view.findViewById(R.id.notification_recyclerview);
+        preferenceManager = new PreferenceManager(getContext());
+
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_driver_notifications, container, false);
+        db.collection("Booking Ride")
+                .whereEqualTo("Passenger Email Address", getEmail())
+                .whereEqualTo(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .get()
+                .addOnCompleteListener(task -> {
+//                        progressDialog.dismiss();
+
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                            List<BookingModel> request = new ArrayList<>();
+                            String email = documentSnapshot.getString("Driver Email Address");
+                            long noPassengers = documentSnapshot.getLong("Number of Passengers");
+                            String origin = documentSnapshot.getString("Origin");
+                            String destination = documentSnapshot.getString("Destination");
+                            String date = documentSnapshot.getString("Booked Date");
+                            String passengerName = documentSnapshot.getString(Constants.KEY_PASSENGER_NAME);
+
+                            BookingModel rTrip = new BookingModel();
+                            rTrip.setOrigin(origin);
+                            rTrip.setPassengerName(passengerName);
+                            rTrip.setDest(destination);
+                            rTrip.setDate(date);
+                            rTrip.setNoPassengers(noPassengers);
+                            rTrip.setDriverEmail(email);
+                            request.add(rTrip);
+
+                            if (request.size() > 0) {
+                                NotificationAdapter adapter = new NotificationAdapter(request, getContext());
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                recyclerView.setAdapter(adapter);
+                                Toast.makeText(getContext(), "Hey you", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(getContext(), "You don't have any notifications", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }else {
+                        Toast.makeText(getContext(), "Failed to get notifications", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        return view;
+
     }
     public String getEmail(){
         String emailAddress;
@@ -62,39 +114,4 @@ public class fragment_driver_notifications extends Fragment{
         return emailAddress;
     }
 
-    public  void getRequestInfo(){
-        db.collection("Booking Ride")
-                .whereEqualTo("Passenger Email Address", getEmail())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        progressDialog.dismiss();
-                        for (DocumentSnapshot documentSnapshot: task.getResult()){
-                            String email = documentSnapshot.getString("Driver Email Address");
-                            long noPassengers = documentSnapshot.getLong("Number of Passengers");
-                            String origin = documentSnapshot.getString("Origin");
-                            String destination = documentSnapshot.getString("Destination");
-                            String date = documentSnapshot.getString("Booked Date");
-
-                            BookingModel rTrip = new BookingModel(email, noPassengers, origin, destination, date);
-                            ArrayList<BookingModel> request = new ArrayList<>();
-                            request.add(rTrip);
-
-
-                            NotificationAdapter adapter = new NotificationAdapter(request);
-                            recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-                        }
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(BookingActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 }

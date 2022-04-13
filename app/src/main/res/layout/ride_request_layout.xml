@@ -6,40 +6,72 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:elevation="10dp"
+    android:padding="@dimen/_5sdp"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/close_window"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/background_close_window"
+            android:gravity="center"
+            android:text="@string/x"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp" />
+
+        <RelativeLayout
             android:id="@+id/place1"
             android:layout_width="match_parent"
+            android:layout_below="@id/close_window"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:background="#0D000000"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true">
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="#0D000000"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                android:contentDescription="TODO" />
+                android:id="@+id/passenger_pic"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:contentDescription="TODO"
+                android:src="@mipmap/ic_launcher" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/passenger_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/passenger_pic"
                 android:text="Hello name"
-                android:textColor="@color/black"/>
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@color/black" />
 
-        </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/passenger_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/passenger_name"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_toEndOf="@id/passenger_pic"
+                android:text="Hello name"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/_13sdp" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/place2"
@@ -108,18 +140,20 @@
             android:layout_below="@+id/place3">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
                 android:layout_alignParentStart="true"
-                android:text="Reject"/>
+                android:layout_gravity="start"
+                android:text="Reject" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_reject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
                 android:layout_alignParentEnd="true"
-                android:text="Accept"/>
+                android:layout_gravity="end"
+                android:text="Accept" />
 
         </RelativeLayout>
     </RelativeLayout>

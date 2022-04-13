@@ -90,4 +90,6 @@
     <string name="book_a_ride">Book a ride</string>
     <string name="q">!</string>
     <string name="hey">Hey</string>
+    <string name="notifications">Notifications</string>
+    <string name="x">X</string>
 </resources>

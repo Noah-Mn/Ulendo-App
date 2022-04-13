@@ -10,6 +10,7 @@ public class Constants {
     public static final String KEY_USER_ID = "userId";
     public static final String KEY_IMAGE = "Profile Pic";
     public static final String KEY_T_SENDER_ID = "Trip sender ID";
+    public static final String KEY_PASSENGER_NAME = "Passenger Name";
     public static final String KEY_T_RECEIVER_ID = "Trip receiver ID";
     public static final String KEY_USER = "user";
     public static final String KEY_COLLECT_CHAT = "chat";

@@ -1,79 +1,97 @@
 package com.example.ulendoapp.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ulendoapp.R;
+import com.example.ulendoapp.databinding.NotificationLayoutBinding;
+import com.example.ulendoapp.databinding.RideRequestLayoutBinding;
 import com.example.ulendoapp.models.BookingModel;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.example.ulendoapp.viewHolders.UserRideViewHolder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> implements View.OnClickListener {
-    public ArrayList<BookingModel> request;
-    public String driverEmail, passengerEmail, tripId, origin, dest, date, currDate;
-    public long noPassengers;
-    private TextView notification;
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>{
+    public List<BookingModel> request;
 
-    public NotificationAdapter(View userView, ArrayList<BookingModel> request) {
+    Context context;
+    PreferenceManager preferenceManager;
+    FirebaseFirestore db;
+    FirebaseAuth auth;
+    FirebaseUser currentUser;
+
+    public NotificationAdapter(List<BookingModel> request, Context context) {
         this.request = request;
-    }
-
-    @Override
-    public void onClick(View view) {
-
-    }
-
-    public NotificationAdapter(ArrayList<BookingModel> request) {
-        this.request = request;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public NotificationAdapter.NotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View userView = inflater.inflate(R.layout.notification_layout, parent, false);
-
-        NotificationViewHolder userHolder = new NotificationViewHolder(userView);
-        return userHolder;
+        RideRequestLayoutBinding rideRequestLayoutBinding = RideRequestLayoutBinding.inflate(LayoutInflater.from(
+                parent.getContext()), parent, false);
+        return new NotificationViewHolder(rideRequestLayoutBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.NotificationViewHolder holder, int position) {
-        driverEmail = request.get(position).getDriverEmail();
-        passengerEmail = request.get(position).getPassengerEmail();
-        tripId = request.get(position).getTripId();
-        origin = request.get(position).getOrigin();
-        dest = request.get(position).getDest();
-        date = request.get(position).getDate();
-        currDate = request.get(position).getCurrDate();
-        noPassengers = request.get(position).getNoPassengers();
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        preferenceManager = new PreferenceManager(context.getApplicationContext());
 
-        notification.setText("home");
+        BookingModel bookingModel = request.get(position);
+        holder.binding.passengerName.setText(bookingModel.getPassengerName());
+        holder.binding.pickUp.setText(bookingModel.getOrigin());
+        holder.binding.dropOff.setText(bookingModel.getDest());
+        holder.binding.passengerNumber.setText((int) bookingModel.getNoPassengers());
+        holder.binding.btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Accept !!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.binding.btnReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Reject!!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        driverEmail = request.get(position).getDriverEmail();
+//        passengerEmail = request.get(position).getPassengerEmail();
+//        tripId = request.get(position).getTripId();
+//        origin = request.get(position).getOrigin();
+//        dest = request.get(position).getDest();
+//        date = request.get(position).getDate();
+//        currDate = request.get(position).getCurrDate();
+//        noPassengers = request.get(position).getNoPassengers();
+//        notification.setText("home");
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return request.size();
     }
 
-    public class NotificationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class NotificationViewHolder extends RecyclerView.ViewHolder{
 
-        public NotificationViewHolder(@NonNull View itemView) {
-            super(itemView);
-            notification = itemView.findViewById(R.id.notification_text);
-
-        }
-
-        @Override
-        public void onClick(View view) {
-
+        RideRequestLayoutBinding binding;
+        NotificationViewHolder(@NonNull RideRequestLayoutBinding rideRequestLayoutBinding) {
+            super(rideRequestLayoutBinding.getRoot());
+            binding = rideRequestLayoutBinding;
         }
 
     }

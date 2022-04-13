@@ -58,7 +58,7 @@ import retrofit2.Response;
 public class BookingRide extends AppCompatActivity {
     private static final String TAG = "tag";
     private TextView dName, origin, destination, remainingSeats, date, pTime, sInstructions, bookedText;
-    private String textName, textOrigin, textDestination, textDate, textTime, textInst;
+    private String passengerName, textOrigin, textDestination, textDate, textTime, textInst;
     public long textSeats;
     private MaterialButton btnBook;
     private String driverName;
@@ -110,6 +110,7 @@ public class BookingRide extends AppCompatActivity {
                 getBookingDetails();
                 checkRemainingSeats(view);
                 sendBookingRequest();
+                getPassengerName();
             }
         });
     }
@@ -256,6 +257,7 @@ public class BookingRide extends AppCompatActivity {
         bookedTrip.put("Destination", tDetails.getDestination());
         bookedTrip.put("Booked Date", tDetails.getPickupDate());
         bookedTrip.put("Current Date", tDetails.getCurrDate());
+        bookedTrip.put(Constants.KEY_PASSENGER_NAME, preferenceManager.getString(Constants.KEY_PASSENGER_NAME));
         bookedTrip.put("Booking Status", "pending");
         bookedTrip.put(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         bookedTrip.put(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_T_RECEIVER_ID));
@@ -314,6 +316,34 @@ public class BookingRide extends AppCompatActivity {
 
                             driverName = fName + " " + surname;
                             dName.setText(driverName);
+                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+    }
+    private void getPassengerName() {
+        db.collection("Users")
+                .whereEqualTo("Email Address", getEmail())
+                .whereEqualTo(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        progressDialog.dismiss();
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
+
+                            String fName = documentSnapshot.getString("First Name");
+                            String surname = documentSnapshot.getString("Surname");
+
+                            passengerName = fName + " " + surname;
+                            preferenceManager.putString(Constants.KEY_PASSENGER_NAME, passengerName);
                         }
 
                     }

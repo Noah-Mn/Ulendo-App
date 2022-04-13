@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.fragment_driver_notifications"
+    android:background="@color/white"
     android:id="@+id/driver_notifications">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -36,26 +37,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="17dp"
                 android:background="@color/white"
-                android:text="Notifications"
+                android:text="@string/notifications"
                 android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notification_recyclerview"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
+        android:orientation="vertical"
         android:layout_marginBottom="@dimen/_20sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar_layout"
-        android:splitMotionEvents="false"
-        />
+        app:layout_constraintTop_toBottomOf="@id/appbar_layout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notification_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:splitMotionEvents="false"
+            android:orientation="vertical"
+            />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

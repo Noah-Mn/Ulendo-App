@@ -526,7 +526,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                                 break;
                             }
                         case R.id.notifications:
-                            fr = new fragment_notifications();
+                            startActivity(new Intent(HomeUser.this, Notifications.class));
                             if(count1 % 2 == 0 && count % 2 == 0){
                                 replaceFragments(fr);
                                 fragmentTransaction.hide(new fragment_driver_home());
