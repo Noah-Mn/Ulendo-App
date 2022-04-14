@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
+    android:layout_height="match_parent"
     tools:context=".activityClasses.BookingRide">
 
     <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/material_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:elevation="5dp"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/E_profile_back"
@@ -33,47 +32,36 @@
             android:textStyle="bold" />
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="3dp"
         android:padding="1dp"
-        android:orientation="vertical"
-        >
+        app:layout_constraintTop_toBottomOf="@id/material_toolbar"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="110dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/driver_image"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/background_image"
+            android:elevation="7dp"
+            android:scaleType="centerCrop"
+            app:riv_oval="true" />
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="-20dp"
-                android:layout_marginBottom="2dp"
-                android:background="@drawable/background_image"
-                android:elevation="7dp"
-                android:scaleType="centerCrop"
-                app:riv_oval="true" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_marginTop="150dp"
-            android:padding="2dp"
-            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/booking_titles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/driver_image"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:padding="3dp"
+                android:layout_alignParentStart="true"
                 android:orientation="vertical">
 
 
@@ -146,6 +134,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:layout_below="@id/driver_image"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:padding="3dp"
                 android:layout_gravity="bottom"
                 android:orientation="vertical">
@@ -214,27 +206,32 @@
                     android:textSize="16sp"
                     />
             </LinearLayout>
-        </LinearLayout>
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/booked_ride_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/booking_titles"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_50sdp"
             android:background="@color/white"
             android:text="You have already requested this ride"
-            android:layout_gravity="center"
             android:textColor="@color/black"
-            android:layout_marginTop="200dp"
             android:textSize="20sp"
             android:textStyle="bold|italic"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/trip_book_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/booked_ride_text"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+
             android:text="Book Now" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
