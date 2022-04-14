@@ -3,6 +3,78 @@ package com.example.ulendoapp.models;
 public class FindRideModel extends UserModel{
     private String email, destination, pickupPoint, pickupTime, luggage, bookedSeats, complaint, status, specialInstructions;
     private String latLng, date, currDate, pickupDate;
+    int noPeople;
+
+    public FindRideModel(String email, String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String complaint, String status, String specialInstructions, String latLng, String date, String currDate, String pickupDate, int noPeople) {
+        this.email = email;
+        this.destination = destination;
+        this.pickupPoint = pickupPoint;
+        this.pickupTime = pickupTime;
+        this.luggage = luggage;
+        this.bookedSeats = bookedSeats;
+        this.complaint = complaint;
+        this.status = status;
+        this.specialInstructions = specialInstructions;
+        this.latLng = latLng;
+        this.date = date;
+        this.currDate = currDate;
+        this.pickupDate = pickupDate;
+        this.noPeople = noPeople;
+    }
+
+    public FindRideModel(String status, String firstName, String lastName, String phoneNumber, String email, String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String complaint, String status1, String specialInstructions, String latLng, String date, String currDate, String pickupDate, int noPeople) {
+        super(status, firstName, lastName, phoneNumber);
+        this.email = email;
+        this.destination = destination;
+        this.pickupPoint = pickupPoint;
+        this.pickupTime = pickupTime;
+        this.luggage = luggage;
+        this.bookedSeats = bookedSeats;
+        this.complaint = complaint;
+        this.status = status1;
+        this.specialInstructions = specialInstructions;
+        this.latLng = latLng;
+        this.date = date;
+        this.currDate = currDate;
+        this.pickupDate = pickupDate;
+        this.noPeople = noPeople;
+    }
+
+    public FindRideModel(String senderID, String email, String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String complaint, String status, String specialInstructions, String latLng, String date, String currDate, String pickupDate, int noPeople) {
+        super(senderID);
+        this.email = email;
+        this.destination = destination;
+        this.pickupPoint = pickupPoint;
+        this.pickupTime = pickupTime;
+        this.luggage = luggage;
+        this.bookedSeats = bookedSeats;
+        this.complaint = complaint;
+        this.status = status;
+        this.specialInstructions = specialInstructions;
+        this.latLng = latLng;
+        this.date = date;
+        this.currDate = currDate;
+        this.pickupDate = pickupDate;
+        this.noPeople = noPeople;
+    }
+
+    public FindRideModel(String firstName, String lastName, String birthday, String gender, String phoneNumber, String email, String nationalId, String physicalAddress, String status, String numberOfTrips, String rating, String email1, String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String complaint, String status1, String specialInstructions, String latLng, String date, String currDate, String pickupDate, int noPeople) {
+        super(firstName, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, status, numberOfTrips, rating);
+        this.email = email1;
+        this.destination = destination;
+        this.pickupPoint = pickupPoint;
+        this.pickupTime = pickupTime;
+        this.luggage = luggage;
+        this.bookedSeats = bookedSeats;
+        this.complaint = complaint;
+        this.status = status1;
+        this.specialInstructions = specialInstructions;
+        this.latLng = latLng;
+        this.date = date;
+        this.currDate = currDate;
+        this.pickupDate = pickupDate;
+        this.noPeople = noPeople;
+    }
 //
 //    public FindRideModel(String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String latLng) {
 //        this.destination = destination;
@@ -20,6 +92,14 @@ public class FindRideModel extends UserModel{
         this.bookedSeats = noPeople;
         this.pickupPoint = pPoint;
         this.luggage = luggage;
+    }
+
+    public int getNoPeople() {
+        return noPeople;
+    }
+
+    public void setNoPeople(int noPeople) {
+        this.noPeople = noPeople;
     }
 
     public FindRideModel(String destination, String pickupPoint, String pickupTime, String luggage, String bookedSeats, String latLng, String date, String currDate) {
@@ -48,6 +128,10 @@ public class FindRideModel extends UserModel{
         this.status = status;
         this.specialInstructions = specialInstructions;
         this.latLng = latLng;
+    }
+
+    public FindRideModel(String dest, String pTime, String pDate, int noPeople, String pPoint, String luggage) {
+
     }
 
     @Override
