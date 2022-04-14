@@ -185,7 +185,7 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
                                 f_name = document.getString("First Name");
                                 surname = document.getString("Surname");
                                 birthday = document.getString("Date of Birth");

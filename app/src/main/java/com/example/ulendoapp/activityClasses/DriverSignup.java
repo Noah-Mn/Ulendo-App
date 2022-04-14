@@ -140,7 +140,8 @@ public class DriverSignup extends AppCompatActivity {
                             Log.d(TAG, "inserted successfully");
                             changeStatus();
                             DriverSignup.this.startActivity(new Intent(DriverSignup.this, HomeDriver.class));
-                            Toast.makeText(DriverSignup.this, "Successfully inserted", Toast.LENGTH_LONG).show();
+                            preferenceManager.putString(Constants.KEY_T_RECEIVER_ID, documentReference.getId());
+//                            Toast.makeText(DriverSignup.this, "Successfully inserted", Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -172,11 +173,10 @@ public class DriverSignup extends AppCompatActivity {
                                 db.collection("Users")
                                         .document(userId)
                                         .update("Status","driver" );
-                                preferenceManager.putString(Constants.KEY_T_RECEIVER_ID, userId);
-                                Toast.makeText(DriverSignup.this, "successfully changed status", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(DriverSignup.this, "successfully changed status", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Log.d(TAG, "Email does not exist ", task.getException());
+//                            Log.d(TAG, "Email does not exist ", task.getException());
                             Toast.makeText(DriverSignup.this, "change failed", Toast.LENGTH_LONG).show();
                         }
                     }

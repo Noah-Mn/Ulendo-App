@@ -259,7 +259,7 @@ public class BookingRide extends AppCompatActivity {
         bookedTrip.put("Current Date", tDetails.getCurrDate());
         bookedTrip.put(Constants.KEY_PASSENGER_NAME, preferenceManager.getString(Constants.KEY_PASSENGER_NAME));
         bookedTrip.put("Booking Status", "pending");
-        bookedTrip.put(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_T_RECEIVER_ID));
+        bookedTrip.put(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         bookedTrip.put(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_T_RECEIVER_ID));
 
         db.collection("Booking Ride")
