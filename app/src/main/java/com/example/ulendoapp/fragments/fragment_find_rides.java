@@ -152,16 +152,16 @@ public class fragment_find_rides extends Fragment {
 
     public void setPassengerSpinner(View view){
         getCount = (MaterialSpinner)view.findViewById(R.id.trip_number_of_passengers);
-        ArrayList<String> count = new ArrayList<String>();
-        count.add("1");
-        count.add("2");
-        count.add("3");
-        count.add("4");
-        count.add("5");
-        count.add("6");
-        count.add("7");
-        count.add("8");
-        ArrayAdapter<String> countAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item,count);
+        ArrayList<Long> count = new ArrayList<>();
+        count.add(1L);
+        count.add(2L);
+        count.add(3L);
+        count.add(4L);
+        count.add(5L);
+        count.add(6L);
+        count.add(7L);
+        count.add(8L);
+        ArrayAdapter<Long> countAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item,count);
         countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getCount.setAdapter(countAdapter);
 
