@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.models.BookRequest;
+import com.example.ulendoapp.models.BookingModel;
 import com.example.ulendoapp.models.DriverVehiclesModel;
 import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
@@ -297,9 +298,13 @@ public class BookingRide extends AppCompatActivity {
         pTime.setText(textTime);
         sInstructions.setText(textInst);
 //        Toast.makeText(this, tripDetails.getTripId(), Toast.LENGTH_LONG).show();
+
+        BookingModel bookingModel = new BookingModel();
+        bookingModel.setOrigin(textOrigin);
+        bookingModel.setDest(textDestination);
+        bookingModel.setPassengerName(preferenceManager.getString(Constants.KEY_PASSENGER_NAME));
+
     }
-
-
 
     private void getDriverName() {
         db.collection("Users")

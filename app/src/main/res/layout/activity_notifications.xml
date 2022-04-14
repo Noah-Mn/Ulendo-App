@@ -53,7 +53,6 @@
             android:overScrollMode="never"
             android:clipToPadding="false"
             android:padding="@dimen/_20sdp"
-            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
 

@@ -57,7 +57,7 @@ public class Notifications extends AppCompatActivity implements NotificationList
     public void getNotifications(){
         db.collection("Booking Ride")
                 .whereEqualTo("Driver Email Address", getEmail())
-                .whereEqualTo(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .whereEqualTo("Booking Status", "pending")
                 .get()
                 .addOnCompleteListener(task -> {
 //                        progressDialog.dismiss();
@@ -66,7 +66,7 @@ public class Notifications extends AppCompatActivity implements NotificationList
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
                             List<BookingModel> request = new ArrayList<>();
                             String email = documentSnapshot.getString("Driver Email Address");
-                            long noPassengers = documentSnapshot.getLong("Number of Passengers");
+//                            long noPassengers = documentSnapshot.getLong("Number of Passengers");
                             String origin = documentSnapshot.getString("Origin");
                             String destination = documentSnapshot.getString("Destination");
                             String date = documentSnapshot.getString("Booked Date");
@@ -77,7 +77,7 @@ public class Notifications extends AppCompatActivity implements NotificationList
                             rTrip.setPassengerName(passengerName);
                             rTrip.setDest(destination);
                             rTrip.setDate(date);
-                            rTrip.setNoPassengers(noPassengers);
+//                            rTrip.setNoPassengers(noPassengers);
                             rTrip.setDriverEmail(email);
                             request.add(rTrip);
 
@@ -85,7 +85,6 @@ public class Notifications extends AppCompatActivity implements NotificationList
                                 NotificationAdapter adapter = new NotificationAdapter(request, getApplicationContext());
                                 binding.notificationList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                 binding.notificationList.setAdapter(adapter);
-                                binding.notificationList.setVisibility(View.VISIBLE);
                                 Toast.makeText(getApplicationContext(), "Hey you", Toast.LENGTH_SHORT).show();
 
                             } else {
