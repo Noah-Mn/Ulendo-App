@@ -41,7 +41,8 @@ import java.util.Objects;
 public class fragment_find_rides extends Fragment {
     MaterialSpinner getCount;
     public TextInputEditText pickupPoint, destination, pickupDate;
-    public String pPoint, dest, pDate, noPeople, status, lug;
+    public String pPoint, dest, pDate, status,people, lug;
+    int noPeople;
     public MaterialSpinner   numberOfPeople, luggage;
     public final String TAG = "tag";
 
@@ -105,7 +106,8 @@ public class fragment_find_rides extends Fragment {
     public void getTripInfo(){
         dest = Objects.requireNonNull(destination.getText()).toString();
         pDate = Objects.requireNonNull(pickupDate.getText()).toString();
-        noPeople = numberOfPeople.getText().toString();
+        people = numberOfPeople.getText().toString();
+        noPeople = Integer.parseInt(people);
         pPoint = Objects.requireNonNull(pickupPoint.getText()).toString();
         lug = luggage.getText().toString();
 

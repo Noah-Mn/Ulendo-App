@@ -67,7 +67,7 @@ public class Notifications extends AppCompatActivity implements NotificationList
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
                             List<BookingModel> request = new ArrayList<>();
                             String email = documentSnapshot.getString("Driver Email Address");
-                            int noPassengers = Objects.requireNonNull(documentSnapshot.getLong("Number of Passengers")).intValue();
+                            long noPassengers = documentSnapshot.getLong("Number of Passengers");
                             String origin = documentSnapshot.getString("Origin");
                             String destination = documentSnapshot.getString("Destination");
                             String date = documentSnapshot.getString("Booked Date");
