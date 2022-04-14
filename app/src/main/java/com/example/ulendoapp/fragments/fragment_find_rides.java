@@ -36,6 +36,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class fragment_find_rides extends Fragment {
     MaterialSpinner getCount;
@@ -71,7 +72,6 @@ public class fragment_find_rides extends Fragment {
 
         pickupPoint = view.findViewById(R.id.trip_pickup_point);
         destination = view.findViewById(R.id.trip_destination);
-        pickupDate = view.findViewById(R.id.trip_pickup_date);
         numberOfPeople = view.findViewById(R.id.trip_number_of_passengers);
         luggage = view.findViewById(R.id.trip_luggage);
         findTripBtn = view.findViewById(R.id.trip_find_rides_btn);
@@ -103,10 +103,10 @@ public class fragment_find_rides extends Fragment {
     }
 
     public void getTripInfo(){
-        dest = destination.getText().toString();
-        pDate = pickupDate.getText().toString();
+        dest = Objects.requireNonNull(destination.getText()).toString();
+        pDate = Objects.requireNonNull(pickupDate.getText()).toString();
         noPeople = numberOfPeople.getText().toString();
-        pPoint = pickupPoint.getText().toString();
+        pPoint = Objects.requireNonNull(pickupPoint.getText()).toString();
         lug = luggage.getText().toString();
 
     }

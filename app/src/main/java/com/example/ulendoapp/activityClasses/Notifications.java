@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Notifications extends AppCompatActivity implements NotificationListener {
 
@@ -66,7 +67,7 @@ public class Notifications extends AppCompatActivity implements NotificationList
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
                             List<BookingModel> request = new ArrayList<>();
                             String email = documentSnapshot.getString("Driver Email Address");
-//                            long noPassengers = documentSnapshot.getLong("Number of Passengers");
+                            int noPassengers = Objects.requireNonNull(documentSnapshot.getLong("Number of Passengers")).intValue();
                             String origin = documentSnapshot.getString("Origin");
                             String destination = documentSnapshot.getString("Destination");
                             String date = documentSnapshot.getString("Booked Date");
@@ -77,7 +78,7 @@ public class Notifications extends AppCompatActivity implements NotificationList
                             rTrip.setPassengerName(passengerName);
                             rTrip.setDest(destination);
                             rTrip.setDate(date);
-//                            rTrip.setNoPassengers(noPassengers);
+                            rTrip.setNoPassengers(noPassengers);
                             rTrip.setDriverEmail(email);
                             request.add(rTrip);
 

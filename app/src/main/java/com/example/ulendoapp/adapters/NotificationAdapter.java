@@ -56,7 +56,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.binding.passengerName.setText(bookingModel.getPassengerName());
         holder.binding.pickUp.setText(bookingModel.getOrigin());
         holder.binding.dropOff.setText(bookingModel.getDest());
-//        holder.binding.passengerNumber.setText((int) bookingModel.getNoPassengers());
+        holder.binding.passengerNumber.setText(new StringBuilder().append("With").append(" ").append((int) bookingModel.getNoPassengers()).append(" ").append("Other passengers").toString());
 
         holder.binding.closeWindow.setOnClickListener(new View.OnClickListener() {
             @Override
