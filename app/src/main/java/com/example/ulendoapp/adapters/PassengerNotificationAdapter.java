@@ -26,10 +26,6 @@ public class PassengerNotificationAdapter extends RecyclerView.Adapter<Passenger
     private static final int TYPE_THREE = 3;
 
     Context context;
-    PreferenceManager preferenceManager;
-    FirebaseFirestore db;
-    FirebaseAuth auth;
-    FirebaseUser currentUser;
 
     public int getItemViewType(int position){
         NotificationModel notificationModel = passengerNotifications.get(position);
@@ -68,11 +64,7 @@ public class PassengerNotificationAdapter extends RecyclerView.Adapter<Passenger
 
     @Override
     public void onBindViewHolder(@NonNull PassengerNotificationViewHolder holder, int position) {
-        switch (holder.getItemViewType()){
-            case TYPE_ONE:
-
-
-        }
+        passengerNotifications.get(position);
     }
 
     @Override
