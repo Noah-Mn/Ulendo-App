@@ -86,7 +86,7 @@ public class Notifications extends AppCompatActivity implements NotificationList
                                 NotificationAdapter adapter = new NotificationAdapter(request, getApplicationContext());
                                 binding.notificationList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                 binding.notificationList.setAdapter(adapter);
-                                Toast.makeText(getApplicationContext(), "Hey you", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "Hey you", Toast.LENGTH_SHORT).show();
 
                             } else {
                                 Toast.makeText(getApplicationContext(), "You don't have any notifications", Toast.LENGTH_SHORT).show();

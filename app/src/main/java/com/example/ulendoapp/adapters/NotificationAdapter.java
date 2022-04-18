@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,19 +65,22 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.binding.closeWindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Ignored();
+                removeAt(holder.getAdapterPosition());
             }
         });
         holder.binding.btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Accept();
+                removeAt(holder.getAdapterPosition());
             }
         });
         holder.binding.btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Reject();
+                removeAt(holder.getAdapterPosition());
             }
         });
 //        driverEmail = request.get(position).getDriverEmail();
@@ -126,6 +130,27 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
     }
+    public void Ignored(){
+        db.collection("Booking Ride")
+                .whereEqualTo("Driver Email Address", getEmail())
+                .whereEqualTo("Booking Status", "pending")
+                .get()
+                .addOnCompleteListener(task -> {
+//                        progressDialog.dismiss();
+
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                            String documentID = documentSnapshot.getId();
+                            db.collection("Booking Ride")
+                                    .document(documentID)
+                                    .update("Booking Status", "Ignored");
+                            Toast.makeText(context, "Ride request ignored", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(context, "Failed to process", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
     public void Reject(){
         db.collection("Booking Ride")
                 .whereEqualTo("Driver Email Address", getEmail())
@@ -151,5 +176,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
+    }
+    public void removeAt(int position){
+        request.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, request.size());
     }
 }
