@@ -66,21 +66,6 @@
             android:textSize="15sp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/pickup_time_and_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/passenger_detail"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/passenger_detail"
@@ -147,12 +132,45 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/pickup_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/passenger_detail"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_baseline_date_range_24"
+            android:contentDescription="TODO" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/user_trip_pickup_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:hint="dd/mm/yyyy"
+            android:inputType="datetime"
+            android:textColor="@color/black"
+            android:textColorHint="#72000000"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/trip_find_rides_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pickup_time_and_date"
+        android:layout_below="@+id/pickup_date"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"

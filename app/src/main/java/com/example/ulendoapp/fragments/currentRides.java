@@ -35,44 +35,12 @@ public class currentRides extends Fragment {
     MaterialTextView textView;
     RecyclerView userRideHistory;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public currentRides() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment currentRides.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static currentRides newInstance(String param1, String param2) {
-        currentRides fragment = new currentRides();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -86,41 +54,11 @@ public class currentRides extends Fragment {
         textView = view.findViewById(R.id.show_text);
         userRideHistory = view.findViewById(R.id.user_ride_history);
 
-        db.collection("MyTrips")
-                .whereEqualTo("Email Address", getEmail())
-                .whereEqualTo("Status","Current")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult() != null){
-                        textVisible(false);
-                        List<TripModel>  tripModelList = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : task.getResult()){
-                            TripModel tripModel = new TripModel();
-                            String startPoint = document.getString("Starting Point");
-                            String destination = document.getString("Destination");
-                            String time = document.getString("Time");
-                            String date = document.getString("Date");
-                            tripModel.setStartPoint(startPoint);
-                            tripModel.setDestination(destination);
-                            tripModel.setTime(time);
-                            tripModel.setDate(date);
-                            tripModelList.add(tripModel);
-
-                        }
-                        if (tripModelList.size() > 0){
-                            TripsAdapter adapter = new TripsAdapter(tripModelList, getContext());
-                            userRideHistory.setLayoutManager(new LinearLayoutManager(this.getContext()));
-                            userRideHistory.setAdapter(adapter);
-                            userRideHistory.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            Toast.makeText(getContext(), "You don't have any trips yet", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Failed to get trips", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                        if (tripModelList.size() > 0){
+//                            TripsAdapter adapter = new TripsAdapter(tripModelList, getContext());
+//                            userRideHistory.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//                            userRideHistory.setAdapter(adapter);
+//                            userRideHistory.setVisibility(View.VISIBLE);
         return view;
     }
 

@@ -62,34 +62,4 @@ public class driver_my_rides extends Fragment {
         return inflater.inflate(R.layout.fragment_driver_my_rides, container, false);
     }
 
-    private void addTrip(){
-        db = FirebaseFirestore.getInstance();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        Map<String, Object> trip = new HashMap<>();
-
-        trip.put("Email Address", "N/A");
-        trip.put("Location", "N/A");
-        trip.put("Destination", "N/A");
-        trip.put("Pickup Point", "N/A");
-        trip.put("Pickup Time", "N/A");
-        trip.put("Luggage", "N/A");
-        trip.put("Complaint", "N/A");
-        trip.put("Status", "N/A");
-
-        db.collection("Trip")
-                .add(trip)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "inserted successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "error! failed");
-                    }
-                });
-
-    }
 }
