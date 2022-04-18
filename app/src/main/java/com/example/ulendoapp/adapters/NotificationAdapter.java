@@ -16,6 +16,7 @@ import com.example.ulendoapp.R;
 import com.example.ulendoapp.databinding.NotificationLayoutBinding;
 import com.example.ulendoapp.databinding.RideRequestLayoutBinding;
 import com.example.ulendoapp.models.BookingModel;
+import com.example.ulendoapp.models.NotificationModel;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.example.ulendoapp.viewHolders.UserRideViewHolder;
@@ -35,6 +36,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser currentUser;
+    NotificationModel notificationModel;
+    private static final int TYPE_ONE = 1;
+    private static final int TYPE_TWO = 2;
+    private static final int TYPE_THREE = 3;
 
     public NotificationAdapter(List<BookingModel> request, Context context) {
         this.request = request;
@@ -55,6 +60,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         preferenceManager = new PreferenceManager(context.getApplicationContext());
+        notificationModel = new NotificationModel();
 
         BookingModel bookingModel = request.get(position);
         holder.binding.passengerName.setText(bookingModel.getPassengerName());
@@ -67,6 +73,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View view) {
                 Ignored();
                 removeAt(holder.getAdapterPosition());
+                notificationModel.setType(NotificationModel.ItemType.THREE_ITEM);
+
             }
         });
         holder.binding.btnAccept.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +82,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View view) {
                 Accept();
                 removeAt(holder.getAdapterPosition());
+                notificationModel.setType(NotificationModel.ItemType.ONE_ITEM);
             }
         });
         holder.binding.btnReject.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +90,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View view) {
                 Reject();
                 removeAt(holder.getAdapterPosition());
+                notificationModel.setType(NotificationModel.ItemType.TWO_ITEM);
             }
         });
 //        driverEmail = request.get(position).getDriverEmail();
