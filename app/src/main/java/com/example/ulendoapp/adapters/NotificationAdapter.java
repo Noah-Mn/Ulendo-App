@@ -4,32 +4,23 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.ulendoapp.R;
-import com.example.ulendoapp.databinding.NotificationLayoutBinding;
 import com.example.ulendoapp.databinding.RideRequestLayoutBinding;
 import com.example.ulendoapp.models.BookingModel;
 import com.example.ulendoapp.models.NotificationModel;
-import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
-import com.example.ulendoapp.viewHolders.UserRideViewHolder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>{
     public List<BookingModel> request;
+    public List<NotificationModel> notificationModelList;
 
     Context context;
     PreferenceManager preferenceManager;
@@ -45,6 +36,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.request = request;
         this.context = context;
     }
+
+   public int getItemViewType(int position){
+        NotificationModel notification = notificationModelList.get(position);
+        if (notification.getType() == NotificationModel.ItemType.ONE_ITEM){
+            return TYPE_ONE;
+        }else if (notification.getType() == NotificationModel.ItemType.TWO_ITEM){
+            return TYPE_TWO;
+        }else if (notification.getType() == NotificationModel.ItemType.THREE_ITEM){
+            return TYPE_THREE;
+        }else {
+            return -1;
+        }
+   }
 
     @NonNull
     @Override
