@@ -175,6 +175,8 @@
         <entry key="app/src/main/res/layout/keepit.xml" value="0.15806159420289856" />
         <entry key="app/src/main/res/layout/model_layout.xml" value="0.15806159420289856" />
         <entry key="app/src/main/res/layout/navigation_header.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/notificatin_accepted.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/layout/notification_ignored.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/notification_layout.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/notification_rejected.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/notification_transaction.xml" value="0.17083333333333334" />
