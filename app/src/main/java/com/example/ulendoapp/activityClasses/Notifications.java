@@ -16,6 +16,7 @@ import com.example.ulendoapp.adapters.NotificationAdapter;
 import com.example.ulendoapp.databinding.ActivityNotificationsBinding;
 import com.example.ulendoapp.listeners.NotificationListener;
 import com.example.ulendoapp.models.BookingModel;
+import com.example.ulendoapp.models.NotificationModel;
 import com.example.ulendoapp.models.UserModel;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
@@ -39,6 +40,7 @@ public class Notifications extends AppCompatActivity implements NotificationList
     FirebaseAuth auth;
     FirebaseUser currentUser;
     PreferenceManager preferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class Notifications extends AppCompatActivity implements NotificationList
         currentUser = auth.getCurrentUser();
         preferenceManager = new PreferenceManager(getApplicationContext());
         getNotifications();
+
     }
 
     @Override

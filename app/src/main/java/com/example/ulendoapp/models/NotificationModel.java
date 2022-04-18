@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 public class NotificationModel implements Serializable{
     public String startPoint, stopPoint;
+
+    public NotificationModel() {
+
+    }
+
     public enum ItemType {
         ONE_ITEM, TWO_ITEM, THREE_ITEM;
     }
