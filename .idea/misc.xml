@@ -144,6 +144,7 @@
         <entry key="app/src/main/res/layout/activity_my_rides_user.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/activity_navigation_drawer.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/activity_notifications.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/layout/activity_passenger_notifications.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/activity_personal_info.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.22314814814814815" />
@@ -179,7 +180,11 @@
         <entry key="app/src/main/res/layout/keepit.xml" value="0.15806159420289856" />
         <entry key="app/src/main/res/layout/model_layout.xml" value="0.15806159420289856" />
         <entry key="app/src/main/res/layout/navigation_header.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/notificatin_accepted.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/layout/notification_ignored.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/notification_layout.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/layout/notification_rejected.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/layout/notification_transaction.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/online_user_layout.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/ride_request_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/rides_layout.xml" value="0.33" />
@@ -193,6 +198,11 @@
         <entry key="app/src/main/res/menu/navigation_drawer.xml" value="0.25" />
       </map>
     </option>
+  </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop" />
+    <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
+    <option name="LOCALE" value="en" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
