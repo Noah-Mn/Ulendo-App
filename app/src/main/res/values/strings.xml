@@ -92,4 +92,5 @@
     <string name="hey">Hey</string>
     <string name="notifications">Notifications</string>
     <string name="x">X</string>
+    <string name="booking_was_rejected">Booking was rejected</string>
 </resources>

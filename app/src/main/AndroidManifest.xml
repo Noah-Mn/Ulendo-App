@@ -20,6 +20,9 @@
         android:theme="@style/Theme.UlendoApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activityClasses.PassengerNotifications"
+            android:exported="false" />
+        <activity
             android:name=".activityClasses.Notifications"
             android:exported="false" />
         <activity
