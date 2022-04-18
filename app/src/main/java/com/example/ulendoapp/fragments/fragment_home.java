@@ -1,6 +1,5 @@
 package com.example.ulendoapp.fragments;
 
-import static com.example.ulendoapp.fragments.fragment_offer_rides.disableSoftInputFromAppearing;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;
 
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.TimePicker;
 
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.activityClasses.BookingActivity;
@@ -39,8 +37,8 @@ import java.util.Map;
 
 public class fragment_home extends Fragment {
     MaterialSpinner getCount;
-    public TextInputEditText pickupPoint, destination, pickupTime, dropPoint, specialInstructions;
-    public String pPoint, dest, pTime, noPeople, status, sInstructions, dPoint;
+    public TextInputEditText pickupPoint, destination, pickupDate, dropPoint, specialInstructions;
+    public String pPoint, dest, pDate, noPeople, status, sInstructions, dPoint;
     public MaterialSpinner   numberOfPeople, luggage;
     public final String TAG = "tag";
     private FirebaseFirestore db;
@@ -69,11 +67,11 @@ public class fragment_home extends Fragment {
 
         pickupPoint = view.findViewById(R.id.user_trip_start_point);
         destination = view.findViewById(R.id.user_trip_detination);
-        pickupTime = view.findViewById(R.id.user_trip_pickup_time);
         numberOfPeople = view.findViewById(R.id.user_trip_number_of_passengers);
         luggage = view.findViewById(R.id.user_trip_luggage);
         findTripBtn = view.findViewById(R.id.user_trip_find_btn);
-//        specialInstructions = view.findViewById(R.id.special_instruction);
+        pickupDate =  view.findViewById(R.id.user_trip_pickup_date);
+
         latLng = new LatLng(latitude, longitude);
 
         findTripBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +80,7 @@ public class fragment_home extends Fragment {
                 getTripInfo();
                 intent = new Intent(getContext(), BookingActivity.class);
                 intent.putExtra("destination", dest);
-                intent.putExtra("pickup time", pTime);
+                intent.putExtra("pickup time", pDate);
                 intent.putExtra("number of people", noPeople);
                 intent.putExtra("pickup point", pPoint);
                 intent.putExtra("luggage", String.valueOf(luggage));
@@ -95,21 +93,21 @@ public class fragment_home extends Fragment {
 
         setPassengerSpinner(view);
         setLuggageSpinner(view);
-        loadTimePicker();
+//        loadTimePicker();
        return view;
     }
 
     public void getTripInfo(){
         dest = destination.getText().toString();
-        pTime = pickupTime.getText().toString();
         noPeople = numberOfPeople.getText().toString();
 //        sInstructions = specialInstructions.getText().toString();
+        pDate = pickupDate.getText().toString();
         pPoint = pickupPoint.getText().toString();
         dPoint = "your choice";
         luggage = null;
     }
 
-    public void loadTimePicker() {
+    /*public void loadTimePicker() {
         disableSoftInputFromAppearing(pickupTime);
         pickupTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,9 +132,9 @@ public class fragment_home extends Fragment {
                 timePickerDialog.show();
             }
         });
-    }
+    }*/
 
-    private void addTrip(){
+   /* private void addTrip(){
 //        getTripInfo();
         db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -146,7 +144,7 @@ public class fragment_home extends Fragment {
         trip.put("Location", latLng);
         trip.put("Destination", dest);
         trip.put("Pickup Point", pPoint);
-        trip.put("Pickup Time", pTime);
+        trip.put("Pickup Date", pDate);
         trip.put("Luggage", luggage);
         trip.put("Complaint", "N/A");
         trip.put("Status", "N/A");
@@ -166,7 +164,8 @@ public class fragment_home extends Fragment {
                     }
                 });
 
-    }
+    }*/
+
     public void setPassengerSpinner(View view){
         getCount = (MaterialSpinner)view.findViewById(R.id.user_trip_number_of_passengers);
         ArrayList<String> count = new ArrayList<String>();

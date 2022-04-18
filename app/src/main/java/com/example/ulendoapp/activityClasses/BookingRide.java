@@ -60,7 +60,7 @@ public class BookingRide extends AppCompatActivity {
     private static final String TAG = "tag";
     private TextView dName, origin, destination, remainingSeats, date, pTime, sInstructions, bookedText;
     private String passengerName, textOrigin, textDestination, textDate, textTime, textInst;
-    public long textSeats;
+    public long rSeats;
     private MaterialButton btnBook;
     private String driverName;
     private OfferRideModel tDetails;
@@ -185,7 +185,7 @@ public class BookingRide extends AppCompatActivity {
     }
 
     private void updateSeats(View view, long prevValue) {
-        bookedSeats = Integer.parseInt(fRideDetails.getBookedSeats());
+        bookedSeats = fRideDetails.getBookedSeats();
         newValue = prevValue - bookedSeats;
 
         if(newValue >= 0){
@@ -333,6 +333,7 @@ public class BookingRide extends AppCompatActivity {
                 });
 
     }
+
     private void getPassengerName() {
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -363,14 +364,13 @@ public class BookingRide extends AppCompatActivity {
     }
 
 
-    public OfferRideModel getTripExtras() {
+    public void getTripExtras() {
         Intent intent = getIntent();
 
         tDetails = (OfferRideModel) intent.getSerializableExtra("tripDetails");
         fRideDetails = (FindRideModel) intent.getSerializableExtra("findRideDetails");
-
-        return tDetails;
     }
+
     private void sendBookingRequest(){
         db.collection("Booking Ride")
                 .whereEqualTo(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
@@ -381,6 +381,7 @@ public class BookingRide extends AppCompatActivity {
                 .whereEqualTo(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .addSnapshotListener(eventListener);
     }
+
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -413,6 +414,7 @@ public class BookingRide extends AppCompatActivity {
             showToast(exception.getMessage());
         }
     };
+
 private void sendNotification(String messageBody){
     ApiClient.getClient().create(ApiService.class).sendMessage(
             Constants.getRemoteMsgHeaders(),

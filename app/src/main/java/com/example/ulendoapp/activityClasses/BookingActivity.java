@@ -36,7 +36,8 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private final String TAG = "tag";
-    public String dest, pTime, noPeople, pDate, pPoint, luggage;
+    public String dest, pTime, pDate, pPoint, luggage;
+    public long noPeople;
     public ArrayList<OfferRideModel> filteredOffers;
     public FindRideModel findRideDetails;
     private List<OfferRideModel> offerRideModelList;
@@ -77,7 +78,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         dest = intent.getStringExtra("destination");
         pTime = intent.getStringExtra("pickup time");
         pDate = intent.getStringExtra("pickup date");
-        noPeople = intent.getStringExtra("number of people");
+        noPeople = intent.getLongExtra("number of people", 0);
         pPoint = intent.getStringExtra("pickup point");
         luggage = intent.getStringExtra("luggage");
 

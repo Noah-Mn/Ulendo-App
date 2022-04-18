@@ -45,6 +45,7 @@ public class fragment_offer_rides extends Fragment{
     public TextInputEditText pickupPoint, destination, pickupTime, pickupDate,  specialInstructions;
     public String pPoint, dest, pTime, pDate, car, sInstructions;
     public MaterialSpinner  numberOfSeats, carModel;
+    public long seats;
     public static double latitude;
     public static double longitude;
     static String placeName;
@@ -55,7 +56,7 @@ public class fragment_offer_rides extends Fragment{
     private MaterialSpinner getCarModel;
     private MaterialTimePicker picker;
     private Calendar calendar;
-    private int currentHour, seats;
+    private int currentHour;
     private int currentMinute;
     private TimePickerDialog timePickerDialog;
     private String amPm;
@@ -168,14 +169,14 @@ public class fragment_offer_rides extends Fragment{
     public void setSpinner(View view){
         getCount = (MaterialSpinner)view.findViewById(R.id.ride_number_of_seats);
         ArrayList<Long> count = new ArrayList<>();
-        count.add(1L);
-        count.add(2L);
-        count.add(3L);
-        count.add(4L);
-        count.add(5L);
-        count.add(6L);
-        count.add(7L);
-        count.add(8L);
+        count.add(1l);
+        count.add(2l);
+        count.add(3l);
+        count.add(4l);
+        count.add(5l);
+        count.add(6l);
+        count.add(7l);
+        count.add(8l);
         ArrayAdapter<Long> countAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item,count);
         countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getCount.setAdapter(countAdapter);
@@ -212,8 +213,8 @@ public class fragment_offer_rides extends Fragment{
         offerRide.put("Destination", dest);
         offerRide.put("Pickup Time", pTime);
         offerRide.put("Date", pDate);
-        offerRide.put("Number of seats", seats);
-        offerRide.put("Remaining Seats", seats);
+        offerRide.put("Number of seats", (long) seats);
+        offerRide.put("Remaining Seats", (long) seats);
         offerRide.put("Luggage", "N/A");
         offerRide.put("Car Model", car);
         offerRide.put("State", "Available");

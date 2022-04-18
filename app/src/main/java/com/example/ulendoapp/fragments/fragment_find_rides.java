@@ -41,8 +41,8 @@ import java.util.Objects;
 public class fragment_find_rides extends Fragment {
     MaterialSpinner getCount;
     public TextInputEditText pickupPoint, destination, pickupDate;
-    public String pPoint, dest, pDate, status,people, lug;
-    int noPeople;
+    public String pPoint, dest, pDate, status, people, lug;
+    public long noPeople;
     public MaterialSpinner   numberOfPeople, luggage;
     public final String TAG = "tag";
 
@@ -51,10 +51,6 @@ public class fragment_find_rides extends Fragment {
     private FirebaseUser user;
     private LatLng latLng;
     private Button findTripBtn;
-    private Calendar calendar;
-    private int currentHour;
-    private int currentMinute;
-    private String amPm;
     private Intent intent;
 
     @Override
@@ -74,6 +70,7 @@ public class fragment_find_rides extends Fragment {
         pickupPoint = view.findViewById(R.id.trip_pickup_point);
         destination = view.findViewById(R.id.trip_destination);
         numberOfPeople = view.findViewById(R.id.trip_number_of_passengers);
+        pickupDate = view.findViewById(R.id.user_trip_pickup_date);
         luggage = view.findViewById(R.id.trip_luggage);
         findTripBtn = view.findViewById(R.id.trip_find_rides_btn);
         latLng = new LatLng(latitude, longitude);
@@ -90,7 +87,7 @@ public class fragment_find_rides extends Fragment {
                 intent.putExtra("pickup date", pDate);
                 intent.putExtra("pickup point", pPoint);
                 intent.putExtra("luggage", String.valueOf(luggage));
-                addTrip();
+//                addTrip();
                 startActivity(intent);
 
                 Log.d(TAG, dest + " " + pPoint);
@@ -113,54 +110,54 @@ public class fragment_find_rides extends Fragment {
 
     }
 
-    private void addTrip(){
-        getTripInfo();
-        db = FirebaseFirestore.getInstance();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        Map<String, Object> findRide = new HashMap<>();
-
-        findRide.put("Email Address", getEmail());
-        findRide.put("Latitude", latitude);
-        findRide.put("Longitude", longitude);
-        findRide.put("Destination", dest);
-        findRide.put("Pickup Point", pPoint);
-        findRide.put("Luggage", lug);
-        findRide.put("Booked Seats", "N/A");
-        findRide.put("Complaint", "N/A");
-        findRide.put("Pickup Date", pDate);
-        findRide.put("Status", "N/A");
-        findRide.put("Date", "N/A");
-        findRide.put("Current Date", "N/A");
-
-
-        db.collection("Find Ride")
-                .add(findRide)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "inserted successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "error! failed");
-                    }
-                });
-
-    }
+//    private void addTrip(){
+//        getTripInfo();
+//        db = FirebaseFirestore.getInstance();
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+//        Map<String, Object> findRide = new HashMap<>();
+//
+//        findRide.put("Email Address", getEmail());
+//        findRide.put("Latitude", latitude);
+//        findRide.put("Longitude", longitude);
+//        findRide.put("Destination", dest);
+//        findRide.put("Pickup Point", pPoint);
+//        findRide.put("Luggage", lug);
+//        findRide.put("Booked Seats", "N/A");
+//        findRide.put("Complaint", "N/A");
+//        findRide.put("Pickup Date", pDate);
+//        findRide.put("Status", "N/A");
+//        findRide.put("Date", "N/A");
+//        findRide.put("Current Date", "N/A");
+//
+//
+//        db.collection("Find Ride")
+//                .add(findRide)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d(TAG, "inserted successfully");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.d(TAG, "error! failed");
+//                    }
+//                });
+//
+//    }
 
     public void setPassengerSpinner(View view){
-        getCount = (MaterialSpinner)view.findViewById(R.id.trip_number_of_passengers);
+        getCount = view.findViewById(R.id.trip_number_of_passengers);
         ArrayList<Long> count = new ArrayList<>();
-        count.add(1L);
-        count.add(2L);
-        count.add(3L);
-        count.add(4L);
-        count.add(5L);
-        count.add(6L);
-        count.add(7L);
-        count.add(8L);
+        count.add(1l);
+        count.add(2l);
+        count.add(3l);
+        count.add(4l);
+        count.add(5l);
+        count.add(6l);
+        count.add(7l);
+        count.add(8l);
         ArrayAdapter<Long> countAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item,count);
         countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getCount.setAdapter(countAdapter);
