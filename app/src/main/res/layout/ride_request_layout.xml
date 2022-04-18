@@ -140,7 +140,7 @@
             android:layout_below="@+id/place3">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_accept"
+                android:id="@+id/btn_reject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -148,7 +148,7 @@
                 android:text="Reject" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_reject"
+                android:id="@+id/btn_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

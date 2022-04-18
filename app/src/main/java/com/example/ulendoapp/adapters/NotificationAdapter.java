@@ -8,16 +8,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.databinding.NotificationLayoutBinding;
 import com.example.ulendoapp.databinding.RideRequestLayoutBinding;
 import com.example.ulendoapp.models.BookingModel;
+import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.example.ulendoapp.viewHolders.UserRideViewHolder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -67,13 +70,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.binding.btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Accept !!!", Toast.LENGTH_SHORT).show();
+                Accept();
             }
         });
         holder.binding.btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Reject!!!!", Toast.LENGTH_SHORT).show();
+                Reject();
             }
         });
 //        driverEmail = request.get(position).getDriverEmail();
@@ -101,5 +104,52 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             binding = rideRequestLayoutBinding;
         }
 
+    }
+    public void Accept(){
+        db.collection("Booking Ride")
+                .whereEqualTo("Driver Email Address", getEmail())
+                .whereEqualTo("Booking Status", "pending")
+                .get()
+                .addOnCompleteListener(task -> {
+//                        progressDialog.dismiss();
+
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                            String documentID = documentSnapshot.getId();
+                            db.collection("Booking Ride")
+                                    .document(documentID)
+                                    .update("Booking Status", "Accepted");
+                            Toast.makeText(context, "Ride request Accepted", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(context, "Failed to process", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    public void Reject(){
+        db.collection("Booking Ride")
+                .whereEqualTo("Driver Email Address", getEmail())
+                .whereEqualTo("Booking Status", "pending")
+                .get()
+                .addOnCompleteListener(task -> {
+//                        progressDialog.dismiss();
+
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                            String documentID = documentSnapshot.getId();
+                            db.collection("Booking Ride")
+                                    .document(documentID)
+                                    .update("Booking Status", "Rejected");
+                            Toast.makeText(context, "Ride request Rejected", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(context, "Failed to process", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    public String getEmail(){
+        String emailAddress;
+        emailAddress = currentUser.getEmail();
+        return emailAddress;
     }
 }

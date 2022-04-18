@@ -308,8 +308,6 @@ public class EditDriverProfile extends AppCompatActivity {
                                 db.collection("Users")
                                         .document(userId)
                                         .update("First Name", firstName);
-
-
                                 Toast.makeText(EditDriverProfile.this, "successfully changed first name", Toast.LENGTH_LONG).show();
                             }
                         } else {
