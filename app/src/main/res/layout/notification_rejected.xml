@@ -3,8 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="10dp"
-    android:layout_marginStart="10dp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:padding="@dimen/_10sdp"
     android:layout_gravity="center">
 
     <LinearLayout
@@ -35,10 +38,11 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/status_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:text="@string/booking_was_rejected"
+                android:text="Booking was rejected"
                 android:layout_marginEnd="5dp"/>
 
         </LinearLayout>

@@ -43,7 +43,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="@dimen/_16sdp"
         android:orientation="vertical"
-        android:background="@drawable/background_content_bottom"
         app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -54,8 +53,7 @@
             android:overScrollMode="never"
             android:clipToPadding="false"
             android:padding="@dimen/_20sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </FrameLayout>
 

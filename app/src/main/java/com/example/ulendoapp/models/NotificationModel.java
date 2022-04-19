@@ -11,6 +11,10 @@ public class NotificationModel{
         this.status = status;
     }
 
+    public NotificationModel() {
+
+    }
+
     public String getStartPoint() {
         return startPoint;
     }
