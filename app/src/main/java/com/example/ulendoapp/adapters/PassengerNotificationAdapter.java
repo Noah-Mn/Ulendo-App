@@ -21,20 +21,17 @@ import java.util.List;
 
 public class PassengerNotificationAdapter extends RecyclerView.Adapter<PassengerNotificationAdapter.PassengerNotificationViewHolder> {
     public List<NotificationModel> passengerNotifications;
-    private static final int TYPE_ONE = 1;
-    private static final int TYPE_TWO = 2;
-    private static final int TYPE_THREE = 3;
 
     Context context;
 
     public int getItemViewType(int position){
         NotificationModel notificationModel = passengerNotifications.get(position);
-        if (notificationModel.getType() == NotificationModel.ItemType.ONE_ITEM){
-            return TYPE_ONE;
-        }else if (notificationModel.getType() == NotificationModel.ItemType.TWO_ITEM){
-            return TYPE_TWO;
-        }else if (notificationModel.getType() == NotificationModel.ItemType.THREE_ITEM){
-            return TYPE_THREE;
+        if (notificationModel.getStatus().toLowerCase().contains("accepted")){
+            return 1;
+        }else if (notificationModel.getStatus().toLowerCase().contains("rejected")){
+            return 2;
+        }else if (notificationModel.getStatus().toLowerCase().contains("ignored")){
+            return 3;
         }else {
             return -1;
         }
@@ -48,13 +45,13 @@ public class PassengerNotificationAdapter extends RecyclerView.Adapter<Passenger
     @NonNull
     @Override
     public PassengerNotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_ONE){
+        if (viewType == 1){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notificatin_accepted, parent, false);
             return new PassengerNotificationViewHolder(view);
-        }else if (viewType == TYPE_TWO){
+        }else if (viewType == 2){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_rejected, parent, false);
             return new PassengerNotificationViewHolder(view);
-        }else if (viewType == TYPE_THREE){
+        }else if (viewType == 3){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_ignored, parent, false);
             return new PassengerNotificationViewHolder(view);
         }else {
