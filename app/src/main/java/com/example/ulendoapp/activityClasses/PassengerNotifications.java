@@ -40,7 +40,7 @@ public class PassengerNotifications extends AppCompatActivity {
     }
     public void getAcceptedNotifications(){
         db.collection("Booking Ride")
-                .whereEqualTo("Driver Email Address", getEmail())
+                .whereEqualTo("Passenger Email Address", getEmail())
                 .whereEqualTo("Booking Status", "Accepted")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -81,7 +81,7 @@ public class PassengerNotifications extends AppCompatActivity {
                 });
     }public void getRejectedNotifications(){
         db.collection("Booking Ride")
-                .whereEqualTo("Driver Email Address", getEmail())
+                .whereEqualTo("Passenger Email Address", getEmail())
                 .whereEqualTo("Booking Status", "Rejected")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -123,7 +123,7 @@ public class PassengerNotifications extends AppCompatActivity {
     }
     public void getIgnoredNotifications(){
         db.collection("Booking Ride")
-                .whereEqualTo("Driver Email Address", getEmail())
+                .whereEqualTo("Passenger Email Address", getEmail())
                 .whereEqualTo("Booking Status", "Ignored")
                 .get()
                 .addOnCompleteListener(task -> {

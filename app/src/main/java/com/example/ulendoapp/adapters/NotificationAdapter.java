@@ -77,7 +77,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View view) {
                 Ignored();
                 removeAt(holder.getAdapterPosition());
-                notificationModel.setType(NotificationModel.ItemType.THREE_ITEM);
+                notificationModel.setType(TYPE_THREE);
 
             }
         });
@@ -86,7 +86,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View view) {
                 Accept();
                 removeAt(holder.getAdapterPosition());
-                notificationModel.setType(NotificationModel.ItemType.ONE_ITEM);
+                notificationModel.setType(TYPE_ONE);
             }
         });
         holder.binding.btnReject.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +94,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View view) {
                 Reject();
                 removeAt(holder.getAdapterPosition());
-                notificationModel.setType(NotificationModel.ItemType.TWO_ITEM);
+                notificationModel.setType(TYPE_TWO);
             }
         });
 //        driverEmail = request.get(position).getDriverEmail();

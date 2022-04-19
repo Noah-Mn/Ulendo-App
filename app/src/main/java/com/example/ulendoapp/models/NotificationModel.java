@@ -2,22 +2,18 @@ package com.example.ulendoapp.models;
 
 import java.io.Serializable;
 
-public class NotificationModel implements Serializable{
+public class NotificationModel{
     public String startPoint, stopPoint;
+    int type;
 
-    public NotificationModel() {
-
-    }
-
-    public enum ItemType {
-        ONE_ITEM, TWO_ITEM, THREE_ITEM;
-    }
-    private ItemType type;
-
-    public NotificationModel(String startPoint, String stopPoint, ItemType type) {
+    public NotificationModel(String startPoint, String stopPoint, int type) {
         this.startPoint = startPoint;
         this.stopPoint = stopPoint;
         this.type = type;
+    }
+
+    public NotificationModel() {
+
     }
 
     public String getStartPoint() {
@@ -36,11 +32,11 @@ public class NotificationModel implements Serializable{
         this.stopPoint = stopPoint;
     }
 
-    public ItemType getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(ItemType type) {
+    public void setType(int type) {
         this.type = type;
     }
 }
