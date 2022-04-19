@@ -67,8 +67,10 @@ public class Notifications extends AppCompatActivity implements NotificationList
 //                        progressDialog.dismiss();
 
                     if (task.isSuccessful() && task.getResult() != null) {
+                        List<BookingModel> request = new ArrayList<>();
+
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                            List<BookingModel> request = new ArrayList<>();
+                            BookingModel rTrip = new BookingModel();
                             String email = documentSnapshot.getString("Driver Email Address");
                             long noPassengers = documentSnapshot.getLong("Number of Passengers");
                             String origin = documentSnapshot.getString("Origin");
@@ -76,7 +78,6 @@ public class Notifications extends AppCompatActivity implements NotificationList
                             String date = documentSnapshot.getString("Booked Date");
                             String passengerName = preferenceManager.getString(Constants.KEY_NAME);
 
-                            BookingModel rTrip = new BookingModel();
                             rTrip.setOrigin(origin);
                             rTrip.setPassengerName(passengerName);
                             rTrip.setDest(destination);
