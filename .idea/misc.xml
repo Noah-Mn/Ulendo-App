@@ -114,8 +114,13 @@
         <entry key="..\:/Users/Computer Science/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_login.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Computer Science/AndroidStudioProjects/Ulendo-App/app/src/main/res/layout/activity_user_type.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/activity_booking_ride.xml" value="0.13703703703703704" />
+        <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/activity_driver_my_vehicles.xml" value="0.1175925925925926" />
+        <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/activity_passenger_notifications.xml" value="0.3482789855072464" />
+        <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/item_container_vehicle.xml" value="0.3482789855072464" />
         <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/notificatin_accepted.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/notification_ignored.xml" value="0.3482789855072464" />
         <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/notification_layout.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/notification_rejected.xml" value="0.3482789855072464" />
         <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/notification_transaction.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/bsc_com_09_17/StudioProjects/Ulendo-App/app/src/main/res/layout/ride_request_layout.xml" value="0.17831813576494426" />
         <entry key="app/src/main/res/drawable/background_close_window.xml" value="0.1495" />

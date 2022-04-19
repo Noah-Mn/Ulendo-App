@@ -3,13 +3,12 @@ package com.example.ulendoapp.models;
 import java.io.Serializable;
 
 public class NotificationModel{
-    public String startPoint, stopPoint;
-    int type;
+    public String startPoint, stopPoint, status;
 
-    public NotificationModel(String startPoint, String stopPoint, int type) {
+    public NotificationModel(String startPoint, String stopPoint, String status) {
         this.startPoint = startPoint;
         this.stopPoint = stopPoint;
-        this.type = type;
+        this.status = status;
     }
 
     public NotificationModel() {
@@ -32,11 +31,11 @@ public class NotificationModel{
         this.stopPoint = stopPoint;
     }
 
-    public int getType() {
-        return type;
+    public String getStatus() {
+        return status;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
