@@ -21,6 +21,7 @@ import com.example.ulendoapp.models.DriverVehiclesModel;
 import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.example.ulendoapp.models.User;
+import com.example.ulendoapp.models.UserModel;
 import com.example.ulendoapp.network.ApiClient;
 import com.example.ulendoapp.network.ApiService;
 import com.example.ulendoapp.utilities.Constants;
@@ -78,6 +79,7 @@ public class BookingRide extends AppCompatActivity {
     private String bookingId;
     private String tripId;
     private boolean accept;
+    UserModel userModel;
     User receiver;
     PreferenceManager preferenceManager;
 
@@ -90,7 +92,7 @@ public class BookingRide extends AppCompatActivity {
         currentUser = auth.getCurrentUser();
         handler = new Handler();
         preferenceManager = new PreferenceManager(getApplicationContext());
-
+        userModel = new UserModel();
         bookRequests = new ArrayList<>();
         receiver = new User();
         dName = findViewById(R.id.booking_driver_name_text);
@@ -258,7 +260,7 @@ public class BookingRide extends AppCompatActivity {
         bookedTrip.put("Destination", tDetails.getDestination());
         bookedTrip.put("Booked Date", tDetails.getPickupDate());
         bookedTrip.put("Current Date", tDetails.getCurrDate());
-        bookedTrip.put(Constants.KEY_PASSENGER_NAME, preferenceManager.getString(Constants.KEY_PASSENGER_NAME));
+        bookedTrip.put(Constants.KEY_PASSENGER_NAME, userModel.getFirstName()+" "+userModel.getLastName());
         bookedTrip.put("Booking Status", "pending");
         bookedTrip.put(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         bookedTrip.put(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_T_RECEIVER_ID));
@@ -349,7 +351,7 @@ public class BookingRide extends AppCompatActivity {
                             String surname = documentSnapshot.getString("Surname");
 
                             passengerName = fName + " " + surname;
-                            preferenceManager.putString(Constants.KEY_PASSENGER_NAME, passengerName);
+//                            preferenceManager.putString(Constants.KEY_PASSENGER_NAME, passengerName);
                         }
 
                     }

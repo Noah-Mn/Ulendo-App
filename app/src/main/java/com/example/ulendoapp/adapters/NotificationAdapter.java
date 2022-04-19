@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ulendoapp.databinding.RideRequestLayoutBinding;
 import com.example.ulendoapp.models.BookingModel;
 import com.example.ulendoapp.models.NotificationModel;
+import com.example.ulendoapp.models.UserModel;
+import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +29,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser currentUser;
+    UserModel userModel;
 
     public NotificationAdapter(List<BookingModel> request, Context context) {
         this.request = request;
@@ -60,12 +63,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         preferenceManager = new PreferenceManager(context.getApplicationContext());
-
+        userModel = new UserModel();
 
         BookingModel bookingModel = request.get(position);
-        holder.binding.passengerName.setText(bookingModel.getPassengerName());
-        holder.binding.pickUp.setText(bookingModel.getOrigin());
-        holder.binding.dropOff.setText(bookingModel.getDest());
+//        holder.binding.passengerName.setText(new StringBuilder().append(userModel.getFirstName()).append(" ").append(userModel.getLastName()).toString());
+//        holder.binding.pickUp.setText(bookingModel.getOrigin());
+//        holder.binding.dropOff.setText(bookingModel.getDest());
         holder.binding.passengerNumber.setText(new StringBuilder().append("With").append(" ").append((int) bookingModel.getNoPassengers()).append(" ").append("Other passengers").toString());
 
         holder.binding.closeWindow.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +104,26 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 //        currDate = request.get(position).getCurrDate();
 //        noPassengers = request.get(position).getNoPassengers();
 //        notification.setText("home");
+        db.collection("Booking Ride")
+                .whereEqualTo("Driver Email Address", getEmail())
+                .whereEqualTo("Booking Status", "pending")
+                .get()
+                .addOnCompleteListener(task -> {
+
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                            String documentID = documentSnapshot.getId();
+                            String name = documentSnapshot.getString(Constants.KEY_PASSENGER_NAME);
+                            String destination = documentSnapshot.getString("Destination");
+                            String origin = documentSnapshot.getString("Origin");
+                            holder.binding.passengerName.setText(name);
+                            holder.binding.pickUp.setText(origin);
+                            holder.binding.dropOff.setText(destination);
+                        }
+                    }else {
+                        Toast.makeText(context, "Failed to process", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 

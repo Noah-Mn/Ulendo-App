@@ -63,7 +63,7 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         displayText.setTextSize(17);
 
         if(filteredOffers.size() != 0){
-            displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName()).append(", ").append("we found these rides for you").toString());
+            displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName()+" "+userModel.getLastName()).append(", ").append("we found these rides for you").toString());
 
         } else{
             displayText.setText(new StringBuilder().append("Hey").append(" ").append(userModel.getFirstName())

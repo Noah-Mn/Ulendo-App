@@ -43,6 +43,7 @@ public class CreateAccount extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ImageView signupBackBtn;
     private Button signupBtn;
+    UserModel userModel;
     PreferenceManager preferenceManager;
 
     private TextInputLayout materialPassword, materialConfirmPassword, materialEmail;
@@ -73,6 +74,7 @@ public class CreateAccount extends AppCompatActivity {
         signupBackBtn = findViewById(R.id.create_account_back_btn);
         preferenceManager = new PreferenceManager(getApplicationContext());
 
+        userModel = new UserModel();
         getUserintentExtras();
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +198,8 @@ public class CreateAccount extends AppCompatActivity {
                             Log.d(TAG, "Inserted successfully");
                             sender.setSenderID(ids) ;
                             preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                            preferenceManager.putString(Constants.KEY_PASSENGER_NAME, firstName+" "+lastName);
+//                            preferenceManager.putString(Constants.KEY_PASSENGER_NAME, firstName+" "+lastName);
+                            userModel.setName(firstName +" "+lastName);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

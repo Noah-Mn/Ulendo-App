@@ -51,6 +51,7 @@ import com.example.ulendoapp.fragments.fragment_recyclerview;
 import com.example.ulendoapp.fragments.wallet;
 import com.example.ulendoapp.models.UserModel;
 import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
@@ -121,6 +122,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private String fullName, fName, lName;
     private SearchView searchView;
     private MenuItem menuItem;
+    PreferenceManager preferenceManager;
 
     private SupportMapFragment mapFragment;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -156,7 +158,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = auth.getCurrentUser();
-
+        preferenceManager = new PreferenceManager(getApplicationContext());
         progressDialog = new ProgressDialog(this);
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -660,6 +662,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                                 firstName = document.getString("First Name");
                                 lastName = document.getString("Surname");
                                 email = document.getString("Email Address");
+
                                 encodedImage = document.getString("Profile Pic");
                                 byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
