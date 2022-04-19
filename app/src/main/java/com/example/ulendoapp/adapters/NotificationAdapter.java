@@ -37,18 +37,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.context = context;
     }
 
-   public int getItemViewType(int position){
-        NotificationModel notification = notificationModelList.get(position);
-        if (notification.getType() == NotificationModel.ItemType.ONE_ITEM){
-            return TYPE_ONE;
-        }else if (notification.getType() == NotificationModel.ItemType.TWO_ITEM){
-            return TYPE_TWO;
-        }else if (notification.getType() == NotificationModel.ItemType.THREE_ITEM){
-            return TYPE_THREE;
-        }else {
-            return -1;
-        }
-   }
+//   public int getItemViewType(int position){
+//        NotificationModel notification = notificationModelList.get(position);
+//        if (notification.getType() == NotificationModel.ItemType.ONE_ITEM){
+//            return TYPE_ONE;
+//        }else if (notification.getType() == NotificationModel.ItemType.TWO_ITEM){
+//            return TYPE_TWO;
+//        }else if (notification.getType() == NotificationModel.ItemType.THREE_ITEM){
+//            return TYPE_THREE;
+//        }else {
+//            return -1;
+//        }
+//   }
 
     @NonNull
     @Override
