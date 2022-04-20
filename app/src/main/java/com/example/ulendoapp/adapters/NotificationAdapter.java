@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ulendoapp.databinding.RideRequestLayoutBinding;
 import com.example.ulendoapp.models.BookingModel;
 import com.example.ulendoapp.models.NotificationModel;
+import com.example.ulendoapp.models.UserModel;
+import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,16 +20,50 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
+/**
+ * The type Notification adapter.
+ */
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>{
+    /**
+     * The Request.
+     */
     public List<BookingModel> request;
+    /**
+     * The Notification model list.
+     */
     public List<NotificationModel> notificationModelList;
 
+    /**
+     * The Context.
+     */
     Context context;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The User model.
+     */
+    UserModel userModel;
 
+    /**
+     * Instantiates a new Notification adapter.
+     *
+     * @param request the request
+     * @param context the context
+     */
     public NotificationAdapter(List<BookingModel> request, Context context) {
         this.request = request;
         this.context = context;
@@ -60,12 +96,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         preferenceManager = new PreferenceManager(context.getApplicationContext());
-
+        userModel = new UserModel();
 
         BookingModel bookingModel = request.get(position);
-        holder.binding.passengerName.setText(bookingModel.getPassengerName());
-        holder.binding.pickUp.setText(bookingModel.getOrigin());
-        holder.binding.dropOff.setText(bookingModel.getDest());
+//        holder.binding.passengerName.setText(new StringBuilder().append(userModel.getFirstName()).append(" ").append(userModel.getLastName()).toString());
+//        holder.binding.pickUp.setText(bookingModel.getOrigin());
+//        holder.binding.dropOff.setText(bookingModel.getDest());
         holder.binding.passengerNumber.setText(new StringBuilder().append("With").append(" ").append((int) bookingModel.getNoPassengers()).append(" ").append("Other passengers").toString());
 
         holder.binding.closeWindow.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +137,26 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 //        currDate = request.get(position).getCurrDate();
 //        noPassengers = request.get(position).getNoPassengers();
 //        notification.setText("home");
+        db.collection("Booking Ride")
+                .whereEqualTo("Driver Email Address", getEmail())
+                .whereEqualTo("Booking Status", "pending")
+                .get()
+                .addOnCompleteListener(task -> {
+
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                            String documentID = documentSnapshot.getId();
+                            String name = documentSnapshot.getString(Constants.KEY_PASSENGER_NAME);
+                            String destination = documentSnapshot.getString("Destination");
+                            String origin = documentSnapshot.getString("Origin");
+                            holder.binding.passengerName.setText(name);
+                            holder.binding.pickUp.setText(origin);
+                            holder.binding.dropOff.setText(destination);
+                        }
+                    }else {
+                        Toast.makeText(context, "Failed to process", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
@@ -109,15 +165,31 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return request.size();
     }
 
+    /**
+     * The type Notification view holder.
+     */
     public static class NotificationViewHolder extends RecyclerView.ViewHolder{
 
+        /**
+         * The Binding.
+         */
         RideRequestLayoutBinding binding;
+
+        /**
+         * Instantiates a new Notification view holder.
+         *
+         * @param rideRequestLayoutBinding the ride request layout binding
+         */
         NotificationViewHolder(@NonNull RideRequestLayoutBinding rideRequestLayoutBinding) {
             super(rideRequestLayoutBinding.getRoot());
             binding = rideRequestLayoutBinding;
         }
 
     }
+
+    /**
+     * Accept.
+     */
     public void Accept(){
         db.collection("Booking Ride")
                 .whereEqualTo("Driver Email Address", getEmail())
@@ -139,6 +211,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
     }
+
+    /**
+     * Ignored.
+     */
     public void Ignored(){
         db.collection("Booking Ride")
                 .whereEqualTo("Driver Email Address", getEmail())
@@ -160,6 +236,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
     }
+
+    /**
+     * Reject.
+     */
     public void Reject(){
         db.collection("Booking Ride")
                 .whereEqualTo("Driver Email Address", getEmail())
@@ -181,11 +261,23 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
+
+    /**
+     * Remove at.
+     *
+     * @param position the position
+     */
     public void removeAt(int position){
         request.remove(position);
         notifyItemRemoved(position);

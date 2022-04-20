@@ -18,12 +18,21 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
+/**
+ * The type Forgot password.
+ */
 public class ForgotPassword extends AppCompatActivity {
     private Button confirmBtn;
     private TextInputEditText newPassword, confirmPassword, emailAddress;
     private ProgressDialog progressDialog;
     private TextInputLayout materialEmailAddress, materialNewPassword, materialConfirmPassword;
+    /**
+     * The User.
+     */
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    /**
+     * The Firebase auth.
+     */
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private static final String TAG = "Forgot password";
 

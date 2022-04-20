@@ -13,9 +13,20 @@ import com.example.ulendoapp.models.Groups;
 
 import java.util.List;
 
+/**
+ * The type Groups adapter.
+ */
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupsViewHolder> {
+    /**
+     * The Groups list.
+     */
     List<Groups> groupsList;
 
+    /**
+     * Instantiates a new Groups adapter.
+     *
+     * @param groupsList the groups list
+     */
     public GroupsAdapter(List<Groups> groupsList) {
         this.groupsList = groupsList;
     }
@@ -37,13 +48,31 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupsView
         return groupsList.size();
     }
 
+    /**
+     * The type Groups view holder.
+     */
     public class GroupsViewHolder extends RecyclerView.ViewHolder{
 
+        /**
+         * The Binding.
+         */
         GroupLayoutBinding binding;
+
+        /**
+         * Instantiates a new Groups view holder.
+         *
+         * @param groupLayoutBinding the group layout binding
+         */
         public GroupsViewHolder(@NonNull GroupLayoutBinding groupLayoutBinding) {
             super(groupLayoutBinding.getRoot());
             binding = groupLayoutBinding;
         }
+
+        /**
+         * Set group data.
+         *
+         * @param groups the groups
+         */
         void setGroupData(Groups groups){
             binding.startPoint.setText(groups.getStartingPoint());
             binding.destinationPoint.setText(groups.getDestination());

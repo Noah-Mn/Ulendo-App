@@ -15,11 +15,20 @@ import com.example.ulendoapp.models.User;
 
 import java.util.List;
 
+/**
+ * The type Users adapter.
+ */
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
     private final List<User> users;
     private  final UserListener userListener;
 
+    /**
+     * Instantiates a new Users adapter.
+     *
+     * @param users        the users
+     * @param userListener the user listener
+     */
     public UsersAdapter(List<User> users, UserListener userListener) {
         this.users = users;
         this.userListener = userListener;
@@ -47,14 +56,31 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         return users.size();
     }
 
+    /**
+     * The type User view holder.
+     */
     class UserViewHolder extends RecyclerView.ViewHolder{
 
+        /**
+         * The Binding.
+         */
         ItemContainerUserBinding binding;
 
+        /**
+         * Instantiates a new User view holder.
+         *
+         * @param itemContainerUserBinding the item container user binding
+         */
         UserViewHolder(ItemContainerUserBinding itemContainerUserBinding){
             super(itemContainerUserBinding.getRoot());
             binding = itemContainerUserBinding;
         }
+
+        /**
+         * Set userdata.
+         *
+         * @param user the user
+         */
         void setUserdata(User user){
             binding.textName.setText(user.name);
             binding.textEmail.setText(user.email);

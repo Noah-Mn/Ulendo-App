@@ -26,6 +26,9 @@ public class wallet extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Instantiates a new Wallet.
+     */
     public wallet() {
         // Required empty public constructor
     }
@@ -38,7 +41,7 @@ public class wallet extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment wallet.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static wallet newInstance(String param1, String param2) {
         wallet fragment = new wallet();
         Bundle args = new Bundle();

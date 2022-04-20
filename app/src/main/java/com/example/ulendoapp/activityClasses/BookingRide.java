@@ -21,6 +21,7 @@ import com.example.ulendoapp.models.DriverVehiclesModel;
 import com.example.ulendoapp.models.FindRideModel;
 import com.example.ulendoapp.models.OfferRideModel;
 import com.example.ulendoapp.models.User;
+import com.example.ulendoapp.models.UserModel;
 import com.example.ulendoapp.network.ApiClient;
 import com.example.ulendoapp.network.ApiService;
 import com.example.ulendoapp.utilities.Constants;
@@ -56,10 +57,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type Booking ride.
+ */
 public class BookingRide extends AppCompatActivity {
     private static final String TAG = "tag";
     private TextView dName, origin, destination, remainingSeats, date, pTime, sInstructions, bookedText;
     private String passengerName, textOrigin, textDestination, textDate, textTime, textInst;
+    /**
+     * The R seats.
+     */
     public long rSeats;
     private MaterialButton btnBook;
     private String driverName;
@@ -78,7 +85,17 @@ public class BookingRide extends AppCompatActivity {
     private String bookingId;
     private String tripId;
     private boolean accept;
+    /**
+     * The User model.
+     */
+    UserModel userModel;
+    /**
+     * The Receiver.
+     */
     User receiver;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
 
     @Override
@@ -90,7 +107,7 @@ public class BookingRide extends AppCompatActivity {
         currentUser = auth.getCurrentUser();
         handler = new Handler();
         preferenceManager = new PreferenceManager(getApplicationContext());
-
+        userModel = new UserModel();
         bookRequests = new ArrayList<>();
         receiver = new User();
         dName = findViewById(R.id.booking_driver_name_text);
@@ -116,16 +133,29 @@ public class BookingRide extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
 
+    /**
+     * Set intent.
+     */
     public void setIntent(){
 
     }
 
+    /**
+     * Check remaining seats.
+     *
+     * @param view the view
+     */
     public void checkRemainingSeats(View view){
         getTripExtras();
         db.collection("Offer Ride")
@@ -149,6 +179,9 @@ public class BookingRide extends AppCompatActivity {
 
     }
 
+    /**
+     * Get booking details.
+     */
     public void getBookingDetails(){
         getTripExtras();
         db.collection("Booking Ride")
@@ -175,6 +208,12 @@ public class BookingRide extends AppCompatActivity {
 
     }
 
+    /**
+     * Check booked ride.
+     *
+     * @param email the email
+     * @param id    the id
+     */
     public  void checkBookedRide(String email, String id){
         if(email == getEmail() && id == tDetails.getTripId()){
             btnBook.setVisibility(View.INVISIBLE);
@@ -220,6 +259,9 @@ public class BookingRide extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set seat text.
+     */
     public void setSeatText(){
         getTripExtras();
         db.collection("Offer Ride")
@@ -258,7 +300,7 @@ public class BookingRide extends AppCompatActivity {
         bookedTrip.put("Destination", tDetails.getDestination());
         bookedTrip.put("Booked Date", tDetails.getPickupDate());
         bookedTrip.put("Current Date", tDetails.getCurrDate());
-        bookedTrip.put(Constants.KEY_PASSENGER_NAME, preferenceManager.getString(Constants.KEY_PASSENGER_NAME));
+        bookedTrip.put(Constants.KEY_PASSENGER_NAME, userModel.getFirstName()+" "+userModel.getLastName());
         bookedTrip.put("Booking Status", "pending");
         bookedTrip.put(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         bookedTrip.put(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_T_RECEIVER_ID));
@@ -281,6 +323,9 @@ public class BookingRide extends AppCompatActivity {
     }
 
 
+    /**
+     * Set text.
+     */
     public void setText(){
         getTripExtras();
         getDriverName();
@@ -349,7 +394,7 @@ public class BookingRide extends AppCompatActivity {
                             String surname = documentSnapshot.getString("Surname");
 
                             passengerName = fName + " " + surname;
-                            preferenceManager.putString(Constants.KEY_PASSENGER_NAME, passengerName);
+//                            preferenceManager.putString(Constants.KEY_PASSENGER_NAME, passengerName);
                         }
 
                     }
@@ -364,6 +409,9 @@ public class BookingRide extends AppCompatActivity {
     }
 
 
+    /**
+     * Gets trip extras.
+     */
     public void getTripExtras() {
         Intent intent = getIntent();
 

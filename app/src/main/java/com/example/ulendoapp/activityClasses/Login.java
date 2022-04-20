@@ -51,6 +51,9 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Login.
+ */
 public class Login extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
 
@@ -64,6 +67,9 @@ public class Login extends AppCompatActivity {
     private MaterialTextView materialCreateAcc, materialForgotPasswd;
     private ProgressDialog progressDialog;
     private Intent intent;
+    /**
+     * The Email pattern.
+     */
     String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
@@ -143,6 +149,9 @@ public class Login extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Request permissions.
+     */
     public void requestPermissions(){
         Dexter.withActivity(this)
                 .withPermissions(PERMISSIONS)
@@ -279,6 +288,11 @@ public class Login extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Login state.
+     *
+     * @param userStatus the user status
+     */
     public void loginState(String userStatus){
 
         if(userStatus.equals("driver")){

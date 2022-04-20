@@ -21,13 +21,76 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Add vehicle.
+ */
 public class AddVehicle extends AppCompatActivity {
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
-    String vBrand, vModel, vModelYr, vColor, vBookingType, vLicensePlate;
+    /**
+     * The V brand.
+     */
+    String vBrand,
+    /**
+     * The V model.
+     */
+    vModel,
+    /**
+     * The V model yr.
+     */
+    vModelYr,
+    /**
+     * The V color.
+     */
+    vColor,
+    /**
+     * The V booking type.
+     */
+    vBookingType,
+    /**
+     * The V license plate.
+     */
+    vLicensePlate;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
-    TextInputEditText textBookingType, textVehicleBrand, textColor, textModel, textLicencePlate, textYear;
+    /**
+     * The Text booking type.
+     */
+    TextInputEditText textBookingType,
+    /**
+     * The Text vehicle brand.
+     */
+    textVehicleBrand,
+    /**
+     * The Text color.
+     */
+    textColor,
+    /**
+     * The Text model.
+     */
+    textModel,
+    /**
+     * The Text licence plate.
+     */
+    textLicencePlate, /**
+     * The Text year.
+     */
+    textYear;
+    /**
+     * The Btn back.
+     */
     ImageView btnBack;
+    /**
+     * The Complete.
+     */
     MaterialButton complete;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

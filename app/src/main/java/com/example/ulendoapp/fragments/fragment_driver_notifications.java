@@ -35,12 +35,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Fragment driver notifications.
+ */
 public class fragment_driver_notifications extends Fragment{
     private RecyclerView recyclerView;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
+
+    /**
+     * Instantiates a new Fragment driver notifications.
+     */
     public fragment_driver_notifications() {
         // Required empty public constructor
     }
@@ -108,6 +118,12 @@ public class fragment_driver_notifications extends Fragment{
         return view;
 
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();

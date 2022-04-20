@@ -15,12 +15,54 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+/**
+ * The type Personal info.
+ */
 public class PersonalInfo extends AppCompatActivity {
+    /**
+     * The Binding.
+     */
     ActivityPersonalInfoBinding binding;
+    /**
+     * The Firebase auth.
+     */
     FirebaseAuth firebaseAuth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
-    String fName, lastName, encodedImage,gender, email, birthday, phoneNumber, nationalID, physicalAddr;
+    /**
+     * The F name.
+     */
+    String fName, /**
+     * The Last name.
+     */
+    lastName, /**
+     * The Encoded image.
+     */
+    encodedImage, /**
+     * The Gender.
+     */
+    gender, /**
+     * The Email.
+     */
+    email, /**
+     * The Birthday.
+     */
+    birthday, /**
+     * The Phone number.
+     */
+    phoneNumber, /**
+     * The National id.
+     */
+    nationalID, /**
+     * The Physical addr.
+     */
+    physicalAddr;
     private final String TAG = "Personal Info";
 
     @Override
@@ -36,6 +78,9 @@ public class PersonalInfo extends AppCompatActivity {
         getInformation();
     }
 
+    /**
+     * Get information.
+     */
     public void getInformation(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -69,6 +114,12 @@ public class PersonalInfo extends AppCompatActivity {
                     }
                 });
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();

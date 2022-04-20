@@ -15,9 +15,18 @@ import com.google.android.material.textview.MaterialTextView;
 
 import java.util.List;
 
+/**
+ * The type Passenger notification adapter.
+ */
 public class PassengerNotificationAdapter extends RecyclerView.Adapter{
+    /**
+     * The Passenger notifications.
+     */
     public List<NotificationModel> passengerNotifications;
 
+    /**
+     * The Context.
+     */
     Context context;
 
     @Override
@@ -34,6 +43,12 @@ public class PassengerNotificationAdapter extends RecyclerView.Adapter{
         }
     }
 
+    /**
+     * Instantiates a new Passenger notification adapter.
+     *
+     * @param passengerNotifications the passenger notifications
+     * @param context                the context
+     */
     public PassengerNotificationAdapter(List<NotificationModel> passengerNotifications, Context context) {
         this.passengerNotifications = passengerNotifications;
         this.context = context;
@@ -76,25 +91,60 @@ public class PassengerNotificationAdapter extends RecyclerView.Adapter{
         return passengerNotifications.size();
     }
 
+    /**
+     * The type Passenger notification view holder one.
+     */
     static class PassengerNotificationViewHolderOne extends RecyclerView.ViewHolder {
+        /**
+         * The Text view.
+         */
         MaterialTextView textView;
 
+        /**
+         * Instantiates a new Passenger notification view holder one.
+         *
+         * @param itemView the item view
+         */
         public PassengerNotificationViewHolderOne(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.status_1);
         }
     }
+
+    /**
+     * The type Passenger notification view holder two.
+     */
     static class PassengerNotificationViewHolderTwo extends RecyclerView.ViewHolder {
+        /**
+         * The Text view.
+         */
         MaterialTextView textView;
 
+        /**
+         * Instantiates a new Passenger notification view holder two.
+         *
+         * @param itemView the item view
+         */
         public PassengerNotificationViewHolderTwo(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.status_2);
         }
     }
+
+    /**
+     * The type Passenger notification view holder three.
+     */
     static class PassengerNotificationViewHolderThree extends RecyclerView.ViewHolder {
+        /**
+         * The Text view.
+         */
         MaterialTextView textView;
 
+        /**
+         * Instantiates a new Passenger notification view holder three.
+         *
+         * @param itemView the item view
+         */
         public PassengerNotificationViewHolderThree(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.status_3);

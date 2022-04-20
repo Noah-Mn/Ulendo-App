@@ -1,5 +1,17 @@
 package com.example.ulendoapp.models;
 
+/**
+ * The type Book request.
+ */
 public class BookRequest {
-    public String senderId, receiverId, message;
+    /**
+     * The Sender id.
+     */
+    public String senderId, /**
+     * The Receiver id.
+     */
+    receiverId, /**
+     * The Message.
+     */
+    message;
 }

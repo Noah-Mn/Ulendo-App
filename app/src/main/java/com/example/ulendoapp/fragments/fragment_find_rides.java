@@ -38,12 +38,57 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Fragment find rides.
+ */
 public class fragment_find_rides extends Fragment {
+    /**
+     * The Get count.
+     */
     MaterialSpinner getCount;
-    public TextInputEditText pickupPoint, destination, pickupDate;
-    public String pPoint, dest, pDate, status, people, lug;
+    /**
+     * The Pickup point.
+     */
+    public TextInputEditText pickupPoint, /**
+     * The Destination.
+     */
+    destination, /**
+     * The Pickup date.
+     */
+    pickupDate;
+    /**
+     * The P point.
+     */
+    public String pPoint, /**
+     * The Dest.
+     */
+    dest, /**
+     * The P date.
+     */
+    pDate, /**
+     * The Status.
+     */
+    status, /**
+     * The People.
+     */
+    people, /**
+     * The Lug.
+     */
+    lug;
+    /**
+     * The No people.
+     */
     public long noPeople;
-    public MaterialSpinner   numberOfPeople, luggage;
+    /**
+     * The Number of people.
+     */
+    public MaterialSpinner   numberOfPeople, /**
+     * The Luggage.
+     */
+    luggage;
+    /**
+     * The Tag.
+     */
     public final String TAG = "tag";
 
     private FirebaseFirestore db;
@@ -100,6 +145,9 @@ public class fragment_find_rides extends Fragment {
         return view;
     }
 
+    /**
+     * Get trip info.
+     */
     public void getTripInfo(){
         dest = Objects.requireNonNull(destination.getText()).toString();
         pDate = Objects.requireNonNull(pickupDate.getText()).toString();
@@ -147,6 +195,11 @@ public class fragment_find_rides extends Fragment {
 //
 //    }
 
+    /**
+     * Set passenger spinner.
+     *
+     * @param view the view
+     */
     public void setPassengerSpinner(View view){
         getCount = view.findViewById(R.id.trip_number_of_passengers);
         ArrayList<Long> count = new ArrayList<>();
@@ -164,6 +217,11 @@ public class fragment_find_rides extends Fragment {
 
     }
 
+    /**
+     * Set luggage spinner.
+     *
+     * @param view the view
+     */
     public void setLuggageSpinner(View view){
         getCount = (MaterialSpinner)view.findViewById(R.id.trip_luggage);
         ArrayList<String> count = new ArrayList<String>();
@@ -176,6 +234,11 @@ public class fragment_find_rides extends Fragment {
 
     }
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = user.getEmail();

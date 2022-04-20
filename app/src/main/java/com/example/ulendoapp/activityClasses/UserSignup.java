@@ -17,6 +17,9 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * The type User signup.
+ */
 public class UserSignup extends AppCompatActivity {
     private MaterialButton nextBtn;
     private TextInputEditText textFirstName, textLastName, textPhoneNumber,
@@ -25,9 +28,39 @@ public class UserSignup extends AppCompatActivity {
     private TextInputLayout materialFistName, materialLastName, materialBirthday, materialGender,
             materialPhoneNumber, materialNationalId, materialPhysicalAddress;
     private ProgressDialog progressDialog;
-    public String firstName, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress;
+    /**
+     * The First name.
+     */
+    public String firstName, /**
+     * The Last name.
+     */
+    lastName, /**
+     * The Birthday.
+     */
+    birthday, /**
+     * The Gender.
+     */
+    gender, /**
+     * The Phone number.
+     */
+    phoneNumber, /**
+     * The Email.
+     */
+    email, /**
+     * The National id.
+     */
+    nationalId, /**
+     * The Physical address.
+     */
+    physicalAddress;
+    /**
+     * The Tag.
+     */
     public final String TAG = "tag";
     private FirebaseFirestore db;
+    /**
+     * The Valid.
+     */
     public boolean valid;
     private Intent intent;
 
@@ -84,6 +117,9 @@ public class UserSignup extends AppCompatActivity {
 
     }
 
+    /**
+     * Set spinner.
+     */
     public void setSpinner(){
         textGender = findViewById(R.id.genderSpinner);
         ArrayList<String> genderList = new ArrayList<>();
@@ -96,6 +132,9 @@ public class UserSignup extends AppCompatActivity {
                 gender = item);
     }
 
+    /**
+     * Get signup details.
+     */
     public void getSignupDetails(){
 
         firstName = Objects.requireNonNull(textFirstName.getText().toString());
@@ -108,6 +147,11 @@ public class UserSignup extends AppCompatActivity {
 
     }
 
+    /**
+     * Validate first form boolean.
+     *
+     * @return the boolean
+     */
     public boolean validateFirstForm(){
         getSignupDetails();
         valid = false;

@@ -19,15 +19,42 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+/**
+ * The type Driver profile.
+ */
 public class DriverProfile extends AppCompatActivity {
+    /**
+     * The Binding.
+     */
     ActivityDriverProfileBinding binding;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
 
+    /**
+     * The Firebase auth.
+     */
     FirebaseAuth firebaseAuth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
     private final String TAG = "Driver Profile";
-    String fName, lastName, encodedImage;
+    /**
+     * The F name.
+     */
+    String fName, /**
+     * The Last name.
+     */
+    lastName, /**
+     * The Encoded image.
+     */
+    encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +91,9 @@ public class DriverProfile extends AppCompatActivity {
         getUserName();
     }
 
+    /**
+     * Gets user name.
+     */
     @SuppressLint("SetTextI18n")
     public void getUserName() {
         db.collection("Users")
@@ -87,6 +117,11 @@ public class DriverProfile extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
     public String getEmail() {
         String emailAddress;
         emailAddress = currentUser.getEmail();

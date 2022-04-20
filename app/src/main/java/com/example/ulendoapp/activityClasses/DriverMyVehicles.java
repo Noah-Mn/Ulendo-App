@@ -19,10 +19,25 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Driver my vehicles.
+ */
 public class DriverMyVehicles extends AppCompatActivity implements VehicleListener {
+    /**
+     * The Binding.
+     */
     ActivityDriverMyVehiclesBinding binding;
+    /**
+     * The Database.
+     */
     FirebaseFirestore database;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
 
     @Override
@@ -60,6 +75,9 @@ public class DriverMyVehicles extends AppCompatActivity implements VehicleListen
         }
     }
 
+    /**
+     * Get vehicles.
+     */
     public void getVehicles(){
         database.collection("Driver Vehicles")
                 .whereEqualTo("Email Address", getEmail())
@@ -91,6 +109,12 @@ public class DriverMyVehicles extends AppCompatActivity implements VehicleListen
                     }
                 });
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();

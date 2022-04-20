@@ -35,11 +35,62 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Fragment home.
+ */
 public class fragment_home extends Fragment {
+    /**
+     * The Get count.
+     */
     MaterialSpinner getCount;
-    public TextInputEditText pickupPoint, destination, pickupDate, dropPoint, specialInstructions;
-    public String pPoint, dest, pDate, noPeople, status, sInstructions, dPoint;
-    public MaterialSpinner   numberOfPeople, luggage;
+    /**
+     * The Pickup point.
+     */
+    public TextInputEditText pickupPoint, /**
+     * The Destination.
+     */
+    destination, /**
+     * The Pickup date.
+     */
+    pickupDate, /**
+     * The Drop point.
+     */
+    dropPoint, /**
+     * The Special instructions.
+     */
+    specialInstructions;
+    /**
+     * The P point.
+     */
+    public String pPoint, /**
+     * The Dest.
+     */
+    dest, /**
+     * The P date.
+     */
+    pDate, /**
+     * The No people.
+     */
+    noPeople, /**
+     * The Status.
+     */
+    status, /**
+     * The S instructions.
+     */
+    sInstructions, /**
+     * The D point.
+     */
+    dPoint;
+    /**
+     * The Number of people.
+     */
+    public MaterialSpinner   numberOfPeople, /**
+     * The Luggage.
+     */
+    luggage;
+    /**
+     * The Tag.
+     */
     public final String TAG = "tag";
     private FirebaseFirestore db;
     private FirebaseAuth auth;
@@ -97,6 +148,9 @@ public class fragment_home extends Fragment {
        return view;
     }
 
+    /**
+     * Get trip info.
+     */
     public void getTripInfo(){
         dest = destination.getText().toString();
         noPeople = numberOfPeople.getText().toString();
@@ -166,6 +220,11 @@ public class fragment_home extends Fragment {
 
     }*/
 
+    /**
+     * Set passenger spinner.
+     *
+     * @param view the view
+     */
     public void setPassengerSpinner(View view){
         getCount = (MaterialSpinner)view.findViewById(R.id.user_trip_number_of_passengers);
         ArrayList<String> count = new ArrayList<String>();
@@ -180,6 +239,11 @@ public class fragment_home extends Fragment {
         getCount.setAdapter(countAdapter);
     }
 
+    /**
+     * Set luggage spinner.
+     *
+     * @param view the view
+     */
     public void setLuggageSpinner(View view){
         getCount = (MaterialSpinner)view.findViewById(R.id.user_trip_luggage);
         ArrayList<String> count = new ArrayList<String>();
@@ -192,6 +256,12 @@ public class fragment_home extends Fragment {
         countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getCount.setAdapter(countAdapter);
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();

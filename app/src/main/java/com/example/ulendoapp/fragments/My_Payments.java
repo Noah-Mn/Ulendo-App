@@ -26,6 +26,9 @@ public class My_Payments extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Instantiates a new My payments.
+     */
     public My_Payments() {
         // Required empty public constructor
     }
@@ -38,7 +41,7 @@ public class My_Payments extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment My_Payments.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static My_Payments newInstance(String param1, String param2) {
         My_Payments fragment = new My_Payments();
         Bundle args = new Bundle();

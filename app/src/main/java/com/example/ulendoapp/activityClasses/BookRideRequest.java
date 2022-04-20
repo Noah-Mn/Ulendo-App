@@ -11,8 +11,17 @@ import com.example.ulendoapp.R;
 import com.example.ulendoapp.databinding.ActivityBookRideRequestBinding;
 import com.google.android.material.button.MaterialButton;
 
+/**
+ * The type Book ride request.
+ */
 public class BookRideRequest extends AppCompatActivity {
+    /**
+     * The Binding.
+     */
     ActivityBookRideRequestBinding binding;
+    /**
+     * The Dialog.
+     */
     Dialog dialog;
 
     @Override
@@ -23,6 +32,10 @@ public class BookRideRequest extends AppCompatActivity {
         dialog = new Dialog(this);
         showPopup();
     }
+
+    /**
+     * Show popup.
+     */
     public void showPopup(){
         TextView textView;
         MaterialButton accept, reject;

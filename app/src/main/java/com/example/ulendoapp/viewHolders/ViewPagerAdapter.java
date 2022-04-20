@@ -7,10 +7,18 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
+/**
+ * The type View pager adapter.
+ */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final  ArrayList<String> fragmentTitle = new ArrayList<>();
 
+    /**
+     * Instantiates a new View pager adapter.
+     *
+     * @param fm the fm
+     */
     public ViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
@@ -26,6 +34,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return fragmentArrayList.size();
     }
+
+    /**
+     * Add fragment.
+     *
+     * @param fragment the fragment
+     * @param title    the title
+     */
     public  void addFragment(Fragment fragment, String title){
         fragmentArrayList.add(fragment);
         fragmentTitle.add(title);

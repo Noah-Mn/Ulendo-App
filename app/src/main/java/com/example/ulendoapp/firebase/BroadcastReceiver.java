@@ -9,6 +9,9 @@ import com.example.ulendoapp.R;
 
 import java.util.zip.Inflater;
 
+/**
+ * The type Broadcast receiver.
+ */
 public class BroadcastReceiver extends android.content.BroadcastReceiver {
 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to be deleted>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     @Override

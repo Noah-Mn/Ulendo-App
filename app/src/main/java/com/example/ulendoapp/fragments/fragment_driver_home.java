@@ -15,9 +15,21 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.ulendoapp.R;
 import com.google.android.material.chip.Chip;
 
+/**
+ * The type Fragment driver home.
+ */
 public class fragment_driver_home extends Fragment {
-    Chip findRide, offerRide;
+    /**
+     * The Find ride.
+     */
+    Chip findRide, /**
+     * The Offer ride.
+     */
+    offerRide;
 
+    /**
+     * Instantiates a new Fragment driver home.
+     */
     public fragment_driver_home(){
 
     }

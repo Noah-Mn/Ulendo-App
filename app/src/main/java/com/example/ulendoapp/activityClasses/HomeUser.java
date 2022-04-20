@@ -3,18 +3,6 @@ package com.example.ulendoapp.activityClasses;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.latitude;
 import static com.example.ulendoapp.fragments.fragment_offer_rides.longitude;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -38,19 +26,31 @@ import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.ulendoapp.R;
 import com.example.ulendoapp.adapters.CustomAdapter;
 import com.example.ulendoapp.fragments.Group;
+import com.example.ulendoapp.fragments.MyRides;
 import com.example.ulendoapp.fragments.My_Favorites;
 import com.example.ulendoapp.fragments.My_Payments;
-import com.example.ulendoapp.fragments.MyRides;
 import com.example.ulendoapp.fragments.fragment_driver_home;
 import com.example.ulendoapp.fragments.fragment_home;
 import com.example.ulendoapp.fragments.fragment_notifications;
 import com.example.ulendoapp.fragments.fragment_recyclerview;
 import com.example.ulendoapp.fragments.wallet;
 import com.example.ulendoapp.models.UserModel;
-import com.example.ulendoapp.utilities.Constants;
+import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
@@ -58,16 +58,21 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -78,15 +83,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -96,7 +92,13 @@ import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.util.ArrayList;
+import java.util.List;
 
+
+/**
+ * The type Home user.
+ */
 public class HomeUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CustomAdapter.OnDriverClickListener,
         OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 
@@ -107,11 +109,23 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private MaterialToolbar toolbar;
+    /**
+     * The Progress dialog.
+     */
     ProgressDialog progressDialog;
     private String TAG;
+    /**
+     * The constant newText.
+     */
     public static String newText;
     private NavigationView navigationView;
+    /**
+     * The User model.
+     */
     static UserModel userModel;
+    /**
+     * The Profile pic.
+     */
     RoundedImageView profilePic;
     private RecyclerView recyclerView;
     private List<UserModel> userModelList;
@@ -121,14 +135,30 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
     private String fullName, fName, lName;
     private SearchView searchView;
     private MenuItem menuItem;
+    /**
+     * The Preference manager.
+     */
+    PreferenceManager preferenceManager;
 
     private SupportMapFragment mapFragment;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private LocationRequest locationRequest;
     private boolean isPermissionGranted;
+    /**
+     * The G client.
+     */
     public GoogleApiClient gClient;
+    /**
+     * The Camera update.
+     */
     public CameraUpdate cameraUpdate;
+    /**
+     * The G map.
+     */
     public GoogleMap gMap;
+    /**
+     * The Location.
+     */
     public Location location;
     private static final String[] PERMISSIONS = {
             "android.permission.ACCESS_COARSE_LOCATION",
@@ -138,10 +168,25 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
             "android.permission.READ_PHONE_STATE"};
 
     private FrameLayout layout;
+    /**
+     * The Lat lng.
+     */
     public LatLng latLng;
+    /**
+     * The Current latitude.
+     */
     public double currentLatitude;
+    /**
+     * The Current longitude.
+     */
     public double currentLongitude;
+    /**
+     * The Count.
+     */
     public int count = 0;
+    /**
+     * The Count 1.
+     */
     public int count1 = 0;
     private Fragment fr;
     private FragmentManager fragmentManager;
@@ -156,7 +201,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = auth.getCurrentUser();
-
+        preferenceManager = new PreferenceManager(getApplicationContext());
         progressDialog = new ProgressDialog(this);
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -448,6 +493,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
+    /**
+     * Set menu.
+     */
     public void setMenu(){
         toolbar.inflateMenu(R.menu.menu_user);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -472,6 +520,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
+    /**
+     * Search driver data.
+     */
     public void searchDriverData() {
         db.collection("Users")
                 .whereEqualTo("Status", "driver")
@@ -554,6 +605,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 }
             };
 
+    /**
+     * Search driver.
+     */
     public void searchDriver(){
         menuItem = toolbar.getMenu().findItem(R.id.searchItem);
         searchView = (SearchView) menuItem.getActionView();
@@ -615,6 +669,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
 
     }
 
+    /**
+     * Get user model.
+     */
     public void getUserModel(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -647,6 +704,9 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 });
     }
 
+    /**
+     * Get user data.
+     */
     public void getUserData(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -660,6 +720,7 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                                 firstName = document.getString("First Name");
                                 lastName = document.getString("Surname");
                                 email = document.getString("Email Address");
+
                                 encodedImage = document.getString("Profile Pic");
                                 byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -676,6 +737,11 @@ public class HomeUser extends AppCompatActivity implements NavigationView.OnNavi
                 });
     }
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();

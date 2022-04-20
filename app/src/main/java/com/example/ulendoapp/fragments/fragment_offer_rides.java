@@ -1,12 +1,9 @@
 package com.example.ulendoapp.fragments;
+
 import android.app.TimePickerDialog;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +14,10 @@ import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.example.ulendoapp.R;
-import com.example.ulendoapp.adapters.VehicleAdapter;
-import com.example.ulendoapp.models.Vehicles;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,19 +33,74 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
+/**
+ * The type Fragment offer rides.
+ */
 public class fragment_offer_rides extends Fragment{
+    /**
+     * The Get count.
+     */
     MaterialSpinner getCount;
     private final String TAG =  "tag";
-    public TextInputEditText pickupPoint, destination, pickupTime, pickupDate,  specialInstructions;
-    public String pPoint, dest, pTime, pDate, car, sInstructions;
-    public MaterialSpinner  numberOfSeats, carModel;
+    /**
+     * The Pickup point.
+     */
+    public TextInputEditText pickupPoint, /**
+     * The Destination.
+     */
+    destination, /**
+     * The Pickup time.
+     */
+    pickupTime, /**
+     * The Pickup date.
+     */
+    pickupDate, /**
+     * The Special instructions.
+     */
+    specialInstructions;
+    /**
+     * The P point.
+     */
+    public String pPoint, /**
+     * The Dest.
+     */
+    dest, /**
+     * The P time.
+     */
+    pTime, /**
+     * The P date.
+     */
+    pDate, /**
+     * The Car.
+     */
+    car, /**
+     * The S instructions.
+     */
+    sInstructions;
+    /**
+     * The Number of seats.
+     */
+    public MaterialSpinner  numberOfSeats, /**
+     * The Car model.
+     */
+    carModel;
+    /**
+     * The Seats.
+     */
     public long seats;
+    /**
+     * The constant latitude.
+     */
     public static double latitude;
+    /**
+     * The constant longitude.
+     */
     public static double longitude;
+    /**
+     * The Place name.
+     */
     static String placeName;
     private Button offerBtn;
     private FirebaseFirestore db;
@@ -63,6 +116,9 @@ public class fragment_offer_rides extends Fragment{
     private LatLng latLng;
     private FirebaseFirestore database;
 
+    /**
+     * Instantiates a new Fragment offer rides.
+     */
     public fragment_offer_rides() {
         // Required empty public constructor
     }
@@ -102,6 +158,9 @@ public class fragment_offer_rides extends Fragment{
         return view;
     }
 
+    /**
+     * Load time picker.
+     */
     public void loadTimePicker() {
         disableSoftInputFromAppearing(pickupTime);
         pickupTime.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +188,11 @@ public class fragment_offer_rides extends Fragment{
         });
     }
 
+    /**
+     * Disable soft input from appearing.
+     *
+     * @param pTime the p time
+     */
     public static void disableSoftInputFromAppearing(TextInputEditText pTime) {
         if (Build.VERSION.SDK_INT >= 11) {
             pTime.setRawInputType(InputType.TYPE_NULL);
@@ -139,6 +203,11 @@ public class fragment_offer_rides extends Fragment{
         }
     }
 
+    /**
+     * Set car model spinner.
+     *
+     * @param view the view
+     */
     public void setCarModelSpinner(View view){
         getCarModel = (MaterialSpinner)view.findViewById(R.id.ride_car_model);
         ArrayList<String> count = new ArrayList<String>();
@@ -166,6 +235,11 @@ public class fragment_offer_rides extends Fragment{
     }
 
 
+    /**
+     * Set spinner.
+     *
+     * @param view the view
+     */
     public void setSpinner(View view){
         getCount = (MaterialSpinner)view.findViewById(R.id.ride_number_of_seats);
         ArrayList<Long> count = new ArrayList<>();
@@ -182,6 +256,9 @@ public class fragment_offer_rides extends Fragment{
         getCount.setAdapter(countAdapter);
     }
 
+    /**
+     * Get ride info.
+     */
     public void getRideInfo(){
         pPoint = pickupPoint.getText().toString();
         dest = destination.getText().toString();
@@ -193,6 +270,12 @@ public class fragment_offer_rides extends Fragment{
 //      dPoint = "your choice";
 
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();

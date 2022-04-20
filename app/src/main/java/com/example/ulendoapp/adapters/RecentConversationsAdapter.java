@@ -16,11 +16,20 @@ import com.example.ulendoapp.models.User;
 
 import java.util.List;
 
+/**
+ * The type Recent conversations adapter.
+ */
 public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConversationsAdapter.ConversationHolder>{
 
     private final List<ChatMessage> chatMessages;
     private ConversationListener conversationListener;
 
+    /**
+     * Instantiates a new Recent conversations adapter.
+     *
+     * @param chatMessages         the chat messages
+     * @param conversationListener the conversation listener
+     */
     public RecentConversationsAdapter(List<ChatMessage> chatMessages, ConversationListener conversationListener) {
         this.chatMessages = chatMessages;
         this.conversationListener = conversationListener;
@@ -48,15 +57,31 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
         return chatMessages.size();
     }
 
+    /**
+     * The type Conversation holder.
+     */
     class ConversationHolder extends RecyclerView.ViewHolder{
 
+        /**
+         * The Binding.
+         */
         ItemContainerRecentConversationBinding binding;
 
+        /**
+         * Instantiates a new Conversation holder.
+         *
+         * @param itemContainerRecentConversationBinding the item container recent conversation binding
+         */
         ConversationHolder(ItemContainerRecentConversationBinding itemContainerRecentConversationBinding){
             super(itemContainerRecentConversationBinding.getRoot());
             binding = itemContainerRecentConversationBinding;
         }
 
+        /**
+         * Set data.
+         *
+         * @param chatMessage the chat message
+         */
         void setData(ChatMessage chatMessage){
             binding.imageProfile.setImageBitmap(getConversationImage(chatMessage.conversionImage));
             binding.textName.setText(chatMessage.conversationName);

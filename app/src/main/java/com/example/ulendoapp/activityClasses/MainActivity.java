@@ -8,7 +8,13 @@ import android.os.Handler;
 
 import com.example.ulendoapp.R;
 
+/**
+ * The type Main activity.
+ */
 public class MainActivity extends AppCompatActivity {
+    /**
+     * The Splash time.
+     */
     final int splashTime = 1500;
 
     @Override

@@ -90,23 +90,89 @@ import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+/**
+ * The type Home driver.
+ */
 public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
     LocationListener{
-    public String  vehicleBrand, vehicleModel, vehicleModelYr, vehicleColor, vehicleBookingType, vehicleLicensePlate, vehicleLicenseId,
-            driverStatus, passengerRides, drivingRides, rating;
+    /**
+     * The Vehicle brand.
+     */
+    public String  vehicleBrand, /**
+     * The Vehicle model.
+     */
+    vehicleModel, /**
+     * The Vehicle model yr.
+     */
+    vehicleModelYr, /**
+     * The Vehicle color.
+     */
+    vehicleColor, /**
+     * The Vehicle booking type.
+     */
+    vehicleBookingType, /**
+     * The Vehicle license plate.
+     */
+    vehicleLicensePlate, /**
+     * The Vehicle license id.
+     */
+    vehicleLicenseId,
+    /**
+     * The Driver status.
+     */
+    driverStatus, /**
+     * The Passenger rides.
+     */
+    passengerRides, /**
+     * The Driving rides.
+     */
+    drivingRides, /**
+     * The Rating.
+     */
+    rating;
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    /**
+     * The Driver bottom nav.
+     */
     BottomNavigationView driver_bottom_nav;
+    /**
+     * The Navigation view driver.
+     */
     NavigationView navigation_view_driver;
+    /**
+     * The Drawer layout.
+     */
     DrawerLayout drawerLayout;
     private MaterialTextView  header_name, header_email, firstName;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
-    String fName, lastName, email;
+    /**
+     * The F name.
+     */
+    String fName, /**
+     * The Last name.
+     */
+    lastName, /**
+     * The Email.
+     */
+    email;
     private final String TAG = "Home Driver";
     private Toolbar toolbar;
 //    ActivityHomeDriverBinding binding;
     private RoundedImageView profilePic;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
 
     private static final String[] PERMISSIONS = {
@@ -125,14 +191,35 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
     private CameraUpdate cameraUpdate;
     private LocationCallback locationCallback;
     private int count = 0;
+    /**
+     * The Count 1.
+     */
     public int count1 = 0;
     private FragmentManager fragmentManager;
+    /**
+     * The Fragment transaction.
+     */
     public FragmentTransaction fragmentTransaction;
     private FrameLayout layout;
+    /**
+     * The Lat lng.
+     */
     public LatLng latLng;
+    /**
+     * The Current latitude.
+     */
     public double currentLatitude;
+    /**
+     * The Current longitude.
+     */
     public double currentLongitude;
+    /**
+     * The Fr.
+     */
     public Fragment fr;
+    /**
+     * The Driver vehicles model.
+     */
     static DriverVehiclesModel driverVehiclesModel;
     private String emailAddress;
 
@@ -176,6 +263,9 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
 
     }
 
+    /**
+     * Get user model.
+     */
     public void getUserModel(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -427,6 +517,9 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Set menu.
+     */
     public void setMenu(){
         toolbar.inflateMenu(R.menu.menu_driver);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -559,6 +652,9 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         });
     }
 
+    /**
+     * Get user name.
+     */
     public void getUserName(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -589,6 +685,11 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
                 });
     }
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
@@ -613,6 +714,10 @@ public class HomeDriver extends AppCompatActivity implements OnMapReadyCallback,
         }
         return true;
     }
+
+    /**
+     * Logout.
+     */
     public void logout(){
         db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection(Constants.KEY_COLLECTION_USERS).document(preferenceManager.getString(Constants.KEY_USER_ID));

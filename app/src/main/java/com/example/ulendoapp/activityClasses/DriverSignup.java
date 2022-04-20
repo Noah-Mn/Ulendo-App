@@ -33,6 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Driver signup.
+ */
 public class DriverSignup extends AppCompatActivity {
     private TextInputEditText textVehicleBrand, textVehicleModel, textModelYear, textVehicleColor, textBookingType, textLicensePlate, textLicenseId;
     private TextInputLayout materialVehicleBrand, materialVehicleModel, materialModelYear, materialVehicleColor,
@@ -43,6 +46,9 @@ public class DriverSignup extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
 
 

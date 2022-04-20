@@ -16,13 +16,40 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+/**
+ * The type User profile.
+ */
 public class UserProfile extends AppCompatActivity {
+    /**
+     * The Binding.
+     */
     ActivityUserProfileBinding binding;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Firebase user.
+     */
     FirebaseUser firebaseUser;
     private final String TAG = "User Profile";
-    String firstName, lastName, number, encodedImage;
+    /**
+     * The First name.
+     */
+    String firstName, /**
+     * The Last name.
+     */
+    lastName, /**
+     * The Number.
+     */
+    number, /**
+     * The Encoded image.
+     */
+    encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +77,10 @@ public class UserProfile extends AppCompatActivity {
         binding.termsConditions.setOnClickListener(view -> startActivity(
                 new Intent(UserProfile.this, TermsAndConditionsCustomer.class)));
     }
+
+    /**
+     * Get user data.
+     */
     @SuppressLint("SetTextI18n")
     public void getUserData(){
         db.collection("Users")
@@ -75,6 +106,12 @@ public class UserProfile extends AppCompatActivity {
                     }
                 });
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = firebaseUser.getEmail();
