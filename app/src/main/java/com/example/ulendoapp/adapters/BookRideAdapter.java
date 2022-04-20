@@ -41,6 +41,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Book ride adapter.
+ */
 public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRideViewHolder> implements View.OnClickListener{
     private ArrayList<OfferRideModel> offerRideModelList;
     private OnTripClickListener onTripClickListener;
@@ -51,6 +54,14 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
     private FindRideModel findRideDetails;
     private Context context;
 
+    /**
+     * Instantiates a new Book ride adapter.
+     *
+     * @param offerRideModelList  the offer ride model list
+     * @param onTripClickListener the on trip click listener
+     * @param findRideDetails     the find ride details
+     * @param context             the context
+     */
     public BookRideAdapter(ArrayList<OfferRideModel> offerRideModelList, BookRideAdapter.OnTripClickListener onTripClickListener,
                            FindRideModel findRideDetails, Context context) {
         this.offerRideModelList = offerRideModelList;
@@ -60,6 +71,11 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     }
 
+    /**
+     * Sets trips.
+     *
+     * @param offerRideModelLists the offer ride model lists
+     */
     public void setTrips(ArrayList<OfferRideModel> offerRideModelLists) {
         this.offerRideModelList = new ArrayList<>();
         this.offerRideModelList = offerRideModelLists;
@@ -77,7 +93,15 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
         context.startActivity(new Intent(context, BookingRide.class));
     }
 
+    /**
+     * The interface On trip click listener.
+     */
     public interface OnTripClickListener {
+        /**
+         * On trip click.
+         *
+         * @param position the position
+         */
         void onTripClick(int position);
     }
 
@@ -107,15 +131,47 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     }
 
+    /**
+     * The type Book ride view holder.
+     */
     class BookRideViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
 
+        /**
+         * The Driver profile pic.
+         */
         public RoundedImageView driverProfilePic;
-        public TextView driverName, carDetail, tripStartPoint, tripDestination, dateTime;
+        /**
+         * The Driver name.
+         */
+        public TextView driverName, /**
+         * The Car detail.
+         */
+        carDetail, /**
+         * The Trip start point.
+         */
+        tripStartPoint, /**
+         * The Trip destination.
+         */
+        tripDestination, /**
+         * The Date time.
+         */
+        dateTime;
+        /**
+         * The Trip layout.
+         */
         public CardView tripLayout;
+        /**
+         * The Binding.
+         */
         public BookTripLayoutBinding binding;
 
 
+        /**
+         * Instantiates a new Book ride view holder.
+         *
+         * @param bookTripLayoutBinding the book trip layout binding
+         */
         BookRideViewHolder(BookTripLayoutBinding bookTripLayoutBinding) {
             super(bookTripLayoutBinding.getRoot());
             binding = bookTripLayoutBinding;
@@ -132,6 +188,11 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
             getDriverName(email);
         }
 
+        /**
+         * Bind.
+         *
+         * @param offerRideModel the offer ride model
+         */
         void bind(final OfferRideModel offerRideModel){
             getRideData(email);
             getDriverName(email);
@@ -160,7 +221,12 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
     }
 
 
-    public void getRideData(String email) {
+        /**
+         * Gets ride data.
+         *
+         * @param email the email
+         */
+        public void getRideData(String email) {
         db.collection("Driver Vehicles")
                 .whereEqualTo("Email Address", email)
                 .get()
@@ -191,7 +257,12 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
                 });
     }
 
-    public void getDriverName(String email){
+        /**
+         * Get driver name.
+         *
+         * @param email the email
+         */
+        public void getDriverName(String email){
         db.collection("Users")
                 .whereEqualTo("Email Address", email)
                 .get()

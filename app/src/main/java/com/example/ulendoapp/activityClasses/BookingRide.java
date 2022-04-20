@@ -57,10 +57,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type Booking ride.
+ */
 public class BookingRide extends AppCompatActivity {
     private static final String TAG = "tag";
     private TextView dName, origin, destination, remainingSeats, date, pTime, sInstructions, bookedText;
     private String passengerName, textOrigin, textDestination, textDate, textTime, textInst;
+    /**
+     * The R seats.
+     */
     public long rSeats;
     private MaterialButton btnBook;
     private String driverName;
@@ -79,8 +85,17 @@ public class BookingRide extends AppCompatActivity {
     private String bookingId;
     private String tripId;
     private boolean accept;
+    /**
+     * The User model.
+     */
     UserModel userModel;
+    /**
+     * The Receiver.
+     */
     User receiver;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
 
     @Override
@@ -118,16 +133,29 @@ public class BookingRide extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
 
+    /**
+     * Set intent.
+     */
     public void setIntent(){
 
     }
 
+    /**
+     * Check remaining seats.
+     *
+     * @param view the view
+     */
     public void checkRemainingSeats(View view){
         getTripExtras();
         db.collection("Offer Ride")
@@ -151,6 +179,9 @@ public class BookingRide extends AppCompatActivity {
 
     }
 
+    /**
+     * Get booking details.
+     */
     public void getBookingDetails(){
         getTripExtras();
         db.collection("Booking Ride")
@@ -177,6 +208,12 @@ public class BookingRide extends AppCompatActivity {
 
     }
 
+    /**
+     * Check booked ride.
+     *
+     * @param email the email
+     * @param id    the id
+     */
     public  void checkBookedRide(String email, String id){
         if(email == getEmail() && id == tDetails.getTripId()){
             btnBook.setVisibility(View.INVISIBLE);
@@ -222,6 +259,9 @@ public class BookingRide extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set seat text.
+     */
     public void setSeatText(){
         getTripExtras();
         db.collection("Offer Ride")
@@ -283,6 +323,9 @@ public class BookingRide extends AppCompatActivity {
     }
 
 
+    /**
+     * Set text.
+     */
     public void setText(){
         getTripExtras();
         getDriverName();
@@ -366,6 +409,9 @@ public class BookingRide extends AppCompatActivity {
     }
 
 
+    /**
+     * Gets trip extras.
+     */
     public void getTripExtras() {
         Intent intent = getIntent();
 

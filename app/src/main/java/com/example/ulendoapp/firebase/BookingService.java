@@ -22,6 +22,9 @@ import com.google.firebase.messaging.RemoteMessage.Notification;
 
 import java.util.Random;
 
+/**
+ * The type Booking service.
+ */
 public class BookingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token){
         super.onNewToken(token);

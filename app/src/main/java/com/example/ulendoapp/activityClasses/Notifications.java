@@ -33,12 +33,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Notifications.
+ */
 public class Notifications extends AppCompatActivity implements NotificationListener {
 
+    /**
+     * The Binding.
+     */
     ActivityNotificationsBinding binding;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
 
     @Override
@@ -58,6 +76,10 @@ public class Notifications extends AppCompatActivity implements NotificationList
     public void onNotificationClicked(BookingModel bookingModel) {
 
     }
+
+    /**
+     * Get notifications.
+     */
     public void getNotifications(){
         db.collection("Booking Ride")
                 .whereEqualTo("Driver Email Address", getEmail())
@@ -125,6 +147,11 @@ public class Notifications extends AppCompatActivity implements NotificationList
 //        return
 //    }
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();

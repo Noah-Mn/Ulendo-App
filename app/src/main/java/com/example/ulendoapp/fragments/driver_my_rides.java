@@ -20,6 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Driver my rides.
+ */
 public class driver_my_rides extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -33,10 +36,20 @@ public class driver_my_rides extends Fragment {
     private FirebaseFirestore db;
     private final String TAG = "tag";
 
+    /**
+     * Instantiates a new Driver my rides.
+     */
     public driver_my_rides() {
         // Required empty public constructor
     }
 
+    /**
+     * New instance driver my rides.
+     *
+     * @param param1 the param 1
+     * @param param2 the param 2
+     * @return the driver my rides
+     */
     public static driver_my_rides newInstance(String param1, String param2) {
         driver_my_rides fragment = new driver_my_rides();
         Bundle args = new Bundle();

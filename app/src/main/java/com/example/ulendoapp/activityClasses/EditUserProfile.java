@@ -43,6 +43,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+/**
+ * The type Edit user profile.
+ */
 public class EditUserProfile extends AppCompatActivity {
     private final String TAG = "tag";
     private FirebaseFirestore db;
@@ -54,11 +57,23 @@ public class EditUserProfile extends AppCompatActivity {
     private ImageView E_profile_back;
     private Button updateBtn;
     private boolean success;
+    /**
+     * The Password.
+     */
     public String password;
     private Object view;
     private AuthCredential credential;
+    /**
+     * The E profile pic.
+     */
     RoundedImageView EProfilePic;
+    /**
+     * The Change avatar.
+     */
     MaterialTextView changeAvatar;
+    /**
+     * The User password.
+     */
     static String userPassword;
     private TextInputLayout materialFullName, materialBirthday, materialEmailAddress, materialPhoneNumber, materialNationalId, materialPhysicalAddress;
     private boolean valid;
@@ -119,6 +134,11 @@ public class EditUserProfile extends AppCompatActivity {
         getMoreUserData();
     }
 
+    /**
+     * Dialog get password boolean.
+     *
+     * @return the boolean
+     */
     public boolean dialogGetPassword(){
         success = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -156,6 +176,9 @@ public class EditUserProfile extends AppCompatActivity {
 
     }
 
+    /**
+     * Set user text info.
+     */
     public void setUserTextInfo(){
         String fullName = edit_full_name.getText().toString();
         if(fullName != null){
@@ -177,6 +200,9 @@ public class EditUserProfile extends AppCompatActivity {
         physicalAddress = edit_physical_address.getText().toString();
     }
 
+    /**
+     * Get more user data.
+     */
     public void getMoreUserData(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -213,6 +239,9 @@ public class EditUserProfile extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Update auth email.
+     */
     public void updateAuthEmail(){
         if(!emailAddress.isEmpty() && !emailAddress.equals(email)) {
             if(dialogGetPassword()){
@@ -262,6 +291,12 @@ public class EditUserProfile extends AppCompatActivity {
                 });
         return valid;
     }
+
+    /**
+     * Validate update form boolean.
+     *
+     * @return the boolean
+     */
     public boolean validateUpdateForm(){
         setUserTextInfo();
         valid = false;
@@ -469,16 +504,31 @@ public class EditUserProfile extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
 
+    /**
+     * Gets view.
+     *
+     * @return the view
+     */
     public Object getView() {
         return view;
     }
 
+    /**
+     * Sets view.
+     *
+     * @param view the view
+     */
     public void setView(Object view) {
         this.view = view;
     }

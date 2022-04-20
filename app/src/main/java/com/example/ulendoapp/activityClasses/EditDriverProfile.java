@@ -40,21 +40,36 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+/**
+ * The type Edit driver profile.
+ */
 public class EditDriverProfile extends AppCompatActivity {
     private final String TAG = "tag";
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private boolean success, valid;
+    /**
+     * The Password.
+     */
     public String password;
     private String firstName, lastName, phoneNumber, dateOfBirth, nationalId, physicalAddress, emailAddress;
     private String encodedImage;
     private Object view;
+    /**
+     * The Driver password.
+     */
     static String driverPassword;
     private AuthCredential credential;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
     private String fName, surname, birthday, pNumber, email, id, phyAddress;
 
+    /**
+     * The Binding.
+     */
     ActivityEditDriverProfileBinding binding;
 
     @Override
@@ -101,6 +116,12 @@ public class EditDriverProfile extends AppCompatActivity {
         });
         getMoreUserData();
     }
+
+    /**
+     * Dialog get password boolean.
+     *
+     * @return the boolean
+     */
     public boolean dialogGetPassword(){
         success = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -168,6 +189,9 @@ public class EditDriverProfile extends AppCompatActivity {
             }
     );
 
+    /**
+     * Set user text info.
+     */
     public void setUserTextInfo(){
         String fullName = binding.editDriverFullName.getText().toString();
         if(fullName != null){
@@ -188,6 +212,12 @@ public class EditDriverProfile extends AppCompatActivity {
         nationalId = binding.editDriverNationalId.getText().toString();
         physicalAddress = binding.editDriverPhysicalAddress.getText().toString();
     }
+
+    /**
+     * Validate update form boolean.
+     *
+     * @return the boolean
+     */
     public boolean validateUpdateForm(){
         setUserTextInfo();
         valid = false;
@@ -232,6 +262,10 @@ public class EditDriverProfile extends AppCompatActivity {
                 });
         return valid;
     }
+
+    /**
+     * Get more user data.
+     */
     public void getMoreUserData(){
         db.collection("Users")
                 .whereEqualTo("Email Address", getEmail())
@@ -268,6 +302,10 @@ public class EditDriverProfile extends AppCompatActivity {
                     }
                 });
     }
+
+    /**
+     * Update auth email.
+     */
     public void updateAuthEmail(){
         if(!emailAddress.isEmpty() && !emailAddress.equals(email)) {
             if(dialogGetPassword()){
@@ -517,15 +555,32 @@ public class EditDriverProfile extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
+
+    /**
+     * Gets view.
+     *
+     * @return the view
+     */
     public Object getView() {
         return view;
     }
 
+    /**
+     * Sets view.
+     *
+     * @param view the view
+     */
     public void setView(Object view) {
         this.view = view;
     }

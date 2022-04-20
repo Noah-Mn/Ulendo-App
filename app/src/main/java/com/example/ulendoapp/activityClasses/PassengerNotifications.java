@@ -17,10 +17,25 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Passenger notifications.
+ */
 public class PassengerNotifications extends AppCompatActivity {
+    /**
+     * The Binding.
+     */
     ActivityPassengerNotificationsBinding binding;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +49,9 @@ public class PassengerNotifications extends AppCompatActivity {
         getNotifications();
     }
 
+    /**
+     * Get notifications.
+     */
     public void getNotifications(){
         db.collection("Booking Ride")
                 .whereEqualTo("Passenger Email Address", getEmail())
@@ -65,6 +83,11 @@ public class PassengerNotifications extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();

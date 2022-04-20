@@ -24,7 +24,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MyRides extends Fragment{
 
     private FloatingActionButton addRide;
-    Chip currentRides, ridesHistory;
+    /**
+     * The Current rides.
+     */
+    Chip currentRides, /**
+     * The Rides history.
+     */
+    ridesHistory;
 
 
 
@@ -37,6 +43,9 @@ public class MyRides extends Fragment{
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Instantiates a new My rides.
+     */
     public MyRides() {
         // Required empty public constructor
     }
@@ -49,7 +58,7 @@ public class MyRides extends Fragment{
      * @param param2 Parameter 2.
      * @return A new instance of fragment UserMyRides.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static MyRides newInstance(String param1, String param2) {
         MyRides fragment = new MyRides();
         Bundle args = new Bundle();

@@ -36,9 +36,21 @@ import java.util.List;
  */
 public class rideHistory extends Fragment {
     private RecyclerView userRideHistory;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Text view.
+     */
     MaterialTextView textView;
 
 
@@ -51,6 +63,9 @@ public class rideHistory extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Instantiates a new Ride history.
+     */
     public rideHistory() {
         // Required empty public constructor
     }
@@ -63,7 +78,7 @@ public class rideHistory extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment rideHistory.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static rideHistory newInstance(String param1, String param2) {
         rideHistory fragment = new rideHistory();
         Bundle args = new Bundle();

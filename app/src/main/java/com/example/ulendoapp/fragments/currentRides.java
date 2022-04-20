@@ -29,10 +29,25 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class currentRides extends Fragment {
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The Text view.
+     */
     MaterialTextView textView;
+    /**
+     * The User ride history.
+     */
     RecyclerView userRideHistory;
 
 

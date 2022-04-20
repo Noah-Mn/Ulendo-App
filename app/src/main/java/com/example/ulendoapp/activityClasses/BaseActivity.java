@@ -10,6 +10,9 @@ import com.example.ulendoapp.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * The type Base activity.
+ */
 public class BaseActivity extends AppCompatActivity {
 
     private DocumentReference documentReference;

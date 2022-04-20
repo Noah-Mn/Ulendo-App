@@ -2,6 +2,24 @@ package com.example.ulendoapp.models;
 
 import java.io.Serializable;
 
+/**
+ * The type User.
+ */
 public class User implements Serializable {
-    public String name, image, email, token, id;
+    /**
+     * The Name.
+     */
+    public String name, /**
+     * The Image.
+     */
+    image, /**
+     * The Email.
+     */
+    email, /**
+     * The Token.
+     */
+    token, /**
+     * The Id.
+     */
+    id;
 }

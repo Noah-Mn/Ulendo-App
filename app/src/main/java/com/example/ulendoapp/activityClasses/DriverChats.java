@@ -32,14 +32,35 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The type Driver chats.
+ */
 public final class DriverChats extends BaseActivity implements ConversationListener {
 
     private ActivityDriverChatsBinding binding;
     private PreferenceManager preferenceManager;
     private final String TAG = "Driver Chats";
-    String fName,lastName, encodedImage;
+    /**
+     * The F name.
+     */
+    String fName, /**
+     * The Last name.
+     */
+    lastName, /**
+     * The Encoded image.
+     */
+    encodedImage;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
     private List<ChatMessage> conversations;
     private RecentConversationsAdapter conversationsAdapter;
@@ -180,6 +201,12 @@ public final class DriverChats extends BaseActivity implements ConversationListe
             Toast.makeText(DriverChats.this, "Email did not update", Toast.LENGTH_LONG).show();
         }
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();

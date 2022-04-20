@@ -21,6 +21,9 @@ import com.example.ulendoapp.viewHolders.ViewHolder;
 
 import java.util.List;
 
+/**
+ * The type Custom adapter.
+ */
 public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements View.OnClickListener{
 
     private List<UserModel> driverModelList;
@@ -28,6 +31,12 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements V
     private int startPos, endPos;
 
 
+    /**
+     * Instantiates a new Custom adapter.
+     *
+     * @param driverModelList       the driver model list
+     * @param onDriverClickListener the on driver click listener
+     */
     public CustomAdapter(List<UserModel> driverModelList, OnDriverClickListener onDriverClickListener) {
         this.driverModelList = driverModelList;
         this.onDriverClickListener = onDriverClickListener;
@@ -72,7 +81,15 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements V
         holder.status.setText(driverModelList.get(position).getStatus());
     }
 
+    /**
+     * The interface On driver click listener.
+     */
     public interface OnDriverClickListener {
+        /**
+         * On driver click.
+         *
+         * @param position the position
+         */
         void onDriverClick(int position);
 
     }

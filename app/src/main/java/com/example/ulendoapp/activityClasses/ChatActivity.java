@@ -47,6 +47,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type Chat activity.
+ */
 public class ChatActivity extends BaseActivity {
     private ActivityChatBinding binding;
     private User receiverUser;
@@ -54,7 +57,13 @@ public class ChatActivity extends BaseActivity {
     private ChatAdapter chatAdapter;
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
     private String conversationId = null;
     private Boolean isReceiverAvailable = false;
@@ -222,6 +231,11 @@ public class ChatActivity extends BaseActivity {
     }
 
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();

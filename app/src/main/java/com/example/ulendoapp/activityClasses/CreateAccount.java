@@ -35,6 +35,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Create account.
+ */
 public class CreateAccount extends AppCompatActivity {
     private static final String TAG = "tag";
     private String firstName, lastName, birthday, gender, phoneNumber, email, nationalId, physicalAddress, password, confirmPassword;
@@ -43,11 +46,23 @@ public class CreateAccount extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ImageView signupBackBtn;
     private Button signupBtn;
+    /**
+     * The User model.
+     */
     UserModel userModel;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
 
     private TextInputLayout materialPassword, materialConfirmPassword, materialEmail;
+    /**
+     * The Valid.
+     */
     public boolean valid;
+    /**
+     * The Email pattern.
+     */
     String emailPattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
             + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
             + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
@@ -243,6 +258,9 @@ public class CreateAccount extends AppCompatActivity {
         });
     }
 
+    /**
+     * Reload.
+     */
     public void reload(){
 
     }

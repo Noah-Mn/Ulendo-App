@@ -26,6 +26,9 @@ public class driver_my_payments extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Instantiates a new Driver my payments.
+     */
     public driver_my_payments() {
         // Required empty public constructor
     }
@@ -38,7 +41,7 @@ public class driver_my_payments extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment driver_my_payments.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static driver_my_payments newInstance(String param1, String param2) {
         driver_my_payments fragment = new driver_my_payments();
         Bundle args = new Bundle();

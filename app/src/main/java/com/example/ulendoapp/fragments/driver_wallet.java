@@ -26,6 +26,9 @@ public class driver_wallet extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Instantiates a new Driver wallet.
+     */
     public driver_wallet() {
         // Required empty public constructor
     }
@@ -38,7 +41,7 @@ public class driver_wallet extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment driver_wallet.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static driver_wallet newInstance(String param1, String param2) {
         driver_wallet fragment = new driver_wallet();
         Bundle args = new Bundle();

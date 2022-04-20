@@ -28,19 +28,52 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Booking activity.
+ */
 public class BookingActivity extends AppCompatActivity implements BookRideAdapter.OnTripClickListener{
 
     private TextView displayText;
     private FirebaseFirestore db;
+    /**
+     * The Recycler view trip.
+     */
     public RecyclerView recyclerViewTrip;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private final String TAG = "tag";
-    public String dest, pTime, pDate, pPoint, luggage;
+    /**
+     * The Dest.
+     */
+    public String dest, /**
+     * The P time.
+     */
+    pTime, /**
+     * The P date.
+     */
+    pDate, /**
+     * The P point.
+     */
+    pPoint, /**
+     * The Luggage.
+     */
+    luggage;
+    /**
+     * The No people.
+     */
     public long noPeople;
+    /**
+     * The Filtered offers.
+     */
     public ArrayList<OfferRideModel> filteredOffers;
+    /**
+     * The Find ride details.
+     */
     public FindRideModel findRideDetails;
     private List<OfferRideModel> offerRideModelList;
+    /**
+     * The Intent.
+     */
     public Intent intent;
 
     @Override
@@ -58,6 +91,9 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         getOfferRideData();
     }
 
+    /**
+     * Set display text.
+     */
     public void setDisplayText(){
         displayText = findViewById(R.id.display_name);
         displayText.setTextSize(17);
@@ -72,6 +108,9 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     }
 
+    /**
+     * Get find ride extras.
+     */
     public void getFindRideExtras(){
         Intent intent = getIntent();
 
@@ -88,6 +127,9 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     }
 
+    /**
+     * Get offer ride data.
+     */
     public void getOfferRideData(){
         db.collection("Offer Ride")
                 .get()
@@ -134,6 +176,9 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
 
     }
 
+    /**
+     * Get filtered rides.
+     */
     public void getFilteredRides(){
         getFindRideExtras();
         filteredOffers = new ArrayList<>();
@@ -171,6 +216,11 @@ public class BookingActivity extends AppCompatActivity implements BookRideAdapte
         Toast.makeText(BookingActivity.this,  "  damn  "+ filteredOffers.size(), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();

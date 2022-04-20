@@ -25,11 +25,29 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Group.
+ */
 public class Group extends Fragment {
+    /**
+     * The Group list.
+     */
     RecyclerView groupList;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Text view.
+     */
     MaterialTextView textView;
 
     @Override

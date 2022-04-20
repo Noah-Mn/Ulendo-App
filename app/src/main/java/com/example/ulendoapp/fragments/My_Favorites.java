@@ -24,12 +24,27 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type My favorites.
+ */
 public class My_Favorites extends Fragment {
 
     private RecyclerView userFavouriteRides;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Text view.
+     */
     MaterialTextView textView;
 
 

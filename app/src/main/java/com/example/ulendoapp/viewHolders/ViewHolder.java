@@ -9,11 +9,38 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ulendoapp.adapters.CustomAdapter;
 import com.example.ulendoapp.R;
 
+/**
+ * The type View holder.
+ */
 public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-    public TextView firstName, lastName, status, phoneNumber;
+    /**
+     * The First name.
+     */
+    public TextView firstName, /**
+     * The Last name.
+     */
+    lastName, /**
+     * The Status.
+     */
+    status, /**
+     * The Phone number.
+     */
+    phoneNumber;
+    /**
+     * The Driver layout.
+     */
     public CardView driverLayout;
+    /**
+     * The On driver click listener.
+     */
     public CustomAdapter.OnDriverClickListener onDriverClickListener;
 
+    /**
+     * Instantiates a new View holder.
+     *
+     * @param driverView            the driver view
+     * @param onDriverClickListener the on driver click listener
+     */
     public ViewHolder(View driverView, CustomAdapter.OnDriverClickListener onDriverClickListener) {
         super(driverView);
 

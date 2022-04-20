@@ -34,14 +34,38 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Trips adapter.
+ */
 public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHolder> {
     private List<TripModel> tripModelList;
+    /**
+     * The Context.
+     */
     Context context;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
 
+    /**
+     * Instantiates a new Trips adapter.
+     *
+     * @param tripModelList the trip model list
+     * @param context       the context
+     */
     public TripsAdapter(List<TripModel> tripModelList, Context context) {
         this.tripModelList = tripModelList;
         this.context = context;
@@ -106,15 +130,31 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
     }
 
 
+    /**
+     * The type Trip view holder.
+     */
     public class TripViewHolder extends RecyclerView.ViewHolder{
 
+        /**
+         * The Binding.
+         */
         UserRideLayoutBinding binding;
+
+        /**
+         * Instantiates a new Trip view holder.
+         *
+         * @param userRideLayoutBinding the user ride layout binding
+         */
         TripViewHolder(@NonNull UserRideLayoutBinding userRideLayoutBinding) {
             super(userRideLayoutBinding.getRoot());
             binding = userRideLayoutBinding;
         }
 
     }
+
+    /**
+     * Finished.
+     */
     public void finished(){
         db.collection("MyTrips")
                 .whereEqualTo("Email Address", getEmail())
@@ -136,6 +176,9 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
 
     }
 
+    /**
+     * Canceled.
+     */
     public void canceled(){
         db.collection("MyTrips")
                 .whereEqualTo("Email Address", getEmail())
@@ -162,6 +205,9 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.TripViewHold
 
     }
 
+    /**
+     * Favourite.
+     */
     public void favourite(){
         db.collection("MyTrips")
                 .whereEqualTo("Email Address", getEmail())

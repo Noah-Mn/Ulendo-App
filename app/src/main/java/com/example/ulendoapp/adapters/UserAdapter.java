@@ -17,9 +17,15 @@ import com.example.ulendoapp.viewHolders.UserViewHolder;
 
 import java.util.List;
 
+/**
+ * The type User adapter.
+ */
 public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> implements View.OnClickListener{
     private List<UserModel> onlineUserModelList;
     private OnUserOnlineClickListener onUserOnlineClickListener;
+    /**
+     * The Rc.
+     */
     RecyclerView rc;
     private List<UserModel> user;
 
@@ -28,6 +34,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> implements
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
+    /**
+     * Instantiates a new User adapter.
+     *
+     * @param onlineUserModelList       the online user model list
+     * @param onUserOnlineClickListener the on user online click listener
+     */
     public UserAdapter(List<UserModel> onlineUserModelList, UserAdapter.OnUserOnlineClickListener onUserOnlineClickListener) {
         this.onlineUserModelList = onlineUserModelList;
         this.onUserOnlineClickListener = onUserOnlineClickListener;
@@ -59,7 +71,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> implements
         return onlineUserModelList.size();
     }
 
+    /**
+     * The interface On user online click listener.
+     */
     public interface OnUserOnlineClickListener {
+        /**
+         * On user online click.
+         *
+         * @param adapterPosition the adapter position
+         */
         void onUserOnlineClick(int adapterPosition);
     }
 

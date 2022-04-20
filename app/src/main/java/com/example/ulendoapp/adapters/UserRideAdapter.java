@@ -13,10 +13,19 @@ import com.example.ulendoapp.viewHolders.UserRideViewHolder;
 
 import java.util.List;
 
+/**
+ * The type User ride adapter.
+ */
 public class UserRideAdapter extends RecyclerView.Adapter<UserRideViewHolder> implements View.OnClickListener{
     private List<UserModel> userModelList;
     private OnUserClickListener onUserClickListener;
 
+    /**
+     * Instantiates a new User ride adapter.
+     *
+     * @param userModelList       the user model list
+     * @param onUserClickListener the on user click listener
+     */
     public UserRideAdapter(List<UserModel> userModelList, UserRideAdapter.OnUserClickListener onUserClickListener) {
         this.userModelList = userModelList;
         this.onUserClickListener = onUserClickListener;
@@ -43,7 +52,15 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideViewHolder> im
 
     }
 
+    /**
+     * The interface On user click listener.
+     */
     public interface OnUserClickListener {
+        /**
+         * On user click.
+         *
+         * @param position the position
+         */
         void onUserClick(int position);
     }
 

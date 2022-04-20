@@ -20,17 +20,50 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
+/**
+ * The type Notification adapter.
+ */
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>{
+    /**
+     * The Request.
+     */
     public List<BookingModel> request;
+    /**
+     * The Notification model list.
+     */
     public List<NotificationModel> notificationModelList;
 
+    /**
+     * The Context.
+     */
     Context context;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Current user.
+     */
     FirebaseUser currentUser;
+    /**
+     * The User model.
+     */
     UserModel userModel;
 
+    /**
+     * Instantiates a new Notification adapter.
+     *
+     * @param request the request
+     * @param context the context
+     */
     public NotificationAdapter(List<BookingModel> request, Context context) {
         this.request = request;
         this.context = context;
@@ -132,15 +165,31 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return request.size();
     }
 
+    /**
+     * The type Notification view holder.
+     */
     public static class NotificationViewHolder extends RecyclerView.ViewHolder{
 
+        /**
+         * The Binding.
+         */
         RideRequestLayoutBinding binding;
+
+        /**
+         * Instantiates a new Notification view holder.
+         *
+         * @param rideRequestLayoutBinding the ride request layout binding
+         */
         NotificationViewHolder(@NonNull RideRequestLayoutBinding rideRequestLayoutBinding) {
             super(rideRequestLayoutBinding.getRoot());
             binding = rideRequestLayoutBinding;
         }
 
     }
+
+    /**
+     * Accept.
+     */
     public void Accept(){
         db.collection("Booking Ride")
                 .whereEqualTo("Driver Email Address", getEmail())
@@ -162,6 +211,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
     }
+
+    /**
+     * Ignored.
+     */
     public void Ignored(){
         db.collection("Booking Ride")
                 .whereEqualTo("Driver Email Address", getEmail())
@@ -183,6 +236,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
     }
+
+    /**
+     * Reject.
+     */
     public void Reject(){
         db.collection("Booking Ride")
                 .whereEqualTo("Driver Email Address", getEmail())
@@ -204,11 +261,23 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
     }
+
+    /**
+     * Get email string.
+     *
+     * @return the string
+     */
     public String getEmail(){
         String emailAddress;
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
+
+    /**
+     * Remove at.
+     *
+     * @param position the position
+     */
     public void removeAt(int position){
         request.remove(position);
         notifyItemRemoved(position);

@@ -26,6 +26,9 @@ public class fragment_profile extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Instantiates a new Fragment profile.
+     */
     public fragment_profile() {
         // Required empty public constructor
     }
@@ -38,7 +41,7 @@ public class fragment_profile extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment fragment_profile.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static fragment_profile newInstance(String param1, String param2) {
         fragment_profile fragment = new fragment_profile();
         Bundle args = new Bundle();

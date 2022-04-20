@@ -16,12 +16,42 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Add new ride.
+ */
 public class AddNewRide extends AppCompatActivity {
     private ActivityAddNewRideBinding binding;
-    String startingPoint, destination, date, time, status;
+    /**
+     * The Starting point.
+     */
+    String startingPoint, /**
+     * The Destination.
+     */
+    destination, /**
+     * The Date.
+     */
+    date, /**
+     * The Time.
+     */
+    time, /**
+     * The Status.
+     */
+    status;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The User.
+     */
     FirebaseUser user;
+    /**
+     * The Auth.
+     */
     FirebaseAuth auth;
+    /**
+     * The Preference manager.
+     */
     PreferenceManager preferenceManager;
 
     @Override
@@ -41,6 +71,9 @@ public class AddNewRide extends AppCompatActivity {
         binding.add.setOnClickListener(view -> addData());
     }
 
+    /**
+     * Add data.
+     */
     public void addData() {
         startingPoint = Objects.requireNonNull(binding.textStartingPoint.getText()).toString().trim();
         destination = Objects.requireNonNull(binding.textDestination.getText()).toString().trim();
