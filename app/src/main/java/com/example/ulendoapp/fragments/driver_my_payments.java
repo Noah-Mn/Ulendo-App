@@ -1,5 +1,7 @@
 package com.example.ulendoapp.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.ulendoapp.R;
+import com.google.android.material.textview.MaterialTextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +21,8 @@ import com.example.ulendoapp.R;
  */
 public class driver_my_payments extends Fragment {
 
+    MaterialTextView textView;
+    ImageView imageView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,6 +70,35 @@ public class driver_my_payments extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_driver_my_payments, container, false);
+        View view = inflater.inflate(R.layout.fragment_driver_my_payments, container, false);
+
+        textView = view.findViewById(R.id.mpamba);
+        imageView = view.findViewById(R.id.mpamba_image);
+
+        textView.setOnClickListener(view12 -> {
+//            Intent callIntent = new Intent(Intent.ACTION_CALL, ussdToCallableUri("*211#"));
+//            startActivity(callIntent);
+        });
+        imageView.setOnClickListener(view1 -> {
+//            Intent callIntent = new Intent(Intent.ACTION_CALL, ussdToCallableUri("*211#"));
+//            startActivity(callIntent);
+        });
+        return view;
+    }
+    private Uri ussdToCallableUri(String ussd){
+        String uriString = "";
+
+        if(!ussd.startsWith("tel:"))
+            uriString += "tel:";
+
+        for(char c : ussd.toCharArray()) {
+
+            if(c == '#')
+                uriString += Uri.encode("#");
+            else
+                uriString += c;
+        }
+
+        return Uri.parse(uriString);
     }
 }

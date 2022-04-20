@@ -15,52 +15,112 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/make_payments"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
             android:layout_marginStart="20dp"
-            />
+            android:layout_marginTop="10dp"
+            android:text="@string/make_payments"
+            android:textColor="@color/black" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
             <ImageView
 
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/cash_icon"
-                android:contentDescription="@string/cash" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/cash"
+                android:src="@drawable/cash_icon" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/by_cash"
-                />
+                android:layout_marginStart="5dp"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:textSize="@dimen/_13sdp"
+                android:text="@string/by_cash" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/wallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
             <ImageView
 
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/debit_card"
-                android:contentDescription="@string/wallet" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/wallet"
+                android:src="@drawable/debit_card" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/use_wallet"
-                />
+                android:layout_marginStart="5dp"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:textSize="@dimen/_13sdp"
+                android:text="@string/use_wallet" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/airtel_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/wallet"
+                android:src="@drawable/airtel_money" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp"
+                android:layout_gravity="center"
+                android:text="Airtel Money" />
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/mpamba_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/wallet"
+                android:src="@drawable/tnm_mpamba" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/mpamba"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp"
+                android:layout_gravity="center"
+                android:text="Mpamba" />
 
         </LinearLayout>
     </LinearLayout>
