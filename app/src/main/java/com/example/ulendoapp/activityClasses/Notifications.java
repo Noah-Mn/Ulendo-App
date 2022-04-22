@@ -1,37 +1,33 @@
 package com.example.ulendoapp.activityClasses;
 
-import static com.example.ulendoapp.activityClasses.HomeUser.userModel;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.ulendoapp.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.ulendoapp.adapters.NotificationAdapter;
+import com.example.ulendoapp.adapters.RecentConversationsAdapter;
 import com.example.ulendoapp.databinding.ActivityNotificationsBinding;
 import com.example.ulendoapp.listeners.NotificationListener;
+import com.example.ulendoapp.models.BookRequest;
 import com.example.ulendoapp.models.BookingModel;
+import com.example.ulendoapp.models.ChatMessage;
 import com.example.ulendoapp.models.NotificationModel;
-import com.example.ulendoapp.models.UserModel;
 import com.example.ulendoapp.utilities.Constants;
 import com.example.ulendoapp.utilities.PreferenceManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * The type Notifications.
@@ -58,6 +54,9 @@ public class Notifications extends AppCompatActivity implements NotificationList
      * The Preference manager.
      */
     PreferenceManager preferenceManager;
+    private List<BookRequest> bookRequestList;
+    NotificationAdapter adapter;
+    List<BookingModel> request = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +68,20 @@ public class Notifications extends AppCompatActivity implements NotificationList
         currentUser = auth.getCurrentUser();
         preferenceManager = new PreferenceManager(getApplicationContext());
         getNotifications();
+        init();
+
 
     }
 
     @Override
     public void onNotificationClicked(BookingModel bookingModel) {
 
+    }
+    private void init(){
+        bookRequestList = new ArrayList<>();
+        adapter = new NotificationAdapter(request, getApplicationContext());
+//        binding.conversationsRecyclerView.setAdapter(conversationsAdapter);
+//        database = FirebaseFirestore.getInstance();
     }
 
     /**
@@ -89,7 +96,6 @@ public class Notifications extends AppCompatActivity implements NotificationList
 //                        progressDialog.dismiss();
 
                     if (task.isSuccessful() && task.getResult() != null) {
-                        List<BookingModel> request = new ArrayList<>();
 
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
                             BookingModel rTrip = new BookingModel();
@@ -125,28 +131,6 @@ public class Notifications extends AppCompatActivity implements NotificationList
                 });
     }
 
-//    public String getUserModel(){
-//        db.collection("Users")
-//                .whereEqualTo("Email Address", getEmail())
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//
-//                                String f_name = document.getString("First Name");
-//                                String surname = document.getString("Surname");
-//                                String name = f_name+" "+surname;
-//                            }
-//                        } else {
-//                            Toast.makeText(Notifications.this, "Failed to get Name", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//        return
-//    }
-
     /**
      * Get email string.
      *
@@ -157,4 +141,51 @@ public class Notifications extends AppCompatActivity implements NotificationList
         emailAddress = currentUser.getEmail();
         return emailAddress;
     }
+    private void listenNotifications(){
+        db.collection("Booking Ride")
+                .whereEqualTo(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener(eventListener);
+        db.collection("Booking Ride")
+                .whereEqualTo(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener(eventListener);
+    }
+    private final EventListener<QuerySnapshot> eventListener = ((value, error) -> {
+        if (error != null){
+            return;
+        }if (value != null){
+            for (DocumentChange documentChange : value.getDocumentChanges()){
+                if (documentChange.getType() == DocumentChange.Type.ADDED){
+                    String senderId = documentChange.getDocument().getString(Constants.KEY_T_SENDER_ID);
+                    String receiverId = documentChange.getDocument().getString(Constants.KEY_T_RECEIVER_ID);
+
+                    BookRequest bookRequest = new BookRequest();
+                    bookRequest.tSenderId = senderId;
+                    bookRequest.tReceiverId = receiverId;
+                    if (preferenceManager.getString(Constants.KEY_USER_ID).equals(senderId)){
+                        bookRequest.passengerName = documentChange.getDocument().getString(Constants.KEY_PASSENGER_NAME);
+                        bookRequest.bookingID = documentChange.getDocument().getString(Constants.KEY_T_RECEIVER_ID);
+                    }else {
+                        bookRequest.passengerName = documentChange.getDocument().getString("Driver Email Address");
+                        bookRequest.bookingID = documentChange.getDocument().getString(Constants.KEY_T_SENDER_ID);
+                    }
+                    bookRequest.message = "Booking Request";
+                    bookRequest.dateObject = documentChange.getDocument().getDate("Booked Date");
+                    bookRequestList.add(bookRequest);
+                }else if (documentChange.getType() == DocumentChange.Type.MODIFIED){
+                    for (int i = 0; i < bookRequestList.size(); i++){
+                        String senderId = documentChange.getDocument().getString(Constants.KEY_T_SENDER_ID);
+                        String receiverId = documentChange.getDocument().getString(Constants.KEY_T_RECEIVER_ID);
+                        if (bookRequestList.get(i).tSenderId.equals(senderId) && bookRequestList.get(i).tReceiverId.equals(receiverId)){
+                            bookRequestList.get(i).dateObject = documentChange.getDocument().getDate("Booked Date");
+                            break;
+                        }
+                    }
+                }
+            }
+            Collections.sort(bookRequestList, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
+            adapter.notifyDataSetChanged();
+            binding.notificationList.smoothScrollToPosition(0);
+            binding.notificationList.setVisibility(View.VISIBLE);
+        }
+    });
 }

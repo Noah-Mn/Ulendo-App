@@ -1,5 +1,7 @@
 package com.example.ulendoapp.models;
 
+import java.util.Date;
+
 /**
  * The type Book request.
  */
@@ -7,11 +9,12 @@ public class BookRequest {
     /**
      * The Sender id.
      */
-    public String senderId, /**
+    public String tSenderId, /**
      * The Receiver id.
      */
-    receiverId, /**
+    tReceiverId, /**
      * The Message.
      */
-    message;
+    message, passengerName, bookingID;
+    public Date dateObject;
 }

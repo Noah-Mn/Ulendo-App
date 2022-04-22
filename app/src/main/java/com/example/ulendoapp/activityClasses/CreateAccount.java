@@ -213,7 +213,7 @@ public class CreateAccount extends AppCompatActivity {
                             Log.d(TAG, "Inserted successfully");
                             sender.setSenderID(ids) ;
                             preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-//                            preferenceManager.putString(Constants.KEY_PASSENGER_NAME, firstName+" "+lastName);
+                            preferenceManager.putString(Constants.KEY_PASSENGER_NAME, firstName+" "+lastName);
                             userModel.setName(firstName +" "+lastName);
                         }
                     })

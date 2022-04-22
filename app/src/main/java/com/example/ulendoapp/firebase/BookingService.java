@@ -1,6 +1,5 @@
 package com.example.ulendoapp.firebase;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,8 +11,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.ulendoapp.R;
-import com.example.ulendoapp.activityClasses.BookRideRequest;
-import com.example.ulendoapp.activityClasses.ChatActivity;
 import com.example.ulendoapp.models.User;
 import com.example.ulendoapp.utilities.Constants;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -26,9 +23,11 @@ import java.util.Random;
  * The type Booking service.
  */
 public class BookingService extends FirebaseMessagingService {
+
     public void onNewToken(@NonNull String token){
         super.onNewToken(token);
     }
+
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage){
         super.onMessageReceived(remoteMessage);
         User user = new User();
@@ -41,7 +40,7 @@ public class BookingService extends FirebaseMessagingService {
 
 //        Notification notification = new Notification(R.drawable.ic_notifications_24)
 
-        Intent intent = new Intent(this, BookRideRequest.class);
+        Intent intent = new Intent(this, Notification.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(Constants.KEY_USER, user);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,0);
@@ -58,8 +57,8 @@ public class BookingService extends FirebaseMessagingService {
         builder.setAutoCancel(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            CharSequence channelName = "Chat Message";
-            String channelDescription = "This notification channel is used for chat message notifications";
+            CharSequence channelName = "Booking Request";
+            String channelDescription = "This notification channel is used for booking request notifications";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
             channel.setDescription(channelDescription);

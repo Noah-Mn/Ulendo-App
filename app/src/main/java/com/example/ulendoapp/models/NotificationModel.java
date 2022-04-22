@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * The type Notification model.
  */
-public class NotificationModel{
+public class NotificationModel implements Serializable{
     /**
      * The Start point.
      */
@@ -15,7 +15,7 @@ public class NotificationModel{
     stopPoint, /**
      * The Status.
      */
-    status;
+    status, tSenderID, tReceiverID;
 
     /**
      * Instantiates a new Notification model.

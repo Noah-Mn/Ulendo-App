@@ -75,6 +75,7 @@ public class BookingRide extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
+    private User receiverUser;
     private Snackbar snackbar;
     private FindRideModel fRideDetails;
     private long prevValue;
@@ -118,7 +119,7 @@ public class BookingRide extends AppCompatActivity {
         pTime = findViewById(R.id.booking_pickup_time_text);
         sInstructions = findViewById(R.id.booking_special_instruction_text);
         bookedText = findViewById(R.id.booked_ride_text);
-
+        receiverUser = new User();
         btnBook = findViewById(R.id.trip_book_btn);
 
         setText();
@@ -303,7 +304,7 @@ public class BookingRide extends AppCompatActivity {
         bookedTrip.put(Constants.KEY_PASSENGER_NAME, userModel.getFirstName()+" "+userModel.getLastName());
         bookedTrip.put("Booking Status", "pending");
         bookedTrip.put(Constants.KEY_T_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-        bookedTrip.put(Constants.KEY_T_RECEIVER_ID, preferenceManager.getString(Constants.KEY_T_RECEIVER_ID));
+        bookedTrip.put(Constants.KEY_T_RECEIVER_ID, receiverUser.id);
 
         db.collection("Booking Ride")
                 .add(bookedTrip)
@@ -437,8 +438,8 @@ public class BookingRide extends AppCompatActivity {
            for(DocumentChange documentChange : value.getDocumentChanges()){
                if (documentChange.getType() ==  DocumentChange.Type.ADDED){
                    BookRequest bookRequest = new BookRequest();
-                   bookRequest.senderId = documentChange.getDocument().getString(Constants.KEY_T_SENDER_ID);
-                   bookRequest.receiverId = documentChange.getDocument().getString(Constants.KEY_T_RECEIVER_ID);
+                   bookRequest.tSenderId = documentChange.getDocument().getString(Constants.KEY_T_SENDER_ID);
+                   bookRequest.tReceiverId = documentChange.getDocument().getString(Constants.KEY_T_RECEIVER_ID);
                    bookRequest.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
                    bookRequests.add(bookRequest);
                }
