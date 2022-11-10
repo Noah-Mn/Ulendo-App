@@ -200,9 +200,9 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
                 @Override
                 public void onClick(View view) {
                   itemView.setBackgroundColor(Color.LTGRAY);
-                  if (checkedPosition != getAdapterPosition()){
+                  if (checkedPosition != getAbsoluteAdapterPosition()){
                       notifyItemChanged(checkedPosition);
-                      checkedPosition = getAdapterPosition();
+                      checkedPosition = getAbsoluteAdapterPosition();
                       int cp = checkedPosition;
                       OfferRideModel tripDetails = offerRideModelList.get(cp);
 
@@ -217,7 +217,7 @@ public class BookRideAdapter extends RecyclerView.Adapter<BookRideAdapter.BookRi
 
     @Override
     public void onClick(View view) {
-        onTripClickListener.onTripClick(getAdapterPosition());
+        onTripClickListener.onTripClick(getAbsoluteAdapterPosition());
     }
 
 

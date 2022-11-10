@@ -37,6 +37,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -273,7 +274,7 @@ public class ChatActivity extends BaseActivity {
                     chatMessages.add(chatMessage);
                 }
             }
-            Collections.sort(chatMessages, (obj1, obj2) ->obj1.dateObject.compareTo(obj2.dateObject));
+            Collections.sort(chatMessages, Comparator.comparing(obj -> obj.dateObject));
             if (count == 0){
                 chatAdapter.notifyDataSetChanged();
             }else {
